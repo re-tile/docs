@@ -1,0 +1,182 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>pgtable</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="pgtable"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>pgtable &#8212; /proc/PID/pgtable, /proc/kpgtable: page table special files
+for Tilera Linux</p></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+The <span><strong class="command">/proc/PID/pgtable</strong></span> family of special files
+allows users to see which virtual addresses are mapped to which
+physical addresses, and with what caching characteristics.  This can
+be useful for diagnosing performance or correctness issues.
+</p><p>
+An application can open <span><strong class="command">/proc/self/pgtable</strong></span> to view
+its own page table, or it can open
+<span><strong class="command">/proc/513/pgtable</strong></span> (for example) to view process
+513's page table.  (Page tables for threads within a process all show
+the same information.)  A separate <span><strong class="command">/proc/kpgtable</strong></span>
+can also be examined by root to see the page table information that is
+specific to the kernel.
+</p><p>
+The pgtable files consist of one line per page; see the end of this
+man page for an example.  The lines are broken down into fields as
+follows:
+</p><div class="variablelist"><a name="fields"></a><dl><dt><a name="va"></a></dt><dd><p>
+The virtual address (VA) of the start of the page.
+</p></dd><dt><a name="prot"></a></dt><dd><p>
+The protection bits of the page.  Normally these are like
+file protection bits, with "R" for read, "W" for write, and "X"
+for execute.  The first two may appear in lowercase if a readable page has
+not yes been accessed or a writeable page has not yet been dirtied.
+</p></dd><dt><a name="pa"></a></dt><dd><p>
+The physical address (PA) of the start of the page.
+</p></dd><dt><a name="node"></a></dt><dd><p>
+The Linux controller number (NUMA node) of the page.
+Note that this is also encoded in the high bits of the physical address.
+</p></dd><dt><a name="attributes"></a></dt><dd><p>
+The various page attributes of the page; these make up the rest of the line
+(see below).
+</p></dd></dl></div><p>
+There are many possible page attributes that may appear for a given
+page.  They appear as a list of whitespace-separated tokens at the end
+of each line:
+</p><div class="variablelist"><a name="attributes_list"></a><dl><dt><a name="huge"></a></dt><dd><p>
+Huge - This attributes indicates that the page is a huge page (16MB)
+rather than a typical small page (64KB).  Such pages allow for fewer
+TLB miss faults when accessing memory.
+</p></dd><dt><a name="nolocal"></a></dt><dd><p>
+NoLocal - this page is not cached on the local cpu, but may
+be cached remotely; equivalent to "NoL1 NoL2" (see below).
+</p></dd><dt><a name="nol1"></a></dt><dd><p>
+NoL1 - this page is not cached in the local cpu's L1 data cache,
+but may be cached in the L2 or remotely.
+</p></dd><dt><a name="nol2"></a></dt><dd><p>
+NoL2 - this page is not cached in the local cpu's L2 cache,
+but may be cached in the L1 data cache or remotely.
+</p></dd><dt><a name="cachenone"></a></dt><dd><p>
+CacheNone - this page is not cached in any cache.  It is read and
+written directly to RAM.
+</p></dd><dt><a name="cpuhome"></a></dt><dd><p>
+Home=N - this page has its L3 (remote) cache on the specified cpu "N".
+This is typical for stack pages, for example, which are generally homed on
+the cpu where the task using that stack is executing.
+</p></dd><dt><a name="hashhome"></a></dt><dd><p>
+HashHome - this page has its L3 (remote) cache distributed across
+the set of hash-for-home cpus.  This is the default for most pages
+unless overridden.
+</p></dd><dt><a name="nohome"></a></dt><dd><p>
+NoHome - this page is not cached in the L3 (remote) cache, but
+brought in directly from memory.  This is normal for a read-only
+page; for a read-write page it indicates an "incoherent" mapping
+that must be handled by explicit cache "flush" and "invalidate"
+directives.
+</p></dd><dt><a name="nc"></a></dt><dd><p>
+NC - this page is non-coherent.  This attribute is only used for
+pages that are mapped read-only or private, since they will not
+be modified and can therefore be cached more freely in all levels
+of the cache hierarchy without concern for coherence.  Applies
+only to pages that are cached in the L3 (remote) cache.
+</p></dd><dt><a name="priority"></a></dt><dd><p>
+Priority - this attribute indicates that the "priority" bit is
+set on a page table entry.  These cache entries (also called "pinned")
+allow for partitioning of the cache.
+</p></dd><dt><a name="migrating"></a></dt><dd><p>
+Migrating - this attribute indicates that the "migrating" bit is
+set on a page table entry; that is, the page is being transitioned
+from one set of pages attributes to another.  It is rarely seen.
+</p></dd><dt><a name="notpresent"></a></dt><dd><p>
+NotPresent - this attribute indicates that the "present" bit is
+not set on a page table entry, and so is rarely seen.
+</p></dd></dl></div><p>Some page attributes are only seen in
+<span><strong class="command">/proc/kpgtable</strong></span>:</p><div class="variablelist"><a name="kattr"></a><dl><dt><a name="global"></a></dt><dd><p>
+Global - this attribute indicates that the page mapping is intended
+to be valid for all processes.
+</p></dd><dt><a name="kernel"></a></dt><dd><p>
+Kernel - this attribute indicates that the page mapping can only
+be accessed from kernel privilege level.
+</p></dd><dt><a name="zeropage"></a></dt><dd><p>
+ZeroPage - this attribute marks the kernel's "zero page".
+</p></dd></dl></div><p>
+A page's attributes are normally set by default by the particular
+chip.  For example, the TILEPro chip will normally use "hash for home"
+on all pages except the stack page.  This can be overridden in various
+ways; see the Optimization Guide (UG105) for more information on memory
+allocation.
+</p><p>
+A sample <span><strong class="command">/proc/PID/pgtable</strong></span> output might look 
+as follows.  Note that the read-only pages are all marked "NC", and
+everything is "HashHome" except the last page, which is part of
+the stack mapping and is homed on the cpu the process happened
+to be running on at the time.
+</p><pre class="programlisting">
+00010000 R-X PA=043e140000 (N1) HashHome NC
+00060000 R-X PA=043e190000 (N1) HashHome NC
+000a0000 R-X PA=043e1d0000 (N1) HashHome NC
+000b0000 R-X PA=043e1e0000 (N1) HashHome NC
+000c0000 RWX PA=043e800000 (N1) HashHome
+000d0000 R-- PA=043e1e0000 (N1) HashHome NC
+000e0000 R-- PA=043e1f0000 (N1) HashHome NC
+000f0000 RW- PA=043ea40000 (N1) HashHome
+b7e40000 R-X PA=043e310000 (N1) HashHome NC
+b7e50000 RWX PA=043e010000 (N1) HashHome
+b7e70000 RW- PA=043e080000 (N1) HashHome
+b7e80000 R-X PA=043e550000 (N1) HashHome NC
+b7e90000 R-X PA=043e560000 (N1) HashHome NC
+b7ea0000 R-X PA=043e570000 (N1) HashHome NC
+b7ec0000 R-X PA=043e590000 (N1) HashHome NC
+b7ed0000 R-X PA=043e5a0000 (N1) HashHome NC
+b7ef0000 R-X PA=043e5c0000 (N1) HashHome NC
+b7f00000 R-X PA=043e5d0000 (N1) HashHome NC
+b7f10000 R-X PA=043e5e0000 (N1) HashHome NC
+b7f20000 RWX PA=043e850000 (N1) HashHome
+b7f40000 R-- PA=043e5f0000 (N1) HashHome NC
+b7f50000 RW- PA=043e7c0000 (N1) HashHome
+b7f60000 RW- PA=043e8f0000 (N1) HashHome
+b7f80000 R-X PA=043e620000 (N1) HashHome NC
+b7f90000 RW- PA=043e7a0000 (N1) HashHome
+b7fa0000 R-- PA=043e620000 (N1) HashHome NC
+b7fb0000 RW- PA=043ea60000 (N1) HashHome
+bfd20000 RW- PA=043e900000 (N1) Home=5
+</pre></div><div class="refsect1" lang="en"><a name="seealso"></a><h2>See Also</h2><p>
+Tilera's libc has a subcomponent for allocating memory and setting
+many of the page attributes.  See the Application Libraries
+Reference Guide (UG227) or &lt;sys/alloc.h&gt; for more information.
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

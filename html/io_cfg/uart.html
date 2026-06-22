@@ -1,0 +1,410 @@
+<html>
+<title>uart Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>UART (0x0100-0x0208) : </b> 
+These registers control the UART interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#UART_DEV_INFO">UART_DEV_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#UART_DEV_CTL">UART_DEV_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#UART_MMIO_INFO">UART_MMIO_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#UART_MEM_INFO">UART_MEM_INFO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#UART_SCRATCHPAD">UART_SCRATCHPAD</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#UART_SEMAPHORE0">UART_SEMAPHORE0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#UART_SEMAPHORE1">UART_SEMAPHORE1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#UART_CLOCK_COUNT">UART_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0100<TD><a href="#UART_BASELINE_CTL">UART_BASELINE_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0108<TD><a href="#UART_FLAG">UART_FLAG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0110<TD><a href="#UART_FIFO_COUNT">UART_FIFO_COUNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0118<TD><a href="#UART_ELECTRICAL_CONTROL">UART_ELECTRICAL_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0120<TD><a href="#UART_BOOT_REVISION_ID">UART_BOOT_REVISION_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0130<TD><a href="#UART_BUFFER_THRESHOLD">UART_BUFFER_THRESHOLD</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0140<TD><a href="#UART_TRANSMIT_DATA">UART_TRANSMIT_DATA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0148<TD><a href="#UART_RECEIVE_DATA">UART_RECEIVE_DATA</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0150<TD><a href="#UART_MODE">UART_MODE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0158<TD><a href="#UART_DIVISOR">UART_DIVISOR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0160<TD><a href="#UART_TYPE">UART_TYPE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0200<TD><a href="#UART_INTERRUPT_STATUS">UART_INTERRUPT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0208<TD><a href="#UART_INTERRUPT_MASK">UART_INTERRUPT_MASK</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="UART_DEV_INFO"></a>
+<br><br><h4>Device Info (UART_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="uart_pics/UART_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>028h</TD> <TD>Encoded device Type - 40 to indicate UART<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="UART_DEV_CTL"></a>
+<br><br><h4>Device Control (UART_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><img src="uart_pics/UART_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (UART_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="uart_pics/UART_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>9</TD> <TD>Each configuration channel is mapped to a device having its own config registers.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>4</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="UART_MEM_INFO"></a>
+<br><br><h4>Memory Info (UART_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="uart_pics/UART_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (UART_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="uart_pics/UART_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="UART_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (UART_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="uart_pics/UART_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (UART_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><img src="uart_pics/UART_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (UART_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="uart_pics/UART_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_BASELINE_CTL"></a>
+<br><br><h4>Baseline Control (UART_BASELINE_CTL: 0x0100)</h4>
+Baseline Control
+<br><img src="uart_pics/UART_BASELINE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>FREEZE</TD> <TD>RW</TD> <TD>0</TD> <TD>1: ignore incoming UART receive data. 0: function mode (check incoming UART receive data).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>1</TD> <TD>Interface Enable.<br>
+1: to enable the interface<br>
+0: to reset the interface (such as FIFOs and state machines)<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="UART_FLAG"></a>
+<br><br><h4>FLAG (UART_FLAG: 0x0108)</h4>
+FLAG
+<br><img src="uart_pics/UART_FLAG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>TFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: transmit FIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>WFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: write FIFO is full.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: receive FIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>TFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: transmit FIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>WFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: write FIFO is empty.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: receive FIFO is empty</TD> </TR>
+</TABLE><br><br>
+<a name="UART_FIFO_COUNT"></a>
+<br><br><h4>FIFO Count (UART_FIFO_COUNT: 0x0110)</h4>
+FIFO Count
+<br><img src="uart_pics/UART_FIFO_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>34:32</TD> <TD>WFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the write FIFO (max is 2**2). Each entry has 8 bits.<br>
+0: no active entry in the write FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24:16</TD> <TD>TFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the transmit FIFO (max is 2**8). Each entry has 8 bits.<br>
+0: no active entry in the transmit FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>RFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the receive FIFO (max is 2**8). Each entry has 8 bits.<br>
+0: no active entry in the receive FIFO (that is empty).</TD> </TR>
+</TABLE><br><br>
+<a name="UART_ELECTRICAL_CONTROL"></a>
+<br><br><h4>Electrical Control (UART_ELECTRICAL_CONTROL: 0x0118)</h4>
+Electrical Control
+<br><img src="uart_pics/UART_ELECTRICAL_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>ELEC_SCHM</TD> <TD>RW</TD> <TD>0</TD> <TD>Schmitt control.  0: no schmitt </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>ELEC_PULLDOWN</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pulldown in IO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>ELEC_PULLUP</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pullup in IO </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ELEC_SLEW</TD> <TD>RW</TD> <TD>3</TD> <TD>Slew rate control.<br>
+00 = slowest,<br>
+11 = fastest</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>ELEC_SUSTAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>1: Enable sustain keeper, about 100 uA to flip the state <br>
+<br>
+0: no keeper</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>ELEC_STRENGTH</TD> <TD>RW</TD> <TD>2</TD> <TD> Drive strength.<br>
+                       0 = tristate<br>
+                       1 = 2 ma<br>
+                       2 = 4 ma (default)<br>
+                       3 = 6 ma<br>
+                       4 = 8 ma<br>
+                       5 = 10 ma<br>
+                       6 = 12 ma<br>
+                       7 = RESERVED</TD> </TR>
+</TABLE><br><br>
+<a name="UART_BOOT_REVISION_ID"></a>
+<br><br><h4>Boot Revision ID (UART_BOOT_REVISION_ID: 0x0120)</h4>
+Boot Revision ID
+<br><img src="uart_pics/UART_BOOT_REVISION_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>BOOT_REV_ID</TD> <TD>RW</TD> <TD>0</TD> <TD>UART Controller Boot Revision ID.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_BUFFER_THRESHOLD"></a>
+<br><br><h4>Buffer Threshold (UART_BUFFER_THRESHOLD: 0x0130)</h4>
+Buffer Threshold
+<br><img src="uart_pics/UART_BUFFER_THRESHOLD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>24:16</TD> <TD>TFIFO_AEMPTY</TD> <TD>RW</TD> <TD>2</TD> <TD>Transmit FIFO almost empty threshold.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8:0</TD> <TD>RFIFO_AFULL</TD> <TD>RW</TD> <TD>10h</TD> <TD>Receive FIFO almost full threshold.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_TRANSMIT_DATA"></a>
+<br><br><h4>Transmit Data (UART_TRANSMIT_DATA: 0x0140)</h4>
+Transmit Data
+<br><img src="uart_pics/UART_TRANSMIT_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>WDAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Write data. A write to this register will push the written value onto the tail of the write FIFO. This is the only RW register that should not be written by external device (no hardware protection). Reading this register will return the last written value.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_RECEIVE_DATA"></a>
+<br><br><h4>Receive Data (UART_RECEIVE_DATA: 0x0148)</h4>
+Receive Data
+<br><img src="uart_pics/UART_RECEIVE_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RDAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Read data. Reading this register from a TILE will pop the head of the receive data FIFO and return that value. When this register is read from external device, receive data will be returned but receive FIFO will not be popped.</TD> </TR>
+</TABLE><br><br>
+<a name="UART_MODE"></a>
+<br><br><h4>Mode (UART_MODE: 0x0150)</h4>
+Protocol Mode. Each UART controller receives a static FORCE_PROTOCOL boot strap input. In protocol mode, MODE.BYPASS can be programmed to 1 so that the FORCE_PROTOCOL boot strap will be ignored.  The strapping pin, BYPASS mode, and UART_MODE determine the behavior of the UART interface as follows:
+<br><br><table border="1">
+<tr><th>force_protocol (pin)<th>BYPASS<th>UART_MODE<th>Description</tr>
+<tr><td>0<td>0<td>1<td>Ingress is in interrupt mode</tr>
+<tr><td>1<td>0<td>1<td>Ingress is in protocol mode</tr>
+<tr><td>*<td>1<td>1<td>Ingress is in interrupt mode</tr>
+<tr><td>*<td>1<td>0<td>Ingress is in protocol mode</tr>
+<tr><td>*<td>0<td>0<td>Ingress is in protocol mode</tr>
+</table>
+<br><img src="uart_pics/UART_MODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>BYPASS</TD> <TD>RW</TD> <TD>0</TD> <TD>0: check FORCE_PROTOCOL boot strap pin.<br>
+                      1: ignore FORCE_PROTOCOL boot strap pin.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>UART_MODE</TD> <TD>RW</TD> <TD>1</TD> <TD>0: ingress is in protocol mode<br>
+                      1: ingress is in interrupt mode</TD> </TR>
+</TABLE><br><br>
+<a name="UART_DIVISOR"></a>
+<br><br><h4>Divisor (UART_DIVISOR: 0x0158)</h4>
+Divisor
+<br><img src="uart_pics/UART_DIVISOR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>DIVISOR</TD> <TD>RW</TD> <TD>044h</TD> <TD>Baud Rate Divisor.  Desired_baud_rate = REF_CLK frequency / (baud * 16). <br>
+                      Note: REF_CLK is always 125 MHz, the default divisor = 68, baud rate = 125M/(68*16) = 115200 baud.<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="UART_TYPE"></a>
+<br><br><h4>Type (UART_TYPE: 0x0160)</h4>
+Type
+<br><img src="uart_pics/UART_TYPE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:4</TD> <TD>PTYPE</TD> <TD>RW</TD> <TD>3</TD> <TD>Parity selection, rx and tx <br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>NONE</TD><TD>No parity</TD></TR>
+   <TR><TD>1</TD><TD>MARK</TD><TD>Mark (1) parity</TD></TR>
+   <TR><TD>2</TD><TD>SPACE</TD><TD>Space (0) parity</TD></TR>
+   <TR><TD>3</TD><TD>EVEN</TD><TD>Even parity</TD></TR>
+   <TR><TD>4</TD><TD>ODD</TD><TD>Odd parity</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>DBITS</TD> <TD>RW</TD> <TD>0</TD> <TD>Data word size, rx and tx <br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>EIGHT_DBITS</TD><TD>8 bits</TD></TR>
+   <TR><TD>1</TD><TD>SEVEN_DBITS</TD><TD>7 bits</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SBITS</TD> <TD>RW</TD> <TD>1</TD> <TD>Number of stop bits, rx and tx <br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>ONE_SBITS</TD><TD>1 stop bit</TD></TR>
+   <TR><TD>1</TD><TD>TWO_SBITS</TD><TD>2 stop bits</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="UART_INTERRUPT_STATUS"></a>
+<br><br><h4>Interrupt vector, write-one-to-clear (UART_INTERRUPT_STATUS: 0x0200)</h4>
+Each bit in this register corresponds to a specific interrupt. Hardware sets the bit when the associated condition has occurred. Writing a 1 clears the status bit.
+<br><img src="uart_pics/UART_INTERRUPT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>TFIFO_AEMPTY</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Data was read from the transmit FIFO and now it is almost empty (less than or equal to BUFFER_THRESHOLD.TFIFO_AEMPTY bytes in it).  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>RFIFO_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Rshim read receive FIFO in protocol mode</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>WFIFO_RE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An entry of the write FIFO has been popped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>RFIFO_WE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An entry has been pushed into the receive FIFO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TFIFO_RE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An entry in the transmit FIFO was popped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>RFIFO_AFULL</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Data was received and the receive FIFO is now almost full (more than BUFFER_THRESHOLD.RFIFO_AFULL bytes in it)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RFIFO_OVERFLOW</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Data was received but the receive FIFO was full</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PARITY_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Parity error was detected when current data was received</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>FRAME_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Stop bit not found when current data was received</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>WDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Write FIFO was written but it was full</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Read data FIFO read and no data available</TD> </TR>
+</TABLE><br><br>
+<a name="UART_INTERRUPT_MASK"></a>
+<br><br><h4>Interrupt Vector Mask (UART_INTERRUPT_MASK: 0x0208)</h4>
+Each bit in this register corresponds to a specific interrupt. When set, the associated interrupt will not be dispatched.
+<br><img src="uart_pics/UART_INTERRUPT_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>TFIFO_AEMPTY</TD> <TD>RW</TD> <TD>1</TD> <TD>An almost empty event is reached when data is to be read from the transmit FIFO, and the transmit FIFO has less than or equal to BUFFER_THRESHOLD.TFIFO_AEMPTY bytes.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>RFIFO_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>Rshim read receive FIFO in protocol mode</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>WFIFO_RE</TD> <TD>RW</TD> <TD>1</TD> <TD>An entry of the write FIFO has been popped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>RFIFO_WE</TD> <TD>RW</TD> <TD>1</TD> <TD>An entry has been pushed into the receive FIFO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TFIFO_RE</TD> <TD>RW</TD> <TD>1</TD> <TD>An entry in the transmit FIFO was popped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>RFIFO_AFULL</TD> <TD>RW</TD> <TD>1</TD> <TD>An almost full event is reached when data is to be written to the receive FIFO, and the receive FIFO has more than or equal to BUFFER_THRESHOLD.RFIFO_AFULL bytes. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RFIFO_OVERFLOW</TD> <TD>RW</TD> <TD>1</TD> <TD>Data was received but the receive FIFO was full</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PARITY_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>Parity error was detected when current data was received</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>FRAME_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>Stop bit not found when current data was received</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>WDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>Write FIFO was written but it was full</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>Read data FIFO read and no data available</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

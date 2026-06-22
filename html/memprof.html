@@ -1,0 +1,110 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>memprof</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="memprof"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>memprof &#8212; memory bandwidth profiling</p></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+The special file <code class="filename">/proc/tile/memprof</code> provides an
+interface for measuring the throughput of a Tile processor's memory
+controllers.  It includes support for starting, stopping, and clearing
+the memory profile, as well as reading the results.  Profile
+information can only be collected if the system's hypervisor
+configuration includes a dedicated memprof tile.  The default
+vmlinux-pci.bootrom file includes the memprof tile.  For an example of
+how to add memprof to a hypervisor configuration, see the System
+Programmer's Guide or
+examine <code class="filename">lib/boot/vmlinux-pci.hvconfig</code> in the MDE 
+installation kit.
+</p><p>
+Reading the memprof file will generate ASCII-formatted profile
+results, including the number of cycles profiled, the number of
+transactions performed on each controller, and a subdivision of those
+transactions by transaction type (read page hit, read page miss, write
+page hit, etc).  The output can be post-processed by tools like grep
+in order to extract the statistics of interest.
+</p><p>
+The following ioctl codes allow the programmer to start, stop, and
+clear the memory controller profile:
+</p><div class="variablelist"><a name="ioctls"></a><dl><dt><span class="term">
+MEMPROF_IOCTL_START
+</span></dt><dd><p>
+Start collecting profile information.
+</p></dd><dt><span class="term">
+MEMPROF_IOCTL_STOP
+</span></dt><dd><p>
+Stop collecting profile information.  This does not clear the profile
+information.  Restarting at a later time will continue accumulating
+into the same profile, but transactions between the stop and start
+commands will not be counted.
+</p></dd></dl></div><dt><span class="term">
+MEMPROF_IOCTL_CLEAR
+</span></dt><dd><p>
+Clear all profile information, resetting all values to zero.  The
+profile information can be cleared at any time, independent of whether
+the profiler is currently running.
+</p></dd><p>
+The start, stop, and clear operations may also be performed by writing
+the string "start", "stop", or "clear", respectively, followed by a newline,
+to <code class="filename">/proc/tile/memprof</code>.  This is convenient for shell
+scripts, or interactive use.
+</p></div><div class="refsect1" lang="en"><a name="errors"></a><h2>Errors</h2><p>
+If the hypervisor configuration did not include a dedicated memprof
+tile, attempting to open <code class="filename">/proc/tile/memprof</code> will
+fail and set errno to ENXIO.
+</p></div><div class="refsect1" lang="en"><a name="example"></a><h2>Example</h2><pre class="programlisting">
+
+#include &lt;asm/memprof.h&gt;
+
+// Open the memprof file.
+int memprof_fd = open("/proc/tile/memprof", O_RDWR);
+
+// Clear the current profile and make sure profiler is running.
+ioctl(memprof_fd, MEMPROF_IOCTL_CLEAR);
+ioctl(memprof_fd, MEMPROF_IOCTL_START);
+
+// Do work here...
+
+// Stop the profile and read the results.
+ioctl(memprof_fd, MEMPROF_IOCTL_STOP);
+system("cat /proc/tile/memprof");
+
+
+</pre></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

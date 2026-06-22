@@ -1,0 +1,652 @@
+<html>
+<title>trio_pcie_intfc Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>PCIE Interface (0x0000-0x0148) : </b> 
+These registers provide access the PCIe MAC's interface controls such as SERDES, port type, and PCS control.  There are also controls for the associated StreamIO port.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#TRIO_PCIE_INTFC_MAC_INT_STS">TRIO_PCIE_INTFC_MAC_INT_STS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#TRIO_PCIE_INTFC_MAC_SEMAPHORE">TRIO_PCIE_INTFC_MAC_SEMAPHORE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#TRIO_PCIE_INTFC_SERDES_CONFIG">TRIO_PCIE_INTFC_SERDES_CONFIG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#TRIO_PCIE_INTFC_PORT_CONFIG">TRIO_PCIE_INTFC_PORT_CONFIG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#TRIO_PCIE_INTFC_PORT_STATUS">TRIO_PCIE_INTFC_PORT_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#TRIO_PCIE_INTFC_PORT_CREDIT">TRIO_PCIE_INTFC_PORT_CREDIT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#TRIO_PCIE_INTFC_TX_REQ_HDR_STATS">TRIO_PCIE_INTFC_TX_REQ_HDR_STATS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#TRIO_PCIE_INTFC_TX_PDAT_STATS">TRIO_PCIE_INTFC_TX_PDAT_STATS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0040<TD><a href="#TRIO_PCIE_INTFC_TX_CPL_STATS">TRIO_PCIE_INTFC_TX_CPL_STATS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0048<TD><a href="#TRIO_PCIE_INTFC_CLOCK_COUNT">TRIO_PCIE_INTFC_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0050<TD><a href="#TRIO_PCIE_INTFC_TX_FIFO_CTL">TRIO_PCIE_INTFC_TX_FIFO_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0058<TD><a href="#TRIO_PCIE_INTFC_RX_FIFO_CTL">TRIO_PCIE_INTFC_RX_FIFO_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0060<TD><a href="#TRIO_PCIE_INTFC_RX_BAR0_ADDR_MASK">TRIO_PCIE_INTFC_RX_BAR0_ADDR_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0068<TD><a href="#TRIO_PCIE_INTFC_RX_BAR2_ADDR_MASK">TRIO_PCIE_INTFC_RX_BAR2_ADDR_MASK</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0070<TD><a href="#TRIO_PCIE_INTFC_VF_ACCESS">TRIO_PCIE_INTFC_VF_ACCESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0078<TD><a href="#TRIO_PCIE_INTFC_VEND_MSG">TRIO_PCIE_INTFC_VEND_MSG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0080<TD><a href="#TRIO_PCIE_INTFC_EP_INT_GEN">TRIO_PCIE_INTFC_EP_INT_GEN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0088<TD><a href="#TRIO_PCIE_INTFC_EP_VF_MSI_PENDING">TRIO_PCIE_INTFC_EP_VF_MSI_PENDING</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0090<TD><a href="#TRIO_PCIE_INTFC_EP_MSIX_DATA">TRIO_PCIE_INTFC_EP_MSIX_DATA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0098<TD><a href="#TRIO_PCIE_INTFC_EP_MSIX_ADDR">TRIO_PCIE_INTFC_EP_MSIX_ADDR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a0<TD><a href="#TRIO_PCIE_INTFC_VEN_MSG_GEN">TRIO_PCIE_INTFC_VEN_MSG_GEN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a8<TD><a href="#TRIO_PCIE_INTFC_VEN_MSG_DAT">TRIO_PCIE_INTFC_VEN_MSG_DAT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00b0<TD><a href="#TRIO_PCIE_INTFC_PM_INTFC_CTL">TRIO_PCIE_INTFC_PM_INTFC_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00b8<TD><a href="#TRIO_PCIE_INTFC_VF_FLR_CTL">TRIO_PCIE_INTFC_VF_FLR_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00c0<TD><a href="#TRIO_PCIE_INTFC_PF_FLR_CTL">TRIO_PCIE_INTFC_PF_FLR_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00c8<TD><a href="#TRIO_PCIE_INTFC_RESET_CTL">TRIO_PCIE_INTFC_RESET_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0100<TD><a href="#TRIO_PCIE_INTFC_STREAM_STATUS">TRIO_PCIE_INTFC_STREAM_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0108<TD><a href="#TRIO_PCIE_INTFC_STREAM_CONFIG">TRIO_PCIE_INTFC_STREAM_CONFIG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0110<TD><a href="#TRIO_PCIE_INTFC_STREAM_TX_CMD_CRED">TRIO_PCIE_INTFC_STREAM_TX_CMD_CRED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0118<TD><a href="#TRIO_PCIE_INTFC_STREAM_TX_DAT_CRED">TRIO_PCIE_INTFC_STREAM_TX_DAT_CRED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0120<TD><a href="#TRIO_PCIE_INTFC_CALIB_CTL">TRIO_PCIE_INTFC_CALIB_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0128<TD><a href="#TRIO_PCIE_INTFC_CALIB_STS">TRIO_PCIE_INTFC_CALIB_STS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0130<TD><a href="#TRIO_PCIE_INTFC_DIAG_CTL">TRIO_PCIE_INTFC_DIAG_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0138<TD><a href="#TRIO_PCIE_INTFC_DIAG_STS">TRIO_PCIE_INTFC_DIAG_STS</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="TRIO_PCIE_INTFC_MAC_INT_STS"></a>
+<br><br><h4>MAC Interrupt Status (TRIO_PCIE_INTFC_MAC_INT_STS: 0x0000)</h4>
+Provides MAC interrupt status.  Each bit is write-1-to-clear  These bindings for these interrupts are configured in TRIO_CFG_INT_BIND.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_MAC_INT_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>SYS_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Root complex mode.  Asserted (as a pulse) when a device in the hierarchy has reported a ERR_COR, ERR_FATAL, or ERR_NONFATAL with the associated enable bit set in the Root Control register.  This error also asserts when an internal ERR_COR, ERR_FATAL, or ERR_NONFATAL is detected.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>PM_STATE_CHG</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Port's power management state has changed.  This includes both entrance and exit from L0, L1, L0s, and L2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29</TD> <TD>HP_MSI</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Asserted (as a pulse) when MSI/X is enabled and hot plug interrupts are enabled in the slot control register and any bit in the slot status register transitions from 0 to 1 and the associated event notification is enabled in the slot control register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>HP_INT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Asserted (stays high) when the INTx Assertion Disable bit in the Command register is zero and Hot-Plug interrupts are enabled in the slot control register and any bit in the slot status register is 1 and the associated event notification is enabled in the slot control register.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27</TD> <TD>HP_PME</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Asserted (as a pulse) when the PME Enable bit in the PMCSR is set to 1 and any bit in the slot status register transitions from 0 to 1 and the associated event notification is enabled in the slot control register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26</TD> <TD>PF_FLR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The physical function has initiated a function level reset. Software must shut down transactions for the VF and clear the associated PF_FLR_CTL.FLR_BUSY bit.  Interrupt binding mode-0 (self masking) should be used for this interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25</TD> <TD>VF_FLR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>One of the virtual functions has initiated a function level reset.  VF_FLR_CTL.FLR_PENDING will indicate which function(s) are being reset.  Software must shut down transactions for the VF and clear the associated VF_FLR_CTL.FLR_BUSY bit.  This interrupt will trigger as long as any VFs are in FLR.  Interrupt binding mode-0 (self masking) should be used for this interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>MAC_CFG_TIMEOUT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>MAC failed to respond to an MMIO configuration request.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>TX_UNDERRUN_ERROR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>TX underrun error.  This occurs when tclk is set too slow relative to MAC rate.  The TX_FIFO_CTL.TX0/1_DATA_AE_LVL settings must be adjusted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>STREAM_IO_ERROR</TD> <TD>W1TC</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>StreamIO port reported an error.  STREAM_STATUS contains detailed error information.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>RCVD_PM_TURNOFF</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Received PME_Turn_off message (EP mode)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>RCVD_PME_TO_ACK</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Received PME_TO_Ack message (RC mode)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>RCVD_PME</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Power Management event message received (RC mode)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>RCVD_FATAL_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Datal error message received (RC mode)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>RCVD_NF_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Nonfatal error message received (RC mode)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>RCVD_COR_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Correctable error message received (RC mode)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:12</TD> <TD>INT_LEVEL</TD> <TD>W1TC</TD> <TD>0</TD> <TD>IntA/B/C/D is high. (State of the level-capture bits is cleared if link goes down).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>INT_DEASSERT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>IntA/B/C/D deassert message received.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>INT_ASSERT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>IntA/B/C/D assert message received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>WAKE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Wake indication from power management unit due PME being triggered.  Used in endpoint mode.  Indicates system should repower the associated slot(s).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>VEN_MSG</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Vendor message received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>UNLOCK</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Unlock message received.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>DL_STATE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>DL_State changed (link came up or went down).  This applies to the StreamIO port when StreamIO is enabled for devices that support StreamIO.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_MAC_SEMAPHORE"></a>
+<br><br><h4>MAC Semaphore (TRIO_PCIE_INTFC_MAC_SEMAPHORE: 0x0008)</h4>
+Semaphore
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_MAC_SEMAPHORE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_SERDES_CONFIG"></a>
+<br><br><h4>SERDES Config (TRIO_PCIE_INTFC_SERDES_CONFIG: 0x0010)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Access to SERDES register interface.  See SERDES documentation for detailed descriptions of registers.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_SERDES_CONFIG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>REG_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>SERDES register data.  On writes, this contains data to be written.  On reads, this contains the read result.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>REG_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>SERDES register address to access.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>LANE_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects lane(s) for read/write.  On writes, more than one lane may be written.  On reads, only one bit in LANE_SEL may be set.  On ports configured with fewer than 8-lanes, the upper lane bits are ignored.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>READ</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, operation is a read.  When 0, operation is a write.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SEND</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the read/write operation will be performed.  Hardware clears this bit when the operation is complete.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_PORT_CONFIG"></a>
+<br><br><h4>Port Configuration (TRIO_PCIE_INTFC_PORT_CONFIG: 0x0018)</h4>
+Configuration of the PCIe Port
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_PORT_CONFIG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>STREAM_RATE</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>For StreamIO port, configures the rate of the port when TRAIN_MODE is not STRAP.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>R2500</TD><TD>2.5 Gbps using 125 MHz core ref clk</TD></TR>
+   <TR><TD>1</TD><TD>R3125</TD><TD>3.125 Gbps using 156.25 MHz XAUI ref clk</TD></TR>
+   <TR><TD>2</TD><TD>R5000</TD><TD>5.0 Gbps using 125 MHz core ref clk</TD></TR>
+   <TR><TD>3</TD><TD>R6250</TD><TD>6.25 Gbps using 156.25 MHz XAUI ref clk</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>15:14</TD> <TD>STREAM_WIDTH</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>For StreamIO port, configures the width of the port when TRAIN_MODE is not STRAP.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X1</TD><TD>Streaming port trained as a x1, using lane-0.</TD></TR>
+   <TR><TD>1</TD><TD>X2</TD><TD>Streaming port trained as a x2, using lanes 0 and 1.</TD></TR>
+   <TR><TD>2</TD><TD>X4</TD><TD>Streaming port trained as a x4.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>TX_LANE_FLIP</TD> <TD>RW</TD> <TD>0</TD> <TD>For PCIe, used to flip physical TX lanes that were not properly wired.  This is not the same as lane reversal which is handled automatically during link training.  When 0, TX Lane0 must be wired to the link partner (either to its Lane0 or its LaneN).  When TX_LANE_FLIP is 1, the highest numbered lane for this port becomes Lane0 and Lane0 does NOT have to be wired to the link partner.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>RX_LANE_FLIP</TD> <TD>RW</TD> <TD>0</TD> <TD>For PCIe, used to flip physical RX lanes that were not properly wired.  This is not the same as lane reversal which is handled automatically during link training.  When 0, RX Lane0 must be wired to the link partner (either to its Lane0 or its LaneN).  When RX_LANE_FLIP is 1, the highest numbered lane for this port becomes Lane0 and Lane0 does NOT have to be wired to the link partner.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:9</TD> <TD>TRAIN_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Determines how link is trained.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>STRAP</TD><TD>Link will be trained based on the state of the STRAP_STATE.</TD></TR>
+   <TR><TD>1</TD><TD>TRAIN_DIS</TD><TD>Link training is disabled.</TD></TR>
+   <TR><TD>2</TD><TD>TRAIN_ENA</TD><TD>Link training is enabled.  Gen1 vs. Gen2 will be autonegotiated for PCIe port.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>8:5</TD> <TD>OVD_DEV_TYPE_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides the device type when OVD_DEV_TYPE is 1.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>EP</TD><TD>Endpoint</TD></TR>
+   <TR><TD>1</TD><TD>LEGACY_EP</TD><TD>Legacy Endpoint (not typically used)</TD></TR>
+   <TR><TD>4</TD><TD>RC</TD><TD>Root Complex</TD></TR>
+   <TR><TD>6</TD><TD>STREAM</TD><TD>Configure port as a StreamIO interface rather than PCIe.<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>OVD_DEV_TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the device type will be overridden using OVD_DEV_TYPE_VAL.  When 0, the device type is determined based on the STRAP_STATE.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>STRAP_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Provides the state of the strapping pins for this port.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>DISABLED</TD><TD>Link disabled.  Link will need to be configured and enabled by SW</TD></TR>
+   <TR><TD>1</TD><TD>AUTO_CONFIG_ENDPOINT</TD><TD>Link will automatically train as an endpoint.  Gen2 vs. Gen1 will be autonegotiated.</TD></TR>
+   <TR><TD>2</TD><TD>AUTO_CONFIG_RC</TD><TD>Link will automatically train as a root complex.  Gen2 vs. Gen1 will be autonegotiated.</TD></TR>
+   <TR><TD>3</TD><TD>AUTO_CONFIG_ENDPOINT_G1</TD><TD>Link will automatically train as an endpoint.  Link will be forced as Gen1.</TD></TR>
+   <TR><TD>4</TD><TD>AUTO_CONFIG_RC_G1</TD><TD>Link will automatically train as a root complex.  Link will be forced as Gen1.</TD></TR>
+   <TR><TD>5</TD><TD>AUTO_XLINK</TD><TD>Link will train as a crosslink endpoint.<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+   <TR><TD>6</TD><TD>STREAM_X1</TD><TD>Link will train as a X1 3.125 Gbps streaming port rather than a PCIe port.<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+   <TR><TD>7</TD><TD>STREAM_X4</TD><TD>Link will train as a X4 3.125 Gbps streaming port rather than a PCIe port.<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_PORT_STATUS"></a>
+<br><br><h4>Port Status (TRIO_PCIE_INTFC_PORT_STATUS: 0x0020)</h4>
+Status of the PCIe Port.  This register applies to the StreamIO port when StreamIO is enabled.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_PORT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32:30</TD> <TD>PM_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Link power management state (PCIe).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>2</TD><TD>L1</TD><TD> </TD></TR>
+   <TR><TD>3</TD><TD>L23RDY_AUX</TD><TD> </TD></TR>
+   <TR><TD>4</TD><TD>L23RDY</TD><TD> </TD></TR>
+   <TR><TD>1</TD><TD>L0S</TD><TD> </TD></TR>
+   <TR><TD>0</TD><TD>L0</TD><TD> </TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>29:24</TD> <TD>LTSSM_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Link state (PCIe).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>DETECT_QUIET</TD><TD> </TD></TR>
+   <TR><TD>0x1</TD><TD>DETECT_ACT</TD><TD> </TD></TR>
+   <TR><TD>0x2</TD><TD>POLL_ACTIVE</TD><TD> </TD></TR>
+   <TR><TD>0x3</TD><TD>POLL_COMPLIANCE</TD><TD> </TD></TR>
+   <TR><TD>0x4</TD><TD>POLL_CONFIG</TD><TD> </TD></TR>
+   <TR><TD>0x5</TD><TD>PRE_DETECT_QUIET</TD><TD> </TD></TR>
+   <TR><TD>0x6</TD><TD>DETECT_WAIT</TD><TD> </TD></TR>
+   <TR><TD>0x7</TD><TD>CFG_LINKWD_START</TD><TD> </TD></TR>
+   <TR><TD>0x8</TD><TD>CFG_LINKWD_ACEPT</TD><TD> </TD></TR>
+   <TR><TD>0x9</TD><TD>CFG_LANENUM_WAIT</TD><TD> </TD></TR>
+   <TR><TD>0xa</TD><TD>CFG_LANENUM_ACEPT</TD><TD> </TD></TR>
+   <TR><TD>0xb</TD><TD>CFG_COMPLETE</TD><TD> </TD></TR>
+   <TR><TD>0xc</TD><TD>CFG_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0xd</TD><TD>RCVRY_LOCK</TD><TD> </TD></TR>
+   <TR><TD>0xe</TD><TD>RCVRY_SPEED</TD><TD> </TD></TR>
+   <TR><TD>0xf</TD><TD>RCVRY_RCVRCFG</TD><TD> </TD></TR>
+   <TR><TD>0x10</TD><TD>RCVRY_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x20</TD><TD>RCVRY_EQ0</TD><TD> </TD></TR>
+   <TR><TD>0x21</TD><TD>RCVRY_EQ1</TD><TD> </TD></TR>
+   <TR><TD>0x22</TD><TD>RCVRY_EQ2</TD><TD> </TD></TR>
+   <TR><TD>0x23</TD><TD>RCVRY_EQ3</TD><TD> </TD></TR>
+   <TR><TD>0x11</TD><TD>L0</TD><TD> </TD></TR>
+   <TR><TD>0x12</TD><TD>L0S</TD><TD> </TD></TR>
+   <TR><TD>0x13</TD><TD>L123_SEND_EIDLE</TD><TD> </TD></TR>
+   <TR><TD>0x14</TD><TD>L1_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x15</TD><TD>L2_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x16</TD><TD>L2_WAKE</TD><TD> </TD></TR>
+   <TR><TD>0x17</TD><TD>DISABLED_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x18</TD><TD>DISABLED_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x19</TD><TD>DISABLED</TD><TD> </TD></TR>
+   <TR><TD>0x1a</TD><TD>LPBK_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x1b</TD><TD>LPBK_ACTIVE</TD><TD> </TD></TR>
+   <TR><TD>0x1c</TD><TD>LPBK_EXIT</TD><TD> </TD></TR>
+   <TR><TD>0x1d</TD><TD>LPBK_EXIT_TIMEOUT</TD><TD> </TD></TR>
+   <TR><TD>0x1e</TD><TD>HOT_RESET_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x1f</TD><TD>HOT_RESET</TD><TD> </TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>CLOCK_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the SERDES PLL has spun up and is providing a valid clock.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:1</TD> <TD>DL_DOWN_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates the number of times the link has gone down.  Clears on read.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>DL_UP</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the DL state of the port.  When 1, the port is up and ready to receive traffic.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_PORT_CREDIT"></a>
+<br><br><h4>Port Credit (TRIO_PCIE_INTFC_PORT_CREDIT: 0x0028)</h4>
+TX Credit information for the PCIe Port.  This is generally for debug only as credits may be consumed by hardware functions at any time.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_PORT_CREDIT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>59:48</TD> <TD>CPLD</TD> <TD>RO</TD> <TD>0</TD> <TD>Completion data credits available.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>CPLH</TD> <TD>RO</TD> <TD>0</TD> <TD>Completion header credits available.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>39:28</TD> <TD>NPD</TD> <TD>RO</TD> <TD>0</TD> <TD>Non-Posted data credits available.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:20</TD> <TD>NPH</TD> <TD>RO</TD> <TD>0</TD> <TD>Non-Posted header credits available.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19:8</TD> <TD>PD</TD> <TD>RO</TD> <TD>0</TD> <TD>Posted data credits available.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>PH</TD> <TD>RO</TD> <TD>0</TD> <TD>Posted header credits available.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_TX_REQ_HDR_STATS"></a>
+<br><br><h4>Transmit Request Header Statistics (TRIO_PCIE_INTFC_TX_REQ_HDR_STATS: 0x0030)</h4>
+Contains TX header counters for performance measurements and diagnostics.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_TX_REQ_HDR_STATS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:32</TD> <TD>P_HDR_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of posted packets that have been sent (push DMA and PIO).  Clears on read.  Saturates at all 1's</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>NP_HDR_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of non-posted packets that have been sent (pull DMA and PIO).  Clears on read.  Saturates at all 1's</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_TX_PDAT_STATS"></a>
+<br><br><h4>Transmit Posted Data Statistics (TRIO_PCIE_INTFC_TX_PDAT_STATS: 0x0038)</h4>
+Contains TX posted data counter for performance measurements and diagnostics.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_TX_PDAT_STATS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>41:0</TD> <TD>P_BYTE_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of posted data bytes that have been sent from TRIO (push DMA and PIO).  Clears on read.  Saturates at all 1's</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_TX_CPL_STATS"></a>
+<br><br><h4>Transmit Completion Statistics (TRIO_PCIE_INTFC_TX_CPL_STATS: 0x0040)</h4>
+Contains TX completion header and data counters for performance measurements and diagnostics.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_TX_CPL_STATS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:27</TD> <TD>CPL_BYTE_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of completion bytes that have been sent (MAP-MEM/SQ/RSH).  Clears on read.  Saturates at all 1's</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26:0</TD> <TD>CPL_HDR_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of completions that have been sent (MAP-MEM/SQ/RSH).  Clears on read.  Saturates at all 1's</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_CLOCK_COUNT"></a>
+<br><br><h4>Pipe Clock Count (TRIO_PCIE_INTFC_CLOCK_COUNT: 0x0048)</h4>
+Provides relative clock frequency between core (tclk) domain and device (pipe clk) clock domains.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_TX_FIFO_CTL"></a>
+<br><br><h4>Transmit FIFO Control (TRIO_PCIE_INTFC_TX_FIFO_CTL: 0x0050)</h4>
+Contains TX FIFO thresholds.  These registers are for diagnostics purposes only.  Changing these values causes undefined behavior.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_TX_FIFO_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:56</TD> <TD>MIN_P_CREDITS</TD> <TD>RW</TD> <TD>4</TD> <TD>This register provides performance adjustment for high bandwidth flows.  The MAC will assert almost-full to TRIO if posted credits fall below this level.  Note that setting this larger than the initial PORT_CREDIT.PH value will cause WRITES to never be sent.  If the initial credit value from the link partner is smaller than this value when the link comes up, the value will be reset to the initial credit value to prevent lockup.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:48</TD> <TD>MIN_NP_CREDITS</TD> <TD>RW</TD> <TD>12</TD> <TD>This register provides performance adjustment for high bandwidth flows.  The MAC will assert almost-full to TRIO if non-posted credits fall below this level.  Note that setting this larger than the initial PORT_CREDIT.NPH value will cause READS to never be sent.  If the initial credit value from the link partner is smaller than this value when the link comes up, the value will be reset to the initial credit value to prevent lockup.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>44:40</TD> <TD>TX1_INFO_AF_LVL</TD> <TD>RW</TD> <TD>29</TD> <TD>Almost-Full level for TX1 info.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>36:32</TD> <TD>TX0_INFO_AF_LVL</TD> <TD>RW</TD> <TD>29</TD> <TD>Almost-Full level for TX0 info.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:24</TD> <TD>TX1_DATA_AF_LVL</TD> <TD>RW</TD> <TD>29</TD> <TD>Almost-Full level for TX1 data.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22:16</TD> <TD>TX0_DATA_AF_LVL</TD> <TD>RW</TD> <TD>28</TD> <TD>Almost-Full level for TX0 data.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14:8</TD> <TD>TX1_DATA_AE_LVL</TD> <TD>RW</TD> <TD>20</TD> <TD>Almost-Empty level for TX1 data.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>TX0_DATA_AE_LVL</TD> <TD>RW</TD> <TD>20</TD> <TD>Almost-Empty level for TX0 data.  Typically set to at least roundup(38.0*M/N) where N=tclk frequency and M=MAC symbol rate in MHz for a x4 port (250 MHz).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_RX_FIFO_CTL"></a>
+<br><br><h4>Receive FIFO Control (TRIO_PCIE_INTFC_RX_FIFO_CTL: 0x0058)</h4>
+Contains RX FIFO threshold.  This register is for diagnostics purposes only.  Changing this values causes undefined behavior.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_RX_FIFO_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>RX_DATA_AE_LVL</TD> <TD>RW</TD> <TD>63</TD> <TD>Almost-Empty level for RX data.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_RX_BAR0_ADDR_MASK"></a>
+<br><br><h4>RX BAR0 Address Mask (TRIO_PCIE_INTFC_RX_BAR0_ADDR_MASK: 0x0060)</h4>
+Contains the mask applied to incoming requests that target BAR0/1 in endpoint mode.  This mask is ignored in root complex mode.  This register must be updated if the BAR size is reprogrammed in the MAC.  This register resets to the default BAR0 size to allow the rshim region in TRIO to be accessible regardless of the value programmed into the BAR by the BIOS.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_RX_BAR0_ADDR_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>MASK</TD> <TD>RW</TD> <TD>00000000007ffh</TD> <TD>The address presented to TRIO will be masked to zero in any zeros in the corresponding MASK bits.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_RX_BAR2_ADDR_MASK"></a>
+<br><br><h4>RX BAR2 Address Mask (TRIO_PCIE_INTFC_RX_BAR2_ADDR_MASK: 0x0068)</h4>
+Contains the mask applied to incoming requests that target BAR2/3 in endpoint mode.  This mask is used on all IO addresses in root complex mode.  This register is typically left as zero but may be used to remove upper offset bits if desired.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_RX_BAR2_ADDR_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>MASK</TD> <TD>RW</TD> <TD>fffffffffffffh</TD> <TD>The address presented to TRIO's will be masked to zero in any zeros in the corresponding MASK bits.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_VF_ACCESS"></a>
+<br><br><h4>Virtual Function Access (TRIO_PCIE_INTFC_VF_ACCESS: 0x0070)</h4>
+Allows access to virtual function register spaces in endpoint mode.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_VF_ACCESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>VF_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, MMIO accesses to the MAC's config space will be targeted to the config space of the virtual function selected by VF_SEL.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>VF_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>When VF_ENA is 1, this field selects the virtual function whose config space will be accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_VEND_MSG"></a>
+<br><br><h4>Vendor Message (TRIO_PCIE_INTFC_VEND_MSG: 0x0078)</h4>
+Captures vendor message information (root complex mode)
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_VEND_MSG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>47:32</TD> <TD>REQID</TD> <TD>RO</TD> <TD>0</TD> <TD>Requester ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>PAYLOAD</TD> <TD>RO</TD> <TD>0</TD> <TD>Bytes 12..15 from the vendor message.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_EP_INT_GEN"></a>
+<br><br><h4>Endpoint Interrupt Generation (TRIO_PCIE_INTFC_EP_INT_GEN: 0x0080)</h4>
+Controls dispatch of interrupts to the upstream host when port is operating in endpoint mode.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_EP_INT_GEN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:32</TD> <TD>MSI_PENDING</TD> <TD>RW</TD> <TD>0</TD> <TD>This field determines the value of the vector interrupt pending register in the MSI capability structure and is used to indicate the source of pending interrupts.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>MSI_ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that MSI has been enabled and INTx messages will not be sent.  This reflects the state of the MSI enable bit in physical function0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:14</TD> <TD>MSI_MSG_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt vector for the MSI used when multiple message mode is enabled in the MSI control register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:11</TD> <TD>MSI_TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Traffic class for the MSI</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:3</TD> <TD>MSI_VF_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>When MSI_VF_ENA is 1, this field selects the virtual function.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>MSI_VF_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the interrupt comes from the virtual function associated with MSI_VF_SEL.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>LEGACY_INT</TD> <TD>RW</TD> <TD>0</TD> <TD>Used to dispatch legacy INTA/B/C/D messages.  An assert message will be sent when this bit transitions from 0 to 1.  A deassert message will be sent when this bit transitions from 1 to 0.  The interrupt pin register determines which INTx message will be sent.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SEND_MSI</TD> <TD>RW</TD> <TD>0</TD> <TD>Set by software when an MSI is to be sent.  Cleared by hardware once the MSI has been sent.  Software must poll until SEND_MSI is clear before sending a new MSI.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_EP_VF_MSI_PENDING"></a>
+<br><br><h4>Endpoint Virtual Function MSI Pending (TRIO_PCIE_INTFC_EP_VF_MSI_PENDING: 0x0088)</h4>
+Provides MSI-pending state for each VF.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_EP_VF_MSI_PENDING.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>There are 2 pending bits for each VF organized as [1:0]=VF0, [3:2]=VF1 etc.  These may be used by the system to indicate interrupt pending state.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_EP_MSIX_DATA"></a>
+<br><br><h4>Endpoint MSI-X Data (TRIO_PCIE_INTFC_EP_MSIX_DATA: 0x0090)</h4>
+Provides the data value when an MSI-X is dispatched.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_EP_MSIX_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Data provided for MSI-X interrupts.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_EP_MSIX_ADDR"></a>
+<br><br><h4>Endpoint MSI-X Address (TRIO_PCIE_INTFC_EP_MSIX_ADDR: 0x0098)</h4>
+Provides the address when an MSI-X is dispatched.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_EP_MSIX_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Address provided from the MSI-X tables that the host configures in application memory space during system initialization.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_VEN_MSG_GEN"></a>
+<br><br><h4>Vendor Message Generation (TRIO_PCIE_INTFC_VEN_MSG_GEN: 0x00a0)</h4>
+Controls dispatch of vendor-defined messages.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_VEN_MSG_GEN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>50:43</TD> <TD>TAG</TD> <TD>RW</TD> <TD>0</TD> <TD>Message code</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>42:35</TD> <TD>CODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Message code</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>34</TD> <TD>VF_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>VF value when VF is enabled</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>33:26</TD> <TD>VF</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual-function enabled</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25:16</TD> <TD>LEN</TD> <TD>RW</TD> <TD>0</TD> <TD>Length field</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:14</TD> <TD>ATTR</TD> <TD>RW</TD> <TD>0</TD> <TD>Attributes</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>EP</TD> <TD>RW</TD> <TD>0</TD> <TD>Poisoned</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>TD</TD> <TD>RW</TD> <TD>0</TD> <TD>TLP Digest</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:8</TD> <TD>TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Traffic class</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:3</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type field</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>FMT</TD> <TD>RW</TD> <TD>0</TD> <TD>Format field</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SEND_MSG</TD> <TD>RW</TD> <TD>0</TD> <TD>Set by software when a vendor message is to be sent.  Cleared by hardware once the message has been sent.  Software must poll until SEND_MSG is clear before sending a new MSG.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_VEN_MSG_DAT"></a>
+<br><br><h4>Vendor Message Data (TRIO_PCIE_INTFC_VEN_MSG_DAT: 0x00a8)</h4>
+Data field for vendor-defined messages.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_VEN_MSG_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Data sent with vendor-defined messages.  This forms DWORDs 3 and 4 of the vendor message packet.  Bytes 6 and 5 form the vendorID and bytes 3 to 0 form bytes 12 to 15 (DWORD4).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_PM_INTFC_CTL"></a>
+<br><br><h4>Power Management Interface Control (TRIO_PCIE_INTFC_PM_INTFC_CTL: 0x00b0)</h4>
+Provides control and status related to power management and electromechanical interface.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_PM_INTFC_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40</TD> <TD>LINK_RESTART</TD> <TD>WO</TD> <TD>0</TD> <TD>Typically used to in RC mode to force wakeup from L2.  When written with a 1, the link will be forced back to DETECT state and all power management state will be cleared.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39</TD> <TD>INTERLOCK</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode. Hot-Plug system electromechanical interlock engaged.  Indicates whether the system electromechanical interlock is engaged and controls the state of the Electromechanical Interlock Status bit in the Slot Status register.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>38</TD> <TD>CMD_COMP_INT</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Command completed interrupt indicates the Hot-Plug controller completed a command.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>37</TD> <TD>PRES_DET_CHANGED</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode. Hot-Plug presence detect changed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>36</TD> <TD>MRL_CHANGED</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Hot-Plug MRL sensor changed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>35</TD> <TD>PWR_FAULT_DET</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Hot-Plug Power fault detected.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>34</TD> <TD>MRL_STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Hot-Plug MRL sensor state.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>33</TD> <TD>PRES_DET</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Hot-Plug Presence detect state.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>ATTN_PRESSED</TD> <TD>RW</TD> <TD>0</TD> <TD>RC mode.  Hot-Plug Attention button pressed.  Controls the attention button pressed bit in the slot status register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>UNLOCK</TD> <TD>WO</TD> <TD>0</TD> <TD>RC mode only.  When written with a one, an unlock message will be generated.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>REQ_RETRY</TD> <TD>RW</TD> <TD>0</TD> <TD>EP or RC mode.  Retry all incoming requests (including CFG for endpoint mode).  Typically used if further initialization is required after link-up.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>HOT_RESET</TD> <TD>WO</TD> <TD>0</TD> <TD>RC mode.  Application requests HotReset to be sent downstream.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>REQ_EXIT_L1</TD> <TD>RW</TD> <TD>0</TD> <TD>EP or RC.  Application requests exit from ASPM L1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>REQ_ENTER_L1</TD> <TD>RW</TD> <TD>0</TD> <TD>EP or RC.  Application requests entrance in ASPM L1.   This is used to override the L1 entry timer but will only take effect if L1 is enabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>AUX_PWR_DET</TD> <TD>RW</TD> <TD>1</TD> <TD>Determines value in device status register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PWR_UP</TD> <TD>WO</TD> <TD>0</TD> <TD>EP mode only.  When written with a one, wakes up PMC state machine and causes core to send PM_PME message.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>READY_L23</TD> <TD>RW</TD> <TD>1</TD> <TD>Typically left set to 1.  But applications may deassert this if they require action to be taken prior to entering L23.  Settting to 0 will cause PM_Enter_L23 messages to be delayed in response to PM_Turn_Off.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>XMT_PME</TD> <TD>WO</TD> <TD>0</TD> <TD>EP mode only.  When written with a one, the endpoint wakes up (transmits beacon) and a PME message is sent.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>XMT_TURNOFF</TD> <TD>WO</TD> <TD>0</TD> <TD>RC mode only.  When written with a one, PM turnoff message is sent and the link will typically transition to L2.  Before putting the link into this state, software must shutdown any active DMAs and PIOs otherwise they could clog the interface and result in corrupted flows when the link is brought back up.  To restart the link, for example after a beacon is received, write the LINK_RESTART bit.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_VF_FLR_CTL"></a>
+<br><br><h4>VF Function-Level-Reset (TRIO_PCIE_INTFC_VF_FLR_CTL: 0x00b8)</h4>
+Controls function level reset handshake for virtual functions.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_VF_FLR_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:32</TD> <TD>FLR_PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD>Each bit corresponds to a VF.  When set, FLR is pending for the associated VF and the FLR_BUSY bit must be cleared by software once all the VF's transactions are complete.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>FLR_BUSY</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a VF.  When clear, the associated VF has completed reset.  This typically means no DMA transactions will be sourced from the VF.  Software should set this bit when DMAs are being enabled for the VF.  If a VF FLR becomes active, software must clear the bit once transactions from the VF are complete (and within approximately 100 ms).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_PF_FLR_CTL"></a>
+<br><br><h4>PF Function-Level-Reset (TRIO_PCIE_INTFC_PF_FLR_CTL: 0x00c0)</h4>
+Controls function level reset handshake for physical function zero.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_PF_FLR_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>FLR_PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD>When set, FLR is pending for the PF and the FLR_BUSY bit must be cleared by software once all the PF's transactions are complete.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>FLR_BUSY</TD> <TD>RW</TD> <TD>0</TD> <TD>When clear, the associated PF has completed reset.  This typically means no DMA transactions will be sourced from the PF.  Software should set this bit when DMAs are being enabled for the PF.  If a PF FLR becomes active, software must clear the bit once transactions from the PF are complete (and within approximately 100 ms).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_RESET_CTL"></a>
+<br><br><h4>Reset Control (TRIO_PCIE_INTFC_RESET_CTL: 0x00c8)</h4>
+Controls reset functions for the PCIe interface
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_RESET_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>RESET_NON_STICKY</TD> <TD>RW</TD> <TD>1</TD> <TD>Controls reset to non-sticky registers in the MAC.  When AUTO_MODE is 1, this bit indicates that the non-sticky registers will be reset when the link goes down.  When AUTO_MODE is 0, this bit directly controls the non-sticky register reset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>RESET_STICKY</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls reset to sticky registers in the MAC.  When AUTO_MODE is 1, this bit indicates that the sticky registers will be reset when the link goes down.  When AUTO_MODE is 0, this bit directly controls the sticky register reset.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>RESET_PMC</TD> <TD>RW</TD> <TD>1</TD> <TD>Controls reset to power management control.  The PMC will be reset at power up.  When AUTO_MODE is 0, this bit directly controls the PMC reset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RESET_MAC</TD> <TD>RW</TD> <TD>1</TD> <TD>Controls primary reset to the MAC.  The MAC will be reset at power up.  When AUTO_MODE is 0, this bit directly controls the MAC reset.  Note that asserting the MAC reset manually will prevent MMIO accesses to the MAC from completing normally.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>RESET_PHY</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls reset to the PHY.  When AUTO_MODE is 1, this bit indicates that the PHY will be reset when the link goes down.  When AUTO_MODE is 0, this bit directly controls the PHY reset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>AUTO_MODE</TD> <TD>RW</TD> <TD>1</TD> <TD>Controls behavior of PCIe MAC reset.  When 1, the resets will be generated automatically.  The RESET_x bits of this register determine what features will be reset.   When AUTO_MODE is 0, the port's reset controls are managed manually and the RESET_x bits are used to control the individual feature resets.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_STREAM_STATUS"></a>
+<br><br><h4>Stream Status (TRIO_PCIE_INTFC_STREAM_STATUS: 0x0100)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Status of the StreamIO Port
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_STREAM_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:26</TD> <TD>READ_RCVD_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Rolling count of reads received from MAC (used for debug).  The number of reads inflight to TRIO is READS_RCVD_CNT-READS_SENT_CNT (in 6-bit arithmetic).  The bypass FIFO holds up to 32 reads to allow writes to pass reads.  This counter value is valid for both PCIe and StreamIO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25:20</TD> <TD>READ_SENT_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Rolling count of reads sent to TRIO (used for debug).  The number of reads inflight to TRIO is READS_RCVD_CNT-READS_SENT_CNT (in 6-bit arithmetic).  The bypass FIFO holds up to 32 reads to allow writes to pass reads.  This counter value is valid for both PCIe and StreamIO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>DEC_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates an enabled lane reported a decoder error.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>FIFO_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates RX FIFO lost alignment.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>CRC_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates an RX packet had bad CRC.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>FRAMING_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates an RX packet's size field did not match the number of bytes received.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>TX_VC_ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the VCs that have been initialized by the remote device.  RX only uses VC0 and it is always enabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:1</TD> <TD>FSM_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the current FSM state.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>DISABLED</TD><TD> </TD></TR>
+   <TR><TD>1</TD><TD>LS0_WAIT</TD><TD> </TD></TR>
+   <TR><TD>2</TD><TD>LS0_ALIGN</TD><TD> </TD></TR>
+   <TR><TD>3</TD><TD>LS1_SYNC</TD><TD> </TD></TR>
+   <TR><TD>4</TD><TD>LS1_WAIT</TD><TD> </TD></TR>
+   <TR><TD>5</TD><TD>UP</TD><TD> </TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>UP</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates port is up.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_STREAM_CONFIG"></a>
+<br><br><h4>Stream Config (TRIO_PCIE_INTFC_STREAM_CONFIG: 0x0108)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Configuration of the StreamIO Port
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_STREAM_CONFIG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>50</TD> <TD>CRC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable CRC generation and checking.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>49:48</TD> <TD>CDR_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Mode for acquiring CDR coarse lock (StreamIO only).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>CDR will re-acquire coarse lock automatically based on 8b10b decoder errors and unaligned symbols.</TD></TR>
+   <TR><TD>1</TD><TD>IDLE_ONLY</TD><TD>CDR will re-acquire coarse lock only when idle (ignore decoder errors).</TD></TR>
+   <TR><TD>2</TD><TD>ALWAYS</TD><TD>CDR will be forced to continually lock (create constant stream of pseudo decoder errors to CDR).</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>42:40</TD> <TD>TX_BUF_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>The StreamIO TX buffer provides skid space for data transfers to prevent blocking between VCs.  The buffer is 2368 8-byte slices.  Systems with fewer VCs can allocate more buffer space for each VC and hence provide non-blocking for larger packet sizes.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>The buffer allocation will be determined automatically as VCs are trained.  This mode may be used as long as the connected component will enable all VCs prior to TileGX sending any traffic on the TX link.</TD></TR>
+   <TR><TD>1</TD><TD>TX_1_VC</TD><TD>All buffer space allocated to a single VC.  The default TX_BUF_THRESH size may be used and any MPS may be used.  This mode must only be used when TX VCs 1,2,3,4,5,6,7 are unused.</TD></TR>
+   <TR><TD>2</TD><TD>TX_2_VC</TD><TD>Buffer space is divided into 2 VCs.  TX_BUF_THRESH should be set to 984 for optimum performance.  Any MPS may be used.  This mode must only be used when TX VCs 2,3,4,5,6,7 are unused.</TD></TR>
+   <TR><TD>3</TD><TD>TX_4_VC</TD><TD>Buffer space is divided into 4 VCs.  TX_BUF_THRESH should be set to 392 for optimum performance.  Any MPS may be used.  This mode must only be used when TX VCs 4,5,6,7 are unused.</TD></TR>
+   <TR><TD>4</TD><TD>TX_8_VC</TD><TD>Buffer space is divided into 8 VCs.  To prevent blocking between VCs, TX_BUF_THRESH should be set to 100 and the max MPS would be 512 bytes.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>35:24</TD> <TD>TX_BUF_THRESH</TD> <TD>RW</TD> <TD>150</TD> <TD>Number of slices in the TX buffer at which the full signal will be sent back to the DMA engines.  This is generally set based on the skid space in the TRIO->PCIe retime FIFO plus arbitration time.  The amount of skid data can be up to 1536 bytes.  Setting this threshold too small will reduce performance while setting too large may cause blocking between VCs.  Each VC has 296 8-byte slices in the TX buffer in the 8-VC configuration.  Each packet header consumes 2 slices.  And reads consume 1 additional slice.  This field is ignored if TX_BUF_SIZE is set to AUTO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>RX_DAT_CRED</TD> <TD>RW</TD> <TD>43</TD> <TD>Number of data credits to provide to link partner.  Each credit corresponds to 128 bytes of data and 8 local buffer slots.  There are 381 local buffer slots to be divided between CMD and DAT credits.  Thus RX_CMD_CRED + 8*RX_DAT_CRED must not exceed 381.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>RX_CMD_CRED</TD> <TD>RW</TD> <TD>37</TD> <TD>Number of command credits to provide to link partner.  Each credit consumes one local buffer slot.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ERR_THRESH</TD> <TD>RW</TD> <TD>255</TD> <TD>Number of errors to tolerate before initiating retraining.   Error counter increments on 8b10b code error, disparity error, alignment error, or framing error.  The counter decrements every 64 cycles.  Setting to 255 will disable auto-retrain.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_STREAM_TX_CMD_CRED"></a>
+<br><br><h4>Stream TX Command Credit (TRIO_PCIE_INTFC_STREAM_TX_CMD_CRED: 0x0110)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Indicates command credits available for each VC
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_STREAM_TX_CMD_CRED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:56</TD> <TD>VC7</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC7.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:48</TD> <TD>VC6</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC6.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47:40</TD> <TD>VC5</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC5.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:32</TD> <TD>VC4</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>VC3</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC3.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>VC2</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>VC1</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>VC0</TD> <TD>RO</TD> <TD>0</TD> <TD>Command credits available for VC0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_STREAM_TX_DAT_CRED"></a>
+<br><br><h4>Stream TX Data Credit (TRIO_PCIE_INTFC_STREAM_TX_DAT_CRED: 0x0118)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Indicates data credits available for each VC
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_STREAM_TX_DAT_CRED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:56</TD> <TD>VC7</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC7.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:48</TD> <TD>VC6</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC6.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47:40</TD> <TD>VC5</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC5.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:32</TD> <TD>VC4</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>VC3</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC3.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>VC2</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>VC1</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>VC0</TD> <TD>RO</TD> <TD>0</TD> <TD>Data credits available for VC0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_CALIB_CTL"></a>
+<br><br><h4>Calibration Control (TRIO_PCIE_INTFC_CALIB_CTL: 0x0120)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Controls SERDES calibration.  Note that for x8 ports, the CALIB registers are not MUXed.  Thus the registers for the associated x4 port must be used.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_CALIB_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>CALIB_VLD</TD> <TD>RW</TD> <TD>0</TD> <TD>Calibration value for the SERDES is valid.  When this is 1, the CALIB_VAL will be used.  When this is zero, the PMA's FSM will generate the calibration value.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:0</TD> <TD>CALIB_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Calibration value to provide to PMA when CALIB_MODE is SW</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_CALIB_STS"></a>
+<br><br><h4>Calibration Status (TRIO_PCIE_INTFC_CALIB_STS: 0x0128)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides SERDES calibration status.  Note that for x8 ports, the CALIB registers are not MUXed.  Thus the registers for the associated x4 port must be used.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_CALIB_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>CALIB_VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Calibration value from SERDES.  This is only valid for the SERDES connected to the external calibration resistor.  And it is only valid if SERDES calibration was performed ((efuse/MMIO register value was not used).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_DIAG_CTL"></a>
+<br><br><h4>Diagnostics Control (TRIO_PCIE_INTFC_DIAG_CTL: 0x0130)</h4>
+Provides control over PCIe diagnostics functions.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_DIAG_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>DIAG_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Select diagnostics word to read on DIAG_STS</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>FAST_TRAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>Fast train mode (shortens various timers, reliable operation not guaranteed)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>DIAG_RSVD</TD> <TD>RW</TD> <TD>0</TD> <TD>Unused.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>LCRC_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>Force LCRC errors.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_INTFC_DIAG_STS"></a>
+<br><br><h4>Diagnostics Status (TRIO_PCIE_INTFC_DIAG_STS: 0x0138)</h4>
+Provides PCIe diagnostics information based on DIAG_SEL.
+<br><img src="trio_pcie_intfc_pics/TRIO_PCIE_INTFC_DIAG_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Diagnostics information corresponding to DIAG_CTL.DIAG_SEL</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

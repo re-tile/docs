@@ -1,0 +1,1400 @@
+<html>
+<title>serdes Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>SERDES (0x0000-0x00ae) : </b> 
+These registers are intended for diagnostics.  The SERDES control registers are accessed through the SERDES_CONFIG registers in mPIPE and TRIO configuration space.  Access is not generally required for normal operation of the PHY.  The initial values depend on the PHY configuration (XAUI vs. SGMII vs. PCIe vs. StreamIO etc.).<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#SERDES_CTRL_0">SERDES_CTRL_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0001<TD><a href="#SERDES_CLK_CNT_ERR_CTR">SERDES_CLK_CNT_ERR_CTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0002<TD><a href="#SERDES_ERR_CTR_THD">SERDES_ERR_CTR_THD</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0003<TD><a href="#SERDES_TX_RAT">SERDES_TX_RAT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0004<TD><a href="#SERDES_PLL_F_SET">SERDES_PLL_F_SET</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0005<TD><a href="#SERDES_PLL_SET">SERDES_PLL_SET</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0006<TD><a href="#SERDES_250_TMR_BASE_CNT">SERDES_250_TMR_BASE_CNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0007<TD><a href="#SERDES_RX_EQ_AMP_RAT">SERDES_RX_EQ_AMP_RAT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0008<TD><a href="#SERDES_RX_EQ_CUT_FREQ">SERDES_RX_EQ_CUT_FREQ</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0009<TD><a href="#SERDES_TX_AMP_RAT">SERDES_TX_AMP_RAT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>000a<TD><a href="#SERDES_TX_POST_CURS_RATIO">SERDES_TX_POST_CURS_RATIO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>000b<TD><a href="#SERDES_TX_PRE_CURS_RATIO">SERDES_TX_PRE_CURS_RATIO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>000c<TD><a href="#SERDES_END_CALIB_CTR">SERDES_END_CALIB_CTR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>000d<TD><a href="#SERDES_CALIB_STAB_CTR">SERDES_CALIB_STAB_CTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>000e<TD><a href="#SERDES_PWR_DN">SERDES_PWR_DN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>000f<TD><a href="#SERDES_RX_OFF_CTR">SERDES_RX_OFF_CTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#SERDES_PLL_F_SET_PCLK_RATIO">SERDES_PLL_F_SET_PCLK_RATIO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0011<TD><a href="#SERDES_PLL_M_N_SET">SERDES_PLL_M_N_SET</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0012<TD><a href="#SERDES_250NS_TMR_BASE_CNT">SERDES_250NS_TMR_BASE_CNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0014<TD><a href="#SERDES_TX_POST_CURS_RATIO_0">SERDES_TX_POST_CURS_RATIO_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0015<TD><a href="#SERDES_TX_PRE_CURS_RATIO_0">SERDES_TX_PRE_CURS_RATIO_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0016<TD><a href="#SERDES_TX_POST_CURS_RATIO_1">SERDES_TX_POST_CURS_RATIO_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0017<TD><a href="#SERDES_TX_PRE_CURS_RATIO_1">SERDES_TX_PRE_CURS_RATIO_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#SERDES_TX_AMP_RATIO_MARG0">SERDES_TX_AMP_RATIO_MARG0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0019<TD><a href="#SERDES_TX_AMP_RATIO_MARG1">SERDES_TX_AMP_RATIO_MARG1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>001a<TD><a href="#SERDES_TX_AMP_RATIO_MARG2">SERDES_TX_AMP_RATIO_MARG2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>001b<TD><a href="#SERDES_TX_AMP_RATIO_MARG3">SERDES_TX_AMP_RATIO_MARG3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>001c<TD><a href="#SERDES_TX_AMP_RATIO_MARG4">SERDES_TX_AMP_RATIO_MARG4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>001d<TD><a href="#SERDES_TX_AMP_RATIO_MARG5">SERDES_TX_AMP_RATIO_MARG5</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>001e<TD><a href="#SERDES_TX_AMP_RATIO_MARG6">SERDES_TX_AMP_RATIO_MARG6</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>001f<TD><a href="#SERDES_TX_AMP_RATIO_MARG7">SERDES_TX_AMP_RATIO_MARG7</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0020<TD><a href="#SERDES_RX_EQ_AMP_RATIO0">SERDES_RX_EQ_AMP_RATIO0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0021<TD><a href="#SERDES_RX_EQ_CUT_FREQ0">SERDES_RX_EQ_CUT_FREQ0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0022<TD><a href="#SERDES_RX_EQ_AMP_RATIO1">SERDES_RX_EQ_AMP_RATIO1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0023<TD><a href="#SERDES_RX_EQ_CUT_FREQ1">SERDES_RX_EQ_CUT_FREQ1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0024<TD><a href="#SERDES_TX_POST_CURSOR_RATIO0">SERDES_TX_POST_CURSOR_RATIO0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0025<TD><a href="#SERDES_TX_PRE_CURSOR_RATIO0">SERDES_TX_PRE_CURSOR_RATIO0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0026<TD><a href="#SERDES_TX_POST_CURSOR_RATIO1">SERDES_TX_POST_CURSOR_RATIO1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0027<TD><a href="#SERDES_TX_PRE_CURSOR_RATIO1">SERDES_TX_PRE_CURSOR_RATIO1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN0">SERDES_TX_AMP_RATIO_MARGIN0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0029<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN1">SERDES_TX_AMP_RATIO_MARGIN1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>002a<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN2">SERDES_TX_AMP_RATIO_MARGIN2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>002b<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN3">SERDES_TX_AMP_RATIO_MARGIN3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>002c<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN4">SERDES_TX_AMP_RATIO_MARGIN4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>002d<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN5">SERDES_TX_AMP_RATIO_MARGIN5</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>002e<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN6">SERDES_TX_AMP_RATIO_MARGIN6</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>002f<TD><a href="#SERDES_TX_AMP_RATIO_MARGIN7">SERDES_TX_AMP_RATIO_MARGIN7</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0030<TD><a href="#SERDES_PMA_STAT">SERDES_PMA_STAT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0031<TD><a href="#SERDES_TX_SWP_CENTER">SERDES_TX_SWP_CENTER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0032<TD><a href="#SERDES_RX_SWP_CENTER">SERDES_RX_SWP_CENTER</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0033<TD><a href="#SERDES_Rx_EQ_SWEEP_CENTER">SERDES_Rx_EQ_SWEEP_CENTER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0034<TD><a href="#SERDES_RX_SHFT_LDR_PARAM0">SERDES_RX_SHFT_LDR_PARAM0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0035<TD><a href="#SERDES_RX_SHFT_LDR_PARAM1">SERDES_RX_SHFT_LDR_PARAM1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0036<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM0_0">SERDES_TX_P_SHFT_LDR_PARAM0_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0037<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM0_1">SERDES_TX_P_SHFT_LDR_PARAM0_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM0_2">SERDES_TX_P_SHFT_LDR_PARAM0_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0039<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM0_0">SERDES_TX_A_SHFT_LDR_PARAM0_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>003a<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM0_1">SERDES_TX_A_SHFT_LDR_PARAM0_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>003b<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM0_2">SERDES_TX_A_SHFT_LDR_PARAM0_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>003c<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM0_0">SERDES_TX_T_SHFT_LDR_PARAM0_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>003d<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM0_1">SERDES_TX_T_SHFT_LDR_PARAM0_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>003e<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM0_2">SERDES_TX_T_SHFT_LDR_PARAM0_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>003f<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM1_0">SERDES_TX_P_SHFT_LDR_PARAM1_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0040<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM1_1">SERDES_TX_P_SHFT_LDR_PARAM1_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0041<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM1_2">SERDES_TX_P_SHFT_LDR_PARAM1_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0042<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM1_0">SERDES_TX_A_SHFT_LDR_PARAM1_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0043<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM1_1">SERDES_TX_A_SHFT_LDR_PARAM1_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0044<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM1_2">SERDES_TX_A_SHFT_LDR_PARAM1_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0045<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM1_0">SERDES_TX_T_SHFT_LDR_PARAM1_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0046<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM1_1">SERDES_TX_T_SHFT_LDR_PARAM1_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0047<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM1_2">SERDES_TX_T_SHFT_LDR_PARAM1_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0048<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM2_0">SERDES_TX_P_SHFT_LDR_PARAM2_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0049<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM2_1">SERDES_TX_P_SHFT_LDR_PARAM2_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>004a<TD><a href="#SERDES_TX_P_SHFT_LDR_PARAM2_2">SERDES_TX_P_SHFT_LDR_PARAM2_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>004b<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM2_0">SERDES_TX_A_SHFT_LDR_PARAM2_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>004c<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM2_1">SERDES_TX_A_SHFT_LDR_PARAM2_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>004d<TD><a href="#SERDES_TX_A_SHFT_LDR_PARAM2_2">SERDES_TX_A_SHFT_LDR_PARAM2_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>004e<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM2_0">SERDES_TX_T_SHFT_LDR_PARAM2_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>004f<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM2_1">SERDES_TX_T_SHFT_LDR_PARAM2_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0050<TD><a href="#SERDES_TX_T_SHFT_LDR_PARAM2_2">SERDES_TX_T_SHFT_LDR_PARAM2_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0051<TD><a href="#SERDES_OVR_CALIB_REG">SERDES_OVR_CALIB_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0052<TD><a href="#SERDES_FRC_RX_SFT_LDR_PARAM0">SERDES_FRC_RX_SFT_LDR_PARAM0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0053<TD><a href="#SERDES_FRC_RX_SFT_LDR_PARAM1">SERDES_FRC_RX_SFT_LDR_PARAM1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0054<TD><a href="#SERDES_FRC_RX_SFT_LDR_PARAM2">SERDES_FRC_RX_SFT_LDR_PARAM2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0055<TD><a href="#SERDES_FRC_TX_P_SFT_LDR_PARAM0">SERDES_FRC_TX_P_SFT_LDR_PARAM0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0056<TD><a href="#SERDES_FRC_TX_P_SFT_LDR_PARAM1">SERDES_FRC_TX_P_SFT_LDR_PARAM1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0057<TD><a href="#SERDES_FRC_TX_P_SFT_LDR_PARAM2">SERDES_FRC_TX_P_SFT_LDR_PARAM2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0058<TD><a href="#SERDES_FRC_TX_A_SFT_LDR_PARAM0">SERDES_FRC_TX_A_SFT_LDR_PARAM0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0059<TD><a href="#SERDES_FRC_TX_A_SFT_LDR_PARAM1">SERDES_FRC_TX_A_SFT_LDR_PARAM1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>005a<TD><a href="#SERDES_FRC_TX_A_SFT_LDR_PARAM2">SERDES_FRC_TX_A_SFT_LDR_PARAM2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>005b<TD><a href="#SERDES_FRC_TX_T_SFT_LDR_PARAM0_0">SERDES_FRC_TX_T_SFT_LDR_PARAM0_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>005c<TD><a href="#SERDES_FRC_TX_T_SFT_LDR_PARAM1">SERDES_FRC_TX_T_SFT_LDR_PARAM1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>005d<TD><a href="#SERDES_FRC_TX_T_SFT_LDR_PARAM2">SERDES_FRC_TX_T_SFT_LDR_PARAM2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>005e<TD><a href="#SERDES_RXD_OFFS_CALIB_RES">SERDES_RXD_OFFS_CALIB_RES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>005f<TD><a href="#SERDES_RXT_OFFS_CALIB_RES">SERDES_RXT_OFFS_CALIB_RES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0060<TD><a href="#SERDES_SCHM_TRG_CALIB_RES">SERDES_SCHM_TRG_CALIB_RES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0061<TD><a href="#SERDES_FRC_RXD_OFF_CALIB_SET">SERDES_FRC_RXD_OFF_CALIB_SET</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0062<TD><a href="#SERDES_FRC_RXT_OFF_CALIB_SET">SERDES_FRC_RXT_OFF_CALIB_SET</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0063<TD><a href="#SERDES_FORCE_SCHM_TRG_CALIB_SET">SERDES_FORCE_SCHM_TRG_CALIB_SET</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0064<TD><a href="#SERDES_PRBS_CTRL">SERDES_PRBS_CTRL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0065<TD><a href="#SERDES_PRBS_ERR_CTR">SERDES_PRBS_ERR_CTR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0066<TD><a href="#SERDES_PHY_RES_OVR">SERDES_PHY_RES_OVR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0067<TD><a href="#SERDES_PHY_PWR_OVR">SERDES_PHY_PWR_OVR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0068<TD><a href="#SERDES_CUST_PTRN_BYTE0">SERDES_CUST_PTRN_BYTE0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0069<TD><a href="#SERDES_CUST_PTRN_BYTE1">SERDES_CUST_PTRN_BYTE1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>006a<TD><a href="#SERDES_CUST_PTRN_BYTE2">SERDES_CUST_PTRN_BYTE2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>006b<TD><a href="#SERDES_CUST_PTRN_BYTE3">SERDES_CUST_PTRN_BYTE3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>006c<TD><a href="#SERDES_CUST_PTRN_BYTE4">SERDES_CUST_PTRN_BYTE4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>006d<TD><a href="#SERDES_CUST_PTRN_BYTE5">SERDES_CUST_PTRN_BYTE5</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>006e<TD><a href="#SERDES_CUST_PTRN_BYTE6">SERDES_CUST_PTRN_BYTE6</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>006f<TD><a href="#SERDES_CUST_PTRN_BYTE7">SERDES_CUST_PTRN_BYTE7</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0070<TD><a href="#SERDES_CUST_PTRN_BYTE8">SERDES_CUST_PTRN_BYTE8</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0071<TD><a href="#SERDES_CUST_PTRN_BYTE9">SERDES_CUST_PTRN_BYTE9</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0072<TD><a href="#SERDES_CUST_PTRN_CTRL">SERDES_CUST_PTRN_CTRL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0073<TD><a href="#SERDES_CUST_PTRN_STATUS">SERDES_CUST_PTRN_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0074<TD><a href="#SERDES_PCS_LPBK_CTRL">SERDES_PCS_LPBK_CTRL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0075<TD><a href="#SERDES_GEN1_TX_PLL_CURR_PUMP">SERDES_GEN1_TX_PLL_CURR_PUMP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0076<TD><a href="#SERDES_GEN1_RX_PLL_CURR_PUMP">SERDES_GEN1_RX_PLL_CURR_PUMP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0077<TD><a href="#SERDES_GEN2_TX_PLL_CURR_PUMP">SERDES_GEN2_TX_PLL_CURR_PUMP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0078<TD><a href="#SERDES_GEN2_RX_PLL_CURR_PUMP">SERDES_GEN2_RX_PLL_CURR_PUMP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0079<TD><a href="#SERDES_CDR_PLL_MAN_CTRL">SERDES_CDR_PLL_MAN_CTRL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0080<TD><a href="#SERDES_UPD_SET_CMD">SERDES_UPD_SET_CMD</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a0<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR1">SERDES_PRBS_1ST_ERR_CYC_CTR1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a1<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR2">SERDES_PRBS_1ST_ERR_CYC_CTR2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a2<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR3">SERDES_PRBS_1ST_ERR_CYC_CTR3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a3<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR4">SERDES_PRBS_1ST_ERR_CYC_CTR4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a4<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR5">SERDES_PRBS_1ST_ERR_CYC_CTR5</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a5<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR6">SERDES_PRBS_1ST_ERR_CYC_CTR6</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a5<TD><a href="#SERDES_PRBS_1ST_ERR_CYC_CTR7">SERDES_PRBS_1ST_ERR_CYC_CTR7</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a8<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR1">SERDES_PRBS_LAST_ERR_CYC_CTR1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a9<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR2">SERDES_PRBS_LAST_ERR_CYC_CTR2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00aa<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR3">SERDES_PRBS_LAST_ERR_CYC_CTR3</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00ab<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR4">SERDES_PRBS_LAST_ERR_CYC_CTR4</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00ac<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR5">SERDES_PRBS_LAST_ERR_CYC_CTR5</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00ad<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR6">SERDES_PRBS_LAST_ERR_CYC_CTR6</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00ae<TD><a href="#SERDES_PRBS_LAST_ERR_CYC_CTR7">SERDES_PRBS_LAST_ERR_CYC_CTR7</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="SERDES_CTRL_0"></a>
+<br><br><h4>Control register 0 (SERDES_CTRL_0: 0x0000)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_CTRL_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>AUTO_SHFT</TD> <TD>RW</TD> <TD>HW <TD>Auto Shift. Defines whether Electrical Idle 1 pattern is automatically shifted in SERDES macro after loading the drive pattern. When set to 1, Electrical Idle I or Drive mode can be entered within a single aTxClkp clock cycle. When set to 0, 23 clock cycles are required to dynamically switch between Electrical Idle I and Drive mode. In general, this bit is always set to 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>FORCE_RX_DET</TD> <TD>RW</TD> <TD>HW <TD>Force Receive Detect. Force the result of PCIe receiver detect operation to be always detected. This register can be used on un-reliable result of Rx detect operation. When set to 1, the result of PCIe receiver detect operation is always positive and thus make the PHY non-compliant to PCIe specification. By default, this bit must be set to 0 and is don't care for other protocols.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>CDR_REF</TD> <TD>RW</TD> <TD>HW <TD>CDR reference: these 2 bits are used to define the CDR reference PLL mode. By default, these 2 bits must be set to 00b when aRefClk is used for CDR reference clock.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PMA_DRV_MD</TD> <TD>RW</TD> <TD>HW <TD>PMA Driven Mode. This bit put the CDR PLL in PMA driven mode. Note that PCS driven is always implemented in the PMA control logic and can be used for any protocol. When set to 0, the PCS driven mode is selected for locking the SERDES CDR circuitry and when set to 1, the PMA driven mode is used.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>CDR_PLL_DELTA</TD> <TD>RW</TD> <TD>HW <TD>CDR PLL Delta. This register defines the frequency comparator threshold value to switch from fine grain locking to frequency lock and thus control the aRxFDIp0 input signal of the PMA macro when CDR is configured in PMA driven mode and the equivalent function when the PMA is configured in PCS driven mode. When set to 0, Rx clock and Tx clock must be in 0.4% difference range, 0.8% when set to 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SIG_DET_THD</TD> <TD>RW</TD> <TD>HW <TD>Signal Detect Threshold. This register defines the Schmitt trigger signal detection threshold used to detect Electrical Idle on Rx and thus control the aSigDetSetting input signal of the PMA macro. When set to 0, threshold is 125 mV (+-40%), and when set to 1, threshold is 180 mV (+-33%).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>TX_SEL_FB</TD> <TD>RW</TD> <TD>HW <TD>Tx Select Rx Feedback. This register directly drives the aTxSelRxfb input of the SERDES.<br>
+This register must be set to 0 when aRefclk is used for Tx PLL and to 1 when CDR PLL is used as Tx PLL reference clock.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CLK_CNT_ERR_CTR"></a>
+<br><br><h4>Clock count for error counter decrement (SERDES_CLK_CNT_ERR_CTR: 0x0001)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_CLK_CNT_ERR_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ERRCNT_DEC</TD> <TD>RW</TD> <TD>HW <TD>In PCS driven mode, the PMA control logic count the number of error detected by the PCS logic in order to decide to switch back to frequency lock mode of CDR PLL. This counter is used to decrement the error counter every 16*errcnt_dec[7:0] aTxClk clock cycles.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_ERR_CTR_THD"></a>
+<br><br><h4>Error counter threshold - Rx idle detect max latency (SERDES_ERR_CTR_THD: 0x0002)</h4>
+Note: This register can be reprogrammed any time during operation.
+<br><img src="serdes_pics/SERDES_ERR_CTR_THD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>RXIDLE_MAX</TD> <TD>RW</TD> <TD>HW <TD>rxidle_max: this register defines the number of clock cycles required before the aTranDet output of the PMA macro and report either electrical idle or valid input data. This register must be set at least to 3 as the aTranDet signal is considered as metastable by the PCS logic.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ERRCNT_THR</TD> <TD>RW</TD> <TD>HW <TD>errcnt_thr[3:0]: In PCS driven mode, the PMA control logic count the number of error detected by the PCS logic in order to decide to switch back to frequency lock mode of CDR PLL. This register defines the error counter threshold value after which the CDRPLL switch back to frequency lock.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_RAT"></a>
+<br><br><h4>Tx Impedance ratio (SERDES_TX_RAT: 0x0003)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_TX_RAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>IMPED_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register is used to finally tune the impedance ratio of the PMA macro with a nominal value of 100 ohm corresponding to multiplication factor of 1 which is encoded 8'd128. A 150 ohm impedance correspond to 2/3 ratio encoded 8'd85.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PLL_F_SET"></a>
+<br><br><h4>PLL F settings and PCLK ratio (SERDES_PLL_F_SET: 0x0004)</h4>
+Note: This register must only be reprogrammed when PHY is under reset or when both Rx PLL and Tx PLL are under reset.
+<br><img src="serdes_pics/SERDES_PLL_F_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>DIV_MODE0</TD> <TD>RW</TD> <TD>HW <TD>div_mode0. This register defines the ratio between PCLK and aTxClk. PCLK is used by the PCIe PCS logic as well as by the majority of the PMA control logic and thus is also useful for other protocol in order to reduce the amount of logic requiring high aTxClk frequency. In non-PCIe mode, this register is only useful if pipe_pclkout is used by any logic. A value of 00b is used for divide-by-1, 10b for divide by-2 and 11b for divide-by-4.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>F</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxF[3:0] and aTxF[3:0] settings of the PMA macro. The same F value is applied to both Rx and Tx PLL.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PLL_SET"></a>
+<br><br><h4>PLL Settings (SERDES_PLL_SET: 0x0005)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PLL_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>CNT250NS_MAX</TD> <TD>RW</TD> <TD>HW <TD>This bit is concatenated to register reg06 as MSB bit to define the 250 ns base time.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>M</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxM[1:0] and aTxM[1:0] settings of the PMA macro. For PCIe, it corresponds to the gen1 settings. The same M value is applied to both Rx and Tx PLL.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>N</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxN[4:0] and aTxN[4:0] settings of the PMA macro. For PCIe, it corresponds to the gen1 settings. The same N value is applied to both Rx and Tx PLL.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_250_TMR_BASE_CNT"></a>
+<br><br><h4>250 ns Timer Base Count (SERDES_250_TMR_BASE_CNT: 0x0006)</h4>
+Note: This register must only be reprogrammed when PHY is under reset for proper operation. It impacts the PCS-driven CDR PLL mode as well as calibration and thus has no effect after calibration is completed (PMA is ready) or if the PHY CDR PLL is used in PMA-driven mode.
+<br><img src="serdes_pics/SERDES_250_TMR_BASE_CNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CNT250NS_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the base count of a 250 ns event based on aTxClk clock. This counter is used by the CDR PLL in PCS driven mode and also by the PMA control logic for operation such as receiver detect, Electrical Idle 2 and 3 states, In case of non-integer value, the base count should be rounded up. Note that this register must be set correctly for all protocols. This register aims to generate an internal timing event every 250 ns or more internally of the PMA control logic which is used during calibration, CDR lock to reference clock or data, receiver detect operation.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_AMP_RAT"></a>
+<br><br><h4>Rx Equalization amplitude ratio (SERDES_RX_EQ_AMP_RAT: 0x0007)</h4>
+Note: This register can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES receiver are updated (at the end of calibration or when reg128 is programmed).
+<br><img src="serdes_pics/SERDES_RX_EQ_AMP_RAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_AMP_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization<br>
+amplitude ratio where the maximum value is 8'd128 corresponding to 100%. If Rx equalization is not used, this register can be set to zero.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_CUT_FREQ"></a>
+<br><br><h4>Rx Equalization Cut frequency (SERDES_RX_EQ_CUT_FREQ: 0x0008)</h4>
+Note: This register can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES receiver are updated (at the end of calibration or when reg128 is programmed).
+<br><img src="serdes_pics/SERDES_RX_EQ_CUT_FREQ.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_CUT_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization cut frequency ratio, used in computation of Rn[3:0] and Rd[3:0] equalization settings of the PMA macro. The encoding of this register is such that (Rn+Rd)=(re_cut_ratio)/256*w_setting (w_setting being the result of Rx equalization calibration).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RAT"></a>
+<br><br><h4>Tx Amplitude ratio (SERDES_TX_AMP_RAT: 0x0009)</h4>
+Note: This register can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES transmitter are updated (at the end of calibration, on entry or exit of Tx Electrical Idle I or when reg128 is programmed).
+<br><img src="serdes_pics/SERDES_TX_AMP_RAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden. Note that for PCIe, this register is used for Gen1 speed only.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_POST_CURS_RATIO"></a>
+<br><br><h4>Tx Post-Cursor Ratio (SERDES_TX_POST_CURS_RATIO: 0x000a)</h4>
+Note: This register can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES transmitter are updated (at the end of calibration, on entry or exit of Tx Electrical Idle I or when reg128 is programmed).
+<br><img src="serdes_pics/SERDES_TX_POST_CURS_RATIO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PST_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx post-cursor ratio for gen1 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. A -3.5 dB correspond to 8'd21 encoding.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_PRE_CURS_RATIO"></a>
+<br><br><h4>Tx Pre-Cursor ratio (SERDES_TX_PRE_CURS_RATIO: 0x000b)</h4>
+Note: This register can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES transmitter are updated (at the end of calibration, on entry or exit of Tx Electrical Idle I or when reg128 is programmed).
+<br><img src="serdes_pics/SERDES_TX_PRE_CURS_RATIO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PRE_RATIO</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx pre-cursor ratio for gen1 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_END_CALIB_CTR"></a>
+<br><br><h4>End of calibration counter (SERDES_END_CALIB_CTR: 0x000c)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_END_CALIB_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ENDCALIB_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the amount of times in microseconds required by the PMA to settle its electrical level after loading Electrical Idle 1 in Tx driver at the end of calibration. Note that all operation are automatically performed by the PMA control logic but that the SERDES transmitter can start driving data on the link immediately after end of calibration. By default, except if forbidden by protocol, 10 us delay between end of calibration and mission mode is set (but any value might be just fine as well).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CALIB_STAB_CTR"></a>
+<br><br><h4>Calibration Stability Counter (SERDES_CALIB_STAB_CTR: 0x000d)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_CALIB_STAB_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>CALIB_SETTLE_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the number of clock cycles where the aZCompOp signal is checked for stability during Tx, Rx and Rx Equalization calibration. The number N represented inside represent (2*N) PCLK cycles.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>CALIB_STABLE_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the number of clock cycles where the aZCompOp signal is checked for stability during Tx, Rx and Rx Equalization calibration. The number N represented inside represent (2*N) PCLK cycles.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PWR_DN"></a>
+<br><br><h4>Power down feature (SERDES_PWR_DN: 0x000e)</h4>
+This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready), except for bit 2 which can only be modified under reset condition.<br>
+condition.
+<br><img src="serdes_pics/SERDES_PWR_DN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:6</TD> <TD>RXIDLE_MSB</TD> <TD>RW</TD> <TD>HW <TD>These bits are used as the MSB bits of the activity detector logic, enabling to specify that no activity has been detected during up to 61 aTxClkp clock cycles. These bits are the 2 MSB bits whereas the rxidle_max[3:0] field of reg02 represent the LSB part.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>FORCE_SIGNAL</TD> <TD>RW</TD> <TD>HW <TD>Force_Signal. When this bit is set, the PHY disable the Idle detection circuitry and forces Signal detection on the receiver. This bit is generally always set to disable (0b) unless the activity detector logic must be bypassed where in that case, the PMA control logic will always report activity detected on the link (when set to 1b). This bit can be used for instance if the activity detector of the SERDES PMA hard macro does not work for the selected protocol (as outside range of functionality).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>FORCE_IDLE</TD> <TD>RW</TD> <TD>HW <TD>Force_Idle. When this bit is set, the PHY disable the Idle detection circuitry and forces Electrical Idle detection on the receive side. By default, this bit is generally cleared and might be set only for very specific condition or testing such as generating a fake loss of signal to the PCS or MAC layer, forcing a retraining of word aligner or any training state machine, As long as this bit is set, the activity detector logic of the PMA control logic reports that no signal is detected on receive side. If CDRPLL PCS driven mode is selected, the CDRPLL will be directed in lock to reference clock state leading to potential wrong data received by the SERDES (as CDRPLL is not lock to incoming data).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>NO_FCMP</TD> <TD>RW</TD> <TD>HW <TD>NO_FCMP. When set, this bit disables the frequency comparator logic of the PCS-driven CDR PLL control logic. Whens et, the frequency comparator logic is not anymore part of the condition for going from fine-grain lock state to frequency acquisition.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>PMFF_ALL</TD> <TD>RW</TD> <TD>HW <TD>PMFF_ALL. When set, this bit disables the function which waits for every active lanes to have valid data to transmit to generate a global read enable. This bit is intended to be used in case of any issue in this function. When set, each lane might start transmitting data with one 500 MHz clock uncertainty (corresponding to 5 or 10 bit time depending on the speed of the link). Even if violating the protocol requirement, the PCIe standard is strong enough to support this non-compliance.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>CDR_ERR</TD> <TD>RW</TD> <TD>HW <TD>CDR_ERR: When set, this register disable the error counter internally of the CDR PLL state machine which switch back the CDR PLL to frequency mode acquisition when the number of error counted is higher than the predefined error threshold. This bit is intended for disabling this function in case of any issue with the PHY.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CDR_P1</TD> <TD>RW</TD> <TD>HW <TD>CDR_P1. This register defines the state of the CDR PLL when the PHY is in P1 low-power mode. When set to zero, the CDR PLL is put in reset and low-power, enabling to save maximum power. When the opposite component send TS1 ordered set to drive the link in recovery, only pipe_rxelecidle signal get de-asserted at PIPE interface and the PHY waits for the controller to change the pipe_powerdown[1:0] signal back to P0, before retraining the CDR PLL (~6 us) and sending received data to the controller. When set to one, the CDR PLL is kept alive in frequency lock mode in P1 state which enable a faster recovery time from P1 state but which also consumes more power (all Rx logic is kept alive and consumes power in P1 state). Note that this register must not be set for application which remove reference clock in P1 mode (generally associated to CLKREQ# signal, Expresscard application and more generally power sensitive application).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_OFF_CTR"></a>
+<br><br><h4>Rx Offset Counter (SERDES_RX_OFF_CTR: 0x000f)</h4>
+Note: This register can be reprogrammed when the PHY is under reset or when calibration has completed (PMA is ready).
+<br><img src="serdes_pics/SERDES_RX_OFF_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>RXOFF_SETTLE_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the number of clock cycles before which the aRxDNullDat signal can be checked for stability after aRxDNull[3:0] modification. This is used also for aRxD, aRxT and Schmitt trigger calibration. The value of this register express a number of (2*N+1) PCLK clock cycles</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>RXOFF_STABLE_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the number of clock cycles where the aRxDNullDat signal is checked for stability.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PLL_F_SET_PCLK_RATIO"></a>
+<br><br><h4>PLL F settings and PCLK ratio (in PCIe 5 Gbps speed) (SERDES_PLL_F_SET_PCLK_RATIO: 0x0010)</h4>
+Note: This register must only be reprogrammed when PHY is under reset or when both Rx<br>
+PLL and Tx PLL are under reset.
+<br><img src="serdes_pics/SERDES_PLL_F_SET_PCLK_RATIO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>DIV_MODE1</TD> <TD>RW</TD> <TD>HW <TD>This register defines the ratio between PCLK and aTxClk. PCLK is used by the PCIe PCS logic as well as by the majority of the PMA control logic and thus is also useful for other protocol in order to reduce the amount of logic requiring high aTxClk frequency.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>F</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxF[3:0] and aTxF[3:0] settings of the PMA macro.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PLL_M_N_SET"></a>
+<br><br><h4>PLL M and N Settings (in PCIe 5 Gbps Speed) (SERDES_PLL_M_N_SET: 0x0011)</h4>
+Note: This register must only be reprogrammed when PHY is under reset or when both Rx PLL and Tx PLL are under reset.
+<br><img src="serdes_pics/SERDES_PLL_M_N_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>CNT250NS_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the base count of a 250 ns event based on aTxClk clock.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>M</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxM[1:0] and aTxM[1:0] settings of the PMA macro.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>N</TD> <TD>RW</TD> <TD>HW <TD>This register defines the aRxN[4:0] and aTxN[4:0] settings of the PMA macro.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_250NS_TMR_BASE_CNT"></a>
+<br><br><h4>250 ns Timer Base Count (in PCIe 5 Gbps speed) (SERDES_250NS_TMR_BASE_CNT: 0x0012)</h4>
+Note: This register must only be reprogrammed when PHY is under reset for proper operation. It impacts the PCS-driven CDR PLL mode as well as calibration and thus has no effect after calibration is completed (PMA is ready) or if the PHY CDR PLL is used in PMA driven mode.
+<br><img src="serdes_pics/SERDES_250NS_TMR_BASE_CNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CNT250NS_MAX</TD> <TD>RW</TD> <TD>HW <TD>This register defines the base count of a 250 ns event based on aTxClk clock. This<br>
+counter is used by the CDR PLL in PCS driven mode.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_POST_CURS_RATIO_0"></a>
+<br><br><h4>Tx Post-Cursor ratio with TxDeemp=0, Full swing (SERDES_TX_POST_CURS_RATIO_0: 0x0014)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_POST_CURS_RATIO_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PST_RATIO_DEEMP</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx post-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. A -3.5 dB correspond to 8'd21 encoding.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_PRE_CURS_RATIO_0"></a>
+<br><br><h4>Tx Pre-Cursor Ratio TxDeemp=0, full swing (SERDES_TX_PRE_CURS_RATIO_0: 0x0015)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_PRE_CURS_RATIO_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PRE_RATIO_DEEMP0_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx pre-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_POST_CURS_RATIO_1"></a>
+<br><br><h4>Tx Post-Cursor Ratio with TxDeemp=1, Full swing (SERDES_TX_POST_CURS_RATIO_1: 0x0016)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_POST_CURS_RATIO_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PST_RATIO_DEEMP1_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx post-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. A -3.5 dB correspond to 8'd21 encoding.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_PRE_CURS_RATIO_1"></a>
+<br><br><h4>Tx Pre-Cursor Ratio TxDeemp=1, full swing (SERDES_TX_PRE_CURS_RATIO_1: 0x0017)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_PRE_CURS_RATIO_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PRE_RATIO_DEEMP2_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx pre-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG0"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=0, Full Swing (SERDES_TX_AMP_RATIO_MARG0: 0x0018)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN0_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG1"></a>
+<br><br><h4>Tx Amplitude ratio TxMargin=1, full swing (SERDES_TX_AMP_RATIO_MARG1: 0x0019)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN1_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG2"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=2, Full Swing (SERDES_TX_AMP_RATIO_MARG2: 0x001a)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN2_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG3"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=3, Full Swing (SERDES_TX_AMP_RATIO_MARG3: 0x001b)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN3_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG4"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=4, Full Swing (SERDES_TX_AMP_RATIO_MARG4: 0x001c)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN4_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG5"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=5, Full Swing (SERDES_TX_AMP_RATIO_MARG5: 0x001d)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN5_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG6"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=6, Full Swing (SERDES_TX_AMP_RATIO_MARG6: 0x001e)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN6_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARG7"></a>
+<br><br><h4>Tx Amplitude ratio TxMargin=7, full swing (SERDES_TX_AMP_RATIO_MARG7: 0x001f)</h4>
+Note: All next registers can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES transmitter are updated (when reg128 is programmed or when any PIPE TxSwing, TxDeemp or TxMargin signals is modified).
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARG7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN7_FULL</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_AMP_RATIO0"></a>
+<br><br><h4>Rx Equalization Amplitude Ratio TxDeemp=0 (SERDES_RX_EQ_AMP_RATIO0: 0x0020)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_EQ_AMP_RATIO0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_AMP_RATIO_DEEMP0</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization amplitude ratio where the maximum value is 8'd128 corresponding to 100%. If Rx equalization is not used, this register can be set to zero.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_CUT_FREQ0"></a>
+<br><br><h4>Rx Equalization Cut Frequency TxDeemp=0 (SERDES_RX_EQ_CUT_FREQ0: 0x0021)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_EQ_CUT_FREQ0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_CUT_RATIO_DEEMP0</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization cut frequency ratio, used in computation of Rn[3:0] and Rd[3:0] equalization settings of the PMA macro. The encoding of this register is such that (Rn+Rd)=(re_cut_ratio)/256*w_setting (w_setting being the result of Rx equalization calibration).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_AMP_RATIO1"></a>
+<br><br><h4>Rx Equalization Amplitude Ratio TxDeemp=1 (SERDES_RX_EQ_AMP_RATIO1: 0x0022)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_EQ_AMP_RATIO1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_AMP_RATIO_DEEMP1</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization amplitude ratio where the maximum value is 8'd128 corresponding to 100%. If Rx equalization is not used, this register can be set to zero.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_EQ_CUT_FREQ1"></a>
+<br><br><h4>Rx Equalization Cut Frequency TxDeemp=1 (SERDES_RX_EQ_CUT_FREQ1: 0x0023)</h4>
+Note: All the following registers are used only for PCI-Express Gen2 protocol which use half swing transmission. Note: All next registers can be reprogrammed during normal operation but effect will only appear when the parameter for the SERDES transmitter are updated (on entry or exit of Tx Electrical Idle I or when reg128 is programmed or when any PIPE TxSwing, TxDeemp or TxMargin signals is modified).
+<br><img src="serdes_pics/SERDES_RX_EQ_CUT_FREQ1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>RE_CUT_RATIO_DEEMP1</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Rx Equalization cut frequency ratio, used in computation of Rn[3:0] and Rd[3:0] equalization settings of the PMA macro. The encoding of this register is such that (Rn+Rd)=(re_cut_ratio)/256*w_setting (w_setting being the result of Rx equalization calibration).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_POST_CURSOR_RATIO0"></a>
+<br><br><h4>Tx Post-Cursor Ratio with TxDeemp=0, Half Swing (SERDES_TX_POST_CURSOR_RATIO0: 0x0024)</h4>
+
+<br><img src="serdes_pics/SERDES_TX_POST_CURSOR_RATIO0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PST_RATIO_DEEMP0_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx post-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. A -3.5 dB correspond to 8'd21 encoding.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_PRE_CURSOR_RATIO0"></a>
+<br><br><h4>Tx Pre-Cursor Ratio TxDeemp=0, Half Swing (SERDES_TX_PRE_CURSOR_RATIO0: 0x0025)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_PRE_CURSOR_RATIO0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PRE_RATIO_DEEMP0_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx pre-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_POST_CURSOR_RATIO1"></a>
+<br><br><h4>Tx Post-Cursor Ratio with TxDeemp=1, Half Swing (SERDES_TX_POST_CURSOR_RATIO1: 0x0026)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_POST_CURSOR_RATIO1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PST_RATIO_DEEMP1_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx post-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. A -3.5 dB correspond to 8'd21 encoding.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_PRE_CURSOR_RATIO1"></a>
+<br><br><h4>Tx Pre-Cursor Ratio TxDeemp=1, Half Swing (SERDES_TX_PRE_CURSOR_RATIO1: 0x0027)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_PRE_CURSOR_RATIO1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_PRE_RATIO_DEEMP1_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register defines the Tx pre-cursor ratio for gen2 speed used for selecting the de-emphasis of the switching bit versus non-switching bit. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN0"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=0, Half Swing (SERDES_TX_AMP_RATIO_MARGIN0: 0x0028)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN0_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN1"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=1, Half Swing (SERDES_TX_AMP_RATIO_MARGIN1: 0x0029)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN1_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN2"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=2, Half Swing (SERDES_TX_AMP_RATIO_MARGIN2: 0x002a)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN2_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN3"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=3, Half Swing (SERDES_TX_AMP_RATIO_MARGIN3: 0x002b)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN3_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN4"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=4, Half swing (SERDES_TX_AMP_RATIO_MARGIN4: 0x002c)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN4_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN5"></a>
+<br><br><h4>Tx Amplitude ratio TxMargin=5, Half swing (SERDES_TX_AMP_RATIO_MARGIN5: 0x002d)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN5_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN6"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=6, Half Swing (SERDES_TX_AMP_RATIO_MARGIN6: 0x002e)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN6_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_AMP_RATIO_MARGIN7"></a>
+<br><br><h4>Tx Amplitude Ratio TxMargin=7, Half Swing (SERDES_TX_AMP_RATIO_MARGIN7: 0x002f)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_AMP_RATIO_MARGIN7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_AMP_RATIO_MARGIN7_HALF</TD> <TD>RW</TD> <TD>HW <TD>This register implements the Tx amplitude ratio used by the Tx driver. A value of 128 corresponds to 100% (full voltage) whereas a value of 0 corresponds to 0%. Value higher than 128 are forbidden.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PMA_STAT"></a>
+<br><br><h4>PMA Status (SERDES_PMA_STAT: 0x0030)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PMA_STAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>PMA_RDY</TD> <TD>RO</TD> <TD>HW <TD>Defines whether PMA has completed its internal calibration sequence after power-up and PHY reset deassertion.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ASCH_ERR</TD> <TD>RO</TD> <TD>HW <TD>Defines whether Schmitt Offset calibration has reached a min(bit0) /max (bit1) value. In case of any min/max value detected, the calibration logic will apply the min/max value but the offset can be higher and side effect can be observed on the link.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:2</TD> <TD>ARXD_ERR</TD> <TD>RO</TD> <TD>HW <TD>Defines whether Rx Offset D calibration has reached a min(bit0) /max (bit1) value. In case of any min/max value detected, the calibration logic will apply the min/max value but the offset can be higher and side effect can be observed on the link.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1:0</TD> <TD>ARXT_ERR</TD> <TD>RO</TD> <TD>HW <TD>Defines whether Rx Offset T calibration has reached a min(bit0) /max (bit1) value. In case of any min/max value detected, the calibration logic will apply the min/max value but the offset can be higher and side effect can be observed on the link.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_SWP_CENTER"></a>
+<br><br><h4>Tx Sweep Center (SERDES_TX_SWP_CENTER: 0x0031)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_SWP_CENTER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TX_VAL</TD> <TD>RO</TD> <TD>HW <TD>Defines if PMA has completed the Tx impedance calibration signaling that tx_sweep_center[6:0] value is valid.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>TX_SWEEP_CENTER</TD> <TD>RO</TD> <TD>HW <TD>Reports the result of Tx impedance calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_SWP_CENTER"></a>
+<br><br><h4>Rx Sweep Center (SERDES_RX_SWP_CENTER: 0x0032)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_SWP_CENTER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>RX_VAL</TD> <TD>RO</TD> <TD>HW <TD>Defines ifPMA has completed the Rx impedance calibration signaling that rx_sweep_center[6:0] value is valid.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>RX_SWEEP_CENTER</TD> <TD>RO</TD> <TD>HW <TD>Reports the result of Rx impedance calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_Rx_EQ_SWEEP_CENTER"></a>
+<br><br><h4>Rx Equalization Sweep Center (SERDES_Rx_EQ_SWEEP_CENTER: 0x0033)</h4>
+ 
+<br><img src="serdes_pics/SERDES_Rx_EQ_SWEEP_CENTER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>RE_VAL</TD> <TD>RO</TD> <TD>HW <TD>Defines whether PMA has completed the Rx equalization calibration signaling that re_sweep_center[6:0] value is valid.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>RE_SWEEP_CENTER</TD> <TD>RO</TD> <TD>HW <TD>Reports the result of Rx equalization calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_SHFT_LDR_PARAM0"></a>
+<br><br><h4>Receiver Shift Loader Parameter 0 (SERDES_RX_SHFT_LDR_PARAM0: 0x0034)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_SHFT_LDR_PARAM0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDDR</TD> <TD>RO</TD> <TD>HW <TD>atxdrr[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RX_SHFT_LDR_PARAM1"></a>
+<br><br><h4>Receiver Shift Loader Parameter 1 (SERDES_RX_SHFT_LDR_PARAM1: 0x0035)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RX_SHFT_LDR_PARAM1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>ATXDRR</TD> <TD>RO</TD> <TD>HW <TD>atxdrr[14:8]. atxdrr[14:0]. Defines the Rx Impedance and Rx equalization computed value send to the PMA after computation.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM0_0"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 0-0 (SERDES_TX_P_SHFT_LDR_PARAM0_0: 0x0036)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM0_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_dyn[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM0_1"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 0-1 (SERDES_TX_P_SHFT_LDR_PARAM0_1: 0x0037)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM0_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_DYN</TD> <TD>RW</TD> <TD>HW <TD>atxdrp_dyn[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM0_2"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 0-2 (SERDES_TX_P_SHFT_LDR_PARAM0_2: 0x0038)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM0_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRP_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_dyn[20:16] defines the Transmitted P parameter sent to the PHY for driving differential data on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM0_0"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 0-0 (SERDES_TX_A_SHFT_LDR_PARAM0_0: 0x0039)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM0_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdra_dyn[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM0_1"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 0-1 (SERDES_TX_A_SHFT_LDR_PARAM0_1: 0x003a)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM0_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdra_dyn[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM0_2"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 0-2 (SERDES_TX_A_SHFT_LDR_PARAM0_2: 0x003b)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM0_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRA_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdra_dyn[20:16] defines the Transmitted A parameter sent to the PHY for driving differential data on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM0_0"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 0-0 (SERDES_TX_T_SHFT_LDR_PARAM0_0: 0x003c)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM0_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRT_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_dyn[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM0_1"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 0-1 (SERDES_TX_T_SHFT_LDR_PARAM0_1: 0x003d)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM0_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRT_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_dyn[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM0_2"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 0-2 (SERDES_TX_T_SHFT_LDR_PARAM0_2: 0x003e)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM0_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRT_DYN</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_dyn[20:16] defines the Transmitted T parameter sent to the PHY for driving differential data on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM1_0"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 1-0 (SERDES_TX_P_SHFT_LDR_PARAM1_0: 0x003f)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM1_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei1[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM1_1"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 1-1 (SERDES_TX_P_SHFT_LDR_PARAM1_1: 0x0040)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM1_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei1[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM1_2"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 1-2 (SERDES_TX_P_SHFT_LDR_PARAM1_2: 0x0041)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM1_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRP_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei1[20:16] defines the Transmitted P parameter sent to the PHY for being in Electrical Idle I on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM1_0"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 1-0 (SERDES_TX_A_SHFT_LDR_PARAM1_0: 0x0042)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM1_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei1[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM1_1"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 1-1 (SERDES_TX_A_SHFT_LDR_PARAM1_1: 0x0043)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM1_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei1[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM1_2"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 1-2 (SERDES_TX_A_SHFT_LDR_PARAM1_2: 0x0044)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM1_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRA_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei1[20:0]: defines the Transmitted A parameter sent to the PHY for being in Electrical Idle I on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM1_0"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 1-0 (SERDES_TX_T_SHFT_LDR_PARAM1_0: 0x0045)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM1_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRT_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei1[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM1_1"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 1-1 (SERDES_TX_T_SHFT_LDR_PARAM1_1: 0x0046)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM1_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRT_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei1[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM1_2"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 1-2 (SERDES_TX_T_SHFT_LDR_PARAM1_2: 0x0047)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM1_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRT_EI1</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei1[20:0]: defines the Transmitted T parameter sent to the PHY for being in Electrical Idle I on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM2_0"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 2-0 (SERDES_TX_P_SHFT_LDR_PARAM2_0: 0x0048)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM2_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei2[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM2_1"></a>
+<br><br><h4>Transmitter P Shift Loader Parameter 2-1 (SERDES_TX_P_SHFT_LDR_PARAM2_1: 0x0049)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM2_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRP_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei2[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_P_SHFT_LDR_PARAM2_2"></a>
+<br><br><h4>Transmitter P Shift Loader parameter 2-2 (SERDES_TX_P_SHFT_LDR_PARAM2_2: 0x004a)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_P_SHFT_LDR_PARAM2_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRP_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrp_ei2[20:0] defines the Transmitted P parameter sent to the PHY for being in Electrical Idle II on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM2_0"></a>
+<br><br><h4>Transmitter A Shift Loader parameter 2-0 (SERDES_TX_A_SHFT_LDR_PARAM2_0: 0x004b)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM2_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei2[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM2_1"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 2-1 (SERDES_TX_A_SHFT_LDR_PARAM2_1: 0x004c)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM2_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRA_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei2[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_A_SHFT_LDR_PARAM2_2"></a>
+<br><br><h4>Transmitter A Shift Loader Parameter 2-2 (SERDES_TX_A_SHFT_LDR_PARAM2_2: 0x004d)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_A_SHFT_LDR_PARAM2_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRA_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdra_ei2[20:0]. Defines the Transmitted A parameter sent to the PHY for being in Electrical Idle II on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM2_0"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 2-0 (SERDES_TX_T_SHFT_LDR_PARAM2_0: 0x004e)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM2_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXDRT_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei2[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM2_1"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 2-1 (SERDES_TX_T_SHFT_LDR_PARAM2_1: 0x004f)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM2_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>ATXTRT_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei2[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_TX_T_SHFT_LDR_PARAM2_2"></a>
+<br><br><h4>Transmitter T Shift Loader Parameter 2-2 (SERDES_TX_T_SHFT_LDR_PARAM2_2: 0x0050)</h4>
+ 
+<br><img src="serdes_pics/SERDES_TX_T_SHFT_LDR_PARAM2_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>ATXDRT_EI2</TD> <TD>RO</TD> <TD>HW <TD>atxdrt_ei2[20:0]: defines the Transmitted T parameter sent to the PHY for being in Electrical Idle II on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_OVR_CALIB_REG"></a>
+<br><br><h4>Override Calibration Register (SERDES_OVR_CALIB_REG: 0x0051)</h4>
+Note: This register can be programmed any time but has functional impact on the SERDES<br>
+behavior as it forces the SERDES to different calibration settings than those computed by<br>
+calibration function.
+<br><img src="serdes_pics/SERDES_OVR_CALIB_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>OVER_SCH</TD> <TD>RW</TD> <TD>HW <TD>over_sch. Override the Schmitt trigger calibration result with the content of reg99<br>
+register content.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>OVER_RXT</TD> <TD>RW</TD> <TD>HW <TD>over_rxt. Override the RxT calibration result with the content of reg98 register content.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>OVER_RXD</TD> <TD>RW</TD> <TD>HW <TD>over_rxd. Override the RxD calibration result with the content of reg97 register content.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>OVER_RX</TD> <TD>RW</TD> <TD>HW <TD>over_rx. Override Rx driver settings for specifying Rx settings. When set, the PMA control logic will use the content of register {reg84,reg83,reg82} for the Rx parameters loaded into the SERDES.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>OVER_TX</TD> <TD>RW</TD> <TD>HW <TD>over_tx. Override Tx driver settings for driving data on the differential line. When set to 1b, the PMA control logic will use the content of register (reg85 -> reg93) for the Tx parameters loaded into the SERDES.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_RX_SFT_LDR_PARAM0"></a>
+<br><br><h4>Force Receiver Shift Loader Parameter 0 (SERDES_FRC_RX_SFT_LDR_PARAM0: 0x0052)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_RX_SFT_LDR_PARAM0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDDR</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrr[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_RX_SFT_LDR_PARAM1"></a>
+<br><br><h4>Force Receiver Shift Loader Parameter 1 (SERDES_FRC_RX_SFT_LDR_PARAM1: 0x0053)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 1 is not set.
+<br><img src="serdes_pics/SERDES_FRC_RX_SFT_LDR_PARAM1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDDR</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrr [15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_RX_SFT_LDR_PARAM2"></a>
+<br><br><h4>Force Receiver Shift Loader Parameter 2 (SERDES_FRC_RX_SFT_LDR_PARAM2: 0x0054)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_RX_SFT_LDR_PARAM2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>FORCE_ATXDDR</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrr[20:0]. Defines the Rx Impedance and Rx equalization fields used when the override Rx settings register is set. </TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_P_SFT_LDR_PARAM0"></a>
+<br><br><h4>Force Transmitter P Shift Loader Parameter 0 (SERDES_FRC_TX_P_SFT_LDR_PARAM0: 0x0055)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_P_SFT_LDR_PARAM0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRP</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrp[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_P_SFT_LDR_PARAM1"></a>
+<br><br><h4>Force Transmitter P Shift Loader Parameter 1 (SERDES_FRC_TX_P_SFT_LDR_PARAM1: 0x0056)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_P_SFT_LDR_PARAM1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRP</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrp[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_P_SFT_LDR_PARAM2"></a>
+<br><br><h4>Force Transmitter P Shift Loader Parameter 2 (SERDES_FRC_TX_P_SFT_LDR_PARAM2: 0x0057)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_P_SFT_LDR_PARAM2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>FORCE_ATXDRP</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrp[20:0]. Defines the Transmitted P parameter sent to the PHY for driving<br>
+differential data on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_A_SFT_LDR_PARAM0"></a>
+<br><br><h4>Force Transmitter A Shift Loader Parameter 0 (SERDES_FRC_TX_A_SFT_LDR_PARAM0: 0x0058)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_A_SFT_LDR_PARAM0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRA</TD> <TD>RW</TD> <TD>HW <TD>force_atxdra[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_A_SFT_LDR_PARAM1"></a>
+<br><br><h4>Force Transmitter A Shift Loader Parameter 1 (SERDES_FRC_TX_A_SFT_LDR_PARAM1: 0x0059)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_A_SFT_LDR_PARAM1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRA</TD> <TD>RW</TD> <TD>HW <TD>force_atxdra[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_A_SFT_LDR_PARAM2"></a>
+<br><br><h4>Force Transmitter A Shift Loader Parameter 2 (SERDES_FRC_TX_A_SFT_LDR_PARAM2: 0x005a)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 0 is not set.
+<br><img src="serdes_pics/SERDES_FRC_TX_A_SFT_LDR_PARAM2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>FORCE_ATXDRA</TD> <TD>RW</TD> <TD>HW <TD>force_atxdra[20:0]. Defines the Transmitted A parameter sent to the PHY for driving differential data on the transmit driver.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_T_SFT_LDR_PARAM0_0"></a>
+<br><br><h4>Force Transmitter T Shift Loader Parameter 0-0 (SERDES_FRC_TX_T_SFT_LDR_PARAM0_0: 0x005b)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_T_SFT_LDR_PARAM0_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRT</TD> <TD>RO</TD> <TD>HW <TD>force_atxdrt[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_T_SFT_LDR_PARAM1"></a>
+<br><br><h4>Force Transmitter T Shift Loader Parameter 1 (SERDES_FRC_TX_T_SFT_LDR_PARAM1: 0x005c)</h4>
+ 
+<br><img src="serdes_pics/SERDES_FRC_TX_T_SFT_LDR_PARAM1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FORCE_ATXDRT</TD> <TD>RW</TD> <TD>HW <TD>force_atxdrt[15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_TX_T_SFT_LDR_PARAM2"></a>
+<br><br><h4>Force Transmitter T Shift Loader Parameter 2 (SERDES_FRC_TX_T_SFT_LDR_PARAM2: 0x005d)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 0 is not set.
+<br><img src="serdes_pics/SERDES_FRC_TX_T_SFT_LDR_PARAM2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ARXDDIR</TD> <TD>RW</TD> <TD>HW <TD>arxddir. Report the sign of voltage applied to aRxD settings for RX offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ARXDNULL</TD> <TD>RW</TD> <TD>HW <TD>arxdnul[3:0]. report the voltage applied to aRxD settings for RX offset calibration</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RXD_OFFS_CALIB_RES"></a>
+<br><br><h4>RxD offset calibration Result (SERDES_RXD_OFFS_CALIB_RES: 0x005e)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RXD_OFFS_CALIB_RES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ARXDDIR</TD> <TD>RO</TD> <TD>HW <TD>arxddir. Report the sign of voltage applied to aRxD settings for RX offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ARXDNULL</TD> <TD>RO</TD> <TD>HW <TD>arxdnul[3:0]. Report the voltage applied to aRxD settings for RX offset calibration</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_RXT_OFFS_CALIB_RES"></a>
+<br><br><h4>RxT offset calibration Result (SERDES_RXT_OFFS_CALIB_RES: 0x005f)</h4>
+ 
+<br><img src="serdes_pics/SERDES_RXT_OFFS_CALIB_RES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ARXTDIR</TD> <TD>RO</TD> <TD>HW <TD>arxtdir. Report the sign of voltage applied to aRxD settings for RX offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ARXTNULL</TD> <TD>RO</TD> <TD>HW <TD>arxtnul[3:0].Report the voltage applied to aRxD settings for RX offset calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_SCHM_TRG_CALIB_RES"></a>
+<br><br><h4>Schmitt Trigger Calibration Result (SERDES_SCHM_TRG_CALIB_RES: 0x0060)</h4>
+ 
+<br><img src="serdes_pics/SERDES_SCHM_TRG_CALIB_RES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ASCHDIR</TD> <TD>RO</TD> <TD>HW <TD>aschdir. Report the sign of voltage applied for Schmitt trigger offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ASCHNULL</TD> <TD>RO</TD> <TD>HW <TD>aschnul[3:0]. Report the voltage applied for Schmitt trigger offset calibration</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_RXD_OFF_CALIB_SET"></a>
+<br><br><h4>Force RxD Offset Calibration Settings (SERDES_FRC_RXD_OFF_CALIB_SET: 0x0061)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 2 is not set. When reg81 bit 2 is set, the RxD offset calibration obtained during calibration is replaced by the content of the register.
+<br><img src="serdes_pics/SERDES_FRC_RXD_OFF_CALIB_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>F_ARXDDIR</TD> <TD>RW</TD> <TD>HW <TD>f_arxddir. Force the voltage to apply to aRxD settings for RX offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>F_ARXDNULL</TD> <TD>RW</TD> <TD>HW <TD>f_arxdnul[3:0]. Force the voltage to apply to aRxD settings for RX offset calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FRC_RXT_OFF_CALIB_SET"></a>
+<br><br><h4>Force RxT Offset Calibration Settings (SERDES_FRC_RXT_OFF_CALIB_SET: 0x0062)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 3 is not set.
+<br><img src="serdes_pics/SERDES_FRC_RXT_OFF_CALIB_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>F_ARXTDIR</TD> <TD>RW</TD> <TD>HW <TD>f_arxtdir. Force the voltage to apply to aRxD settings for RX offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>F_ARXTNULL</TD> <TD>RW</TD> <TD>HW <TD>f_arxtnul[3:0]:. Force the voltage to apply to aRxD settings for RX offset.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_FORCE_SCHM_TRG_CALIB_SET"></a>
+<br><br><h4>Force Schmitt Trigger Calibration Settings (SERDES_FORCE_SCHM_TRG_CALIB_SET: 0x0063)</h4>
+Note: This register can be programmed any time and has no functional impact on the SERDES behavior as long as reg81 bit 4 is not set.
+<br><img src="serdes_pics/SERDES_FORCE_SCHM_TRG_CALIB_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>F_ASCHDIR</TD> <TD>RW</TD> <TD>HW <TD>f_aschdir. Force the voltage to apply for Schmitt trigger offset calibration.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>F_ASCHNULL</TD> <TD>RW</TD> <TD>HW <TD>f_aschnul[3:0]. Force the voltage to apply for Schmitt trigger offset calibration.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_CTRL"></a>
+<br><br><h4>PRBS Control Register (SERDES_PRBS_CTRL: 0x0064)</h4>
+Note: All the following registers reg100 to reg127 are used for test purposes. Note: This register can be programmed any time but has functional impact on the functionality as it can configured the SERDES in loopback or generate the PRBS pattern.
+<br><img src="serdes_pics/SERDES_PRBS_CTRL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>PRBS_CHK</TD> <TD>RW</TD> <TD>HW <TD>prbs_chk. When set, this signal starts the PRBS pattern checker. It can be set in same time as the PRBS generator as the PRBS checker logci wait for 256 clock cycles and CDR being in lock state to enable the PRBS pattern comparison (allowing a total latency of 256 cycles to loop back the transmitted data).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ACJTAG_REG</TD> <TD>RW</TD> <TD>HW <TD>acjtag_reg[1:0]. This 2-bit register contains the ACJTAG register of the PHY which is loaded when the update of the PMA settings is required (through reg128 transient write operation or any other load request such as initial loading).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:2</TD> <TD>PRBS_TYP</TD> <TD>RW</TD> <TD>HW <TD>prbs_typ[1:0]. This defines the type of PRBS pattern which is applied.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>PRBS7</TD><TD>PRBS-7 pattern.</TD></TR>
+   <TR><TD>1</TD><TD>PRBS11</TD><TD>PRBS-11 pattern.</TD></TR>
+   <TR><TD>2</TD><TD>PRBS23</TD><TD>PRBS-23 pattern.</TD></TR>
+   <TR><TD>3</TD><TD>PRBS31</TD><TD>PRBS-31 pattern.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>LPBK_EN</TD> <TD>RW</TD> <TD>HW <TD>lpbk_en. when set, the PMA is put in Near-End Loopback (serial loopback from Tx back to Rx). PRBS tests can be done using the near-end loopback of the PMA, some load board or any far-end loopback implemented in opposite component. When near-end loopback bit is set, the idle detector always report valid data enabling the PCS driven CDR PLL locking logic to lock on input data.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>PRBS_GEN</TD> <TD>RW</TD> <TD>HW <TD>prbs_gen.When set, this signal starts the PRBS pattern transmission.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_ERR_CTR"></a>
+<br><br><h4>PRBS Error Counter Register (SERDES_PRBS_ERR_CTR: 0x0065)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_ERR_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CNT</TD> <TD>RO</TD> <TD>HW <TD>prbs_errcnt[7:0]. This test reports the number of PRBS error detected when the PRBS test is applied. This register is automatically cleared when the PRBS_CTRL.PRBS_CHK register gets cleared thus the value must be read while the test is running. The PRBS error counter saturates at 254 errors, the 255 count value corresponds to an error code where the CDR PLL is not locked to incoming data. If this condition occurs, the PRBS test must either wait longer for the CDR to synchronize on the input data before enabling PRBS checker or time out reporting that no data has been received. Note that the PRBS error counter logic also counts error when the PRBS invariant (all zeros) is received.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PHY_RES_OVR"></a>
+<br><br><h4>PHY Reset Override Register (SERDES_PHY_RES_OVR: 0x0066)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PHY_RES_OVR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>RXHF_CLKDN</TD> <TD>RW</TD> <TD>HW <TD>rxhf_clkdn.When set, this signal disables the Rx PLL VCO settings by applying a static zero to PMA aRxHfClkDnb signal.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>TXHF_CLKDN</TD> <TD>RW</TD> <TD>HW <TD>txhf_clkdn. When set, this signal disables the Tx PLL VCO by applying a static zero to PMA aTxHfClkDnb signal.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>RXPLLRST</TD> <TD>RW</TD> <TD>HW <TD>rxpll_rst.When set, this signal reset the Rx PLL settings by applying a static zero to PMA aCdrPllRstb signal.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>TXPLLRST</TD> <TD>RW</TD> <TD>HW <TD>txpll_rst.When set, this signal initializes the Tx PLL settings by applying a static zero to PMA aTxPllRstb signal.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>RXPLL_INIT</TD> <TD>RW</TD> <TD>HW <TD>rxpll_init. When set, this signal initializes the Rx PLL settings by applying a static one to PMA aRxPllDivInit signal.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>TXPLL_INIT</TD> <TD>RW</TD> <TD>HW <TD>txpll_init.When set, this signal initializes the Tx PLL settings by applying a static one to PMA aTxPllDivInit signal.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>RX_HIZ</TD> <TD>RW</TD> <TD>HW <TD>rx_hiz. When set, this signal forces the Rx driver to hiZ applying a static one to PMA aForceRxHiZ signal.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>TX_HIZ</TD> <TD>RW</TD> <TD>HW <TD>tx_hiz.When set, this signal forces the Tx driver to hiZ applying a static one to PMA aForceTxHiZ signal.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PHY_PWR_OVR"></a>
+<br><br><h4>PHY Power Override Register (SERDES_PHY_PWR_OVR: 0x0067)</h4>
+Note: This register can be programmed any time but has functional impact on the SERDES as it can power down the receiver part of the SERDES, bypassing the functional mode.
+<br><img src="serdes_pics/SERDES_PHY_PWR_OVR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RX_PWRDN</TD> <TD>RW</TD> <TD>HW <TD>rx_pwrdn. When set, force the Rx PMA logic to be in power-down mode.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE0"></a>
+<br><br><h4>Custom Pattern Byte 0 (SERDES_CUST_PTRN_BYTE0: 0x0068)</h4>
+ 
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE1"></a>
+<br><br><h4>Custom Pattern Byte 1 (SERDES_CUST_PTRN_BYTE1: 0x0069)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE2"></a>
+<br><br><h4>Custom Pattern Byte 2 (SERDES_CUST_PTRN_BYTE2: 0x006a)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [23:16]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE3"></a>
+<br><br><h4>Custom Pattern Byte 3 (SERDES_CUST_PTRN_BYTE3: 0x006b)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [31:24]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function)..</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE4"></a>
+<br><br><h4>Custom Pattern Byte 4 (SERDES_CUST_PTRN_BYTE4: 0x006c)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [39:32]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE5"></a>
+<br><br><h4>Custom Pattern Byte 5 (SERDES_CUST_PTRN_BYTE5: 0x006d)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [47:40]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE6"></a>
+<br><br><h4>Custom Pattern Byte 6 (SERDES_CUST_PTRN_BYTE6: 0x006e)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [55:48]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE7"></a>
+<br><br><h4>Custom Pattern Byte 7 (SERDES_CUST_PTRN_BYTE7: 0x006f)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [63:56]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE8"></a>
+<br><br><h4>Custom Pattern Byte 8 (SERDES_CUST_PTRN_BYTE8: 0x0070)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE8.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [71:64]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_BYTE9"></a>
+<br><br><h4>Custom Pattern Byte 9 (SERDES_CUST_PTRN_BYTE9: 0x0071)</h4>
+Note: This register can be programmed any time but has no functional impact as long as the custom pattern generation is not enabled and selected.
+<br><img src="serdes_pics/SERDES_CUST_PTRN_BYTE9.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CUSTOM_PATTERN</TD> <TD>RW</TD> <TD>HW <TD>custom_pattern [79:72]. This set of registers enables users to program a custom pattern instead of the implemented PRBS generator/checker. The PRBS mode must still be selected to transmit this custom pattern on the transmit line but this mode enable to generate any repeated sequence of data. It can be used for instance for single lane PCIe compliance pattern generation (for purpose of eye diagram compliance check) or can even be looped back to the receiver to check if any error is detected on the line (in that later case the PMA hard macro function is used to perform word alignment function).</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_CTRL"></a>
+<br><br><h4>Custom Pattern Control (SERDES_CUST_PTRN_CTRL: 0x0072)</h4>
+Note: This register can be programmed any time but has functional impact on the SERDES as it can directly activate some part of the SERDES (i.e., aRxSkipBit), changing the current bitstream reception (thus creating alignment errors).
+<br><img src="serdes_pics/SERDES_CUST_PTRN_CTRL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>CUST_AUTO</TD> <TD>RW</TD> <TD>HW <TD>cust_auto. In this mode, the word alignment is performed automatically by a state machine which will check whether the received pattern is word-aligned with the transmitted pattern and use automatically the PMA CDR PLL skip bit function to find the alignment. Once the word alignment detected, the custom pattern checker is now word aligned and the custom pattern checker can be enabled for detecting and counting any error over time.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>CUST_SKIP</TD> <TD>RW</TD> <TD>HW <TD>cust_skip. This register is used in Rx word alignment manual mode. The custom pattern requires word alignment in order to be checked by the receiver (as opposed to a PRBS pattern which do not requires this word alignment function). In manual mode, user need to read the cust_sync register in order to check whether the word is aligned and if not manually requires for one bit skip to the CDR PLL by writing one then zero in this register (and repeat this sequence until the receiver is aligned).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>CUST_CHK</TD> <TD>RW</TD> <TD>HW <TD>cust_chk. Enable error counter. When clear, also reset the error counter. Thus error counter need to be checked before clearing this register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:1</TD> <TD>CUST_TYP</TD> <TD>RW</TD> <TD>HW <TD>cust_typ[2:0]. This signal defines whether the custom pattern generated on the link is generated by the custom pattern register or by one of the hard-coded pattern:<br>
+o 000b: custom pattern register o 100b: all-zero pattern (000000)<br>
+o 101b: all-one pattern (111111)<br>
+o 110b: alternated pattern (101010)<br>
+o 111b: dual alternated pattern (11001100)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CUST_SEL</TD> <TD>RW</TD> <TD>HW <TD>cust_sel. When set, this signal replaces the PRBS data transmitted on the link by the custom pattern. Note that the prbs_sel register also need to be set for transmitting the custom pattern on the link.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CUST_PTRN_STATUS"></a>
+<br><br><h4>Custom Pattern Status Register (SERDES_CUST_PTRN_STATUS: 0x0073)</h4>
+ 
+<br><img src="serdes_pics/SERDES_CUST_PTRN_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>CUST_STATE</TD> <TD>RO</TD> <TD>HW <TD>cust_state. This register reports the current state of the custom pattern word alignment state machine. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>CUST_SYNC</TD> <TD>RO</TD> <TD>HW <TD>cust_sync.Reports that the custom pattern is word aligned.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>CUST_ERR</TD> <TD>RO</TD> <TD>HW <TD>cust_error[3:0].When custom pattern checker is enabled, this status register reports the number of error detected by the logic when the custom word aligner is in sync (it only starts counting after a first matching pattern has been detected. The word alignment status can be checked through (cust_state==3'b101) or cust_sync register asserted.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PCS_LPBK_CTRL"></a>
+<br><br><h4>PCS Loopback Control (SERDES_PCS_LPBK_CTRL: 0x0074)</h4>
+The mesochronous loopback register can be used in conjunction with the recovered clock used as transmit clock (controlled by reg00 bit 0) in order to create a transparent loopback mode. Note: This register can be programmed any time but has functional impact on the SERDES as it configures the SERDES in loopback mode.
+<br><img src="serdes_pics/SERDES_PCS_LPBK_CTRL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>MESO_SYNC</TD> <TD>RW</TD> <TD>HW <TD>meso_sync. This register is read-only and reports whether mesochronous clock alignment state machine has completed its process having thus aligned CDR receive clock to Transmit clock.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>MESO_LPBK</TD> <TD>RW</TD> <TD>HW <TD>meso_lpbk. When set, this register enables the mesochronous loopback mode which forces PMA received data to be re-transmitted on the PMA Tx interface. This mode requires that no PPM exists between Rx data and Tx data (thus that both side of the link uses the same reference clock) and also performs alignment of CDR clock to transmit clock using the PMA CDR PLL Skip<br>
+bit functionality. This alignment is automatically performed by a state machine when this loopback register is set.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>PAR_LPBK</TD> <TD>RW</TD> <TD>HW <TD>par_lpbk. When set, this register enables the parallel loopback mode which forces the transmitted PIPE 10-bit encoded data to be looped back to the receiver PIPE Rx interface.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>PLESIO_LPBK</TD> <TD>RW</TD> <TD>HW <TD>plesio_lpbk. When set, this register enables the plesiochronous loopback mode which forces the PCS to loopback data from Rx back to Tx after the PCIe elastic buffer function. It is equivalent to PCIe slave loopback except that it is forced by a register instead of controlled by the PCIe MAC layer.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_GEN1_TX_PLL_CURR_PUMP"></a>
+<br><br><h4>Gen1 Transmit PLL Current Charge Pump (SERDES_GEN1_TX_PLL_CURR_PUMP: 0x0075)</h4>
+Note: This register can be programmed when the PHY is under reset. Note: reg117, reg118, reg119 and reg120 controls the PMA PLL current charge pump function.
+<br><img src="serdes_pics/SERDES_GEN1_TX_PLL_CURR_PUMP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>ATXICP_RATE</TD> <TD>RW</TD> <TD>HW <TD>atxicp_rate0[2:0]. This register defines the Tx PLL charge pump current when the PMA is running in PCIe Gen1 speed or in any other protocol. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_GEN1_RX_PLL_CURR_PUMP"></a>
+<br><br><h4>Gen1 Receive PLL Current Charge Pump (SERDES_GEN1_RX_PLL_CURR_PUMP: 0x0076)</h4>
+ 
+<br><img src="serdes_pics/SERDES_GEN1_RX_PLL_CURR_PUMP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:4</TD> <TD>ARXDRICP_RATGE0</TD> <TD>RW</TD> <TD>HW <TD>arxcdricp_rate0[2:0]. This register defines the Rx PLL charge pump current when the PMA is CDR locked and running in PCIe Gen1 speed or in any other protocol. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>ARXICP_RATE0</TD> <TD>RW</TD> <TD>HW <TD>arxicp_rate0[2:0]. This register defines the Rx PLL charge pump current when the PMA is frequency locked and running in PCIe Gen1 speed or in any other protocol. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_GEN2_TX_PLL_CURR_PUMP"></a>
+<br><br><h4>Gen2 Transmit PLL Current Charge Pump (SERDES_GEN2_TX_PLL_CURR_PUMP: 0x0077)</h4>
+Note: This register can be programmed when the PHY is under reset.
+<br><img src="serdes_pics/SERDES_GEN2_TX_PLL_CURR_PUMP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>ATXICP_RATE1</TD> <TD>RW</TD> <TD>HW <TD>atxicp_rate1[2:0]. This register defines the Tx PLL charge pump current when the PMA is running in PCIe Gen2 speed. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_GEN2_RX_PLL_CURR_PUMP"></a>
+<br><br><h4>Gen2 Receive PLL Current Charge Pump (SERDES_GEN2_RX_PLL_CURR_PUMP: 0x0078)</h4>
+Note: This register can be programmed when the PHY is under reset.
+<br><img src="serdes_pics/SERDES_GEN2_RX_PLL_CURR_PUMP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:4</TD> <TD>ARXCDRICP_RATE1</TD> <TD>RW</TD> <TD>HW <TD>arxcdricp_rate1[2:0]. This register defines the Rx PLL charge pump current when the PMA is CDR locked and running in PCIe Gen2 speed. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>ARXICP_RATE1</TD> <TD>RW</TD> <TD>HW <TD>arxicp_rate1[2:0]. This register defines the Rx PLL charge pump current when the PMA is frequency locked and running in PCIe Gen2 speed. This register is R/W in order to enable customer to change the default value by register programming which is expected to be performed before reset deassertion.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_CDR_PLL_MAN_CTRL"></a>
+<br><br><h4>CDR PLL Manual Control (SERDES_CDR_PLL_MAN_CTRL: 0x0079)</h4>
+ 
+<br><img src="serdes_pics/SERDES_CDR_PLL_MAN_CTRL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>FINE_GRAIN</TD> <TD>RW</TD> <TD>HW <TD>fine_grain. When set, this register enables the force the CDR PLL state machine when used in PCS-driven mode (see reg00 bit 3 set to 0b) in fine grain state. In this state, the CDR PLL locks on receive data making aRxDo[] and aRxClkp valid on the PMA interface.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>COURSE_GRAIN</TD> <TD>RW</TD> <TD>HW <TD>coarse_grain. When set, this register enables the force the CDR PLL state machine when used in PCS-driven mode (see reg00 bit 3 set to 0b) in coarse grain state. In this state, the CDR PLL performs a coarse grain lock on receive data enabling to adjust its clock up to 5000 PPM.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>FREQ_LOCK</TD> <TD>RW</TD> <TD>HW <TD>freq_lock. When set, this register enables the force the CDR PLL state machine when used in PCS-driven mode (see reg00 bit 3 set to 0b) in frequency lock state. In this state, the CDR PLL does not lock on receive data but on reference clock.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_UPD_SET_CMD"></a>
+<br><br><h4>Update Settings Command Register (WO) (SERDES_UPD_SET_CMD: 0x0080)</h4>
+Note: This register will trigger a re-computation of PMA calibration parameters. Note: This register can be programmed any time, except during calibration, and trigger the Rx/Tx shift load logic to load new programmed settings into the SERDES. Thus, it must be written only after a coherent set of register programming has been programmed.
+<br><img src="serdes_pics/SERDES_UPD_SET_CMD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>UPDATE_SETTINGS</TD> <TD>RW</TD> <TD>HW <TD>This register is a transient register (read always report 0) where writing a 1 in bit 0 will trigger a new computation of PMA settings based on value written in register space registers. Note that for PCI-Express, it is recommended to use this command register when the link is not transitioning to low power state or changing rate.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR1"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR1: 0x00a0)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first[7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR2"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR2: 0x00a1)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR3"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR3: 0x00a2)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [23:16]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR4"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR4: 0x00a3)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [31:24]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR5"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR5: 0x00a4)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [39:32]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR6"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register register (SERDES_PRBS_1ST_ERR_CYC_CTR6: 0x00a5)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [47:40]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_1ST_ERR_CYC_CTR7"></a>
+<br><br><h4>PRBS First Error Cycle Counter Register (SERDES_PRBS_1ST_ERR_CYC_CTR7: 0x00a5)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_1ST_ERR_CYC_CTR7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>PRBS_ERR_CYC_FIRST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_first [49:48] prbs_err_cyc_first[7:0]. This read-only register reports on which clock cycle the error counter has first been incremented after the PRBS error counter gets enabled. It is a 50 bits counter enabling to perform some kind of Bit Error Rate Testing (BERT) in the chip.</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR1"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR1: 0x00a8)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [7:0]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR2"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR2: 0x00a9)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [15:8]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR3"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR3: 0x00aa)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [23:16]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR4"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR4: 0x00ab)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [31:24]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR5"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR5: 0x00ac)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [39:32]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR6"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR6: 0x00ad)</h4>
+ 
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [47:40]</TD> </TR>
+</TABLE><br><br>
+<a name="SERDES_PRBS_LAST_ERR_CYC_CTR7"></a>
+<br><br><h4>PRBS Last Error Cycle Counter Register (SERDES_PRBS_LAST_ERR_CYC_CTR7: 0x00ae)</h4>
+Note: The first error and last error cycle counter information complementing the total number of error detected might give information about burst of error or distributed error but might also need to do some statistics by rerunning the test several times with different test period.
+<br><img src="serdes_pics/SERDES_PRBS_LAST_ERR_CYC_CTR7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>PRBS_ERR_CYC_LAST</TD> <TD>RO</TD> <TD>HW <TD>prbs_err_cyc_last [49:48]. prbs_err_cyc_last[7:0]. This read-only register reports on which clock cycle the error counter has last been incremented after the PRBS error counter gets enabled. It is a 50 bits counter enabling to perform some kind of Bit Error Rate Testing (BERT) in the chip.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

@@ -1,0 +1,247 @@
+<html>
+<title>mica_crypto_ctx_sys Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>MICA_SYS (0x0000-0x0408) : </b> 
+These registers define the MiCA SYSTEM_CONTEXT interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TH><font color="#FFFFCC"> Protection
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#MICA_CRYPTO_CTX_SYS_CONTROL">MICA_CRYPTO_CTX_SYS_CONTROL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#MICA_CRYPTO_CTX_SYS_STATUS">MICA_CRYPTO_CTX_SYS_STATUS</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#MICA_CRYPTO_CTX_SYS_INT_MASK">MICA_CRYPTO_CTX_SYS_INT_MASK</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#MICA_CRYPTO_CTX_SYS_INT_MASK_SET">MICA_CRYPTO_CTX_SYS_INT_MASK_SET</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#MICA_CRYPTO_CTX_SYS_INT_MASK_RESET">MICA_CRYPTO_CTX_SYS_INT_MASK_RESET</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#MICA_CRYPTO_CTX_SYS_PROBE_VA">MICA_CRYPTO_CTX_SYS_PROBE_VA</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#MICA_CRYPTO_CTX_SYS_PROBE_STATUS">MICA_CRYPTO_CTX_SYS_PROBE_STATUS</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#MICA_CRYPTO_CTX_SYS_MISS_VA">MICA_CRYPTO_CTX_SYS_MISS_VA</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0040<TD><a href="#MICA_CRYPTO_CTX_SYS_COMP_INT">MICA_CRYPTO_CTX_SYS_COMP_INT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0048<TD><a href="#MICA_CRYPTO_CTX_SYS_TLB_MISS_INT">MICA_CRYPTO_CTX_SYS_TLB_MISS_INT</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0400-04ff<TD><a href="#MICA_CRYPTO_CTX_SYS_TLB_TABLE">MICA_CRYPTO_CTX_SYS_TLB_TABLE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0400-04f7<TD><a href="#MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ADDR">MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ADDR</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0408-04ff<TD><a href="#MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ATTR">MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ATTR</a> <TD>2</TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="MICA_CRYPTO_CTX_SYS_CONTROL"></a>
+<br><br><h4>Control (MICA_CRYPTO_CTX_SYS_CONTROL: 0x0000)</h4>
+This Context System register contains fields which control the operation.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>PAUSE</TD> <TD>RW</TD> <TD>0</TD> <TD>Allows SW to pause a Context, by writing a 1 to this bit.  If it's already assigned to a processing Engine it will stay assigned and complete the operation (e.g. it will not relinquish use of the engine, as it will with Reset bit) and will be cleared by HW when the operation completes.  If it's not yet assigned it will not be assigned.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RESET</TD> <TD>RW</TD> <TD>0</TD> <TD>Stop the operation.  If the Context is already assigned to a processing Engine, proceed to a stopping point (e.g. all memory operations in flight are complete) and terminate it.  If it has not yet been assigned to a processing Engine, do not assign it to one.  After writing this bit to 1, SW can read the Status register State field to determine when the operation is fully terminated.  This bit is cleared by HW when the operation completes.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_STATUS"></a>
+<br><br><h4>Status (MICA_CRYPTO_CTX_SYS_STATUS: 0x0008)</h4>
+This Context System register contains the status of the Context.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21:16</TD> <TD>ASSIGNED_ENGINE</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates which Engine is assigned to this Context.  Only valid if STATE is RUN or RESET_WAIT.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The state that the Context is in.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>IDLE</TD><TD>No operation in progress.  Context User Registers may be written to setup a new operation.</TD></TR>
+   <TR><TD>1</TD><TD>RUN_WAIT</TD><TD>Context User Registers have been written, operation is waiting to be assigned to an engine.</TD></TR>
+   <TR><TD>2</TD><TD>RUN</TD><TD>Operation has been assigned to an engine and is running.  This is the only state in which the Context will access the TLB and initiate memory accesses.</TD></TR>
+   <TR><TD>5</TD><TD>RESET_WAIT</TD><TD>Control Register Reset bit was written to 1, engine is waiting for in-flight memory accesses to complete.</TD></TR>
+   <TR><TD>6</TD><TD>PAUSE_IDLE</TD><TD>Control Register Pause bit was written to 1, no operation has been requested.</TD></TR>
+   <TR><TD>7</TD><TD>PAUSE_RW</TD><TD>Control Register Pause bit was written to 1, there is also an operation requested.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>TLB_MISS_PENDING</TD> <TD>W1TC</TD> <TD>0</TD> <TD>TLB Miss interrupt is pending.  The interrupt will be sent if TLB Miss Interrupt Mask bit is 0.  This bit is cleared by writing a 1 to it, if a TLB entry for this Context is added with the TLB_MISS_ACK bit set, or if the Opcode Register is written.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>COMP_PENDING</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Completion interrupt is pending.  The interrupt will be sent if Completion Interrupt Mask bit is 0.  This bit is cleared by writing a 1 to it, or if the Opcode Register is written.  This bit can also be read in the Context User In_Use Register, which can be used to poll for completion.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_INT_MASK"></a>
+<br><br><h4>Interrupt Mask (MICA_CRYPTO_CTX_SYS_INT_MASK: 0x0010)</h4>
+This Context System register contains Interrupt Mask bits.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_INT_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>TLB_MISS_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks TLB Miss interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>COMP_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks Completion interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_INT_MASK_SET"></a>
+<br><br><h4>Interrupt Mask Set (MICA_CRYPTO_CTX_SYS_INT_MASK_SET: 0x0018)</h4>
+This Context System register is used to set Interrupt Mask bits.  Writing a value of 1 to a bit position sets the interrupt mask for that bit.  Writing a value of 0 to a bit position has no effect.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_INT_MASK_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>TLB_MISS_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks TLB Miss interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>COMP_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks Completion interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_INT_MASK_RESET"></a>
+<br><br><h4>Interrupt Mask Reset (MICA_CRYPTO_CTX_SYS_INT_MASK_RESET: 0x0020)</h4>
+This Context System register is used to clear Interrupt Mask bits.  Writing a value of 1 to a bit position clears the interrupt mask for that bit.  Writing a value of 0 to a bit position has no effect.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_INT_MASK_RESET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>TLB_MISS_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks TLB Miss interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>COMP_INT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Masks Completion interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_PROBE_VA"></a>
+<br><br><h4>Probe Virtual Address (MICA_CRYPTO_CTX_SYS_PROBE_VA: 0x0028)</h4>
+This Context System register is used for probing the TLB
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_PROBE_VA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>41:12</TD> <TD>VA</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to this field initiates a TLB probe, and the result status is put into the Probe Status Register.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_PROBE_STATUS"></a>
+<br><br><h4>Probe Status (MICA_CRYPTO_CTX_SYS_PROBE_STATUS: 0x0030)</h4>
+This Context System register provides the status of a TLB probe.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_PROBE_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>MATCH</TD> <TD>RW</TD> <TD>0</TD> <TD>A value of '1' indicates that the associated entry matched the PROBE_VA in TLB.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_MISS_VA"></a>
+<br><br><h4>MISS Virtual Address (MICA_CRYPTO_CTX_SYS_MISS_VA: 0x0038)</h4>
+This Context System register provides the Virtual Address that was not found in TLB.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_MISS_VA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:60</TD> <TD>INDEX</TD> <TD>RW</TD> <TD>0</TD> <TD>Suggestion of which TLB entry to fill.  Software can either use this suggestion or ignore it and choose the entry it fills by other means.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:0</TD> <TD>VA</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Address that was not found in TLB, loaded in after the lookup misses.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_COMP_INT"></a>
+<br><br><h4>Completion Interrupt Binding (MICA_CRYPTO_CTX_SYS_COMP_INT: 0x0040)</h4>
+This Context System register contains the interrupt binding for normal completion interrupts.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_COMP_INT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21:18</TD> <TD>X_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile X Coordinate</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:7</TD> <TD>Y_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile Y Coordinate</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:5</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>EVENT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Event Number</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_TLB_MISS_INT"></a>
+<br><br><h4>TLB Miss Interrupt Binding (MICA_CRYPTO_CTX_SYS_TLB_MISS_INT: 0x0048)</h4>
+This Context System register contains the interrupt binding for TLB Miss interrupts.
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_TLB_MISS_INT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21:18</TD> <TD>X_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile X Coordinate</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:7</TD> <TD>Y_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile Y Coordinate</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:5</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>EVENT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Event Number</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_TLB_TABLE"></a>
+<br><br><h4>TLB Table (MICA_CRYPTO_CTX_SYS_TLB_TABLE: 0x0400-0x04ff)</h4>
+TLB table.  This table consists of 16 TLB entries.  Each entry is two registers: TLB_ENTRY_ADDR and TLB_ENTRY_ATTR.  This register definition is a description of the address as opposed to the registers themselves.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_TLB_TABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>Address space identifier (IOTLB number).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>ENTRY</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects which TLB entry is accessed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>IS_ATTR</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects TLB_ENTRY_ADDR vs TLB_ENTRY_ATTR.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ADDR"></a>
+<br><br><h4>TLB Entry VPN and PFN Data (MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ADDR: 0x0400-0x04f7 stride: 16)</h4>
+Read/Write data for the TLB entry's VPN and PFN.  When written, the associated entry's VLD bit will be cleared.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>61:32</TD> <TD>VPN</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Page Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:0</TD> <TD>PFN</TD> <TD>RW</TD> <TD>0</TD> <TD>Physical Frame Number</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ATTR"></a>
+<br><br><h4>TLB Entry Attributes (MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ATTR: 0x0408-0x04ff stride: 16)</h4>
+Read/Write data for the TLB entry's ATTR bits.  When written, the TLB entry will be updated.  TLB_ENTRY_ADDR must always be written before this register.  Writing to this register without first writing the TLB_ENTRY_ADDR register causes unpredictable behavior including memory corruption.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="mica_crypto_ctx_sys_pics/MICA_CRYPTO_CTX_SYS_TLB_ENTRY_ATTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>51:48</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>On reads, provides the LRU pointer for the associated ASID.  Ignored on writes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>40:37</TD> <TD>LOC_X_OR_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>X-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT mask when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:26</TD> <TD>LOC_Y_OR_OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>Y-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT offset when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>NT_HINT</TD> <TD>RW</TD> <TD>0</TD> <TD>NonTemporal Hint.  Device services may use this hint as a performance optimization to inform the Tile memory system that the associated data is unlikely to be accessed within a relatively short period of time. Read interfaces may use this hint to invalidate cache data after reading.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>PIN</TD> <TD>RW</TD> <TD>0</TD> <TD>When asserted, only the IO pinned ways in the home cache will be used.  This attribute only applies to writes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>HOME_MAPPING</TD> <TD>RW</TD> <TD>1</TD> <TD>When 0, physical addresses are hashed to find the home Tile.  When 1, an explicit home is stored in LOC_X,LOC_Y.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:3</TD> <TD>PS</TD> <TD>RW</TD> <TD>1eh</TD> <TD>Page size.  Size is 2^(PS+12) so  0=4 kB, 1=8 kB, 2=16 kB ... 30=4096 GB.  The max supported page size is 30.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>VLD</TD> <TD>RW</TD> <TD>HW <TD>Entry valid bit.  Resets to 1 for the first entry in each ASID.  Resets to 0 for all other entries.   Clears whenever the associated entry's TLB_ENTRY_ADDR register is written.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

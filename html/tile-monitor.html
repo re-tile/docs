@@ -1,0 +1,1751 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-monitor</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-monitor"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-monitor &#8212; Support command line
+interaction with a Tile Processor from the host</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-monitor</code>  [<em class="replaceable"><code>option</code></em>...] [<em class="replaceable"><code>command</code></em>...] [-- <em class="replaceable"><code>exe</code></em>
+ [<em class="replaceable"><code>arg</code></em>...]]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-monitor</strong></span> is a command line program which is
+very useful when developing applications for the Tile Processor.  It
+allows you to interact in various ways with a Tile Processor, including
+<a href="#booting" title="Booting (and Connecting)">booting</a> the Tile Processor,
+<a href="#transferring" title="Transferring Files">transferring</a> files or accessing
+the host filesystem via <a href="#FUSE" title="FUSE">FUSE</a>, and
+<a href="#running" title="Running Applications">running</a>,
+<a href="#debugging" title="Debugging">debugging</a>,
+and <a href="#profiling" title="Profiling">profiling</a> applications,
+without ever actually logging into that Tile Processor.  Some simple
+<a href="#examples" title="Examples of tile-monitor Usage">examples</a> can be found at the end
+of this document.
+
+</p><p>
+Note that <span><strong class="command">tile-monitor</strong></span> is available both when
+running on a host system, and also when running natively on a Tile
+Processor.  However, when running on a Tile Processor, the set of
+available options is different.  When running natively, options
+related to PCIe cards, or to the simulator, are unavailable; this
+includes <code class="option">--config</code>, <code class="option">--create-image</code>,
+<code class="option">--functional</code>, <code class="option">--image</code>,
+<code class="option">--image-file</code>, <code class="option">--sim-arg</code>,
+<code class="option">--sim-args</code>, and <code class="option">--sim-prefix</code>.
+When running on a host system, the <code class="option">--self</code> option
+is unavailable.  Otherwise, the two commands have identical options
+and behavior.
+</p><div class="refsect2" lang="en"><a name="id1238880"></a><h3>Basic Operation</h3><p>
+<span><strong class="command">tile-monitor</strong></span> processes all of its command line
+<a href="#options" title="Basic Options">options</a>, then handles any requested
+<a href="#booting" title="Booting (and Connecting)">booting</a> and connects to the
+<span><strong class="command">shepherd</strong></span> process running on the Tile Processor,
+then processes any command line
+<a href="#commands" title="Help Commands">commands</a>, and finally enters an
+<a href="#interactive-mode" title="Interactive Mode">interactive</a> mode in which
+more commands can be processed.
+</p><p>
+In this document, <code class="code">${TILERA_ROOT}</code> refers to the root of
+the Tilera MDE install directory.  For example,
+<code class="code">${TILERA_ROOT}/bin/tile-monitor</code> is the actual
+<span><strong class="command">tile-monitor</strong></span> executable on a host system.
+</p></div><div class="refsect2" lang="en"><a name="related-programs"></a><h3>Related Programs</h3><p>
+Many of the interesting things done by <span><strong class="command">tile-monitor</strong></span>
+are actually done by other processes.  Booting requires a bootrom file,
+which is often created by
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+Rebooting a networked Tile Processor is done by
+<a href="tile-reboot.html" target="_top"><span><strong class="command">tile-reboot</strong></span></a>.
+A simulated Tile Processor is actually simulated by <a href="tile-sim.html" target="_top"><span><strong class="command">tile-sim</strong></span></a>.  On the Tile
+Processor, a special <span><strong class="command">shepherd</strong></span> process does most of
+the actual work involved in file transfers and running and debugging
+applications, and the <span><strong class="command">oprofile</strong></span> and <span><strong class="command">perf</strong></span>
+utilities do most of the actual work involved in hardware profiling.
+</p><p>
+Use <a href="tile-gcc.html" target="_top"><span><strong class="command">tile-gcc</strong></span></a> or
+<a href="tile-gcc.html" target="_top"><span><strong class="command">tile-g++</strong></span></a> to 
+compile executables for use with the Tile Processor.
+</p><p>
+The <a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a>
+IDE uses <span><strong class="command">tile-monitor</strong></span>, as well as other tools, like
+<span><strong class="command">tile-gcc</strong></span> and <span><strong class="command">tile-gdb</strong></span>, to support
+its graphical interface.
+</p></div><div class="refsect2" lang="en"><a name="booting"></a><h3>Booting (and Connecting)</h3><p>
+Before you can interact with a Tile Processor, it must be booted.
+Then, <span><strong class="command">tile-monitor</strong></span> can connect to an appropriate
+<span><strong class="command">shepherd</strong></span> process on the Tile Processor.
+</p><p>
+All simulated platforms, and most hardware platforms, can be booted by
+<span><strong class="command">tile-monitor</strong></span> using a dynamically generated bootrom.
+Some hardware platforms require special installation of an appropriate
+bootrom, which <span><strong class="command">tile-monitor</strong></span> can help create.
+</p><p>
+<span><strong class="command">tile-monitor</strong></span> uses
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>
+to actually create bootrom files, passing it the default hypervisor
+config file, the default hypervisor binary files directory, and the
+default vmlinux file.
+</p><p>
+Use <a href="#hvc"><code class="option">--hvc</code></a> to specify
+the hypervisor config file. The default is <code class="code">vmlinux.hvc</code>,
+or <code class="code">vmlinux-sim.hvc</code> if you are using the simulator.
+These default config files can be found in the directory
+<code class="code">${TILERA_ROOT}/tile/etc/hvc</code> on the host,
+or <code class="code">/etc/hvc</code> natively.
+</p><p>
+Use <a href="#hv-bin-dir"><code class="option">--hv-bin-dir</code></a> to
+specify the hypervisor binary files directory.  The default is
+<code class="code">${TILERA_ROOT}/tile/boot/</code> on the host, or <code class="code">/boot/</code>
+natively.
+</p><p>
+Use <a href="#vmlinux"><code class="option">--vmlinux</code></a> to specify
+the vmlinux file.  The default is
+<code class="code">${TILERA_ROOT}/tile/boot/vmlinux</code> on the host, or
+<code class="code">/boot/vmlinux</code> natively.
+</p><p>
+Use <a href="#initramfs"><code class="option">--initramfs</code></a> to
+specify the initramfs.cpio.gz file.  The default is
+<code class="code">${TILERA_ROOT}/tile/boot/initramfs.cpio.gz</code> on the host,
+or <code class="code">/boot/initramfs.cpio.gz</code> natively.  Note that by
+default no initramfs.cpio.gz file is included if you use the <a href="#rootfs"><code class="option">--rootfs</code></a> option.
+</p><p>
+Use <code class="option"><a href="#boot-dir">--boot-dir</a>
+<em class="replaceable"><code>dir</code></em></code> both to imply
+<code class="option"><a href="#hv-bin-dir">--hv-bin-dir</a>
+<em class="replaceable"><code>dir</code></em></code>,
+and also to set the default directory that will be used for the
+<code class="code">classifier</code>, <code class="code">vmlinux</code>, and
+<code class="code">initramfs.cpio.gz</code> files.
+</p><p>
+Use <a href="#bootrom-file"><code class="option">--bootrom-file</code></a>
+to specify a specific (pre-generated) bootrom file.
+</p><p>
+Various other options will be passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>,
+including <a href="#hvd"><code class="option">--hvd</code></a>,
+<a href="#hvi"><code class="option">--hvi</code></a>, and
+<a href="#hvx"><code class="option">--hvx</code></a>.
+</p><p>
+To boot and connect to a networked Tile Processor over an IP
+connection, use <code class="option"><a href="#dev">--dev</a>
+<em class="replaceable"><code>hostname</code></em></code>.
+If the networked Tile Processor was previously booted with
+a different bootrom file, you must specify
+<code class="option"><a href="#reflash">--reflash</a></code>
+to allow <span><strong class="command">tile-monitor</strong></span> to reflash the SROM
+on the device to allow rebooting into the new bootrom file.
+If the Tile Processor was already previously booted, use
+<code class="option"><a href="#resume">--resume</a></code>.
+</p><p>
+When dynamically creating a bootrom for a networked Tile Processor, a set
+of <code class="option"><a href="#hvd">--hvd</a></code> options will be
+automatically supplied.  These definitions will include
+<code class="code">CHIP_WIDTH</code> (the width of the chip, in tiles), and
+<code class="code">CHIP_HEIGHT</code> (the height of the chip, in tiles).
+</p><p>
+To boot and connect to a Tile Processor PCIe card installed in the
+current host, use <code class="option"><a href="#dev">--dev</a>
+pci<em class="replaceable"><code>N</code></em></code>.
+If the Tile Processor was already previously booted, use
+<code class="option"><a href="#resume">--resume</a></code>.
+</p><p>
+When dynamically creating a bootrom for a Tile Processor PCIe card, a set
+of <code class="option"><a href="#hvd">--hvd</a></code> options based on
+the contents of the appropriate <code class="code">/dev/tilepciN/info</code> file
+will be automatically supplied.  These definitions will include
+<code class="code">CHIP_VERSION</code> (1 for TILEPro, or 10 for TILEGx),
+<code class="code">CHIP_WIDTH</code> (the width of the chip, in tiles),
+<code class="code">CHIP_HEIGHT</code> (the height of the chip, in tiles), and
+<code class="code">BOARD_HAS_PLX</code> (1 if the board has a PLX, else 0).
+</p><p>
+To boot and connect to a Tile Processor USB card installed in the
+current host, use <code class="option"><a href="#dev">--dev</a>
+usb<em class="replaceable"><code>N</code></em></code>.
+If the Tile Processor was already previously booted, use
+<code class="option"><a href="#resume">--resume</a></code>.
+</p><p>
+When dynamically creating a bootrom for a Tile Processor USB card, a set
+of <code class="option"><a href="#hvd">--hvd</a></code> options based on
+the contents of the appropriate <code class="code">/dev/tileusbN/info</code> file
+will be automatically supplied.  These definitions will include
+<code class="code">CHIP_VERSION</code> (1 for TILEPro, or 10 for TILEGx),
+<code class="code">CHIP_WIDTH</code> (the width of the chip, in tiles), and
+<code class="code">CHIP_HEIGHT</code> (the height of the chip, in tiles).
+</p><p>
+To use the simulator (aka <span><strong class="command">tile-sim</strong></span>), use the
+<a href="#config"><code class="option">--config</code></a> or
+<a href="#image"><code class="option">--image</code></a> option.
+Two important <span><strong class="command">tile-sim</strong></span> options, namely
+<a href="#functional"><code class="option">--functional</code></a>
+and <a href="#config"><code class="option">--config</code></a>,
+are directly supported by <span><strong class="command">tile-monitor</strong></span>,
+and most of the others can be specified using
+<a href="#sim-arg"><code class="option">--sim-arg</code></a> or
+<a href="#sim-args"><code class="option">--sim-args</code></a>.
+For more information on legal simulator options, see the documentation
+for <a href="tile-sim.html" target="_top"><span><strong class="command">tile-sim</strong></span></a>.
+</p><p>
+A boot image, which captures the state of the simulator with a
+particular chip configuration, after booting Linux and starting
+the shepherd, can be used to save time when using the simulator.
+Use <a href="#image"><code class="option">--image</code></a> or
+<a href="#image-file"><code class="option">--image-file</code></a>
+to request the use of a particular boot image.  Use
+<a href="#create-image"><code class="option">--create-image</code></a>
+to create a new boot image.
+</p><p>
+By default, tile-monitor includes a complete Linux filesystem
+in the bootrom, intended to be used as an initial "RAM" filesystem;
+this is known as the "initramfs" filesystem, and the files that
+make up that filesystem are stored in a "cpio" format file
+called an "initramfs.cpio" file.  Typically the file is compressed
+with gzip and stored as an "initramfs.cpio.gz" file.  The
+default file that tile-monitor uses is in
+<code class="code">/boot/initramfs.cpio.gz</code> in the Tile filesystem hierarchy
+(under <code class="code">$TILERA_ROOT/tile</code> in the cross-build environment).
+</p><p>
+However, tile-monitor can also create a bootrom that boots onto a root
+partition stored on disk.  if you use the <a href="#rootfs"><code class="option">--rootfs</code></a> option to specify a
+partition holding the root filesystem, tile-monitor will by default add a
+<code class="code">root=</code> option to the kernel boot command line, telling the
+kernel what partition to mount as "root", and it will
+omit the initramfs file from the bootrom.
+</p><p>
+The partition argument can also be one of the two special forms
+"LABEL=mylabel" or "UUID=myuuid", where "mylabel" might be, for
+example, "root" or "home" or some other filesystem label, and "myuuid"
+might be a full filesystem UUID.  In that case tile-monitor will add
+a <code class="code">TLR_ROOT=</code> option to the kernel boot command line and
+include the initramfs file in the bootrom so that the initramfs
+"/init" script can process the TLR_ROOT directive.
+</p><p>
+If you specify an <a href="#initramfs"><code class="option">--initramfs</code></a> option
+explicitly, it will always be included; by contrast, if you specify
+the <a href="#no-initramfs"><code class="option">--no-initramfs</code></a> option
+explicitly, no initramfs.cpio.gz file will be included.  The latter
+can be useful if you have made a custom Linux build with an embedded
+initramfs in the vmlinux file itself.
+</p></div><div class="refsect2" lang="en"><a name="transferring"></a><h3>Transferring Files</h3><p>
+To run an application, its executable (and any other executables
+and/or data files it needs) must be available on the target.  This can
+be done by building a custom vmlinux which includes the files inside
+its file system.  But it is usually simpler to use
+<a href="#upload"><code class="option">--upload</code></a>,
+<a href="#upload-same"><code class="option">--upload-same</code></a>,
+<a href="#upload-tile"><code class="option">--upload-tile</code></a>, or
+<a href="#upload-tile-libs"><code class="option">--upload-tile-libs</code></a>
+to transfer files/directories from the host to the target.
+</p><p>
+After running an application, you can use
+<a href="#download"><code class="option">--download</code></a> or
+<a href="#download-same"><code class="option">--download-same</code></a>
+to transfer files/directories from the target back to the host.
+</p><p>
+Or, just use the various <a href="#FUSE" title="FUSE">FUSE</a> commands to
+remotely mount host directories via special mount points on the target.
+</p></div><div class="refsect2" lang="en"><a name="FUSE"></a><h3>FUSE</h3><p>
+<span><strong class="command">tile-monitor</strong></span> can remotely mount directories on the
+host filesystem onto the target filesystem using special mount points
+managed by the FUSE (file system in user space) library.
+</p><p>
+The <a href="#mount"><code class="option">--mount</code></a>,
+<a href="#mount-same"><code class="option">--mount-same</code></a>, and
+<a href="#mount-tile"><code class="option">--mount-tile</code></a>,
+commands perform the actual mounting operations.
+</p><p>
+The <a href="#here"><code class="option">--here</code></a> command is
+shorthand for a very common pair of operations, namely, mounting the
+current working directory as itself, and then entering that directory
+on the target, allowing many programs to act as if they were actually
+running on the host.  Note that the <code class="option">--here</code> command
+uses the actual current directory path (similar to "<span><strong class="command">pwd
+-P</strong></span>") to choose the name for the remote mount.
+</p><p>
+The <a href="#root"><code class="option">--root</code></a> command is
+shorthand for uploading the /etc, /sbin, and /var directories, and
+mounting the /bin, /boot, /lib, and /usr directories.  This is very
+useful when booting with a minimal initramfs, as it allows most programs
+to act as if a much more complete root filesystem was available.
+</p><p>
+Various operations on files accessed via FUSE mount points may not
+always work exactly as one might expect.  Some important issues are
+mentioned below.
+</p><p>
+The actual file operations are done by <span><strong class="command">tile-monitor</strong></span>,
+and so they have the same permissions as the current user.  Since TILE
+processes usually run as root, this can cause some programs to break.
+</p><p>
+All file operations are done via host paths, not via persistent handles
+to host files, which can cause surprising results when open files are
+deleted or renamed, or when <code class="code">mmap()</code> is used in certain ways.
+</p><p>
+All timestamp information comes from the host, which may cause clock
+drift issues, even if <a href="#rtc"><code class="option">--rtc</code></a>
+has been used to synchronize the clocks.
+</p><p>
+File locking (via <code class="code">fcntl()</code>) is purely local, and does not
+affect host processes.
+</p></div><div class="refsect2" lang="en"><a name="running"></a><h3>Running Applications</h3><p>
+One of the most common uses of <span><strong class="command">tile-monitor</strong></span> is to
+launch applications on a remote Tile Processor.  An "application" is
+just a collection of processes, defined by a launched process, plus
+any "interesting" processes spawned by a process in that application.
+For more information about applications, see "tmc/task.h".
+</p><p>
+The <a href="#run"><code class="option">--run</code></a> command
+will launch an application, and wait for it to exit.  The
+<a href="#launch"><code class="option">--launch</code></a> command
+will launch an application without waiting for it to exit.  The
+<a href="#wait"><code class="option">--wait</code></a> command can
+then be used later to wait for all launched applications to exit.
+</p><p>
+To run an application and then exit, you can use the special
+<code class="option">-- <em class="replaceable"><code>exe</code></em>
+[<em class="replaceable"><code>arg</code></em> ...]</code> syntax,
+which is just shorthand for
+<code class="option">--run -+- <em class="replaceable"><code>exe</code></em>
+[<em class="replaceable"><code>arg</code></em> ...] -+- --wait --quit</code>.
+</p><p>
+When asked to launch an executable, if the executable path does not
+seem to exist, the <span><strong class="command">shepherd</strong></span> will look for it in the
+directories listed in its <code class="code">PATH</code> environment variable, much
+like a standard shell.
+</p><p>
+Every Linux process has an environment, which is a set of key/value
+string pairs accessible via <code class="code">getenv()</code>.  By default, a
+process inherits its environment from its parent, and for launched
+processes, this parent is the <span><strong class="command">shepherd</strong></span>.  The
+<a href="#env"><code class="option">--env</code></a> command can be
+used to modify the initial environment of the next launched process.
+Note that this does not modify the <span><strong class="command">shepherd</strong></span>'s own
+environment, and thus cannot be used to change the <code class="code">PATH</code>
+used to find the requested executable.
+</p><p>
+Every Linux process (or thread) has an affinity, which is the set
+of tiles on which it is allowed to run.  The affinity of a process
+can have significant effects on how the process runs, especially
+when dataplane tiles may be involved.  The
+<a href="#tile"><code class="option">--tile</code></a> command
+can be used to modify the set of tiles in the affinity of the
+next launched process.
+</p></div><div class="refsect2" lang="en"><a name="debugging"></a><h3>Debugging</h3><p>
+<span><strong class="command">tile-monitor</strong></span> makes it easy to debug user-level
+processes, using <span><strong class="command">tile-gdb</strong></span>.
+</p><p>
+First, you must request that a given process be debugged, using
+<a href="#attach"><code class="option">--attach</code></a>,
+<a href="#debug"><code class="option">--debug</code></a>,
+<a href="#debug-exe"><code class="option">--debug-exe</code></a>,
+<a href="#debug-exes"><code class="option">--debug-exes</code></a>,
+<a href="#debug-next"><code class="option">--debug-next</code></a>,
+<a href="#debug-on-crash"><code class="option">--debug-on-crash</code></a>,
+and/or <a href="#debug-tile"><code class="option">--debug-tile</code></a>.
+For example:
+</p><pre class="programlisting">
+$ tile-monitor --dev gxpci0 --debug-on-crash --here -- myexe
+</pre><p>
+Second, once a process is ready to be debugged,
+<span><strong class="command">tile-monitor</strong></span> will print out some instructions.
+For example:
+</p><pre class="programlisting">
+[monitor] Process <em class="replaceable"><code>PID</code></em> would like to be debugged.
+Paste the following lines into another window:
+
+<em class="replaceable"><code>${TILERA_ROOT}</code></em>/bin/tile-gdb -q
+set height -1
+file myexe
+set sysroot <em class="replaceable"><code>${TILERA_ROOT}</code></em>/tile
+target remote <em class="replaceable"><code>host</code></em>:<em class="replaceable"><code>port</code></em>
+</pre><p>
+Finally, in a separate shell window, paste the specified lines.
+For example:
+</p><pre class="programlisting">
+$ <em class="replaceable"><code>${TILERA_ROOT}</code></em>/bin/tile-gdb -q
+(gdb) set height -1
+(gdb) file myexe
+(gdb) set sysroot <em class="replaceable"><code>${TILERA_ROOT}</code></em>/tile
+(gdb) target remote <em class="replaceable"><code>host</code></em>:<em class="replaceable"><code>port</code></em>
+Remote debugging using <em class="replaceable"><code>host</code></em>:<em class="replaceable"><code>port</code></em>
+</pre><p>
+Note that <span><strong class="command">tile-monitor</strong></span> will suggest commands
+that use local binary files from which it thinks that it can get
+useful debug information.  This is derived from various sources,
+including the <a href="#mount"><code class="option">--mount</code></a>
+(etc), <a href="#upload"><code class="option">--upload</code></a> (etc),
+and <a href="#symbol-map"><code class="option">--symbol-map</code></a>
+commands.  If <span><strong class="command">tile-monitor</strong></span> is not able to identify
+an appropriate local binary file, it will use a remote file path, and
+will warn you to modify the suggested commands in an appropriate manner:
+</p><pre class="programlisting">
+[monitor] WARNING: Replace any remote binaries with local binaries!
+</pre><p>
+You can then use any of the standard <span><strong class="command">tile-gdb</strong></span>
+commands to debug your program, including <code class="code">bt</code>,
+<code class="code">break</code>, and <code class="code">continue</code>.  (Note that when one
+first connects with <span><strong class="command">tile-gdb</strong></span>, the application has
+already been started, so one must <code class="code">continue</code>, not
+<code class="code">run</code>.)  When you have finished debugging, you can use the
+<code class="code">detach</code> and then <code class="code">quit</code> commands to quit after
+allowing the process to continue running, or just <code class="code">quit</code> to
+quit after killing the process.
+</p></div><div class="refsect2" lang="en"><a name="id1239010"></a><h3>Whole Application Debugging</h3><p>
+Traditionally, a debugger is associated with a single process, and
+does not interact in any way with any other process, or any other
+debugger.  Various events, such as user interrupts (and other signals)
+and hitting breakpoints, will cause the process to stop, allowing the
+user to debug the process.  The continue command, or a related command
+such as finish, next, or step, will cause the process to resume
+execution.
+</p><p>
+When a process consists of multiple threads, and one of the threads
+stops, all the other threads in the process are frozen by the
+debugger.  This prevents them from modifying shared state, and thus
+complicating debugging, while the user debugs the stopped thread. The
+user can easily switch to another thread, causing the stopped thread
+to become frozen, and the new thread to become stopped.  The continue
+command will cause all of the threads to resume execution.
+</p><p>
+Tilera supports a similar model, known as whole-application debugging,
+for applications that consist of multiple processes.  In this model,
+each debugger is still associated with a single process, and does not
+interact directly with any other process or any other debugger.  But
+whenever any process stops, all the other processes in the same
+application are frozen by the shepherd process. This prevents them
+from modifying global state, and thus complicating debugging, while
+you debug the stopped process.  Note that freezing a process has no
+effect on any associated debugger, which will not even realize that
+the process has been frozen.  The continue command will cause all of
+the processes to resume execution.
+</p><p>
+It takes a small amount of time (known as skid) to freeze a process.
+During this time, before it is frozen, a process might actually stop
+for various reasons. Also, a frozen process will stop if you interrupt
+it.  If there are multiple stopped processes in the same application,
+the continue command, rather than causing the process to continue,
+will freeze the process until all the processes are ready to resume
+execution.
+</p><p>
+An interesting side effect of the whole-application debugging model is
+that, when you are stepping through more than one process in the same
+application, each process might be frozen several times during each
+step.  This will appear to you, and to the debuggers, as if each
+process was simply running slowly.
+</p></div><div class="refsect2" lang="en"><a name="bare-metal-debugging"></a><h3>Bare Metal Debugging</h3><p>
+Normal process-level debugging is restricted to examining the state in
+a user-level process.  As an advanced feature, when running under the
+simulator, <span><strong class="command">tile-monitor</strong></span> also supports "bare metal"
+debugging, which is basically low level debugging of an individual
+tile.  This is especially useful when debugging operating system code.
+</p><p>
+Although bare metal debugging uses the familiar <span><strong class="command">tile-gdb</strong></span>
+interface, it has some important limitations; in particular, since it
+makes no assumptions about page tables it can only examine memory which
+is already mapped in that tile's DTLB.
+</p><p>
+To use bare metal debugging you must first request it using either
+<a href="#bm-debug-attach-tile"><code class="option">--bm-debug-attach-tile</code></a> or
+<a href="#bm-debug-on-panic"><code class="option">--bm-debug-on-panic</code></a>.
+When a tile is ready to be debugged, <span><strong class="command">tile-monitor</strong></span> will
+prompt you to run <span><strong class="command">tile-gdb</strong></span> by pasting some lines, in a
+manner similar to that described above.
+</p></div><div class="refsect2" lang="en"><a name="profiling"></a><h3>Profiling</h3><p>
+Profiling of applications is handled by (a) selecting a profiling
+utility and (b) using a number of standard commands to initialize, start,
+and stop profiling, and to collect and process the results for display.
+</p><p>
+The profiling tools currently supported are:
+</p><div class="itemizedlist"><ul type="disc"><li>
+the <span><strong class="command">OProfile</strong></span> open-source profiling utility
+</li><li>
+the Linux <span><strong class="command">perf</strong></span> utility (a.k.a. "Perf Events")
+</li></ul></div><p>
+</p><p>
+The profiling commands are described in more detail below
+in the section <a href="#profiling_commands" title="Profiling Commands">Profiling Commands</a>.
+</p><p>
+For more detail on the <span><strong class="command">oprofile</strong></span> utility, see
+<a href="profiling.html" target="_top">Profiling from the Command Line with OProfile</a>.
+</p><p>
+For more detail on the Linux <span><strong class="command">perf</strong></span> command, see
+<a href="perf_events.html" target="_top">Profiling applications with the Linux "perf" tool</a>.
+</p></div><div class="refsect2" lang="en"><a name="interactive-mode"></a><h3>Interactive Mode</h3><p>
+Interactive mode provides emacs-style editing and history recall using
+the libedit library.  Some important keys include up/down to navigate
+the history, left/right and Ctrl+A/Ctrl+E to move the cursor, Ctrl+D
+and backspace to delete characters, tab to induce filename completion,
+and Ctrl+R and Ctrl+L to redraw.
+</p><p>
+When used on the command line, all commands have a leading
+<code class="code">--</code> prefix, just like all options.  In interactive mode,
+this prefix is not needed (and is not allowed).
+</p><p>
+When used on the command line, all commands which take a variable
+number of arguments must wrap their arguments in a pair of matching
+delimiters, represented as <code class="option">-+-</code>, but which technically
+can be any string starting with a dash that is unlikely to match any
+actual argument, including a single dash.  In interactive mode, these
+delimiters are not needed (and are not allowed).
+</p><p>
+Use the <a href="#quit"><code class="option">--quit</code></a> command,
+after the <a href="#wait"><code class="option">--wait</code></a> command
+if needed, or better yet, the special <code class="option">--</code> syntax, to
+quit before entering interactive mode.
+</p></div><div class="refsect2" lang="en"><a name="peers"></a><h3>Peers</h3><p>
+Each monitor can optionally be associated with one 'peer' monitor, via the
+<a href="#peer-connect"><code class="option">--peer-connect</code></a> and
+<a href="#peer-listen"><code class="option">--peer-listen</code></a> options.
+</p><p>
+If both monitors are using the simulator, this allows various simulated
+I/O devices to be hooked up to each other.  For example, this can be used
+to simulate linux networking between the two simulations.
+</p><p>
+Having a 'peer' monitor also enables the use of the
+<a href="#peer-barrier"><code class="option">--peer-barrier</code></a> command.
+</p></div><div class="refsect2" lang="en"><a name="options"></a><h3>Basic Options</h3><dt><a name="dev"></a><span class="term">
+<code class="option">--dev <em class="replaceable"><code>name</code></em></code>
+</span></dt><dd><p>
+Specify the hardware device (by name or label) to connect to,
+after first booting it.
+</p></dd><dt><a name="hvc"></a><span class="term">
+<code class="option">--hvc <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Request the use of the given hypervisor configuration file.
+</p><p>
+This option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+</p></dd><dt><a name="hvd"></a><span class="term">
+<code class="option">--hvd
+<em class="replaceable"><code>var[<span class="optional">=value</span>]</code></em></code>
+</span></dt><dd><p>
+Provide a variable definition to be used while processing hypervisor
+configuration files.  If value is entirely missing (no equal sign,
+e.g. <code class="code">--hvd FOO</code>), the value "1" is used.  To assign an
+empty string as value, use <code class="code">--hvd FOO=</code>.
+</p><p>
+This option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+</p></dd><dt><a name="hvh"></a><span class="term">
+<code class="option">--hvh <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Request the pre-processing of the given hypervisor configuration file.
+Unlike "--hvc", this does NOT replace the default HVC file.
+</p><p>
+This option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>,
+changing "--hvh" to "--hvc".
+</p></dd><dt><a name="hvi"></a><span class="term">
+<code class="option">--hvi <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Append a directory to the search path used to find hypervisor
+configuration files.
+</p><p>
+This option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+</p></dd><dt><a name="hvx"></a><span class="term">
+<code class="option">--hvx <em class="replaceable"><code>value</code></em></code>
+</span></dt><dd><p>
+Append a single space plus <em class="replaceable"><code>value</code></em> to the
+definition of the special <code class="code">XARGS</code> variable, which starts
+out defined, but empty.  This variable is used by some hypervisor
+configuration files, usually to extend the primary client args.
+</p><p>
+This option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+</p></dd><dt><a name="net"></a><span class="term">
+<code class="option">--net <em class="replaceable"><code>addr</code></em></code>
+</span></dt><dd><p>
+Connect via direct network connection to a networked Tile Processor
+after first booting it.
+</p><p>
+The address <em class="replaceable"><code>addr</code></em> may be a numeric
+address or a hostname.
+</p><p>
+Booting will be done using <span><strong class="command">tile-reboot</strong></span>, which will
+use <span><strong class="command">ssh</strong></span> with the given address, using a freshly
+created bootrom.  Note that if the bootrom differs from the one
+currently installed on the remote host, you will need to include
+the <code class="option">--reflash</code> option on the command line as well.
+</p><p>
+The bootrom is expected to run the <span><strong class="command">shepherd</strong></span> with
+<code class="code">--net</code>, which is done by default, to listen for network
+connections on port 963.
+</p><p>
+This option is no longer generally useful, as by default typical
+bootroms for networked Tile processors do not enable the shepherd
+<code class="option">--net</code> option, which is required for the tile-monitor
+<code class="option">--net</code> option to work.  Instead, see the tile-monitor
+<code class="option">--ssh</code> option.
+</p></dd><dt><a name="reflash"></a><span class="term">
+<code class="option">--reflash</code>
+</span></dt><dd><p>
+Allow updating the SROM on a networked Tile Processor with a new
+bootrom file image.  Without this argument, it is only possible
+to reboot a networked Tile Processor with the same bootrom file
+that it used the previous time it booted.
+</p></dd><dt><a name="resume"></a><span class="term">
+<code class="option">--resume</code>
+</span></dt><dd><p>
+Skip the normal booting step.
+</p></dd><dt><a name="rootfs"></a><span class="term">
+<code class="option">--rootfs <em class="replaceable"><code>block-device</code></em></code>
+</span></dt><dd><p>
+Specify a boot argument to Linux of
+<code class="code">root=</code><em class="replaceable"><code>block-device</code></em>,
+and suppress the default inclusion of an initramfs.cpio.gz file.
+For example, "<code class="code">--rootfs /dev/sda1</code>" will cause
+a "<code class="code">root=/dev/sda1</code>" Linux boot argument to be included,
+making Linux use <code class="code">/dev/sda1</code> as the root filesystem
+partition when booting.  If
+the <em class="replaceable"><code>block-device</code></em> starts with either
+"LABEL=" or "UUID=", then a "<code class="code">TLR_ROOT=</code>" Linux boot
+argument will be included instead, and the initramfs.cpio.gz
+file will be included to handle it.
+</p></dd><dt><a name="self"></a><span class="term">
+<code class="option">--self</code>
+</span></dt><dd><p>
+Install a new boot image on the local Tile Processor, and then reboot it.
+</p><p>
+Booting will be done using <span><strong class="command">tile-reboot</strong></span> with
+the <code class="option">--self</code> option, using a freshly created bootrom.
+</p></dd><dt><a name="ssh"></a><span class="term">
+<code class="option">--ssh <em class="replaceable"><code>addr</code></em></code>
+</span></dt><dd><p>
+Connect via ssh to a networked Tile Processor after first booting it.
+</p><p>
+The address <em class="replaceable"><code>addr</code></em> may be a numeric
+address or a hostname.
+</p><p>
+Booting will be done using <span><strong class="command">tile-reboot</strong></span>, which will
+use <span><strong class="command">ssh</strong></span> with the given address, using a freshly
+created bootrom.  Note that if the bootrom differs from the one
+currently installed on the remote host, you will need to include
+the <code class="option">--reflash</code> option on the command line as well.
+</p><p>
+tile-monitor will then connect to the remote host using ssh.  If
+a password is required, it can be entered interactively (as is also
+true for the <span><strong class="command">tile-reboot</strong></span> invocation).  To avoid
+having to use a password when connecting to a networked Tile
+Processor booted from the default disk-based environment, you may
+use the default Tilera ssh key
+(see <code class="code">/root/.ssh/tilera_root_rsa.README</code> for details).
+</p></dd></div><div class="refsect2" lang="en"><a name="id1240043"></a><h3>Simulator Options</h3><dt><a name="config"></a><span class="term">
+<code class="option">--config <em class="replaceable"><code>size</code></em></code>
+</span></dt><dd><p>
+Passed through to the simulator to specify a chip size (which can be
+of the form "WxH", or a special string like "tile64").
+</p></dd><dt><a name="create-image"></a><span class="term">
+<code class="option">--create-image <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Create a boot image for later use with
+<a href="#image-file"><code class="option">--image-file</code></a>.
+</p></dd><dt><a name="functional"></a><span class="term">
+<code class="option">--functional</code>
+</span></dt><dd><p>
+Passed through to the simulator to induce "functional" mode.
+</p></dd><dt><a name="image"></a><span class="term">
+<code class="option">--image <em class="replaceable"><code>name</code></em></code>
+</span></dt><dd><p>
+Specify a boot image file by <em class="replaceable"><code>name</code></em>, which
+denotes
+<code class="code">${TILERA_ROOT}/lib/boot/<em class="replaceable"><code>name</code></em>.image</code>.
+Standard images are provided for common chip configurations, including
+<code class="option">1x1</code>, <code class="option">2x2</code>, <code class="option">4x4</code>, and
+<code class="option">tile64</code>.  A boot image file allows the simulator to
+start up as if booting had already taken place.  Use the <a href="#create-image"><code class="option">--create-image</code></a> option
+to create new boot images.  The <code class="option">--image</code> option
+implies using the simulator.
+</p></dd><dt><a name="image-file"></a><span class="term">
+<code class="option">--image-file <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Specify a boot image file by <em class="replaceable"><code>path</code></em>.  See the
+<a href="#image"><code class="option">--image</code></a> option for more
+information on boot image files.
+The <code class="option">--image-file</code> option implies using the simulator. 
+</p></dd><dt><a name="sim-arg"></a><span class="term">
+<code class="option">--sim-arg <em class="replaceable"><code>arg</code></em></code>
+</span></dt><dd><p>
+Specify an additional simulator argument, e.g.
+<code class="code">--sim-arg --grind-coherence</code>.
+</p></dd><dt><a name="sim-args"></a><span class="term">
+<code class="option">--sim-args -+- <em class="replaceable"><code>arg</code></em> ... -+-</code>
+</span></dt><dd><p>
+Specify multiple additional simulator arguments, e.g.
+<code class="code">--sim-args -+- --profile-interval 1000 -+-</code>.
+</p></dd></div><div class="refsect2" lang="en"><a name="id1240843"></a><h3>Advanced Options</h3><dt><a name="batch-mode"></a><span class="term">
+<code class="option">--batch-mode</code>
+</span></dt><dd><p>
+Add final <a href="#wait"><code class="option">--wait</code></a> and
+<a href="#quit"><code class="option">--quit</code></a> commands.
+</p></dd><dt><a name="bme"></a><span class="term">
+<code class="option">--bme
+<em class="replaceable"><code>name</code></em>[<span class="optional">=<em class="replaceable"><code>path</code></em></span>]</code>
+</span></dt><dd><p>
+Specify a BME executable.
+</p><p>
+The argument to this option is passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>
+as a final positional argument, and is also used to identify where
+debugging information for the given BME executable can be found.
+</p></dd><dt><a name="boot-dir"></a><span class="term">
+<code class="option">--boot-dir <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Equivalent to specifying both
+<a href="#hv-bin-dir"><code class="option">--hv-bin-dir</code></a>
+<em class="replaceable"><code>dir</code></em>,
+and setting the default directory to use for the
+<code class="code">classifier</code>, <code class="code">vmlinux</code>, and
+<code class="code">initramfs.cpio.gz</code> files.
+</p></dd><dt><a name="boot-only"></a><span class="term">
+<code class="option">--boot-only</code>
+</span></dt><dd><p>
+Exit immediately, after booting.
+</p></dd><dt><a name="boot-timeout"></a><span class="term">
+<code class="option">--boot-timeout</code>
+</span></dt><dd><p>
+Change how long (in seconds) the monitor will wait for the booted system
+to consume the bootstream.  By default, this is 200 seconds, which is
+normally more than long enough.  In cases where a longer wait is
+necessary, you may specify a longer time with this option, or completely
+disable the timeout by specifying a value of 0.
+</p></dd><dt><a name="bootrom-file"></a><span class="term">
+<code class="option">--bootrom-file <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Specify a bootrom file by <em class="replaceable"><code>path</code></em>.
+</p></dd><dt><a name="classifier"></a><span class="term">
+<code class="option">--classifier <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Use the specified <code class="code">classifier</code> file, instead of
+<code class="code">${TILERA_ROOT}/tile/boot/classifier</code> (on the host) or
+<code class="code">/boot/classifier</code> (natively).
+</p></dd><dt><a name="console"></a><span class="term">
+<code class="option">--console</code>
+</span></dt><dd><p>
+Redirect console output from the standard console device to stdout.
+If the console device is locked or can't be opened, tile-monitor
+will exit with an error.
+</p><p>
+The standard console device is normally encoded by the "serial=" line
+in the appropriate config file
+(<code class="code">/etc/tilenet/<em class="replaceable"><code>ADDR</code></em>.conf</code>,
+<code class="code">/etc/tilepci<em class="replaceable"><code>N</code></em>.conf</code>, or
+<code class="code">/etc/tileusb<em class="replaceable"><code>N</code></em>.conf</code>).
+</p><p>
+When using the simulator, the standard console device is a magic device.
+</p></dd><dt><a name="try-console"></a><span class="term">
+<code class="option">--try-console</code>
+</span></dt><dd><p>
+Try to redirect console output from the standard console device to
+stdout.  If the console device is locked, tile-monitor will print a
+warning message and not attempt to open it.
+See <code class="option">--console</code> for how the standard console device is
+encoded.
+</p></dd><dt><a name="console-device"></a><span class="term">
+<code class="option">--console-device <em class="replaceable"><code>device</code></em></code>
+</span></dt><dd><p>
+Like <code class="option">--console</code>, but using the specified console device
+(e.g. <code class="code">/dev/ttyS0</code>), instead of the standard console device.
+</p></dd><dt><a name="console-out"></a><span class="term">
+<code class="option">--console-out <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Like <code class="option">--console</code>, but redirect console output to the
+specified file, instead of to stdout.
+</p></dd><dt><a name="try-console-out"></a><span class="term">
+<code class="option">--try-console-out <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Like <code class="option">--try-console</code>, but redirect console output to the
+specified file, instead of to stdout.
+</p></dd><dt><a name="create-bootrom"></a><span class="term">
+<code class="option">--create-bootrom <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Create a bootrom file and exit.  This file can be used later with
+<a href="#bootrom-file"><code class="option">--bootom-file</code></a>,
+or can be used directly with <code class="code">sbim</code>.
+</p></dd><dt><a name="create-hvc"></a><span class="term">
+<code class="option">--create-hvc <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Create a preprocessed hypervisor config file and exit.
+</p></dd><dt><a name="gdb-port"></a><span class="term">
+<code class="option">--gdb-port <em class="replaceable"><code>port</code></em></code>
+</span></dt><dd><p>
+Assign gdb ports starting from the specified
+<em class="replaceable"><code>port</code></em>. 
+</p></dd><dt><a name="greet-timeout"></a><span class="term">
+<code class="option">--greet-timeout</code>
+</span></dt><dd><p>
+Change how long (in seconds) the monitor will wait for the shepherd on
+the booted system to come up and greet it.  By default, this is 200
+seconds, which is long enough for normal boot scenarios.  For
+scenarios with potentially longer, valid, boot delays (for example,
+mboot), you may wish to specify a longer time here.
+</p></dd><dt><a name="hv-bin-dir"></a><span class="term">
+<code class="option">--hv-bin-dir <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Use the hypervisor binary files in the given directory, instead of the
+ones in <code class="code">${TILERA_ROOT}/tile/boot</code> (on the host) or 
+<code class="code">/boot</code> (natively).
+</p></dd><dt><a name="initramfs"></a><span class="term">
+<code class="option">--initramfs <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Add "initramfs.cpio.gz=<em class="replaceable"><code>path</code></em>" to the
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>
+arguments, thus adding an optional user cpio archive to the boot image.
+</p></dd><dt><a name="local-gdb"></a><span class="term">
+<code class="option">--local-gdb</code>
+</span></dt><dd><p>
+Create local <code class="code">gdb</code> sessions as needed.  Use the "#g" idiom
+described by <a href="#help-stdin"><code class="option">--help-stdin</code></a>
+to interact with these local sessions.
+</p></dd><dt><a name="mkboot-args"></a><span class="term">
+<code class="option">--mkboot-args -+- <em class="replaceable"><code>arg</code></em> ... -+-</code>
+</span></dt><dd><p>
+Specify extra arguments to be passed through to
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>.
+Only use this option when no other option seems appropriate.
+</p></dd><dt><a name="no-classifier"></a><span class="term">
+<code class="option">--no-classifier</code>
+</span></dt><dd><p>
+Do not use any classfier file.
+</p></dd><dt><a name="no-dev"></a><span class="term">
+<code class="option">--no-dev</code>
+</span></dt><dd><p>
+Do not use any device whatsoever.  Only meaningful with
+<a href="#create-bootrom"><code class="option">--create-bootom</code></a>
+and <a href="#create-hvc"><code class="option">--create-hvc</code></a>.
+</p></dd><dt><a name="no-hv-bin-dir"></a><span class="term">
+<code class="option">--no-hv-bin-dir</code>
+</span></dt><dd><p>
+Do not use any hypervisor binary files.
+</p></dd><dt><a name="no-initramfs"></a><span class="term">
+<code class="option">--no-initramfs</code>
+</span></dt><dd><p>
+Do not use any <code class="code">initramfs.cpio.gz</code> file.
+</p></dd><dt><a name="no-readline"></a><span class="term">
+<code class="option">--no-readline</code>
+</span></dt><dd><p>
+Disable use of "readline" in interactive mode.
+</p></dd><dt><a name="no-rtc"></a><span class="term">
+<code class="option">--no-rtc</code>
+</span></dt><dd><p>
+Do not specify <a href="#rtc"><code class="option">--rtc</code></a> 
+during PCI or USB boot. 
+</p></dd><dt><a name="no-vmlinux"></a><span class="term">
+<code class="option">--no-vmlinux</code>
+</span></dt><dd><p>
+Do not use any <code class="code">vmlinux</code> file.
+</p></dd><dt><a name="peer-connect"></a><span class="term">
+<code class="option">--peer-connect <em class="replaceable"><code>what</code></em></code>
+</span></dt><dd><p>
+Connect to a 'peer' monitor.  The <em class="replaceable"><code>what</code></em>
+can be a standard port number, optionally preceded by a host and a colon,
+to establish an internet connection, or a special string starting with '@',
+to establish a unix connection.
+</p></dd><dt><a name="peer-listen"></a><span class="term">
+<code class="option">--peer-listen <em class="replaceable"><code>what</code></em></code>
+</span></dt><dd><p>
+Listen for a 'peer' monitor.  The <em class="replaceable"><code>what</code></em>
+can be a standard port number, to listen for an internet connection,
+or a special string starting with '@', to listen for a unix connection.
+</p></dd><dt><a name="readline"></a><span class="term">
+<code class="option">--readline</code>
+</span></dt><dd><p>
+Force use of "readline" in interactive mode.
+</p></dd><dt><a name="shepherd-port"></a><span class="term">
+<code class="option">--shepherd-port <em class="replaceable"><code>port</code></em></code>
+</span></dt><dd><p>
+Connect to the <span><strong class="command">shepherd</strong></span> on the given port
+(defaults to port 963).
+</p></dd><dt><a name="sim-prefix"></a><span class="term">
+<code class="option">--sim-prefix <em class="replaceable"><code>prefix</code></em></code>
+</span></dt><dd><p>
+Specify a <em class="replaceable"><code>prefix</code></em> to the simulator
+command-line.  For example, by specifying <code class="code">--sim-prefix
+nice</code>, <span><strong class="command">tile-monitor</strong></span> would run <code class="code">nice
+tile-sim ...</code>.
+</p></dd><dt><a name="tag-console"></a><span class="term">
+<code class="option">--tag-console</code>
+</span></dt><dd><p>
+Tag lines of stdout/stderr from remote processes with a special prefix
+indicating which remote process produced them.
+</p></dd><dt><a name="verbose"></a><span class="term">
+<code class="option">--verbose</code>
+</span></dt><dd><p>
+Increase verbosity.
+</p></dd><dt><a name="vmlinux"></a><span class="term">
+<code class="option">--vmlinux <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Use the specified <code class="code">vmlinux</code> file, instead of
+<code class="code">${TILERA_ROOT}/tile/boot/vmlinux</code> (on the host) or
+<code class="code">/boot/vmlinux</code> (natively).
+</p></dd></div><div class="refsect2" lang="en"><a name="commands"></a><h3>Help Commands</h3><dt><a name="help"></a><span class="term">
+<code class="option">--help</code>
+</span></dt><dd><p>
+Display some basic help.
+</p></dd><dt><a name="help-all"></a><span class="term">
+<code class="option">--help-all</code>
+</span></dt><dd><p>
+Display all of the help.
+</p></dd><dt><a name="help-commands"></a><span class="term">
+<code class="option">--help-commands</code>
+</span></dt><dd><p>
+Describe the legal commands.
+</p></dd><dt><a name="help-examples"></a><span class="term">
+<code class="option">--help-examples</code>
+</span></dt><dd><p>
+Display some simple examples.
+</p></dd><dt><a name="help-options"></a><span class="term">
+<code class="option">--help-options</code>
+</span></dt><dd><p>
+Describe the legal options.
+</p></dd><dt><a name="help-stdin"></a><span class="term">
+<code class="option">--help-stdin</code>
+</span></dt><dd><p>
+Describe interactive mode.
+</p></dd></div><div class="refsect2" lang="en"><a name="id1241836"></a><h3>Basic Commands</h3><dt><a name="cd"></a><span class="term">
+<code class="option">--cd <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Specify the working directory of the shepherd, which will affect
+commands which take file paths, such as
+<a href="#upload"><code class="option">--upload</code></a> and
+<a href="#run"><code class="option">--run</code></a>, and which will
+be used as the initial working directory for new processes.
+</p></dd><dt><a name="debug-on-crash"></a><span class="term">
+<code class="option">--debug-on-crash</code>
+</span></dt><dd><p>
+<a href="#debugging" title="Debugging">Debug</a> all processes which
+experience a signal which normally induces a core dump, such as
+SIGSEGV, SIGBUS, SIGILL, or SIGABRT.
+</p></dd><dt><a name="env"></a><span class="term">
+<code class="option">--env <em class="replaceable"><code>key=value</code></em></code>
+</span></dt><dd><p>
+Modify the (initially empty) environment used by all future
+<a href="#running" title="Running Applications">launched</a> processes.  The syntax
+is the same as <code class="code">putenv()</code>, and in particular, you can use
+<code class="option">--env <em class="replaceable"><code>key</code></em></code> to remove an
+entry from the environment.
+</p></dd><dt><a name="launch"></a><span class="term">
+<code class="option">--launch
+ -+- 
+ [<em class="replaceable"><code>executable</code></em>]
+ [<em class="replaceable"><code>argument</code></em>...]
+  -+- 
+</code>
+</span></dt><dd><p>
+Launch the specified <em class="replaceable"><code>executable</code></em> with the
+specified <em class="replaceable"><code>arguments</code></em>.  The resulting process,
+and all of its interesting descendants, are known as an "application".
+</p></dd><dt><a name="quit"></a><span class="term">
+<code class="option">--quit</code>
+</span></dt><dd><p>
+Tell the shepherd to kill all processes which are still running, and
+then exit.  Use <a href="#wait"><code class="option">--wait</code></a> 
+first, if needed, to instead wait for processes to exit on their own.
+</p></dd><dt><a name="run"></a><span class="term">
+<code class="option">--run
+ -+- 
+ [<em class="replaceable"><code>executable</code></em>]
+ [<em class="replaceable"><code>argument</code></em>...]
+  -+- 
+</code>
+</span></dt><dd><p>
+Like <a href="#launch"><code class="option">--launch</code></a>, but also wait
+for the application to exit.  In interactive mode, you can hit Ctrl+C to
+stop waiting.
+</p></dd><dt><a name="tile"></a><span class="term">
+<code class="option">--tile <em class="replaceable"><code>tile</code></em></code>
+</span></dt><dd><p>
+Modify the set of tiles to be used as the affinity of (only) the next
+<a href="#running" title="Running Applications">launched</a> process.  This can be used to
+restrict the process to a specific set of tiles, or to allow the use
+of tiles which would otherwise be avoided, such as dataplane tiles.
+</p><p>
+The <em class="replaceable"><code>tile</code></em> argument can be
+a cpu number (e.g. <code class="option">63</code>),
+a range of cpu numbers (e.g. <code class="option">1-63</code>),
+a coordinate (e.g. <code class="option">7,0</code>),
+a rectangle (e.g. <code class="option">8x8</code>),
+a rectangle with a top left coordinate (e.g. <code class="option">4x4@2,2</code>),
+<code class="option">dataplane</code> (for all the dataplane tiles),
+<code class="option">standard</code> (for all the non-dataplane tiles),
+or <code class="option">all</code> (for all the tiles).
+</p><p>
+All of the <em class="replaceable"><code>tile</code></em> arguments above can be
+inverted by adding a leading caret (e.g. <code class="option">--tile ^0</code>),
+in which case, the specified tiles will be removed, instead of added.
+</p><p>
+Multiple <code class="option">--tile</code> options can be combined to describe a
+more complex set of tiles (e.g. <code class="option">--tile 0 --tile 4-7</code>).
+Alternatively, multiple <em class="replaceable"><code>tile</code></em> arguments can
+be combined using a plus sign (e.g. <code class="option">--tile 0+4-7</code>).
+These two syntaxes can even be combined (e.g. <code class="option">--tile 8x2+2x8
+--tile ^dataplane</code>).
+</p><p>
+There are often multiple ways to specify the same set of tiles.  For
+example, <code class="option">--tile 8x2@0,0+2x8@0,0+8x2@0,6+2x8@6,0</code> could
+be also written as <code class="option">--tile 8x8@0,0+^4x4@2,2</code>.
+</p><p>
+If there are no <code class="option">--tile</code> commands, or the argument to
+the very first <code class="option">--tile</code> command starts with a caret,
+then an initial <code class="option">--tile standard</code> will be assumed.  A
+very common example is <code class="option">--tile ^0</code>, which means all
+non-dataplane tiles, except for tile zero.
+</p><p>
+When the launch is actually attempted, any offline tiles, including
+dedicated tiles, will be implicitly dropped from the set of requested
+tiles.  If the resulting set is empty, the shepherd will complain, and
+the launch will fail.
+</p></dd><dt><a name="tiles"></a><span class="term">
+<code class="option">--tiles
+ -+- 
+ [<em class="replaceable"><code>tile</code></em>...]
+  -+- 
+</code>
+</span></dt><dd><p>
+Specify multiple <em class="replaceable"><code>tile</code></em> arguments, as if
+multiple <a href="#tile"><code class="option">--tile</code></a> options
+had been used.
+</p></dd><dt><a name="wait"></a><span class="term">
+<code class="option">--wait</code>
+</span></dt><dd><p>
+Wait until all processes have exited.  This is normally only needed
+after using <a href="#launch"><code class="option">--launch</code></a>
+to launch applications asynchronously, because
+<a href="#run"><code class="option">--run</code></a> always waits for
+its launched application to exit.  See also
+<a href="#quit"><code class="option">--quit</code></a>.
+</p></dd></div><div class="refsect2" lang="en"><a name="id1242322"></a><h3>File Commands</h3><dt><a name="delete"></a><span class="term">
+<code class="option">--delete <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Delete the specified path on the target.
+</p></dd><dt><a name="download"></a><span class="term">
+<code class="option">--download <em class="replaceable"><code>tile-path</code></em>
+<em class="replaceable"><code>host-path</code></em></code> 
+</span></dt><dd><p>
+Copy a file (or directory) from the target to the host.
+</p></dd><dt><a name="download-same"></a><span class="term">
+<code class="option">--download-same <em class="replaceable"><code>path</code></em></code> 
+</span></dt><dd><p>
+Shorthand for <a href="#download"><code class="option">--download</code></a>
+<em class="replaceable"><code>path</code></em> <em class="replaceable"><code>path</code></em>.  Note
+that <em class="replaceable"><code>path</code></em> may be a relative path.
+</p></dd><dt><a name="here"></a><span class="term">
+<code class="option">--here</code>
+</span></dt><dd><p>
+Shorthand for
+<a href="#mount"><code class="option">--mount</code></a>
+<code class="code"><em class="replaceable"><code>CWD</code></em></code>
+<code class="code"><em class="replaceable"><code>CWD</code></em></code>
+<a href="#cd"><code class="option">--cd</code></a>
+<code class="code"><em class="replaceable"><code>CWD</code></em></code>, where
+<code class="code"><em class="replaceable"><code>CWD</code></em></code> is the current working
+directory (on the host).
+</p></dd><dt><a name="mkdir"></a><span class="term">
+<code class="option">--mkdir <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Create the specified directory on the target, including all ancestors,
+if necessary.
+</p></dd><dt><a name="mount"></a><span class="term">
+<code class="option">--mount <em class="replaceable"><code>host-dir</code></em>
+<em class="replaceable"><code>tile-dir</code></em></code>
+</span></dt><dd><p>
+Request that the given host directory be mounted remotely, using
+<a href="#FUSE" title="FUSE">FUSE</a>, onto the given target directory.
+</p></dd><dt><a name="mount-same"></a><span class="term">
+<code class="option">--mount-same <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Shorthand for <a href="#mount"><code class="option">--mount</code></a>
+<em class="replaceable"><code>dir</code></em> <em class="replaceable"><code>dir</code></em>.  Note
+that <em class="replaceable"><code>dir</code></em> may be a relative path.
+</p></dd><dt><a name="mount-tile"></a><span class="term">
+<code class="option">--mount-tile <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Shorthand for <a href="#mount"><code class="option">--mount</code></a>
+${TILERA_ROOT}/tile<em class="replaceable"><code>dir</code></em>
+<em class="replaceable"><code>dir</code></em>.  Note that
+<em class="replaceable"><code>dir</code></em> must be an absolute path.
+</p></dd><dt><a name="rename"></a><span class="term">
+<code class="option">--rename <em class="replaceable"><code>path</code></em>
+<em class="replaceable"><code>newpath</code></em></code> 
+</span></dt><dd><p>
+Rename a directory or file or symlink.
+</p></dd><dt><a name="rmdir"></a><span class="term">
+<code class="option">--rmdir <em class="replaceable"><code>dir</code></em></code> 
+</span></dt><dd><p>
+Remove an empty directory.
+</p></dd><dt><a name="root"></a><span class="term">
+<code class="option">--root</code>
+</span></dt><dd><p>
+Basically shorthand for
+<a href="#mount-tile"><code class="option">--mount-tile</code></a> /bin
+<a href="#mount-tile"><code class="option">--mount-tile</code></a> /boot
+<a href="#mount-tile"><code class="option">--mount-tile</code></a> /lib
+<a href="#mount-tile"><code class="option">--mount-tile</code></a> /usr
+<a href="#upload-tile"><code class="option">--upload-tile</code></a> /var
+<a href="#upload-tile"><code class="option">--upload-tile</code></a> /etc
+<a href="#upload-tile"><code class="option">--upload-tile</code></a> /sbin.
+</p><p>
+Note that /etc is uploaded because, for example, /etc/mtab is modifiable.
+Note that /var is uploaded because, for example, /var/lib/oprofile/
+is modifiable.  Note that /sbin gets uploaded because mounting it is
+(currently) buggy, but its contents are restored when the monitor exits.
+</p></dd><dt><a name="unlink"></a><span class="term">
+<code class="option">--unlink <em class="replaceable"><code>path</code></em> </code>  
+</span></dt><dd><p>
+Delete a file (or symlink).
+</p></dd><dt><a name="upload"></a><span class="term">
+<code class="option">--upload <em class="replaceable"><code>host-path</code></em>
+<em class="replaceable"><code>tile-path</code></em></code> 
+</span></dt><dd><p>
+Copy a file (or directory) from the host to the target.
+</p></dd><dt><a name="upload-same"></a><span class="term">
+<code class="option">--upload-same <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Shorthand for <a href="#upload"><code class="option">--upload</code></a>
+<code class="code"><em class="replaceable"><code>path</code></em></code>
+<code class="code"><em class="replaceable"><code>path</code></em></code>.  Note that
+<em class="replaceable"><code>path</code></em> may be a relative path.
+</p></dd><dt><a name="upload-tile"></a><span class="term">
+<code class="option">--upload-tile <em class="replaceable"><code>path</code></em></code> 
+</span></dt><dd><p>
+Shorthand for <a href="#upload"><code class="option">--upload</code></a>
+<code class="code">${TILERA_ROOT}/tile<em class="replaceable"><code>path</code></em></code>
+<code class="code"><em class="replaceable"><code>path</code></em></code>.  Note that
+<em class="replaceable"><code>path</code></em> must be an absolute path.
+</p><p>
+For example, <code class="code">--upload-tile /usr/lib</code> would upload the
+entire standard <code class="code">/usr/lib</code> directory to the target.
+</p></dd><dt><a name="upload-tile-libs"></a><span class="term">
+<code class="option">--upload-tile-libs <em class="replaceable"><code>name</code></em></code> 
+</span></dt><dd><p>
+Shorthand for <a href="#upload-tile"><code class="option">--upload-tile</code></a>
+<code class="code"><em class="replaceable"><code>path</code></em></code> for every appropriate
+<code class="code">/lib/lib<em class="replaceable"><code>name</code></em>.*</code> and
+<code class="code">/usr/lib/lib<em class="replaceable"><code>name</code></em>.*</code>.
+</p><p>
+For example, <code class="code">--upload-tile-libs stdc++</code> would upload the
+C++ support libraries, and <code class="code">--upload-tile-libs ncurses</code>
+would upload the <code class="code">ncurses</code> support libraries.
+</p></dd></div><div class="refsect2" lang="en"><a name="id1242788"></a><h3>Advanced Commands</h3><dt><a name="attach"></a><span class="term">
+<code class="option">--attach <em class="replaceable"><code>pid</code></em></code>
+</span></dt><dd><p>
+<a href="#debugging" title="Debugging">Debug</a> the process with
+process identifier <em class="replaceable"><code>pid</code></em>.
+</p></dd><dt><a name="bm-debug-attach-tile"></a><span class="term">
+<code class="option">--bm-debug-attach-tile
+<em class="replaceable"><code>x</code></em>,<em class="replaceable"><code>y</code></em></code>
+</span></dt><dd><p>
+Initiate <a href="#bare-metal-debugging" title="Bare Metal Debugging">bare metal debugging</a>
+on the tile with the given coordinates.
+</p><p>
+This is completely unrelated to the
+<a href="#debug-tile"><code class="option">--debug-tile</code></a> option.
+</p></dd><dt><a name="bm-debug-on-panic"></a><span class="term">
+<code class="option">--bm-debug-on-panic</code>
+</span></dt><dd><p>
+Request <a href="#bare-metal-debugging" title="Bare Metal Debugging">bare metal debugging</a>
+for any tile that encounters an operating system panic.
+</p><p>
+Code running on a <span><strong class="command">tile-sim</strong></span> tile can write the value
+<code class="code">SIM_CONTROL_PANIC</code> to the <code class="code">SPR_SIM_CONTROL</code>
+special-purpose register, indicating that an operating system "panic"
+has occured.
+</p><p>
+If the <code class="option">--bm-debug-on-panic</code> option was supplied,
+<span><strong class="command">tile-sim</strong></span> reacts to <code class="code">SIM_CONTROL_PANIC</code>
+by initiating bare metal debugging for that tile.
+</p><p>
+This option is related to the
+<a href="#debug-on-crash"><code class="option">--debug-on-crash</code></a>
+option, in that both start a debugging session if something bad happens.
+However both the type of debugging and the circumstances under which it
+is initiated differ.
+</p></dd><dt><a name="debug"></a><span class="term">
+<code class="option">--debug
+ -+- 
+<em class="replaceable"><code>executable</code></em>
+ [<em class="replaceable"><code>argument</code></em>...]
+  -+- 
+</code>
+</span></dt><dd><p>
+Like <a href="#launch"><code class="option">--launch</code></a>, but also
+<a href="#debugging" title="Debugging">debug</a> the resulting process
+(and all of its interesting descendants).
+</p></dd><dt><a name="debug-exe"></a><span class="term">
+<code class="option">--debug-exe <em class="replaceable"><code>executable</code></em></code>
+</span></dt><dd><p>
+Add another executable to the list of debuggable executables.  When a
+process is created, or calls "exec", and its executable is in this list,
+then it will be <a href="#debugging" title="Debugging">debugged</a>.
+</p></dd><dt><a name="debug-exes"></a><span class="term">
+<code class="option">--debug-exes 
+ -+- 
+<em class="replaceable"><code>executables</code></em>
+  -+- 
+</code>
+</span></dt><dd><p>
+Set the list of debuggable executables.  For more information, see
+<a href="#debug-exe"><code class="option">--debug-exe</code></a>.
+</p></dd><dt><a name="debug-next"></a><span class="term">
+<code class="option">--debug-next</code> 
+</span></dt><dd><p>
+<a href="#debugging" title="Debugging">Debug</a> the next
+<a href="#running" title="Running Applications">launched</a> process, and all of
+its interesting descendants.
+</p></dd><dt><a name="debug-tile"></a><span class="term">
+<code class="option">--debug-tile <em class="replaceable"><code>tile</code></em></code>
+</span></dt><dd><p>
+Modify the set of debuggable tiles for the next
+<a href="#running" title="Running Applications">launched</a> process, and all of its
+decendants.  When a process calls "exec" while running on such
+a tile, it will be <a href="#debugging" title="Debugging">debugged</a>.
+</p><p>
+Currently, for historical reasons, when a process is launched, if the
+first tile in its affinity set is in the set of debuggable tiles, then
+it will be <a href="#debugging" title="Debugging">debugged</a>, regardless of
+what tile it is actually running on at the time.
+</p><p>
+The semantics of <code class="option">--debug-tile</code>, and the syntax for
+the <em class="replaceable"><code>tile</code></em> arguments, are similar to that used
+by the <a href="#tile"><code class="option">--tile</code></a> command,
+except that if there are no <code class="option">--debug-tile</code> commands, then
+no tiles will be debuggable, and if the argument to the very first
+<code class="option">--debug-tile</code> command starts with a caret, then an
+initial <code class="option">--debug-tile all</code> will be assumed.
+</p></dd><dt><a name="dump"></a><span class="term">
+<code class="option">--dump</code>
+</span></dt><dd><p>
+Dump out some shepherd state.
+</p></dd><dt><a name="forbid-tiles"></a><span class="term">
+<code class="option">--forbid-tiles <em class="replaceable"><code>tiles</code></em></code>  
+</span></dt><dd><p>
+Forbid the use of the given tiles.
+</p></dd><dt><a name="forward"></a><span class="term">
+<code class="option">--forward <em class="replaceable"><code>tile-port</code></em>
+<em class="replaceable"><code>host-port</code></em></code> 
+</span></dt><dd><p>
+Forward all connections to a given target port to a given host port,
+in a manner similar to "ssh -R".  This can be useful if you have not
+actually given the target network connectivity.  For instance, one can
+run X11 clients on the target against the X11 server on the host by
+specifying something like <code class="code">--forward 6000 6000</code>.
+</p><p>
+Compare to <a href="#tunnel"><code class="option">--tunnel</code></a>.
+</p></dd><dt><a name="gdb-command"></a><span class="term">
+<code class="option">--gdb-command <em class="replaceable"><code>command</code></em></code>  
+</span></dt><dd><p>
+Add an extra command to be run by all new 'gdb' sessions.  This can
+be used, for example, to add the command "set solib-search-path PATH",
+which can help the debugger locate the local copy of shared libraries
+which have been uploaded.
+</p></dd><dt><a name="huge-pages"></a><span class="term">
+<code class="option">--huge-pages <em class="replaceable"><code>pages</code></em></code>
+</span></dt><dd><p>
+Request that the given number(s) of huge pages be made available for
+allocation.  Note that <em class="replaceable"><code>pages</code></em> can be a single
+number, to be spread across all memory controllers, in which case the
+number is written to the special file "/proc/sys/vm/nr_hugepages"; or,
+it can be a list of numbers (separated by commas or spaces), one for each
+memory controller, in which case the numbers are parsed as integers and
+used to set the appropriate default hugepage count for each memory
+controller node on the system in order; for example, with 16MB default
+huge pages a list of four numbers would set
+/sys/devices/system/node/node[0-3]/hugepages/hugepages-16384/nr_hugepages.
+</p></dd><dt><a name="local-system"></a><span class="term">
+<code class="option">--local-system <em class="replaceable"><code>command-string</code></em></code> 
+</span></dt><dd><p>
+Perform the requested command(s) locally, that is, on the monitor host,
+using <code class="code">system()</code>.  The command string can be a single shell
+command, or multiple commands separated by ';'.
+</p></dd><dt><a name="peer-barrier"></a><span class="term">
+<code class="option">--peer-barrier</code>
+</span></dt><dd><p>
+Synchronize with the peer monitor, by waiting for it to do a
+<span><strong class="command">peer-barrier</strong></span>.
+</p></dd><dt><a name="ping"></a><span class="term">
+<code class="option">--ping</code>
+</span></dt><dd><p>
+Ping the shepherd, to make sure it is still alive.
+</p></dd><dt><a name="rtc"></a><span class="term">
+<code class="option">--rtc</code>
+</span></dt><dd><p>
+Set the clock on the Tile Processor to match the clock on the host.
+Note that this is done automatically whenever a PCI card is booted.
+</p></dd><dt><a name="shepherd-tiles"></a><span class="term">
+<code class="option">--shepherd-tiles <em class="replaceable"><code>tiles</code></em></code>
+</span></dt><dd><p>
+Set the shepherd affinity to the given tiles.
+</p></dd><dt><a name="shepherd-verbosity"></a><span class="term">
+<code class="option">--shepherd-verbosity <em class="replaceable"><code>verbosity</code></em></code>
+</span></dt><dd><p>
+Specify the shepherd verbosity level (higher numbers yield more output).
+The default level is zero.
+</p></dd><dt><a name="sim"></a><span class="term">
+<code class="option">--sim
+ -+- 
+ [<em class="replaceable"><code>command</code></em>]
+ [<em class="replaceable"><code>argument</code></em>...]
+  -+- 
+</code>
+</span></dt><dd><p>
+Send a command to the simulator.  Send the "help" command to see a list
+of all the simulator commands that can be sent.
+</p></dd><dt><a name="spread-threads"></a><span class="term">
+<code class="option">--spread-threads</code>
+</span></dt><dd><p>
+Spread out the threads of the next<a href="#running" title="Running Applications">launched</a>
+process.  As each thread is created, including the first one, it will be
+locked to the next available cpu in the initial affinity set.
+</p><p>
+This command can yield performance improvements for certain executables
+which do not attempt to manage their own affinity in any interesting way.
+This command should NOT be used with any process which expects to use
+its initial affinity in any interesting way, since each thread will have
+an affinity containing exactly one tile before it can run any such code.
+</p></dd><dt><a name="symbol-map"></a><span class="term">
+<code class="option">--symbol-map <em class="replaceable"><code>host-file</code></em>
+<em class="replaceable"><code>tile-file</code></em></code> 
+</span></dt><dd><p>
+Specify a symbol mapping from a host file to a tile file, as if the
+file had just been uploaded via <code class="option">--upload</code>.
+</p></dd><dt><a name="system"></a><span class="term">
+<code class="option">--system <em class="replaceable"><code>command-string</code></em></code> 
+</span></dt><dd><p>
+Perform the requested command(s) on the target (i.e. the shepherd).
+The command string can be a single shell command,
+or multiple commands separated by ';'.
+</p></dd><dt><a name="tunnel"></a><span class="term">
+<code class="option">--tunnel <em class="replaceable"><code>host-port</code></em>
+<em class="replaceable"><code>tile-port</code></em></code> 
+</span></dt><dd><p>
+Tunnel all connections to a given host port to a given target port,
+in a manner similar to "ssh -L".  This can be useful if you have not
+actually given the target network connectivity.  For instance, one can
+<span><strong class="command">telnet</strong></span> to the target by running
+<span><strong class="command">telnetd</strong></span> on the target, then specifying
+<code class="code">--tunnel 10023 23</code>, to allow running <code class="code">telnet localhost
+10023</code> (for instance) on the host.
+</p><p>
+Compare to <a href="#forward"><code class="option">--forward</code></a>.
+</p></dd><dt><a name="verbosity"></a><span class="term">
+<code class="option">--verbosity <em class="replaceable"><code>verbosity</code></em></code>
+</span></dt><dd><p>
+Specify the monitor verbosity level (higher numbers yield more output).
+The default level is zero.  See also the documentation for the
+<a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd></div><div class="refsect2" lang="en"><a name="profiling_commands"></a><h3>Profiling Commands</h3><p>
+The available profiling commands, in the order they are typically used, are:
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+<a href="#profile-tool"><code class="option">--profile-tool</code></a>
+</p></li><li><p>
+<a href="#profile-init"><code class="option">--profile-init</code></a>
+</p></li><li><p>
+<a href="#profile-kernel"><code class="option">--profile-kernel</code></a>
+</p></li><li><p>
+<a href="#profile-vmlinux"><code class="option">--profile-vmlinux</code></a>
+</p></li><li><p>
+<a href="#profile-events"><code class="option">--profile-events</code></a>
+</p></li><li><p>
+<a href="#profile-flags"><code class="option">--profile-flags</code></a>
+</p></li><li><p>
+<a href="#profile-reset"><code class="option">--profile-reset</code></a>
+</p></li><li><p>
+<a href="#profile-start-daemon"><code class="option">--profile-start-daemon</code></a>
+</p></li><li><p>
+<a href="#profile-start"><code class="option">--profile-start</code></a>
+</p></li><li><p>
+<a href="#profile-stop"><code class="option">--profile-stop</code></a>
+</p></li><li><p>
+<a href="#profile-dump"><code class="option">--profile-dump</code></a>
+</p></li><li><p>
+<a href="#profile-capture"><code class="option">--profile-capture</code></a>
+</p></li><li><p>
+<a href="#profile-analyze"><code class="option">--profile-analyze</code></a>
+</p></li><li><p>
+<a href="#profile-shutdown"><code class="option">--profile-shutdown</code></a>
+</p></li></ul></div><p>
+The profiling commands are described in more detail below.
+</p><p>
+Note that the usage and/or the effect of these commands generally depends
+on the currently selected profiling tool.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+The usage/effect differences between the tools, where they exist,
+are noted below for each command.
+</p><p>
+For more detail on the <span><strong class="command">oprofile</strong></span> tool, see
+<a href="profiling.html" target="_top">Profiling from the Command Line with OProfile</a>.
+</p><p>
+For more detail on the Linux <span><strong class="command">perf</strong></span> tool, see
+<a href="perf_events.html" target="_top">Profiling applications with the Linux "perf" tool</a>.
+</p><dt><a name="profile-analyze"></a><span class="term">
+<code class="option">--profile-analyze <em class="replaceable"><code>dir</code></em></code>  
+</span></dt><dd><p>
+Analyzes the <a href="#profiling" title="Profiling">profiling</a>
+data previously captured via
+<a href="#profile-capture"><code class="option">--profile-capture</code></a>,
+so that it can be viewed in the
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a> IDE's
+Profile View.
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Runs the
+<a href="tile-op2xml.html" target="_top"><span><strong class="command">tile-op2xml</strong></span></a>
+utility on the capture directory to process the profiling data.
+</li><li><code class="option">perf</code>:
+Runs the
+<a href="tile-perf2xml.html" target="_top"><span><strong class="command">tile-perf2xml</strong></span></a>
+utility on the capture directory to process the profiling data.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-capture"></a><span class="term">
+<code class="option">--profile-capture <em class="replaceable"><code>dir</code></em></code>  
+</span></dt><dd><p>
+Downloads the current <a href="#profiling" title="Profiling">profiling</a>
+data into the specified host-side directory, so that it can then be analyzed
+by the
+<a href="#profile-analyze"><code class="option">--profile-analyze</code></a>
+command.
+</p><p>
+The usage/effect of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+</p></dd><dt><a name="profile-dump"></a><span class="term">
+<code class="option">--profile-dump</code>
+</span></dt><dd><p>
+Performs any necessary flushing of profiling state
+to ensure it will be available to
+<a href="#profile-capture"><code class="option">--profile-capture</code></a>.
+(Note: This command is implicitly invoked by 
+<a href="#profile-stop"><code class="option">--profile-stop</code></a>.)
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Ensures any extra debugging information has been captured.
+(Generally not needed unless you have enabled
+the OProfile utility's debugging features.)
+</li><li><code class="option">perf</code>:
+Currently has no effect.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-events"></a><span class="term">
+<code class="option">--profile-events <em class="replaceable"><code>flags</code></em></code>
+</span></dt><dd><p>
+Specifies event-related flags to be used by
+<a href="#profile-start"><code class="option">--profile-start</code></a>.
+</p><p>
+This command is optional. If not specified, a default set of
+commonly-used profiling events is automatically specified.
+</p><p>
+The usage of this command depends on the currently selected profiling tool.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Event flags are specified in the form:
+"<code class="code">--event=EVENT_NAME:interval ...</code>",
+that is, you specify an interval for each event.
+</li><li><code class="option">perf</code>:
+Event flags are specified in the form:
+"<code class="code">-c interval -e EVENT1,EVENT2,...</code>",
+that is, you specify one interval for all events.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-flags"></a><span class="term">
+<code class="option">--profile-flags <em class="replaceable"><code>flags</code></em></code>
+</span></dt><dd><p>
+Specifies any additional tool-specific flags to be used by
+<a href="#profile-start"><code class="option">--profile-start</code></a>.
+</p><p>
+The usage of this command depends on the currently selected profiling tool.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+The <code class="code">--callgraph=n</code> flag can be used to specify
+the callgraph depth.
+</li><li><code class="option">perf</code>:
+Currently there are no additional flags to specify.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-init"></a><span class="term">
+<code class="option">--profile-init</code>
+</span></dt><dd><p>
+Performs any initialization (uploading files, initializing
+flags state, etc.) required by the currently selected profiling tool.
+</p><p>
+NOTE: Whenever you change profiling tools with 
+<a href="#profile-tool"><code class="option">--profile-tool</code></a>,
+you must reinvoke
+<a href="#profile-init"><code class="option">--profile-init</code></a>
+to initialize the newly-selected profiling tool.
+</p><p>
+The usage/effect of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>)
+</p></dd><dt><a name="profile-kernel"></a><span class="term">
+<code class="option">--profile-kernel</code>
+</span></dt><dd><p>
+Enables profiling of kernel (OS) code, and performs any additional
+initialization (file uploading, etc.) required to profile using the
+default kernel (<code class="code">/boot/vmlinux</code>).
+</p><p>
+This command is optional; if specified, it should follow
+<code class="option">--profile-init</code>.
+</p><p>
+(See the equivalent command
+<a href="#profile-vmlinux"><code class="option">--profile-vmlinux</code></a>
+to enable profiling with a kernel binary other than the default.)
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Enables kernel profiling as described above.
+</li><li><code class="option">perf</code>:
+Kernel profiling is always enabled; this command merely
+selects the default kernel for profiling.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-reset"></a><span class="term">
+<code class="option">--profile-reset</code>
+</span></dt><dd><p>
+Clears any previously collected profiling data from the TILE file system.
+Note that this command does <span class="emphasis"><em>NOT</em></span> delete any host-side
+data you may have previously captured with
+<a href="#profile-capture"><code class="option">--profile-capture</code></a>.
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Deletes the <code class="code">/var/lib/oprofile/samples/current</code> sample tree.
+</li><li><code class="option">perf</code>:
+Deletes the <code class="code">/tmp/perf.data</code> capture file.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-shutdown"></a><span class="term">
+<code class="option">--profile-shutdown</code>
+</span></dt><dd><p>
+Shuts down any supporting process (profiling daemon, etc.)
+to reduce system load.
+</p><p>
+If profiling is currently running (see
+<a href="#profile-start">--profile-start</a>),
+this command also does an implicit
+<a href="#profile-stop">--profile-stop</a>
+to cleanly stop profiling.
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Shuts down the profiling daemon process.
+</li><li><code class="option">perf</code>:
+Has no effect; there is no profiling daemon process.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-start"></a><span class="term">
+<code class="option">--profile-start</code>
+</span></dt><dd><p>
+Starts profile data collection.
+</p><p>
+This command implicitly uses the state, if any, previously specified via the commands
+<a href="#profile-kernel"><code class="option">--profile-kernel</code></a>,
+<a href="#profile-vmlinux"><code class="option">--profile-vmlinux</code></a>,
+<a href="#profile-events"><code class="option">--profile-events</code></a>, and
+<a href="#profile-flags"><code class="option">--profile-flags</code></a>
+for the current profiling run.
+</p><p>
+If the current profiling tool has a daemon process, etc. and it has not
+yet been started, this command does an implicit 
+<a href="#profile-start-daemon"><code class="option">--profile-start-daemon</code></a>
+to start this daemon process. (You can use the 
+<a href="#profile-start-daemon"><code class="option">--profile-start-daemon</code></a>
+command to separately start the daemon process, so that
+<a href="#profile-start"><code class="option">--profile-start</code></a>
+executes faster.)
+</p><p>
+NOTE: For the <code class="option">oprofile</code> tool, profiling flags, etc.
+are actually used when the profiling daemon is restarted.
+You must fully stop and restart the profiling daemon in order to
+change profiling flags; if you do not, you will be profiling with
+the same settings as the previous profiling run.
+</p><p>
+Otherwise, the usage/effect of this command is the same for all profiling tools
+(see <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p></dd><dt><a name="profile-start-daemon"></a><span class="term">
+<code class="option">--profile-start-daemon</code>
+</span></dt><dd><p>
+Pre-starts any supporting process (profiling daemon), etc.
+so that the <a href="#profile-start">--profile-start</a> command
+can enable profiling more quickly.
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Starts the profiling daemon process.
+</li><li><code class="option">perf</code>:
+Has no effect; there is no daemon process.
+</li></ul></div><p>
+</p></dd><dt><a name="profile-stop"></a><span class="term">
+<code class="option">--profile-stop</code>
+</span></dt><dd><p>
+Stops profile data collection, and implicitly invokes
+<a href="#profile-dump"><code class="option">--profile-dump</code></a>.
+</p><p>
+The usage/effect of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p></dd><dt><a name="profile-tool"></a><span class="term">
+<code class="option">--profile-tool { oprofile | perf }</code>
+</span></dt><dd><p>
+Selects the profiling tool to be used by the rest
+of the profiling commands.
+</p><p>
+The profiling tools currently supported are:
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code> -- the <span><strong class="command">OProfile</strong></span>
+open-source profiling utility
+</li><li><code class="option">perf</code> -- the <span><strong class="command">perf</strong></span> utility
+(a.k.a. "Perf Events")
+</li></ul></div><p>
+</p><p>
+For more detail on the <span><strong class="command">oprofile</strong></span> tool, see
+<a href="profiling.html" target="_top">Profiling from the Command Line with OProfile</a>.
+</p><p>
+For more detail on the Linux <span><strong class="command">perf</strong></span> tool, see
+<a href="perf_events.html" target="_top">Profiling applications with the Linux "perf" tool</a>.
+</p><p>
+Currently, the default tool is <code class="option">oprofile</code>.
+However, for forward-compatibility it is recommended that in new code
+you specify the <a href="#profile-tool"><code class="option">--profile-tool</code></a>
+option to explicitly define the tool you are using, since the flags, etc.
+accepted by the two tools do differ significantly.
+</p><p>
+You should use <code class="option">--profile-tool</code> at the very
+start of a profiling session, not change tools it until you have
+captured and analyzed the data you've collected from that session.
+</p><p>
+Whenever you change profiling tools, you must then invoke
+<a href="#profile-init"><code class="option">--profile-init</code></a>
+to initialize the newly-selected profiling tool.
+</p><p>
+If you find you didn't really want to switch tools, you can re-invoke
+<code class="option">--profile-tool</code> to switch back. However, once you've
+invoked <code class="option">--profile-init</code>, any uncaptured state
+collected by the previous tool is effectively lost.)
+</p><p>
+The behavior of the other profiling commands is determined by the
+currently selected tool. In general the purpose of each command remains
+the same. However, some commands may have no effect for the current
+profiling tool, and for others the argument(s) to use will differ.
+These differences are noted for each profiling command.
+</p></dd><dt><a name="profile-vmlinux"></a><span class="term">
+<code class="option">--profile-vmlinux <em class="replaceable"><code>vmlinux</code></em></code>
+</span></dt><dd><p>
+Enables profiling of kernel (OS) code, and performs any additional
+initialization (file uploading, etc.) required to profile using the
+specified <em class="replaceable"><code>vmlinux</code></em> kernel.
+</p><p>
+This command is optional; if specified, it should follow
+<code class="option">--profile-init</code>. Also, this command is otherwise
+equivalent to 
+<a href="#profile-kernel"><code class="option">--profile-kernel</code></a>,
+so at most one of the two should be specified.
+</p><p>
+The usage of this command is the same for all profiling tools.
+(See <a href="#profile-tool"><code class="option">--profile-tool</code></a>).
+</p><p>
+The effect of this command depends on the currently selected profiling tool.
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">oprofile</code>:
+Enables kernel profiling as described above.
+</li><li><code class="option">perf</code>:
+Kernel profiling is always enabled; this command merely
+selects the specified <em class="replaceable"><code>vmlinux</code></em> kernel
+for profiling.
+</li></ul></div><p>
+</p></dd><dt><a name="generate-monitor-xml"></a><span class="term">
+<code class="option">--generate-monitor-xml <em class="replaceable"><code>path</code></em></code>
+</span></dt><dd><p>
+Generates a <code class="code">monitor.xml</code> metadata file to the specified
+directory <em class="replaceable"><code>path</code></em>.  For use with
+<span><strong class="command">tile-op2xml</strong></span> and <span><strong class="command">tile-perf2xml</strong></span> to
+generate <code class="code">profile.xml</code> files by hand.
+</p></dd></div><div class="refsect2" lang="en"><a name="examples"></a><h3>Examples of <span><strong class="command">tile-monitor</strong></span> Usage</h3><p>
+To boot the default device, run a standard command,
+and then exit, try:
+</p><p>
+<code class="code">
+tile-monitor -- ls /usr/bin
+</code>
+</p><p>
+To boot the default device, upload an executable,
+run it, and then exit, try:
+</p><p>
+<code class="code">
+tile-monitor --resume --upload myapp /bin/myexe -- /bin/myexe
+</code>
+</p><p>
+To connect to the default device, mount and cd into
+the current working directory, run an application, and then exit, try:
+</p><p>
+<code class="code">
+tile-monitor --resume --here -- myapp myarg
+</code>
+</p><p>
+To boot the default device, mount and cd into the
+current working directory, launch, in parallel, a server application
+on tile 3,3, and a client application on tiles 1,1 and 5,5, wait for
+them to exit, and then exit, try:
+</p><p>
+<code class="code">
+tile-monitor --here --tile 3,3 --launch - myserver -
+--tile 1,1 --tile 5,5 --launch - myclient - --wait --quit
+</code>
+</p><p>
+To boot the simulator, using a standard image file, and then enter
+interactive mode, try:
+</p><p>
+<code class="code">
+tile-monitor --image tile64
+</code>
+</p></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-gcc.html" target="_top"><span><strong class="command">tile-gcc(1)</strong></span></a>, 
+<a href="tile-gcc.html" target="_top"><span><strong class="command">tile-g++(1)</strong></span></a>, 
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse(1)</strong></span></a>, 
+<a href="tile-gdb.html" target="_top"><span><strong class="command">tile-gdb(1)</strong></span></a>, 
+<a href="tile-sim.html" target="_top"><span><strong class="command">tile-sim(1)</strong></span></a>,
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot(1)</strong></span></a>,
+<a href="profiling.html" target="_top"><span><strong class="command">Profiling with oprofile</strong></span></a>
+<a href="perf_events.html" target="_top">Profiling applications with the Linux "perf" tool</a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

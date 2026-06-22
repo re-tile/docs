@@ -1,0 +1,644 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-sim</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-sim"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-sim &#8212; Simulate a Tile<span>-Gx</span>
+Processor</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-sim</code>  [<code class="option"><em class="replaceable"><code>option</code></em></code>...]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+Normally, <span><strong class="command">tile-sim</strong></span> is not run directly by users, 
+and instead, is invoked indirectly by
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor</strong></span></a>,
+which itself may be invoked indirectly by
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a>.
+</p><p>
+The various options documented below may be passed to the simulator via
+the <code class="option">--sim-arg</code> option of <span><strong class="command">tile-monitor</strong></span>.
+</p><p>
+<span><strong class="command">tile-sim</strong></span> simulates a Tile Processor, which is a
+single chip that contains an array of tiles and associated I/O
+devices.  Each tile contains a processing engine, a cache engine, and
+a switch engine that connects a tile to its neighbors.  I/O devices
+include memory controllers and external communications interfaces.
+<span><strong class="command">tile-sim</strong></span> is a system simulator that
+provides both timing-accurate and functional modes, as well as
+support for detailed debugging and performance analysis.
+</p><p>
+By default, <span><strong class="command">tile-sim</strong></span> does timing-accurate simulation.
+The <a href="#functional"><code class="option">--functional</code></a> option
+makes <span><strong class="command">tile-sim</strong></span> run faster, at the expense of timing
+accuracy.
+</p><div class="refsect2" lang="en"><a name="perf-anal"></a><h3>Performance Analysis</h3><p>
+Various tools are provided by <span><strong class="command">tile-sim</strong></span> to aid
+performance analysis.  Profiling produces aggregate statistics over a
+program run.  Tracing produces detailed cycle-by-cycle results.
+</p><p>
+Use the <a href="#xml-profile"><code class="option">--xml-profile</code></a> options to
+produce detailed profiling data that can be viewed in the <a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a>
+Profile View.  
+</p><p>
+Trace files contain very detailed information, down to the machine
+cycle level.  These files can be viewed as text, or by using
+<a href="tile-trace-view.html" target="_top"><span><strong class="command">tile-trace-view</strong></span></a>
+which provides a graphical user interface (GUI) to display trace data.
+</p><p>
+See the <a href="#profile-options">Profiling Options</a> and
+<a href="#trace-options">Tracing Options</a> for more detail.
+</p><p>
+To focus profiling and/or tracing on specific program segments, use the
+Profiler Control API and Simulator Control API, which enabled controlling
+profiling and tracing options respectively under program control.
+See the Optimization Guide for more information.
+</p><p>For instance, to turn tracing on and off around an interesting
+section of code, use:
+</p><pre class="programlisting">
+#include &lt;arch/sim.h&gt;
+
+sim_set_tracing(SIM_TRACE_CYCLES | SIM_TRACE_DISASM);
+        :
+// Interesting code.
+        :
+sim_set_tracing(SIM_TRACE_NONE);
+</pre><p>Likewise, to turn profiling on and off around an interesting
+section of code, use:
+</p><pre class="programlisting">
+#include &lt;arch/sim.h&gt;
+
+sim_profiler_enable();
+        :
+// Interesting code.
+        :
+sim_profiler_disable();
+</pre></div><div class="refsect2" lang="en"><a name="options"></a><h3>Command-Line Options</h3><div class="variablelist"><a name="basic-options"></a><p class="title"><b>Basic Options</b></p><dl><dt><a name="help"></a><span class="term">
+<code class="option">-h</code>
+[<span class="optional"><code class="option">--help</code></span>]
+</span></dt><dd><p>
+Print (on the standard output) the help message, containing the list
+of command-line options understood by <span><strong class="command">tile-sim</strong></span> and
+other usage information.
+</p></dd><dt><a name="config"></a><span class="term">
+<code class="option">--config</code>
+ { <em class="replaceable"><code>X</code></em>x<em class="replaceable"><code>Y</code></em>  |   <em class="replaceable"><code>chip</code></em> }
+</span></dt><dd><p>
+Set the tile configuration to be simulated, where
+<em class="parameter"><code>X</code></em> is the number of tiles horizontally (the
+number of columns), and <em class="parameter"><code>Y</code></em> is the number of
+tiles vertically (the number of rows).
+</p><p>
+As a shorthand, a <em class="replaceable"><code>chip</code></em> name can also be specified,
+which will configure the tile array, memory controllers, and other values
+(such as core clock speed) appropriately.
+
+Accepted <em class="replaceable"><code>chip</code></em> arguments are:
+</p><div class="variablelist"><a name="chip-options"></a><dl><dt><a name="gx8016"></a><span class="term">
+<code class="option">gx8016</code>
+</span></dt><dd><p>
+A TILE-Gx8016 processor composed of a 4x4 tile array and I/O shims per
+the product definition.
+</p></dd><dt><a name="gx8036"></a><span class="term">
+<code class="option">gx8036</code> or <code class="option">gx36</code>
+</span></dt><dd><p>
+A TILE-Gx8036 processor composed of a 6x6 tile array and I/O shims per
+the product definition.
+</p></dd><dt><a name="gx8064"></a><span class="term">
+<code class="option">gx8064</code> or <code class="option">tile64</code>
+</span></dt><dd><p>
+A TILE-Gx8064 processor composed of an 8x8 tile array and I/O shims
+per the product definition.
+</p></dd><dt><a name="gx8100"></a><span class="term">
+<code class="option">gx8100</code>
+</span></dt><dd><p>
+A TILE-Gx8100 processor composed of a 10x10 tile array and I/O shims
+per the product definition.
+</p></dd></dl></div></dd><dt><a name="cycle-limit"></a><span class="term">
+<code class="option">--cycle-limit <em class="replaceable"><code>cycles</code></em></code>
+</span></dt><dd><p>
+Run the simulator for no more than the specified number of
+<em class="replaceable"><code>cycles</code></em>. 
+</p></dd><dt><a name="force-functional"></a><span class="term">
+<code class="option">--force-functional</code>
+</span></dt><dd><p>
+Run the entire simulation in functional mode, ignoring programmatic
+attempts to disable functional mode.
+</p></dd><dt><a name="functional"></a><span class="term">
+<code class="option">--functional</code>
+</span></dt><dd><p>
+Reduce simulation time at the cost of lower timing accuracy.  (Default
+is off, so <span><strong class="command">tile-sim</strong></span> is timing-accurate by default.)
+</p></dd><dt><a name="options-file"></a><span class="term">
+<code class="option">--options-file <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+The <em class="parameter"><code>file</code></em> parameter specifies the name of a
+configuration file holding addition <span><strong class="command">tile-sim</strong></span>
+options.  A standard configuration file
+<code class="filename">tile-sim.cfg</code> is always read if it exists.  The
+priority of options is first options given on the command line, then
+an options file specified by
+<a href="#options-file"><code class="option">--options-file</code></a>,
+then options in <code class="filename">tile-sim.cfg</code>.
+</p><p>
+Configuration files contain lines of the form 'name = value' and can
+contain comments, e.g.:
+</p><pre class="programlisting">
+# Options file for AES
+xml-profile = aes.xml
+output-file = aes
+trace-cycles = true
+trace-stall-info = true
+trace-disasm = true
+</pre></dd><dt><a name="output-file"></a><span class="term">
+<code class="option">--output-file <em class="replaceable"><code>prefix</code></em></code>
+</span></dt><dd><p>
+Prepend the specified <em class="parameter"><code>prefix</code></em> to names of output
+files.  Without <a href="#output-file"><code class="option">--output-file</code></a>, all
+output will appear on the standard output.  With <a href="#output-file"><code class="option">--output-file</code></a>, output
+will be divided into files per type, per tile, using the specified
+<em class="parameter"><code>prefix</code></em>.
+</p></dd><dt><a name="clock-speed"></a><span class="term">
+<code class="option">--clock-speed <em class="replaceable"><code>speed</code></em></code>
+</span></dt><dd><p>
+Sets the core clock speed in cycles per second.  Accepts an optional
+modifier G (giga), M (mega), or K (kilo).  The default is  <span>1.2
+GHz on TILE-Gx</span>.
+</p></dd><dt><a name="symbols"></a><span class="term">
+<code class="option">--symbols <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Adds the symbols from the specified <em class="replaceable"><code>file</code></em> to
+those searched during symbol lookups, for instance for stack
+backtraces.
+</p></dd><dt><a name="print-final-cycle-count"></a><span class="term">
+<code class="option">--print-final-cycle-count</code>
+</span></dt><dd><p>
+Print out the final cycle count for the simulated and host machines
+(always to stdout).
+</p></dd><dt><a name="version"></a><span class="term">
+<code class="option">-v</code>
+[<span class="optional"><code class="option">--version</code></span>]
+</span></dt><dd><p>
+Print (on the standard output) the version of the invoked
+<span><strong class="command">tile-sim</strong></span>.
+</p></dd><dt><a name="backtrace-limit"></a><span class="term">
+<code class="option">--backtrace-limit <em class="replaceable"><code>limit</code></em></code>
+</span></dt><dd><p>
+Stop the simulation if the simulator's backtrace history ever contains
+more than <em class="parameter"><code>limit</code></em> stack frames.  A very large
+number of stack frames is often an indication of a serious bug
+in the simulated program.  If this option is not specified, or if
+<em class="parameter"><code>limit</code></em> is set to 0, the simulator will not limit
+the number of backtrace stack frames.
+</p></dd></dl></div><div class="variablelist"><a name="profile-options"></a><p class="title"><b>Profiling Options</b></p><dl><dt><a name="xml-profile"></a><span class="term">
+<code class="option">--xml-profile <em class="replaceable"><code>filename</code></em></code>
+</span></dt><dd><p>
+Emit performance statistics, including function profiles, into the
+specified XML file, which can be viewed in the Profile View of
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a>.
+</p></dd><dt><a name="xml-stats"></a><span class="term">
+<code class="option">--xml-stats <em class="replaceable"><code>filename</code></em></code>
+</span></dt><dd><p>
+Emit summary performance statistics into the
+specified XML file, which can be viewed in the Profile View of
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse</strong></span></a>.
+</p></dd><dt><a name="profile-interval"></a><span class="term">
+<code class="option">--profile-interval <em class="replaceable"><code>interval</code></em></code>
+</span></dt><dd><p>
+Used with one of the profiling options, produce the specified
+statistics every <em class="replaceable"><code>interval</code></em> cycles.
+</p></dd><dt><a name="profile-functions"></a><span class="term">
+<code class="option">--profile-functions</code>
+</span></dt><dd><p>
+Profile code at per-function granularity.
+</p></dd><dt><a name="profile-lines"></a><span class="term">
+<code class="option">--profile-lines</code>
+</span></dt><dd><p>
+Profile code at source line granularity.
+</p></dd><dt><a name="profile-pc"></a><span class="term">
+<code class="option">--profile-pc</code>
+</span></dt><dd><p>
+Profile code at per-PC granularity.
+</p></dd><dt><a name="profile-detailed-stalls"></a><span class="term">
+<code class="option">--profile-detailed-stalls</code>
+</span></dt><dd><p>
+Collect microarchitectural stall reasons.  Using this option will
+consume more memory and produce larger profile files.
+</p></dd><dt><a name="profile-idle"></a><span class="term">
+<code class="option">--profile-idle</code>
+</span></dt><dd><p>
+Profile even tiles not running any process.
+</p></dd><dt><a name="diff-friendly-stats"></a><span class="term">
+<code class="option">--diff-friendly-stats</code>
+</span></dt><dd><p>
+Produce a profile file that may be more easily compared with
+previously generated profiles. For example, this disables printing of
+host cycles.
+</p></dd><dt><a name="max-profile-pl"></a><span class="term">
+<code class="option">--max-profile-pl <em class="replaceable"><code>level</code></em></code>
+</span></dt><dd><p>
+Only perform detailed profiling at the maximum privilege level
+specified or below.  0 = USER, 1 = USER + SUPERVISOR, 2 = USER +
+SUPERVISOR + HYPERVISOR.
+</p></dd><dt><a name="profile-disable-at-startup"></a><span class="term">
+<code class="option">--profile-disable-at-startup</code>
+</span></dt><dd><p>
+Disable profiling at startup but allow it to be enabled
+programmatically later.
+</p></dd><dt><a name="profile-boot"></a><span class="term">
+<code class="option">--profile-boot</code>
+</span></dt><dd><p>
+Profile boot code and dedicated tiles.
+</p></dd></dl></div><div class="variablelist"><a name="trace-options"></a><p class="title"><b>Tracing Options</b></p><dl><dt><a name="trace-tile-view"></a><span class="term">
+<code class="option">--trace-tile-view <em class="replaceable"><code>prefix</code></em></code>
+</span></dt><dd><p>
+Produce trace files for <a href="tile-trace-view.html" target="_top"><span><strong class="command">tile-trace-view</strong></span></a>,
+the Tilera 
+Trace Viewer.  Trace file names are prepended with the specified
+<em class="parameter"><code>prefix</code></em>.  The <a href="#trace-tile-view"><code class="option">--trace-tile-view</code></a>
+option is a shorthand for specifying several of the individual tracing
+options together with <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-cycles"></a><span class="term">
+<code class="option">--trace-cycles</code>
+</span></dt><dd><p>
+Add the current cycle to the information produced by the other tracing
+options.  This means prepending each output line with the tile
+processor cycle number pertaining to that line.
+</p></dd><dt><a name="trace-l2"></a><span class="term">
+<code class="option">--trace-l2</code>
+</span></dt><dd><p>
+Produce a trace of L2 Cache behavior, meaning the actions of the
+level-two unified cache on each tile.  The output is printed to files
+or standard output as specified by <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-register-writes"></a><span class="term">
+<code class="option">--trace-register-writes</code>
+</span></dt><dd><p>
+Produce a trace of register updates for the processor on each tile.
+The output is printed to files or standard output as specified by
+<a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-disasm"></a><span class="term">
+<code class="option">--trace-disasm</code>
+</span></dt><dd><p>
+Produce a trace of instruction execution for the processor on each
+tile, including the instruction address and disassembled instruction
+bundle.  The output is printed to files or standard output as
+specified by <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-lines"></a><span class="term">
+<code class="option">--trace-lines</code>
+</span></dt><dd><p>
+Interleave the current function name, source file path, and source
+line number into the trace output.  The information is emitted into
+the file every time the function, path, or line number changes.
+The output is printed to files or standard output as specified by
+<a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-stall-info"></a><span class="term">
+<code class="option">--trace-stall-info</code>
+</span></dt><dd><p>
+Produce a trace of stall information for the processor on each tile,
+including stalls on instruction fetch, data access, network reads and
+writes, etc.  The output is printed to files or standard output as
+specified by <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-memory-controller"></a><span class="term">
+<code class="option">--trace-memory-controller</code>
+</span></dt><dd><p>
+Produce a trace of memory controller behavior.  The output is printed
+to files or standard output as specified by <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-syscalls"></a><span class="term">
+<code class="option">--trace-syscalls</code>
+</span></dt><dd><p>
+Produce a trace of system calls on each tile.  The output is printed
+to files or standard output as specified by <a href="#output-file"><code class="option">--output-file</code></a>.
+</p></dd><dt><a name="trace-start-cycle"></a><span class="term">
+<code class="option">--trace-start-cycle <em class="replaceable"><code>cycle</code></em></code>
+</span></dt><dd><p>
+Start tracing at a specified <em class="parameter"><code>cycle</code></em>.
+</p></dd></dl></div><div class="variablelist"><a name="checkpoint-options"></a><p class="title"><b>Checkpointing Options</b></p><dl><dt><a name="checkpoint-file"></a><span class="term">
+<code class="option">--checkpoint-file <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Specify the name of the <em class="replaceable"><code>checkpoint file</code></em> to
+create when a checkpoint is created, e.g. when "sim_checkpoint" is
+called.
+Note that <a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor</strong></span></a>'s
+<code class="option">--create-image</code> option corresponds to this option.
+</p></dd><dt><a name="load-from-checkpoint"></a><span class="term">
+<code class="option">--load-from-checkpoint <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Start simulation from specified <em class="replaceable"><code>checkpoint
+file</code></em>.  Note that not all options can be set or changed
+after a checkpoint is loaded.  For example, new shims cannot be created
+when a checkpoint is loaded; shims must be created when the checkpoint
+is created.
+Note that <a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor</strong></span></a>'s
+<code class="option">--image</code> option corresponds to this option.
+</p></dd><dt><a name="checkpoint-interval"></a><span class="term">
+<code class="option">--checkpoint-interval <em class="replaceable"><code>cycles</code></em></code>
+</span></dt><dd><p>
+Create a checkpoint every given number of
+<em class="replaceable"><code>cycles</code></em>.  The default checkpoint file is
+named "tmp".  You may specify a checkpoint file with the <a href="#checkpoint-file"><code class="option">--checkpoint-file</code></a>
+option.
+</p></dd></dl></div><div class="variablelist"><a name="advanced-options"></a><p class="title"><b>Advanced Options</b></p><dl><dt><a name="shim"></a><span class="term">
+<code class="option">--shim <em class="replaceable"><code>X</code></em>:<em class="replaceable"><code>Y</code></em>:<em class="replaceable"><code>direction</code></em>:<em class="replaceable"><code>name</code></em>:<em class="replaceable"><code>args</code></em></code>
+</span></dt><dd><p>
+Specify an I/O shim at coordinates
+<em class="replaceable"><code>X</code></em>,<em class="replaceable"><code>Y</code></em>, cardinal
+<em class="replaceable"><code>direction</code></em> (<code class="option">n</code>,
+<code class="option">e</code>, <code class="option">w</code>, or <code class="option">s</code>), with
+<em class="replaceable"><code>name</code></em>, and optional arguments.
+Each element in the specification must be separated by colons or commas.
+</p><p>
+The shim name must consist of a prefix that is a valid shim type (e.g.
+<code class="option">mpipe</code> is a valid shim type; and <code class="option">mpipe</code>,
+<code class="option">mpipe0</code>, <code class="option">mpipe1</code> are all valid shim names).
+</p><p>
+The shim name specified by this option is used only by the simulator (to
+determine the shim type, annotate simulator output, etc.); it is not
+related to the shim names in the hypervisor device table or its
+associated APIs.
+</p><p>
+Note that the direction can be prepended by <code class="option">r</code>, which
+reverses the usual clock-wise direction of connecting multiple
+ports to the mesh interconnect.
+</p><p>
+Valid shim types are:
+</p><div class="variablelist"><dl><dt><a name="crypto"></a><span class="term">
+<code class="option">crypto</code>
+</span></dt><dd><p>
+A MiCA crypto accelerator.  Most users will use the crypto shim
+created by <code class="option">--config</code>, but it is possible to add a 
+crypto shim to custom configurations via 
+<code class="option">--shim X:Y:dir:crypto</code>.
+</p></dd><dt><a name="gx-memory"></a><span class="term">
+<code class="option">memory</code>
+</span></dt><dd><p>
+A DDR3 memory controller.
+For instance, the <a href="#config"><code class="option">--config
+gx36</code></a> option implies two
+memory controllers as follows:
+
+</p><div class="itemizedlist"><ul type="disc"><li><code class="option">--shim 0:1:rw:memory:ports=2:banks=32:ranks=4</code></li><li><code class="option">--shim 5:1:e:memory:ports=2:banks=32:ranks=4</code></li></ul></div><p>
+A memory controller's ports are not on adjacent tiles; they are implicitly
+spaced apart by one tile.
+<span><strong class="command">tile-sim</strong></span> specifies a single memory controller at
+<code class="option">0:0:w</code> by default. 
+</p></dd><dt><a name="mpipe"></a><span class="term">
+<code class="option">mpipe</code>
+</span></dt><dd><p>
+An mPIPE controller.  Most users will use the mPIPE created by
+<code class="option">--config</code>, but it is possible to add an mPIPE
+shim to custom configurations via 
+<code class="option">--shim X:Y:dir:mpipe</code>.
+</p><p>
+Once an mPIPE shim is created, the <code class="option">--extra-shim-args</code>
+flag can be used to configure the virtual ethernet devices attached to
+the shim.  This allows the user to control the link bitrate, source
+and destination pcap files, and traffic shaping parameters.  For
+example, passing <code class="option"> --extra-shim-args "mpipe0:mac=0:bps=10G:input=input0.pcap:output=output0.pcap"</code> 
+would configure link 0 on mpipe0 to run at 10 gbps and take its input
+and output from the indicated .pcap files.  Appending
+ <code class="option">":mac=1:bps=1G:input=input1.pcap:link_enable=1"</code>
+ would configure link 1 on mpipe 0 to input from a pcap file, discard
+ egress packets, and start generating packets immediately.  By
+ default, links are disabled at startup and need to be enabled either
+ by passing the <code class="option">link_enable=1</code> flag or by calling
+ sim_enable_mpipe_links() from within the simulated application.
+</p><p>
+mPIPE shim arguments can include the following:
+
+</p><div class="variablelist"><dl><dt><a name="bt-on-drop"></a><span class="term">
+<code class="option">bt-on-drop</code>
+</span></dt><dd><p>
+Print backtraces when a packet is dropped.
+</p></dd><dt><a name="panic-on-drop"></a><span class="term">
+<code class="option">panic-on-drop</code>
+</span></dt><dd><p>
+Print backtraces and exit when a packet is dropped.
+</p></dd><dt><a name="mpipe-clock-speed"></a><span class="term">
+<code class="option">clock-speed=<em class="replaceable"><code>speed</code></em></code>
+</span></dt><dd><p>
+Simulated clock speed of mPIPE shim.
+</p></dd><dt><a name="classifier-clock-speed"></a><span class="term">
+<code class="option">classifier-clock-speed=<em class="replaceable"><code>speed</code></em></code>
+</span></dt><dd><p>
+Simulated clock speed of classifier engines.
+</p></dd><dt><a name="trace_mask"></a><span class="term">
+<code class="option">trace_mask=<em class="replaceable"><code>0xfff</code></em></code>
+</span></dt><dd><p>
+Specifies a bitmask that enables tracing for various mPIPE components.
+</p></dd><dt><a name="mac"></a><span class="term">
+<code class="option">mac=<em class="replaceable"><code>index</code></em></code>
+</span></dt><dd><p>
+Specifies the MAC to be configured by MAC-specific options.
+</p></dd><dt><a name="link_enable"></a><span class="term">
+<code class="option">link_enable</code>
+</span></dt><dd><p>
+Brings up the current MAC at the start of the simulation, rather than
+waiting for a call to sim_enable_mpipe_links().
+</p></dd><dt><a name="mpipe-bps"></a><span class="term">
+<code class="option">bps=<em class="replaceable"><code>bitrate</code></em></code>
+</span></dt><dd><p>
+Specifies the maximum link bitrate for the current MAC.
+</p></dd><dt><a name="mpipe-input"></a><span class="term">
+<code class="option">input=<em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Specifies an input pcap file for the current MAC.
+This option cannot be used when creating a checkpoint; it can be
+used when loading a checkpoint or when not using a checkpoint.
+</p></dd><dt><a name="mpipe-output"></a><span class="term">
+<code class="option">output=<em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Specifies an output pcap file for the current MAC.
+</p></dd><dt><a name="mpipe-peer"></a><span class="term">
+<code class="option">peer=<em class="replaceable"><code>shim/mac</code></em></code>
+</span></dt><dd><p>
+Connects the current MAC to a particular shim and MAC on a peered
+simulator.  For example, <code class="option">":peer=mpipe0/3"</code> would connect to
+mpipe0, MAC 3 on the remote simulator.  See the
+<span><strong class="command">tile-monitor</strong></span> documentation for more information.
+</p></dd><dt><a name="mpipe-repeat"></a><span class="term">
+<code class="option">repeat=<em class="replaceable"><code>count</code></em></code>
+</span></dt><dd><p>
+Repeat the current MAC's input pcap file 'count' times.
+</p></dd><dt><a name="mpipe-stall"></a><span class="term">
+<code class="option">stall</code>
+</span></dt><dd><p>
+Controls the controller behavior when the input FIFO fills,
+i.e. consumers are not keeping up with input.  With
+the <code class="option">stall</code> option specified, the controller will stall
+and not consume further input, as opposed to the default behavior of
+dropping input packets, which is what the hardware does.
+</p></dd><dt><a name="mpipe-silent-stall"></a><span class="term">
+<code class="option">silent-stall</code>
+</span></dt><dd><p>
+Like the <code class="option">stall</code> option, except that no report is printed.
+</p></dd><dt><a name="classifier_program"></a><span class="term">
+<code class="option">classifier_program=<em class="replaceable"><code>name</code></em></code>
+</span></dt><dd><p>
+Specifies a classifier program name.
+</p></dd></dl></div><p>
+
+</p></dd><dt><a name="trio"></a><span class="term">
+<code class="option">trio</code>
+</span></dt><dd><p>
+A TRIO controller.  Most users will use the TRIO created by
+<code class="option">--config</code>, but it is possible to add a TRIO
+shim to custom configurations via 
+<code class="option">--shim X:Y:dir:trio</code>.
+</p><p>
+Once a TRIO shim is created, the <code class="option">--extra-shim-args</code>
+flag can be used to configure the three StreamIO links attached to the
+shim.  This allows the user to control the link bitrate and simulator
+peering parameters.  For example, passing <code class="option"> --extra-shim-args
+"trio0:mac=0:bps=32G:peer=trio0/1"</code> would configure link 0 on
+trio0 to run at 32 gbps (x8 gen2) and to connect to link 1 on a
+peered simulator.
+</p><p>
+TRIO shim arguments can include the following:
+
+</p><div class="variablelist"><dl><dt><span class="term">
+<code class="option">clock-speed=<em class="replaceable"><code>speed</code></em></code>
+</span></dt><dd><p>
+Simulated clock speed of TRIO shim.
+</p></dd><dt><span class="term">
+<code class="option">trace_mask=<em class="replaceable"><code>0xfff</code></em></code>
+</span></dt><dd><p>
+Specifies a bitmask that enables tracing for various TRIO components.
+</p></dd><dt><span class="term">
+<code class="option">mac=<em class="replaceable"><code>index</code></em></code>
+</span></dt><dd><p>
+Specifies the MAC to be configured by MAC-specific options.
+</p></dd><dt><span class="term">
+<code class="option">bps=<em class="replaceable"><code>bitrate</code></em></code>
+</span></dt><dd><p>
+Specifies the maximum link bitrate for the current MAC.
+</p></dd><dt><span class="term">
+<code class="option">peer=<em class="replaceable"><code>shim/mac</code></em></code>
+</span></dt><dd><p>
+Connects the current MAC to a particular shim and MAC on a peered
+simulator.  For example, <code class="option">":peer=trio0/2"</code> would connect to
+trio0, MAC 2 on the remote simulator.  See the
+<span><strong class="command">tile-monitor</strong></span> documentation for more information.
+</p></dd></dl></div><p>
+
+</p></dd></dl></div></dd><dt><a name="uart-output"></a><span class="term">
+<code class="option">--uart-output <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Output file for the UART.   Use "-" for stdout.  If
+ommitted, the output for the Rshim will be used.
+</p></dd><dt><a name="uart-input"></a><span class="term">
+<code class="option">--uart-input <em class="replaceable"><code>file</code></em></code>
+</span></dt><dd><p>
+Input file for the UART.   Use "-" for stdin.  If
+ommitted, reads from the uart will block.</p></dd><dt><a name="srom-boot"></a><span class="term">
+<code class="option">--srom-boot</code>
+</span></dt><dd><p>
+Boot the chip from the contents of the SPI Flash ROM.  
+</p></dd><dt><a name="ram-mb-per-controller"></a><span class="term">
+<code class="option">--ram-mb-per-controller <em class="replaceable"><code>megabytes</code></em></code>
+</span></dt><dd><p>
+Amount of RAM per controller, in <em class="parameter"><code>megabytes</code></em>.
+</p></dd><dt><a name="grind-coherence"></a><span class="term">
+<code class="option">--grind-coherence</code>
+</span></dt><dd><p>
+Enables additional checks to help find shared memory cache coherence
+bugs in the simulated program(s).  (This option slows down simulation
+considerably.)
+</p></dd><dt><a name="grind-warnings-not-fatal"></a><span class="term">
+<code class="option">--grind-warnings-not-fatal</code>
+</span></dt><dd><p>
+With <a href="#grind-coherence"><code class="option">--grind-coherence</code></a>,
+don't exit immediately on the first grind-coherence warning.
+</p></dd><dt><a name="raw"></a><span class="term">
+<code class="option">--raw</code>
+</span></dt><dd><p>
+Use <span><strong class="command">tile-sim</strong></span> directly, in "raw" mode.
+</p></dd><dt><a name="watch"></a><span class="term">
+<code class="option">--watch <em class="replaceable"><code>address</code></em></code>
+</span></dt><dd><p>
+Specify a (one-byte) virtual <em class="parameter"><code>address</code></em> to watch
+for writes. 
+</p></dd><dt><a name="rwatch"></a><span class="term">
+<code class="option">--rwatch <em class="replaceable"><code>address</code></em></code>
+</span></dt><dd><p>
+Specify a (one-byte) virtual <em class="parameter"><code>address</code></em> to watch
+for reads. 
+</p></dd><dt><a name="pa-watch"></a><span class="term">
+<code class="option">--pa-watch <em class="replaceable"><code>address</code></em></code>
+</span></dt><dd><p>
+Specify a (one-byte) physical <em class="parameter"><code>address</code></em> to watch
+for writes. 
+</p></dd><dt><a name="pa-rwatch"></a><span class="term">
+<code class="option">--rwatch <em class="replaceable"><code>address</code></em></code>
+</span></dt><dd><p>
+Specify a (one-byte) physical <em class="parameter"><code>address</code></em> to watch
+for reads. 
+</p></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="caveats"></a><h2>Caveats</h2><p>
+
+<span><strong class="command">tile-sim</strong></span> models all major features of the TILE
+Processor, including the tile core processor, cache sub-system,
+on-chip interconnect, and I/O devices including memory.  But not every
+single feature of all devices is modeled.  Missing or partially
+implemented features include:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Tile core CPU performance counters are not modeled.
+      </p></li><li><p>Memory shim performance counters are not modeled.
+      </p></li><li><p>Various I/O device configuration and status registers
+      not used by the standard MDE runtime stack (Hypervisor, Linux,
+      and user-space libraries) are not modeled.
+      </p></li><li><p>The RShim UART is partially modeled: output goes to
+      stdout. 
+      </p></li><li><p>
+      Certain features of the processor front-end are not modeled, notably
+      the hardware instruction prefetch engine, branch prediction engine,
+      and L1I way prediction.
+      </p></li><li><p>
+      The mPIPE model does not model several less-frequently used features,
+      including per-bucket sequence numbers, timestamps, and IOTLB faults.
+      </p></li><li><p>
+      The MiCA model includes only a limited set of the cryptography and
+      compression algorithms that are available in the full TILE-Gx
+      processor.  It does support memory copy (DMA) operations from one
+      application memory address to another.  (See the MDE README for more
+      details.) 
+      </p></li></ul></div><p>
+
+</p></div><div class="refsect1" lang="en"><a name="see-also"></a><h2>See Also</h2><p>
+<a href="tile-eclipse.html" target="_top"><span><strong class="command">tile-eclipse(1)</strong></span></a>, 
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor(1)</strong></span></a>, 
+<a href="tile-trace-view.html" target="_top"><span><strong class="command">tile-trace-view(1)</strong></span></a>, 
+<a href="tile-gprof.html" target="_top"><span><strong class="command">tile-gprof(1)</strong></span></a>, 
+<a href="sbim.html" target="_top"><span><strong class="command">tile-sbim(1)</strong></span></a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

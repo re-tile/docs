@@ -1,0 +1,365 @@
+<html>
+<title>mica_comp_eng_defl Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Deflate Engine (0x0000-0x1080) : </b> 
+These registers provide controls for the deflate engine.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#MICA_COMP_ENG_DEFL_REG_DEF_CTL">MICA_COMP_ENG_DEFL_REG_DEF_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0040<TD><a href="#MICA_COMP_ENG_DEFL_REG_MATCH_CTL">MICA_COMP_ENG_DEFL_REG_MATCH_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0080<TD><a href="#MICA_COMP_ENG_DEFL_REG_DMA_SEL">MICA_COMP_ENG_DEFL_REG_DMA_SEL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00c0<TD><a href="#MICA_COMP_ENG_DEFL_REG_CUST_CTL">MICA_COMP_ENG_DEFL_REG_CUST_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0800<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CTL_0">MICA_COMP_ENG_DEFL_REG_PERF_CTL_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0840<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CTL_1">MICA_COMP_ENG_DEFL_REG_PERF_CTL_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0880<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_0">MICA_COMP_ENG_DEFL_REG_PERF_CNT_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>08c0<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_1">MICA_COMP_ENG_DEFL_REG_PERF_CNT_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0900<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_2">MICA_COMP_ENG_DEFL_REG_PERF_CNT_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0940<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_3">MICA_COMP_ENG_DEFL_REG_PERF_CNT_3</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0980<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_4">MICA_COMP_ENG_DEFL_REG_PERF_CNT_4</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>09c0<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_5">MICA_COMP_ENG_DEFL_REG_PERF_CNT_5</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0a00<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_6">MICA_COMP_ENG_DEFL_REG_PERF_CNT_6</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0a40<TD><a href="#MICA_COMP_ENG_DEFL_REG_PERF_CNT_7">MICA_COMP_ENG_DEFL_REG_PERF_CNT_7</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1000<TD><a href="#MICA_COMP_ENG_DEFL_REG_INT_VEC">MICA_COMP_ENG_DEFL_REG_INT_VEC</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1000<TD><a href="#MICA_COMP_ENG_DEFL_REG_INT_VEC_W1TC">MICA_COMP_ENG_DEFL_REG_INT_VEC_W1TC</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1040<TD><a href="#MICA_COMP_ENG_DEFL_REG_INT_VEC_MASK">MICA_COMP_ENG_DEFL_REG_INT_VEC_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1080<TD><a href="#MICA_COMP_ENG_DEFL_REG_INT_VEC_BIND">MICA_COMP_ENG_DEFL_REG_INT_VEC_BIND</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="MICA_COMP_ENG_DEFL_REG_DEF_CTL"></a>
+<br><br><h4>Deflate Engine Configure Control (MICA_COMP_ENG_DEFL_REG_DEF_CTL: 0x0000)</h4>
+Deflate Engine Configure Control. <br>
+<br>
+Note that the DEF_CTL register has same fields as the DM_SPECIFIC in the user space MiCA OPCODE (CTX_USER_OPCODE.DM_SPECIFIC), except the CONFIG field. Refer to the User Context registers for more details.<br>
+<br>
+<br>
+<br>
+   
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_DEF_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>CHINT</TD> <TD>RW</TD> <TD>0</TD> <TD>A compression hint indicating whether the input data is compressable. For highly compressable packets, compression engine can choose a different algorithm for pattern matching and for Huffman code selection. User application can choose, for example, 8:1 compression ratio, as the threshold for high compressability.<br>
+...0 = Normal compressability<br>
+...1 = High compressability<br>
+If the hint is configured incorrectly, it will have an impact on the compression ratio/bit rate, but the functional correctness will not be compromised.<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>SHINT</TD> <TD>RW</TD> <TD>0</TD> <TD>An input size hint indicating the size of the input file. For small packets, compression engine can choose a different algorithm for pattern matching and for Huffman code selection. User application can choose, for example, less than 2 k bytes, as the threshold for small packets. <br>
+...0 = Normal packet size<br>
+...1 = Small packet size <br>
+If the hint is configured incorrectly, it will have an impact on the compression ratio/bit rate, but the functional correctness will not be compromised.<br>
+         </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>BHINT</TD> <TD>RW</TD> <TD>0</TD> <TD>An input type hint. Setting this bit to 1 indicates that the hardware should treat the input as binary data rather than ASCII test. The compression engine may choose a different algorithm for pattern matching and for Huffman code selection.<br>
+...0 = ASCII input<br>
+...1 = Binary input<br>
+If the hint is configured incorrectly, it will have an impact on the compression ratio/bit rate, but the functional correctness will not be compromised.<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>DTREE</TD> <TD>RW</TD> <TD>0</TD> <TD>Which type of Huffman codes to use in compression. Dynamic Huffman code will typically improve the compression ratio. It has a minor impact on the compression speed and a minor to large impact on the decompression speed (depending on the implementation of the decompression engine).<br>
+...0 = Fixed Huffman codes<br>
+...1 = Dynamic Huffman codes<br>
+         </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5:2</TD> <TD>MAX_CHAIN_LENGTH</TD> <TD>RW</TD> <TD>3</TD> <TD>The number of iterations that the hardware should search the history buffer. Setting this parameter higher will severely impact compression speed. <br>
+...0 = 1<br>
+...1 = 2<br>
+...2 = 3<br>
+...3 = 4<br>
+...4 = 6<br>
+...5 = 8 <br>
+...6 = 16 <br>
+...7 = 32<br>
+...others = reserved<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>FORMAT</TD> <TD>RW</TD> <TD>0</TD> <TD>The compression format<br>
+...0 = compress data into raw deflate format<br>
+...1 = compress data into GZIP format<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_MATCH_CTL"></a>
+<br><br><h4>Match control (MICA_COMP_ENG_DEFL_REG_MATCH_CTL: 0x0040)</h4>
+ Match control. <br>
+   
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_MATCH_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:7</TD> <TD>EFFORTS</TD> <TD>RW</TD> <TD>3</TD> <TD> Once the pattern matching logic finds a long string that is greater than NICE_MATCH, the compression engine will stop searching for additional pattern matches. Once the pattern matching logic finds a good string that is greater than GOOD_MATCH, the compression engine will reduce efforts to search for additional pattern matches. <br>
+0: NICE_MATCH=24, GOOD_MATCH=10<br>
+1: NICE_MATCH=24, GOOD_MATCH=16<br>
+2: NICE_MATCH=32, GOOD_MATCH=24<br>
+3: NICE_MATCH=32, GOOD_MATCH=32<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>MAX_DIST</TD> <TD>RW</TD> <TD>0</TD> <TD> Maximum match distance. The compression engine will not search beyond the MAX_DIST of a sliding window of the history. With a larger MAX_DIST, the compression engine will search harder and typically results in a higher compression ratio and a slower compression speed.<br>
+0: 8 k<br>
+1: 4 k<br>
+2: 2 k<br>
+3: 1 k<br>
+         </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MATCH1_RATIO</TD> <TD>RW</TD> <TD>0</TD> <TD> The speculative match engine can be configured to optimized for speed or for compression ratio.<br>
+0: for speed<br>
+1: for compression ratio<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>MATCH0_RATIO</TD> <TD>RW</TD> <TD>0</TD> <TD> The primary match engine can be configured to optimize for speed or for compression ratio.<br>
+0: for speed<br>
+1: for compression ratio<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_DMA_SEL"></a>
+<br><br><h4>DMA Engine Selection (MICA_COMP_ENG_DEFL_REG_DMA_SEL: 0x0080)</h4>
+Either Inflate Engine or Deflate Engine can be selected to support memory copy (ENGINE_TYPE = 0 or 1).
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_DMA_SEL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MC</TD> <TD>RW</TD> <TD>0</TD> <TD>1: deflate engine supports memory copy (ENGINE_TYPE=0/1). 0: inflate engine supports memory copy (ENGINE_TYPE=0/1). </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_CUST_CTL"></a>
+<br><br><h4>Dynamic Huffman code customization control (MICA_COMP_ENG_DEFL_REG_CUST_CTL: 0x00c0)</h4>
+Dynamic Huffman code customization control. 
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_CUST_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>CUST_BTYPE</TD> <TD>RW</TD> <TD>2</TD> <TD> This field is valid only when CUST_CODE=1. This field specifies the BTYPE when custom code is implemented.<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>CUST_CODE</TD> <TD>RW</TD> <TD>0</TD> <TD> This field is valid only if dynamic Huffman codes are used. If the data is compressed with dynamic Huffman codes, the code representation should be part of the a deflate-format block. Custom implementation could choose to skip the code representation.<br>
+0: send code representation in a deflate block with dynamic Huffman codes. This is the typical configuration.<br>
+1: do not send code representation in a deflate block with dynamic Huffman codes. <br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CTL_0"></a>
+<br><br><h4>Performance Counter Control 0 (MICA_COMP_ENG_DEFL_REG_PERF_CTL_0: 0x0800)</h4>
+Non-saturating performance counters are supported. Upon counter value wraps around, a corresponding interrupt can be generated. The performance counters are read to clear, and can be frozen by writing 0 to the ENA.<br>
+   
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CTL_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>RTC</TD> <TD>RW</TD> <TD>0</TD> <TD>1: performance counters are read to clear. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>1</TD> <TD>1: enable all performance counters. when ENA=0, freeze. when ENA goes to 1 (from 0), reset and enabled. when ENA=1, enabled.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CTL_1"></a>
+<br><br><h4>Performance Counter Control 1 (MICA_COMP_ENG_DEFL_REG_PERF_CTL_1: 0x0840)</h4>
+Performance Counter Control 1<br>
+<br>
+     MODEx: performance counter mode selection for PERF_CNT_x<br>
+<br>
+         0: event count - number of memory copy (ENGINE_TYPE=0/1) started<br>
+         1: event count - number of transaction (ENGINE_TYPE=2) processed<br>
+         2: event count - number of transaction (ENGINE_TYPE=2) started<br>
+         3: event count - number of GZIP transaction started<br>
+         4: event count - number of match results processed <br>
+         5: event count - number of match results (that has one literal) processed<br>
+         6: event count - number of match results (that has two literals) processed<br>
+         7: event count - number of match results (that has match length = 3) processed<br>
+         8: event count - number of match results (that has match length = 4 to 7, inclusive) processed<br>
+         9: event count - number of match results (that has match length = 8 to 15, inclusive) processed<br>
+         10: event count - number of match results (that has match length = 16 or more) processed<br>
+         12: event count - number of cycles that the deflate engine is busy working on the transaction<br>
+         13: byte count - number of memory copy bytes (ENGINE_TYPE=0/1) started<br>
+         14: byte count - number of uncompressed input bytes (ENGINE_TYPE=2) started<br>
+         15: byte count - number of compressed output bytes (ENGINE_TYPE=2) processed<br>
+<br>
+   If there is no in-flight transaction,<br>
+      counter(mode=1) = counter(mode=2)<br>
+      <br>
+   number of transactions in raw deflate format = counter(mode=2) - counter(mode=3)<br>
+<br>
+   counter(mode=4) may not be equal to sum of counter(mode=5) +  counter(mode=6) +  counter(mode=7) +  counter(mode=8) +  counter(mode=9) +  counter(mode=10) in that one match result may have both literal and match length<br>
+   
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CTL_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>59:56</TD> <TD>MODE7</TD> <TD>RW</TD> <TD>15</TD> <TD>Performance counter mode selection for PERF_CNT_7 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>51:48</TD> <TD>MODE6</TD> <TD>RW</TD> <TD>14</TD> <TD>Performance counter mode selection for PERF_CNT_6 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>43:40</TD> <TD>MODE5</TD> <TD>RW</TD> <TD>5</TD> <TD>Performance counter mode selection for PERF_CNT_5 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>35:32</TD> <TD>MODE4</TD> <TD>RW</TD> <TD>4</TD> <TD>Performance counter mode selection for PERF_CNT_4 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27:24</TD> <TD>MODE3</TD> <TD>RW</TD> <TD>3</TD> <TD>Performance counter mode selection for PERF_CNT_3 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>MODE2</TD> <TD>RW</TD> <TD>2</TD> <TD>Performance counter mode selection for PERF_CNT_2 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>MODE1</TD> <TD>RW</TD> <TD>1</TD> <TD>Performance counter mode selection for PERF_CNT_1 (same encoding as MODE0).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>MODE0</TD> <TD>RW</TD> <TD>0</TD> <TD>Performance counter mode selection for PERF_CNT_0 (see description). </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_0"></a>
+<br><br><h4>Performance Counter 0 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_0: 0x0880)</h4>
+Performance Counter 0
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_0</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 0. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_1"></a>
+<br><br><h4>Performance Counter 1 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_1: 0x08c0)</h4>
+Performance Counter 1
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_1</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 1. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_2"></a>
+<br><br><h4>Performance Counter 2 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_2: 0x0900)</h4>
+Performance Counter 2
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_2</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 2. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_3"></a>
+<br><br><h4>Performance Counter 3 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_3: 0x0940)</h4>
+Performance Counter 3
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_3</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 3. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_4"></a>
+<br><br><h4>Performance Counter 4 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_4: 0x0980)</h4>
+Performance Counter 4
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_4</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 4. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_5"></a>
+<br><br><h4>Performance Counter 5 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_5: 0x09c0)</h4>
+Performance Counter 5
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_5</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 5. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_6"></a>
+<br><br><h4>Performance Counter 6 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_6: 0x0a00)</h4>
+Performance Counter 6
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_6</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 6. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_PERF_CNT_7"></a>
+<br><br><h4>Performance Counter 7 (MICA_COMP_ENG_DEFL_REG_PERF_CNT_7: 0x0a40)</h4>
+Performance Counter 7
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_PERF_CNT_7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERF_CNT_7</TD> <TD>RO</TD> <TD>0</TD> <TD>Performance Counter 7. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_INT_VEC"></a>
+<br><br><h4>Interrupt vector, write-one-to-clear (MICA_COMP_ENG_DEFL_REG_INT_VEC: 0x1000)</h4>
+This describes the interrupt status vector that is accessible through INT_VEC_W1TC and INT_VEC_MASK. 
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_INT_VEC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>PERF7_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF7_WRAP - Performance Counter 7 wraps </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>PERF6_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF6_WRAP - Performance Counter 6 wraps </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>PERF5_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF5_WRAP - Performance Counter 5 wraps </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>PERF4_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF4_WRAP - Performance Counter 4 wraps </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>PERF3_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF3_WRAP - Performance Counter 3 wraps</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>PERF2_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF2_WRAP - Performance Counter 2 wraps</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>PERF1_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF1_WRAP - Performance Counter 1 wraps</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>PERF0_WRAP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PERF0_WRAP - Performance Counter 0 wraps</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_INT_VEC_W1TC"></a>
+<br><br><h4>Interrupt vector, write-one-to-clear (MICA_COMP_ENG_DEFL_REG_INT_VEC_W1TC: 0x1000)</h4>
+Each bit in this register corresponds to a specific interrupt. Hardware sets the bit when the associated condition has occurred. Writing a 1 clears the status bit. Bit definitions are provided in the INT_VEC.<br>
+
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_INT_VEC_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>REG_INT_VEC_W1TC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Each bit in this register corresponds to a specific interrupt. Hardware sets the bit when the associated condition has occurred. Writing a 1 clears the status bit. Bit definitions are provided in the INT_VEC.<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_INT_VEC_MASK"></a>
+<br><br><h4>Interrupt Vector Mask (MICA_COMP_ENG_DEFL_REG_INT_VEC_MASK: 0x1040)</h4>
+Each bit in this register corresponds to a specific interrupt. When set, the corresponding interrupt will not be dispatched. Bit definitions are provided in the INT_VEC. 
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_INT_VEC_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>REG_INT_VEC_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit in this register corresponds to a specific interrupt. When set, the corresponding interrupt will not be dispatched. Bit definitions are provided in the INT_VEC. </TD> </TR>
+</TABLE><br><br>
+<a name="MICA_COMP_ENG_DEFL_REG_INT_VEC_BIND"></a>
+<br><br><h4>Interrupt Vector Bind (MICA_COMP_ENG_DEFL_REG_INT_VEC_BIND: 0x1080)</h4>
+Same interrupt binding for all the interrupt events.
+<br><img src="mica_comp_eng_defl_pics/MICA_COMP_ENG_DEFL_REG_INT_VEC_BIND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21:18</TD> <TD>X_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile X Coordinate</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:7</TD> <TD>Y_COORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Tile Y Coordinate</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:5</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>EVENT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Event Number</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

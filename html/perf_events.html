@@ -1,0 +1,604 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>perf_events</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="perf_events"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>perf_events &#8212; Linux performance recording/reporting tool</p></div><div class="refsect1" lang="en"><a name="profiling"></a><h2>Profiling applications with the Linux "perf" tool</h2><div class="refsect2" lang="en"><a name="id1233103"></a><h3>Introduction</h3><p>
+For profiling applications, the Tilera MDE provides a native port of the Linux
+<span><strong class="command">perf</strong></span> profiling tool (aka "perf events" and formerly known as PCL,
+or Performance Counters for Linux). This is a Linux tool that collects data from
+performance counters, such as the platform's hardware counters, and provides
+report-generation and annotation support.
+</p></div><div class="refsect2" lang="en"><a name="id1233280"></a><h3>The <span><strong class="command">perf</strong></span> tool</h3><p>
+The <span><strong class="command">perf</strong></span> tool is a native utility; it is run
+on the TILE host alongside the profiled application.
+</p><p>
+If you're used to using <span><strong class="command">tile-monitor</strong></span> to run your application,
+you can view the "perf" tool as just another Linux command that is invoked
+using <span><strong class="command">tile-monitor</strong></span>'s <span><strong class="command">run</strong></span> or
+<span><strong class="command">launch</strong></span> commands:
+</p><pre class="programlisting">
+$ tile-monitor --dev wc-5 --resume
+...
+Command: run perf record fork 3 1000
+...
+</pre><p>
+If you're using tile-console or a similar shell environment,
+you can run <span><strong class="command">perf</strong></span> commands directly:
+</p><pre class="programlisting">
+$ tile-console --dev wc-5
+...
+# perf record fork 3 1000
+...
+</pre></div><div class="refsect2" lang="en"><a name="id466762"></a><h3>The <span><strong class="command">perf</strong></span> Tool's Commands</h3><p>
+The <span><strong class="command">perf</strong></span> tool provides a suite of profiling commands,
+accessed by specifying a command name as the tool's first argument.
+These commands include:
+</p><div class="itemizedlist"><ul type="disc"><li><span><strong class="command">perf list</strong></span> -- list the available performance counters that
+can be passed to <span><strong class="command">perf record</strong></span>.
+</li><li><span><strong class="command">perf record</strong></span> -- runs a specified Linux command with performance
+data capturing enabled, generating a "perf.data" raw data file.
+</li><li><span><strong class="command">perf report</strong></span> -- reads a "perf.data" file and produces some basic
+textual reports, with a number of filtering and display options.
+</li><li><span><strong class="command">perf annotate</strong></span> -- reads a "perf.data" file and generates a copy
+of the program sources annotated with performance data.
+</li><li><span><strong class="command">perf diff</strong></span> -- reads two "perf.data" files and displays the
+differences between them.
+</li><li><span><strong class="command">perf help</strong></span> -- displays a summary of the available commands.
+</li></ul></div><p>
+We'll describe some of the more useful <span><strong class="command">perf</strong></span> commands below.
+For more detail, refer to the <span><strong class="command">perf</strong></span> command's man page.
+</p></div><div class="refsect2" lang="en"><a name="id1232994"></a><h3>The <span><strong class="command">perf list</strong></span> Command</h3><pre class="programlisting">
+perf list
+</pre><p>
+The <span><strong class="command">perf list</strong></span> command lists the available performance counters
+that can be used in the <span><strong class="command">perf record</strong></span> command. These include
+a number of "generic" counters, with lower-case names, which are mapped internally
+to the corresponding hardware or software events. Also listed are hardware events
+which can be specified. These typically have upper-case names.
+</p><p>
+For example:
+</p><pre class="programlisting">
+# perf list
+List of pre-defined events (to be used in -e):
+
+  cpu-cycles OR cycles                       [Hardware event]
+  instructions                               [Hardware event]
+  branch-instructions OR branches            [Hardware event]
+  branch-misses                              [Hardware event]
+
+  cpu-clock                                  [Software event]
+  task-clock                                 [Software event]
+  page-faults OR faults                      [Software event]
+  minor-faults                               [Software event]
+  major-faults                               [Software event]
+  context-switches OR cs                     [Software event]
+  cpu-migrations OR migrations               [Software event]
+  alignment-faults                           [Software event]
+  emulation-faults                           [Software event]
+
+  ZERO                                       [Raw hardware event descriptor]
+  ONE                                        [Raw hardware event descriptor]
+  ...
+  LOAD_STALL                                 [Raw hardware event descriptor]
+  INSTRUCTION_STALL                          [Raw hardware event descriptor]
+  INSTRUCTION_BUNDLE                         [Raw hardware event descriptor]
+  ...
+  READ                                       [Raw hardware event descriptor]
+  WRITE                                      [Raw hardware event descriptor]
+  READ_MISS                                  [Raw hardware event descriptor]
+  WRITE_MISS                                 [Raw hardware event descriptor]
+  ...
+  UDN_PACKET_SENT                            [Raw hardware event descriptor]
+  UDN_WORD_SENT                              [Raw hardware event descriptor]
+  UDN_BUBBLE                                 [Raw hardware event descriptor]
+  UDN_CONGESTION                             [Raw hardware event descriptor]
+  ...
+</pre><p>
+(Note: there are more events than shown above; the output is abbreviated to save space.)
+</p></div><div class="refsect2" lang="en"><a name="id1233294"></a><h3>The <span><strong class="command">perf record</strong></span> Command</h3><pre class="programlisting">
+perf record {options} {-e EVENT_NAME | --event=EVENTNAME} ... {--} command arguments...
+
+    -o, --output &lt;file&gt;     output file name (optional, defaults to "perf.data")
+
+    -e EVENT1,EVENT2,EVENT3,EVENT4
+        --event=EVENT1,EVENT2,EVENT3,EVENT4
+                            event(s) to sample
+
+    -C, --cpu cpu_list      record data only for the specified list of cpu ID(s)
+                            (the list is comma separated and can include ranges,
+                             for example: --cpu 0,2-14 )
+
+    -c, --count &lt;n&gt;         event interval to sample (for all events)
+
+    -g, --call-graph        collect call-graph (stack chain/backtrace) information
+
+    -a                      record data for all processes (a.k.a. system-wide profiling)
+
+    --                      terminates option processing
+
+</pre><p>
+The <span><strong class="command">perf record</strong></span> command captures performance data during the execution
+of a specified command. This command may fork processes or spawn threads.
+The performance data of the initial command plus any processes/threads it creates
+are captured in the resulting "perf.data" file. (One can filter the results when
+generating a report to remove OS and other processes that are not of interest.)
+</p><p>
+For example, the following command:
+</p><pre class="programlisting">
+# perf record -o samples.data fork 3 1000
+</pre><p>
+Runs the program <span><strong class="command">fork</strong></span> passing it the arguments 3 and 1000,
+and recording performance data in a file named "samples.data" in the current directory.
+</p><p>
+If the <code class="option">-o</code> option is not used to specify an output file,
+the default output location is the file "perf.data" in the current directory.
+If the output file already exists, it is renamed with an ".old" suffix.
+</p><p>
+One can specify event name(s) to profile as a comma-separated list,
+as shown below, up to the maximum supported by the hardware.
+(By default, the number of cycles, aka the "ONE" event, is sampled.)
+One can also specify an event interval, using the <code class="option">-c</code>.
+Note that currently the event interval applies to all events.
+</p><pre class="programlisting">
+# perf record -o samples.data -e ONE,INSTRUCTION_STALL,LOAD_STALL,READ -c 12000000 -- ./fork 3 1000
+</pre><p>
+One can also specify the <code class="option">-g</code> option to request per-thread
+profiling data. It's necessary to specify this option to <span><strong class="command">perf record</strong></span>
+if you want to view the results with the corresponding <code class="option">-g</code> option
+to <span><strong class="command">perf report</strong></span>. If the <code class="option">-g</code> option is not specified,
+performance data is aggregated at the process level.
+</p><pre class="programlisting">
+# perf record -o samples.data -g -- ./fork 3 1000
+</pre><p>
+For cases where one needs to profile a long-running executable,
+or one that has a period of "set up" work before it enters the
+steady-state that one wants to profile, or where it's simply desirable
+to profile everything in the system to see what's most active,
+one can use the <code class="option">-a</code> option to request "system-wide" profiling.
+This will capture profiling data for all processes running
+while sampling is being done.
+</p><p>
+The best way to use this option is to profile the "sleep" command
+running for the desired duration. This will essentially ignore
+the sleeping process, and capture profiling data for other processes,
+including the one you're interested in. For example:
+</p><pre class="programlisting">
+# start_my_long_running_app
+... wait for app to reach "steady state" ...
+# perf record -o samples.data -a -g -- sleep 30
+... wait for 30 seconds, until perf reports completion ...
+... kill the long-running app ...
+</pre><p>
+Note: there's no way to exclude
+OS processes, etc. that you're not interested in while recording,
+but you can always filter that information out when viewing the
+resulting profile data.
+</p></div><div class="refsect2" lang="en"><a name="id1233361"></a><h3>The <span><strong class="command">perf report</strong></span> Command</h3><pre class="programlisting">
+
+perf report {options} {module_name}
+
+    -i, --input &lt;file&gt;    input file name
+
+    -s, --sort &lt;key[,key2...]&gt;
+                          sort by key(s): pid, comm, dso, symbol
+
+    -d, --dsos &lt;dso[,dso...]&gt;
+                          only consider symbols in these dsos
+    -C, --comms &lt;comm[,comm...]&gt;
+                          only consider symbols in these comms
+    -S, --symbols &lt;symbol[,symbol...]&gt;
+                          only consider these symbols
+
+    -n, --show-nr-samples Show a column with the number of samples
+
+    -g, --call-graph
+                          Display call-graph information.
+</pre><p>
+The <span><strong class="command">perf report</strong></span> command is used to view the raw data file
+generated by the <span><strong class="command">perf record</strong></span> command. By default, it assumes
+the data is stored in a file named "perf.data" in the current directory,
+but one can use the <code class="option">-i</code> to specify a different name/location.
+</p><p>
+By default, the output is aggregated by executable and symbol name:
+</p><pre class="programlisting">
+# perf record fork 3 1000
+
+# perf report
+
+# Overhead  Command      Shared Object              Symbol
+# ........  .......  .................  ..................
+#
+    99.22%     fork  fork               [.] e
+     0.78%     fork  [kernel.kallsyms]  [k] __vm_enough_memory
+</pre><p>
+You can use the <code class="option">-sort</code> to request that the output be
+broken out by Linux task (aka "pid"), executable (aka "dso"),
+command (aka "comm"), and/or function name (aka "symbol").
+The <code class="option">-sort</code> option also specifies the display order
+of the columns.
+</p><p>
+Note that adding the <code class="option">pid</code> breaks out the data
+by process/thread ID. In other words, the <code class="option">-sort</code> option
+does more than just specify the columns to display/sort by.
+Also, sorting by <code class="option">symbol</code> may also cause the perf tool to look up
+symbols (such as OS symbols) it would otherwise display as hex values.
+For this reason, it's _strongly_ recommended that you explicitly
+specify at least <code class="option">-sort pid,dso,symbol</code> when using
+<span><strong class="command">perf report</strong></span>. Otherwise, you may not get all of
+the profiling information you expect in the output.)
+</p><pre class="programlisting">
+# perf report --sort pid,dso,comm,symbol
+
+# Overhead  Command:  Pid      Shared Object  Command              Symbol
+# ........  .............  .................  .......  ..................
+#
+    58.14%           fork:  828  fork                  fork  [.] e
+    20.93%           fork:  830  fork                  fork  [.] e
+    20.16%           fork:  829  fork                  fork  [.] e
+     0.78%           fork:  827  [kernel.kallsyms]     fork  [k] __vm_enough_memory
+</pre><p>
+You can then use options like <code class="option">-d</code>, <code class="option">-C</code>, and
+<code class="option">-S</code> to filter the output to specific executables, commands,
+and/or symbols:
+</p><pre class="programlisting">
+# perf report --sort pid,dso,comm,symbol -d fork -S e
+
+# dso: fork
+# symbol: e
+# Events: 128  cycles
+#
+# Overhead  Command:  Pid  Command
+# ........  .............  .......
+#
+    58.59%           fork:  828     fork
+    21.09%           fork:  830     fork
+    20.31%           fork:  829     fork
+</pre><p>
+There is no option in <span><strong class="command">perf report</strong></span> to filter by
+CPU ID; however, you can use the <code class="option">-C / --cpu</code> option
+of the <span><strong class="command">perf record</strong></span> command to "pre-filter"
+the data, so to speak, to only include the CPUs you're interested in.
+</p><p>
+The <code class="option">-n</code> option adds a column to the output
+showing the actual number of sample counts, in addition
+to the percentage value:
+</p><pre class="programlisting">
+# perf report --sort pid,dso,comm,symbol -n -d fork
+
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    58.59%         75           fork:  828     fork  [.] e
+    21.09%         27           fork:  830     fork  [.] e
+    20.31%         26           fork:  829     fork  [.] e
+</pre><p>
+The <code class="option">-g</code> displays call-graph information.
+</p><p>
+(Note that using <code class="option">-g</code> requires that the corresponding
+<code class="option">-g</code> option was specified to <span><strong class="command">perf record</strong></span>
+when the data was generated.)
+</p><pre class="programlisting">
+perf report -i samples_thread_cg.data -g --sort pid,dso,comm,symbol -d threads
+# dso: threads
+# Events: 128  cycles
+#
+# Overhead  Command:  Pid  Command   Symbol
+# ........  .............  .......  .......
+#
+    57.81%        threads:  847  threads  [.] e
+            |
+            --- d
+                c
+                b
+                a
+                instance_main
+                start_thread
+                __clone
+
+    20.31%        threads:  848  threads  [.] e
+            |
+            --- d
+                c
+                b
+                a
+                instance_main
+                start_thread
+                __clone
+
+    19.53%        threads:  849  threads  [.] e
+            |
+            --- d
+                c
+                b
+                a
+                instance_main
+                start_thread
+                __clone
+
+     0.78%        threads:  847  threads  [.] __clone
+     0.78%        threads:  848  threads  [.] __clone
+     0.78%        threads:  849  threads  [.] __clone
+</pre><p>
+When multiple events are specified, the output for each one is displayed
+separately, as shown below. (Note that if no samples are taken for a given event
+during the profiling run, no report section is generated for that event.)
+</p><pre class="programlisting">
+# perf record -o samples.data -f -e ONE,INSTRUCTION_STALL,LOAD_STALL,READ -c 12000000 -- ./fork 3 1000
+
+# perf report -i samples.data -s pid,dso,comm,symbol -d fork -n
+
+# dso: fork
+# Events: 668  READ
+#
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    33.98%        227           fork:  769     fork  [.] e
+    33.83%        226           fork:  770     fork  [.] e
+    32.19%        215           fork:  768     fork  [.] e
+
+
+# Events: 390  LOAD_STALL
+#
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    34.62%        135           fork:  770     fork  [.] e
+    34.36%        134           fork:  769     fork  [.] e
+    31.03%        121           fork:  768     fork  [.] e
+
+
+# Events: 503  INSTRUCTION_STALL
+#
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    33.40%        168           fork:  769     fork  [.] e
+    33.40%        168           fork:  770     fork  [.] e
+    33.20%        167           fork:  768     fork  [.] e
+
+
+# Events: 4K ONE
+#
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    33.44%       1632           fork:  768     fork  [.] e
+    33.38%       1629           fork:  770     fork  [.] e
+    33.18%       1619           fork:  769     fork  [.] e
+
+</pre></div><div class="refsect2" lang="en"><a name="id1233687"></a><h3>The <span><strong class="command">perf annotate</strong></span> Command</h3><pre class="programlisting">
+perf annotate {options}
+
+    -i, --input &lt;file&gt;    input file name
+
+    -d, --dsos &lt;dso[,dso...]&gt;
+                          only consider symbols in these dsos
+
+    -P, --full-paths      Don't shorten the displayed pathnames
+
+    -l, --print-line      print matching source lines (may be slow)
+</pre><p>
+The <span><strong class="command">perf annotate</strong></span> command is used to produce a
+disassembly for a specified command, annotated with source lines
+and performance data from a specified raw perf.data file.
+By default, the command assumes the data is stored in a file named
+"perf.data" in the current directory, but one can use the
+<code class="option">-i</code> to specify a different name/location.
+</p><p>
+The <code class="option">-d</code> option can be used to limit the output to a specific
+binary file. The <code class="option">-P</code> option requests that full pathnames
+be displayed for the file(s) annotated.
+</p><p>
+For example:
+</p><pre class="programlisting">
+# perf annotate -P -i samples.data -d fork
+
+(NOTE: some output below has been elided for clarity.)
+
+------------------------------------------------
+ Percent |	Source code &amp; Disassembly of /home/scratch/perf_tests/fork
+------------------------------------------------
+
+         :
+         :	Disassembly of section .text:
+         :
+         :	0000000000010ae0 &lt;e&gt;:
+         :	int e(int n) {
+    0.00 :	   10ae0:       283bfe8ed1483000        { move r29, r52 }
+    0.00 :	   10ae8:       283bfeda51483000        { move r52, sp }
+
+...
+
+         :	    result *= i;
+   14.96 :	   10b90:       180f468051483000        { addi r0, r52, -24 }
+    5.51 :	   10b98:       180f468151483000        { addi r2, r52, -24 }
+    3.94 :	   10ba0:       180f8680d1483000        { addi r1, r52, -16 }
+    4.72 :	   10ba8:       9c164000342c3000        { ld4s r2, r2 }
+    2.36 :	   10bb0:       9c0e4000341c3000        { ld4s r1, r1 }
+   11.02 :	   10bb8:       286a300050d01081        { mulx r1, r2, r1 }
+    7.87 :	   10bc0:       de0e4000300c3000        { st4 r0, r1 }
+         :	int e(int n) {
+         :	  int result = 1;
+         :	  int limit = n * 1000000;
+         :	  int i, j;
+         :	  for (i=0; i&lt;limit; ++i) {
+    3.15 :	   10bc8:       180f868051483000        { addi r0, r52, -16 }
+    4.72 :	   10bd0:       180f8680d1483000        { addi r1, r52, -16 }
+    1.57 :	   10bd8:       9c0e4000341c3000        { ld4s r1, r1 }
+
+...
+
+</pre><p>
+The <code class="option">-l</code> option requests that source line numbers be added
+if possible. The output includes a per-line summary of performance data
+in addition to the annotated source. Be aware that this line-number generation
+will take a noticeably longer time to generate. You may also want to use
+the <code class="option">-d</code> to restrict the output to just the executable file
+that's of interest to you. (Otherwise, the annotated output will include
+annotated OS sources as well.)
+</p><pre class="programlisting">
+# perf annotate -l -i samples.data -d fork
+
+(NOTE: some output below has been elided for clarity.)
+
+Sorted summary for file /u/bswanson/dev/profile/perf_events/tests/fork
+----------------------------------------------
+
+   14.96 /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+   11.02 /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+    8.66 /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    7.87 /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+    7.09 /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    6.30 /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    5.51 /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+    4.72 /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+    4.72 /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+
+...
+
+------------------------------------------------
+ Percent |	Source code &amp; Disassembly of fork
+------------------------------------------------
+         :
+         :
+         :
+         :	Disassembly of section .text:
+         :
+         :	0000000000010ae0 &lt;e&gt;:
+         :	int e(int n) {
+    0.00 :	   10ae0:       283bfe8ed1483000        { move r29, r52 }
+    0.00 :	   10ae8:       283bfeda51483000        { move r52, sp }
+
+... 
+
+    0.00 :	   10b80:       dffe4000300c3000        { st4 r0, zero }
+    0.00 :	   10b88:       24000006d1483000        { j 10bf0 &lt;e+0x110&gt; }
+         :	    result *= i;
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+   14.96 :	   10b90:       180f468051483000        { addi r0, r52, -24 }
+    5.51 :	   10b98:       180f468151483000        { addi r2, r52, -24 }
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+    3.94 :	   10ba0:       180f8680d1483000        { addi r1, r52, -16 }
+    4.72 :	   10ba8:       9c164000342c3000        { ld4s r2, r2 }
+    2.36 :	   10bb0:       9c0e4000341c3000        { ld4s r1, r1 }
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:6
+   11.02 :	   10bb8:       286a300050d01081        { mulx r1, r2, r1 }
+    7.87 :	   10bc0:       de0e4000300c3000        { st4 r0, r1 }
+         :	int e(int n) {
+         :	  int result = 1;
+         :	  int limit = n * 1000000;
+         :	  int i, j;
+         :	  for (i=0; i&lt;limit; ++i) {
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    3.15 :	   10bc8:       180f868051483000        { addi r0, r52, -16 }
+    4.72 :	   10bd0:       180f8680d1483000        { addi r1, r52, -16 }
+    1.57 :	   10bd8:       9c0e4000341c3000        { ld4s r1, r1 }
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    7.09 :	   10be0:       18100820d1483000        { addxi r1, r1, 1 }
+ /u/bswanson/dev/profile/perf_events/tests/functions.h:5
+    4.72 :	   10be8:       de0e4000300c3000        { st4 r0, r1 }
+    3.15 :	   10bf0:       180f8680d1483000        { addi r1, r52, -16 }
+    3.94 :	   10bf8:       180f668051483000        { addi r0, r52, -20 }
+    3.94 :	   10c00:       9c0e4000341c3000        { ld4s r1, r1 }
+
+... 
+
+</pre></div><div class="refsect2" lang="en"><a name="id1233372"></a><h3>The <span><strong class="command">perf diff</strong></span> Command</h3><pre class="programlisting">
+perf diff {options} old.data new.data
+
+    -s, --sort &lt;key[,key2...]&gt;
+                          sort by key(s): pid, comm, dso, symbol
+
+    -d, --dsos &lt;dso[,dso...]&gt;
+                          only consider symbols in these dsos
+    -C, --comms &lt;comm[,comm...]&gt;
+                          only consider symbols in these comms
+    -S, --symbols &lt;symbol[,symbol...]&gt;
+                          only consider these symbols
+
+</pre><p>
+The <span><strong class="command">perf diff</strong></span> command compares two output files
+for the same command and reports on the difference in samples seen
+in the one versus the other.
+</p><p>
+The <code class="option"></code>, <code class="option"></code>, <code class="option"></code>, and
+<code class="option"></code> options select and filter the output in the same
+way as they do for <span><strong class="command">perf report</strong></span>.
+</p><pre class="programlisting">
+# perf record -o sample1.data -c 100000 ./fork 3 1000
+
+# perf report -n --sort pid,dso,comm,symbol -d fork -i sample1.data
+
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    59.52%         75           fork:  780     fork  [.] e
+    20.63%         26           fork:  781     fork  [.] e
+    19.84%         25           fork:  779     fork  [.] e
+
+
+# perf record -o sample2.data -c 100000 ./fork 3 6000
+
+# perf report -n --sort pid,dso,comm,symbol -d fork -i sample2.data
+
+# Overhead  Samples    Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+    50.29%         86           fork:  807     fork  [.] e
+    25.15%         43           fork:  806     fork  [.] e
+    24.56%         42           fork:  808     fork  [.] e
+
+
+# perf diff --sort pid,dso,comm,symbol -d fork sample1.data sample2.data
+
+# Baseline  Delta      Command:  Pid  Command  Symbol
+# ........ ..........  .............  .......  ......
+#
+     0.00%    +50.29%           fork:  807     fork  [.] e
+     0.00%    +25.15%           fork:  806     fork  [.] e
+     0.00%    +24.56%           fork:  808     fork  [.] e
+</pre></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="profiling.html" target="_top">Profiling applications from the command line with OProfile</a>
+<a href="http://web.eecs.utk.edu/~vweaver1/projects/perf-events/" target="_top">
+Unofficial Linux Perf Events Performance Counter Web-Page</a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

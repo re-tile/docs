@@ -1,0 +1,1704 @@
+<html>
+<title>rsh Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>RSH Config (0x0000-0x0c80) : </b> 
+The rshim contains chip-wide services for boot and diagnostics.  This register set controls those services.  Specific rshim-hosted devices (UART, I2C, etc.) are defined in their own register set.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TH><font color="#FFFFCC"> Protection
+<TR bgcolor="#DBDDB5"><TD>0000-ffffffffff<TD><a href="#RSH_MMIO_ADDRESS_SPACE">RSH_MMIO_ADDRESS_SPACE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0000<TD><a href="#RSH_DEV_INFO">RSH_DEV_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0008<TD><a href="#RSH_DEV_CTL">RSH_DEV_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0010<TD><a href="#RSH_MMIO_INFO">RSH_MMIO_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0018<TD><a href="#RSH_MEM_INFO">RSH_MEM_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0020<TD><a href="#RSH_SCRATCHPAD">RSH_SCRATCHPAD</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0028<TD><a href="#RSH_SEMAPHORE0">RSH_SEMAPHORE0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0030<TD><a href="#RSH_SEMAPHORE1">RSH_SEMAPHORE1</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>0038<TD><a href="#RSH_CLOCK_COUNT">RSH_CLOCK_COUNT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0050<TD><a href="#RSH_HFH_INIT_CTL">RSH_HFH_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0058<TD><a href="#RSH_HFH_INIT_DAT">RSH_HFH_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0100<TD><a href="#RSH_REV_ID">RSH_REV_ID</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0108<TD><a href="#RSH_FABRIC_CONN">RSH_FABRIC_CONN</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0110<TD><a href="#RSH_FABRIC_DIM">RSH_FABRIC_DIM</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0118<TD><a href="#RSH_IPI_LOC">RSH_IPI_LOC</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0208<TD><a href="#RSH_ERROR_STATUS">RSH_ERROR_STATUS</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0210<TD><a href="#RSH_MMIO_ERROR_INFO">RSH_MMIO_ERROR_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0300<TD><a href="#RSH_INT_BIND">RSH_INT_BIND</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0308<TD><a href="#RSH_INT_VEC0_W1TC">RSH_INT_VEC0_W1TC</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>0310<TD><a href="#RSH_INT_VEC0_RTC">RSH_INT_VEC0_RTC</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>0318<TD><a href="#RSH_SWINT">RSH_SWINT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0400<TD><a href="#RSH_PG_CTL">RSH_PG_CTL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0408<TD><a href="#RSH_PG_DATA">RSH_PG_DATA</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0410-0457<TD><a href="#RSH_PG_COMP_DATA">RSH_PG_COMP_DATA</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0480<TD><a href="#RSH_PG_COMP_STS">RSH_PG_COMP_STS</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0490<TD><a href="#RSH_BYTE_ACC_CTL">RSH_BYTE_ACC_CTL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0498<TD><a href="#RSH_BYTE_ACC_WDAT">RSH_BYTE_ACC_WDAT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>04a0<TD><a href="#RSH_BYTE_ACC_RDAT">RSH_BYTE_ACC_RDAT</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>04a8<TD><a href="#RSH_BYTE_ACC_ADDR">RSH_BYTE_ACC_ADDR</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>04f8<TD><a href="#RSH_CLOCK_CONTROL">RSH_CLOCK_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0500<TD><a href="#RSH_RESET_CONTROL">RSH_RESET_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0508<TD><a href="#RSH_RESET_MASK">RSH_RESET_MASK</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0510<TD><a href="#RSH_BREADCRUMB0">RSH_BREADCRUMB0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0518<TD><a href="#RSH_BREADCRUMB1">RSH_BREADCRUMB1</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0520<TD><a href="#RSH_IO_RESET">RSH_IO_RESET</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0520<TD><a href="#RSH_GX36_IO_RESET">RSH_GX36_IO_RESET</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0520<TD><a href="#RSH_GX72_IO_RESET">RSH_GX72_IO_RESET</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0528<TD><a href="#RSH_BOOT_CONTROL">RSH_BOOT_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0530<TD><a href="#RSH_WATCHDOG_CONTROL">RSH_WATCHDOG_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0538<TD><a href="#RSH_DEVICE_PROTECTION">RSH_DEVICE_PROTECTION</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0540<TD><a href="#RSH_VID_CORE">RSH_VID_CORE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0548<TD><a href="#RSH_VID_DDR">RSH_VID_DDR</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0600<TD><a href="#RSH_SCRATCH_BUF_CTL">RSH_SCRATCH_BUF_CTL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0610<TD><a href="#RSH_SCRATCH_BUF_DAT">RSH_SCRATCH_BUF_DAT</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0620<TD><a href="#RSH_PSEUDO_RAND">RSH_PSEUDO_RAND</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0628<TD><a href="#RSH_PSEUDO_RAND_CONTROL">RSH_PSEUDO_RAND_CONTROL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0630<TD><a href="#RSH_UPTIME">RSH_UPTIME</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0638<TD><a href="#RSH_UPTIME_POR">RSH_UPTIME_POR</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0700-0737<TD><a href="#RSH_DOWN_COUNT_VALUE">RSH_DOWN_COUNT_VALUE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0708-073f<TD><a href="#RSH_DOWN_COUNT_REFRESH_VALUE">RSH_DOWN_COUNT_REFRESH_VALUE</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0710-0747<TD><a href="#RSH_DOWN_COUNT_CONTROL">RSH_DOWN_COUNT_CONTROL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0800<TD><a href="#RSH_EFUSE_CTL">RSH_EFUSE_CTL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0808<TD><a href="#RSH_EFUSE_CTL_DATA_0">RSH_EFUSE_CTL_DATA_0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0808<TD><a href="#RSH_EFUSE_CTL_DATA_1">RSH_EFUSE_CTL_DATA_1</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0808<TD><a href="#RSH_EFUSE_DATA">RSH_EFUSE_DATA</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0a00<TD><a href="#RSH_JTAG_CONTROL">RSH_JTAG_CONTROL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0a08<TD><a href="#RSH_JTAG_SETUP">RSH_JTAG_SETUP</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0a10<TD><a href="#RSH_JTAG_DATA">RSH_JTAG_DATA</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0a18<TD><a href="#RSH_DIAG_BROADCAST">RSH_DIAG_BROADCAST</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0a20<TD><a href="#RSH_TM_HOST_TO_TILE_DATA">RSH_TM_HOST_TO_TILE_DATA</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0a28<TD><a href="#RSH_TM_HOST_TO_TILE_STS">RSH_TM_HOST_TO_TILE_STS</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0a30<TD><a href="#RSH_TM_HOST_TO_TILE_CTL">RSH_TM_HOST_TO_TILE_CTL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0a40<TD><a href="#RSH_TM_TILE_TO_HOST_DATA">RSH_TM_TILE_TO_HOST_DATA</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0a48<TD><a href="#RSH_TM_TILE_TO_HOST_STS">RSH_TM_TILE_TO_HOST_STS</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0a50<TD><a href="#RSH_TM_TILE_TO_HOST_CTL">RSH_TM_TILE_TO_HOST_CTL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0b00-0b4f<TD><a href="#RSH_TILE_COL_DISABLE">RSH_TILE_COL_DISABLE</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0b50<TD><a href="#RSH_GX36_IO_DISABLE0">RSH_GX36_IO_DISABLE0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0b50<TD><a href="#RSH_GX9_IO_DISABLE0">RSH_GX9_IO_DISABLE0</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0b50<TD><a href="#RSH_GX72_IO_DISABLE0">RSH_GX72_IO_DISABLE0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0b58<TD><a href="#RSH_GX36_IO_DISABLE1">RSH_GX36_IO_DISABLE1</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0b58<TD><a href="#RSH_GX9_IO_DISABLE1">RSH_GX9_IO_DISABLE1</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0b58<TD><a href="#RSH_GX72_IO_DISABLE1">RSH_GX72_IO_DISABLE1</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0b60<TD><a href="#RSH_GX72_IO_DISABLE2">RSH_GX72_IO_DISABLE2</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0b70<TD><a href="#RSH_GX72_GPIO_MODE">RSH_GX72_GPIO_MODE</a> <TD></TR>
+</TABLE>
+<br><br><h3>General Address Space Definitions</h3>
+<a name="RSH_MMIO_ADDRESS_SPACE"></a>
+<br><br><h4>MMIO Address Space (RSH_MMIO_ADDRESS_SPACE: 0x0000-0xffffffffff)</h4>
+The MMIO physical address space for the rshim is described below.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="rsh_pics/RSH_MMIO_ADDRESS_SPACE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:36</TD> <TD>CHANNEL</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address selects the channel (device).  Channel-0 is the common rshim registers.  Channels 1-8 are used to access the rshim-attached devices.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>RSHIM</TD><TD>Registers associated with RSHIM.</TD></TR>
+   <TR><TD>1</TD><TD>UART0</TD><TD>Registers associated with UART0.</TD></TR>
+   <TR><TD>2</TD><TD>UART1</TD><TD>Registers associated with UART1.</TD></TR>
+   <TR><TD>3</TD><TD>I2CM0</TD><TD>Registers associated with I2CM0.</TD></TR>
+   <TR><TD>4</TD><TD>I2CM1</TD><TD>Registers associated with I2CM1.</TD></TR>
+   <TR><TD>5</TD><TD>I2CM2</TD><TD>Registers associated with I2CM2.</TD></TR>
+   <TR><TD>6</TD><TD>I2CS</TD><TD>Registers associated with I2CS.</TD></TR>
+   <TR><TD>7</TD><TD>SPI</TD><TD>Registers associated with SPI.</TD></TR>
+   <TR><TD>8</TD><TD>MMC</TD><TD>Registers associated with MMC.</TD></TR>
+   <TR><TD>9</TD><TD>RSVD9</TD><TD>RESERVED</TD></TR>
+   <TR><TD>10</TD><TD>RSVD10</TD><TD>RESERVED</TD></TR>
+   <TR><TD>11</TD><TD>RSVD11</TD><TD>RESERVED</TD></TR>
+   <TR><TD>12</TD><TD>RSVD12</TD><TD>RESERVED</TD></TR>
+   <TR><TD>13</TD><TD>RSVD13</TD><TD>RESERVED</TD></TR>
+   <TR><TD>14</TD><TD>RSVD14</TD><TD>RESERVED</TD></TR>
+   <TR><TD>15</TD><TD>RSVD15</TD><TD>RESERVED</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>17:16</TD> <TD>PROT</TD> <TD>RW</TD> <TD>0</TD> <TD>Protection level.  Setting to 0 or 1 allows access to all registers.  Setting to 2 denies access to registers at level 2.  Setting to 3 denies access to registers at levels 1 and 2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address provides an offset into the channel whose register space is being accessed.</TD> </TR>
+</TABLE><br><br>
+<br><br><h3>Register Definitions</h3>
+<a name="RSH_DEV_INFO"></a>
+<br><br><h4>Device Info (RSH_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="rsh_pics/RSH_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>021h</TD> <TD>Encoded device Type - 33 to indicate rshim<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="RSH_DEV_CTL"></a>
+<br><br><h4>Device Control (RSH_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (RSH_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="rsh_pics/RSH_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>9</TD> <TD>Each configuration channel is mapped to a device having its own config registers.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>4</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_MEM_INFO"></a>
+<br><br><h4>Memory Info (RSH_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="rsh_pics/RSH_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (RSH_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="rsh_pics/RSH_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (RSH_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="rsh_pics/RSH_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (RSH_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><br><I>This register is protected at level 1</I>
+<br><img src="rsh_pics/RSH_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (RSH_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="rsh_pics/RSH_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_HFH_INIT_CTL"></a>
+<br><br><h4>MMIO HFH Table Init Control (RSH_HFH_INIT_CTL: 0x0050)</h4>
+Initialization control for the hash-for-home tables.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_HFH_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into the HFH table.  Increments automatically on write or read to HFH_INIT_DAT.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_HFH_INIT_DAT"></a>
+<br><br><h4>HFH Table Data (RSH_HFH_INIT_DAT: 0x0058)</h4>
+Read/Write data for hash-for-home table
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_HFH_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>22:15</TD> <TD>TILEA</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is greater than or equal to FRACT</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:7</TD> <TD>TILEB</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is less than FRACT</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>FRACT</TD> <TD>RW</TD> <TD>HW <TD>Fraction field of HFH table.  Determines what portion of the address space maps to TileA vs TileB</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_REV_ID"></a>
+<br><br><h4>Rev ID (RSH_REV_ID: 0x0100)</h4>
+Tile Revision
+<br><img src="rsh_pics/RSH_REV_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>CHIP_REV_ID</TD> <TD>RO</TD> <TD>HW <TD>Chip revision.  The low 4 bits indicate the minor revision; the high 4 bits indicate the major revision.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>TILE64</TD><TD>TILE64 processor family.</TD></TR>
+   <TR><TD>0x10</TD><TD>TILEPRO</TD><TD>TILEPro processor family.</TD></TR>
+   <TR><TD>0x20</TD><TD>TILEGX36</TD><TD>TILE-Gx36 processor and derivatives.</TD></TR>
+   <TR><TD>0x40</TD><TD>TILEGX72</TD><TD>TILE-Gx72 processor and derivatives.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>TILE_REV_ID</TD> <TD>RO</TD> <TD>HW <TD>Provides architectural revision of the tile.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>TILE64</TD><TD>TILE64 processor family.</TD></TR>
+   <TR><TD>0x10</TD><TD>TILEPRO</TD><TD>TILEPro processor family.</TD></TR>
+   <TR><TD>0x20</TD><TD>TILEGX</TD><TD>TILE-Gx processor family.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="RSH_FABRIC_CONN"></a>
+<br><br><h4>Fabric Connections (RSH_FABRIC_CONN: 0x0108)</h4>
+Indicates devices connected at the edges of the Tile fabric.  A set bit indicates that an IO device will respond to MMIO accesses at the associated location.
+<br><img src="rsh_pics/RSH_FABRIC_CONN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:48</TD> <TD>WEST</TD> <TD>RO</TD> <TD>HW <TD>Bit[0] represents the device located to the West of Tile(0,0).  Bit[1] represents the device located to the West of Tile(0,1). etc.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:32</TD> <TD>SOUTH</TD> <TD>RO</TD> <TD>HW <TD>Bit[0] represents the device located to the South of Tile(0,x).  Bit[1] represents the device located to the South of Tile(1,x). etc.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>EAST</TD> <TD>RO</TD> <TD>HW <TD>Bit[0] represents the device located to the East of Tile(x,0).  Bit[1] represents the device located to the East of Tile(x,1). etc.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>NORTH</TD> <TD>RO</TD> <TD>HW <TD>Bit[0] represents the device located to the North of Tile(0,0).  Bit[1] represents the device located to the North of Tile(1,0).  etc.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_FABRIC_DIM"></a>
+<br><br><h4>Fabric Dimensions (RSH_FABRIC_DIM: 0x0110)</h4>
+Indicates the size of the Tile Fabric and the location of the rshim.
+<br><img src="rsh_pics/RSH_FABRIC_DIM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>RSHIM_LOC</TD> <TD>RO</TD> <TD>HW <TD>Indicates the location of rshim on the mesh.  If this register returns 0x00, the rshim location is 1,-1 (or 0x1f as an encoded mesh coordinate).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>DIM_X</TD> <TD>RO</TD> <TD>HW <TD>Indicates the number of Tiles in the X dimension.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>DIM_Y</TD> <TD>RO</TD> <TD>HW <TD>Indicates the number of Tiles in the Y dimension.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_IPI_LOC"></a>
+<br><br><h4>IPI Location (RSH_IPI_LOC: 0x0118)</h4>
+Indicates the location(s) of IPI controllers in the fabric. When set to 0xff, there is no associated IPI controller.
+<br><img src="rsh_pics/RSH_IPI_LOC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:60</TD> <TD>X7</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 7.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>59:56</TD> <TD>Y7</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 7.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>55:52</TD> <TD>X6</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 6.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>51:48</TD> <TD>Y6</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 6.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47:44</TD> <TD>X5</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 5.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>43:40</TD> <TD>Y5</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 5.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>39:36</TD> <TD>X4</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 4.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>35:32</TD> <TD>Y4</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:28</TD> <TD>X3</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 3.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>Y3</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 3.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:20</TD> <TD>X2</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 2.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>Y2</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:12</TD> <TD>X1</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>Y1</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>X0</TD> <TD>RO</TD> <TD>HW <TD>X-Location of IPI Controller 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>Y0</TD> <TD>RO</TD> <TD>HW <TD>Y-Location of IPI Controller 0.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_ERROR_STATUS"></a>
+<br><br><h4>Error Status (RSH_ERROR_STATUS: 0x0208)</h4>
+Indicators for various fatal and non-fatal RSH error conditions
+<br><img src="rsh_pics/RSH_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MMIO_ILL_OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Illegal opcode received on MMIO interface</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_MMIO_ERROR_INFO"></a>
+<br><br><h4>MMIO Error Information (RSH_MMIO_ERROR_INFO: 0x0210)</h4>
+Provides diagnostics information when an MMIO error occurs.  Captured whenever the MMIO_ERR interrupt condition occurs (typically due to size error).
+<br><img src="rsh_pics/RSH_MMIO_ERROR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>58:54</TD> <TD>OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Opcode of request.  MMIO supports only MMIO_READ (0x0e) and MMIO_WRITE (0x0f).  All others are reserved and will only occur on a misconfigured TLB.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>53:12</TD> <TD>PA</TD> <TD>RO</TD> <TD>0</TD> <TD>Full PA from request.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Request size.  0=1B, 1=2B, 2=4B, 3=8B, 4=16B, 5=32B, 6=48B, 7=64B.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>SRC</TD> <TD>RO</TD> <TD>0</TD> <TD>Source Tile in {x[3:0],y[3:0]} format.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_INT_BIND"></a>
+<br><br><h4>Bindings for interrupt vectors (RSH_INT_BIND: 0x0300)</h4>
+This register provides read/write access to all of the interrupt bindings for the rshim.  The VEC_SEL field is used to select the vector being configured and the BIND_SEL selects the interrupt within the vector.  To read a binding, first write the VEC_SEL and BIND_SEL fields along with a 1 in the NW field.  Then read back the register.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_INT_BIND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>NW</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the interrupt binding data will not be modified.  Set this when writing the DEV_SEL and BIND_SEL fields in preparation for a read.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>44:40</TD> <TD>BIND_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects binding within the device selected by VEC_SEL.  For devices with only one binding, this field must be zero.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>SWINT0</TD><TD>Software Interrupt</TD></TR>
+   <TR><TD>0x1</TD><TD>SWINT1</TD><TD>Software Interrupt</TD></TR>
+   <TR><TD>0x2</TD><TD>SWINT2</TD><TD>Software Interrupt</TD></TR>
+   <TR><TD>0x3</TD><TD>SWINT3</TD><TD>Software Interrupt</TD></TR>
+   <TR><TD>0x4</TD><TD>DEV_PROT</TD><TD>Device Protection Error.  Device or remote command interface attempted access but associated protection bit was set in DEVICE_PROTECTION.</TD></TR>
+   <TR><TD>0x5</TD><TD>MMIO_ERR</TD><TD>An MMIO request encountered an error.  Error info captured in MMIO_ERROR_INFO</TD></TR>
+   <TR><TD>0x6</TD><TD>DCNT0</TD><TD>Down Counter 0</TD></TR>
+   <TR><TD>0x7</TD><TD>DCNT1</TD><TD>Down Counter 1</TD></TR>
+   <TR><TD>0x8</TD><TD>DCNT2</TD><TD>Down Counter 2</TD></TR>
+   <TR><TD>0x9</TD><TD>TM_HTT_LWM</TD><TD>TileMonitor HostToTile Low Water Mark</TD></TR>
+   <TR><TD>0xa</TD><TD>TM_HTT_HWM</TD><TD>TileMonitor HostToTile High Water Mark</TD></TR>
+   <TR><TD>0xb</TD><TD>TM_TTH_LWM</TD><TD>TileMonitor TileToHost Low Water Mark</TD></TR>
+   <TR><TD>0xc</TD><TD>TM_TTH_HWM</TD><TD>TileMonitor TileToHost High Water Mark</TD></TR>
+   <TR><TD>0xd</TD><TD>TM_HTT_RERR</TD><TD>TileMonitor HostToTile Read-Empty Error</TD></TR>
+   <TR><TD>0xe</TD><TD>TM_HTT_WERR</TD><TD>TileMonitor HostToTile Write-Full Error</TD></TR>
+   <TR><TD>0xf</TD><TD>TM_TTH_RERR</TD><TD>TileMonitor TileToHost Read-Empty Error</TD></TR>
+   <TR><TD>0x10</TD><TD>TM_TTH_WERR</TD><TD>TileMonitor TileToHost Write-Full Error</TD></TR>
+   <TR><TD>0x11</TD><TD>DIAG_BCST0</TD><TD>Diag Broadcast-0 Asserted</TD></TR>
+   <TR><TD>0x12</TD><TD>DIAG_BCST1</TD><TD>Diag Broadcast-1 Asserted</TD></TR>
+   <TR><TD>0x13</TD><TD>DIAG_BCST2</TD><TD>Diag Broadcast-2 Asserted</TD></TR>
+   <TR><TD>0x14</TD><TD>DIAG_BCST3</TD><TD>Diag Broadcast-3 Asserted</TD></TR>
+   <TR><TD>0x15</TD><TD>CFG_PROT_VIOL</TD><TD>A config access attempted to exceed its allowed protection level.</TD></TR>
+   <TR><TD>0x16</TD><TD>PWR_ALARM</TD><TD>Power alarm status has changed.<br><br><I>NOTE: This value is only used in the following devices:.</I></TD></TR>
+   <TR><TD>0x17</TD><TD>PWR_HIGH</TD><TD>Power high status has changed and the clock has switched between main and alt.<br><br><I>NOTE: This value is only used in the following devices:.</I></TD></TR>
+   <TR><TD>0x18</TD><TD>CLK_LIMIT_FAIL</TD><TD>The MAX_CLOCK indicator has detected a violation and shut down the associated PLL.<br><br><I>NOTE: This value is only used in the following devices:.</I></TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>DEV_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects device whose bindings are to be accessed. Some devices may support a system interrupt binding in addition to the normal device binding. This is typically used for hypervisor services such as TLB misses. For devices that support a system binding, the BIND_SEL field selects between device (BIND_SEL=0) and system (BIND_SEL=1) bindings.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>CH0</TD><TD>Interrupt bindings associated with the following BIND_SEL values:<br>
+<br>
+0: SWINT0<br>
+1: SWINT1<br>
+2: SWINT2<br>
+3: SWINT3<br>
+4: DEV_PROT<br>
+5: MMIO_ERR<br>
+6: DCNT0<br>
+7: DCNT1<br>
+8: DCNT2<br>
+9: TM_HTT_LWM<br>
+10: TM_HTT_HWM<br>
+11: TM_TTH_LWM<br>
+12: TM_TTH_HWM<br>
+13: TM_HTT_RERR<br>
+14: TM_HTT_WERR<br>
+15: TM_TTH_RERR<br>
+16: TM_TTH_WERR<br>
+17: DIAG_BCST0<br>
+18: DIAG_BCST1<br>
+19: DIAG_BCST2<br>
+20: DIAG_BCST3<br>
+21: CFG_PROT_VIOL<br>
+22: PWR_ALARM<br>
+23: PWR_HIGH<br>
+24: CLK_LIMIT_FAIL</TD></TR>
+   <TR><TD>1</TD><TD>UART0</TD><TD>Interrupt associated with the UART0 device.</TD></TR>
+   <TR><TD>2</TD><TD>UART1</TD><TD>Interrupt associated with the UART1 device.</TD></TR>
+   <TR><TD>3</TD><TD>I2CM0</TD><TD>Interrupt associated with the I2CM0 device.</TD></TR>
+   <TR><TD>4</TD><TD>I2CM1</TD><TD>Interrupt associated with the I2CM1 device.</TD></TR>
+   <TR><TD>5</TD><TD>I2CM2</TD><TD>Interrupt associated with the I2CM2 device.</TD></TR>
+   <TR><TD>6</TD><TD>I2CS</TD><TD>Interrupt associated with the I2CS device.</TD></TR>
+   <TR><TD>7</TD><TD>SPI</TD><TD>Interrupt associated with the SPI device.</TD></TR>
+   <TR><TD>8</TD><TD>MMC</TD><TD>Interrupt associated with the MMC device.</TD></TR>
+   <TR><TD>9</TD><TD>RSVD8</TD><TD>RESERVED</TD></TR>
+   <TR><TD>10</TD><TD>RSVD9</TD><TD>RESERVED</TD></TR>
+   <TR><TD>11</TD><TD>RSVD10</TD><TD>RESERVED</TD></TR>
+   <TR><TD>12</TD><TD>RSVD11</TD><TD>RESERVED</TD></TR>
+   <TR><TD>13</TD><TD>RSVD12</TD><TD>RESERVED</TD></TR>
+   <TR><TD>14</TD><TD>RSVD13</TD><TD>RESERVED</TD></TR>
+   <TR><TD>15</TD><TD>RSVD14</TD><TD>RESERVED</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>17:12</TD> <TD>EVT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Event number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:10</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Interrupt number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:2</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>HW <TD>Tile targeted for this interrupt in {x[3:0],y[3:0]} format.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, interrupt will be dispatched each time it occurs.  When 0, the interrupt is only sent if the status bit is clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the interrupt.  When 0, the interrupt won't be dispatched, however the STATUS bit will continue to be updated.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_INT_VEC0_W1TC"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (RSH_INT_VEC0_W1TC: 0x0308)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  Writing a 1 clears the status bit.<br>
+<br>
+This vector contains the following interrupts:<br>
+<br>
+0: SWINT0<br>
+1: SWINT1<br>
+2: SWINT2<br>
+3: SWINT3<br>
+4: DEV_PROT<br>
+5: MMIO_ERR<br>
+6: DCNT0<br>
+7: DCNT1<br>
+8: DCNT2<br>
+9: TM_HTT_LWM<br>
+10: TM_HTT_HWM<br>
+11: TM_TTH_LWM<br>
+12: TM_TTH_HWM<br>
+13: TM_HTT_RERR<br>
+14: TM_HTT_WERR<br>
+15: TM_TTH_RERR<br>
+16: TM_TTH_WERR<br>
+17: DIAG_BCST0<br>
+18: DIAG_BCST1<br>
+19: DIAG_BCST2<br>
+20: DIAG_BCST3<br>
+21: CFG_PROT_VIOL<br>
+22: PWR_ALARM<br>
+23: PWR_HIGH<br>
+24: CLK_LIMIT_FAIL
+<br><br><I>This register is protected at level 1</I>
+<br><img src="rsh_pics/RSH_INT_VEC0_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>CFG_PROT_VIOL</TD> <TD>RW</TD> <TD>0</TD> <TD>A config access attempted to exceed its allowed protection level.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>DIAG_BCST3</TD> <TD>RW</TD> <TD>0</TD> <TD>Diag Broadcast-3 Asserted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>DIAG_BCST2</TD> <TD>RW</TD> <TD>0</TD> <TD>Diag Broadcast-2 Asserted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>DIAG_BCST1</TD> <TD>RW</TD> <TD>0</TD> <TD>Diag Broadcast-1 Asserted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>DIAG_BCST0</TD> <TD>RW</TD> <TD>0</TD> <TD>Diag Broadcast-0 Asserted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>TM_TTH_WERR</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor TileToHost Write-Full Error</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>TM_TTH_RERR</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor TileToHost Read-Empty Error</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>TM_HTT_WERR</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor HostToTile Write-Full Error</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>TM_HTT_RERR</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor HostToTile Read-Empty Error</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>TM_TTH_HWM</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor TileToHost High Water Mark</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>TM_TTH_LWM</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor TileToHost Low Water Mark</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>TM_HTT_HWM</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor HostToTile High Water Mark</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>TM_HTT_LWM</TD> <TD>RW</TD> <TD>0</TD> <TD>TileMonitor HostToTile Low Water Mark</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>DCNT2</TD> <TD>RW</TD> <TD>0</TD> <TD>Down Counter 2</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>DCNT1</TD> <TD>RW</TD> <TD>0</TD> <TD>Down Counter 1</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>DCNT0</TD> <TD>RW</TD> <TD>0</TD> <TD>Down Counter 0</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MMIO_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>An MMIO request encountered an error.  Error info captured in MMIO_ERROR_INFO</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>DEV_PROT</TD> <TD>RW</TD> <TD>0</TD> <TD>Device Protection Error.  Device or remote command interface attempted access but associated protection bit was set in DEVICE_PROTECTION.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SWINT3</TD> <TD>RW</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>SWINT2</TD> <TD>RW</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>SWINT1</TD> <TD>RW</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SWINT0</TD> <TD>RW</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_INT_VEC0_RTC"></a>
+<br><br><h4>Interrupt vector-0, read-to-clear (RSH_INT_VEC0_RTC: 0x0310)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  Reading this register clears all of the associated interrupts.<br>
+<br>
+This vector contains the following interrupts:<br>
+<br>
+0: SWINT0<br>
+1: SWINT1<br>
+2: SWINT2<br>
+3: SWINT3<br>
+4: DEV_PROT<br>
+5: MMIO_ERR<br>
+6: DCNT0<br>
+7: DCNT1<br>
+8: DCNT2<br>
+9: TM_HTT_LWM<br>
+10: TM_HTT_HWM<br>
+11: TM_TTH_LWM<br>
+12: TM_TTH_HWM<br>
+13: TM_HTT_RERR<br>
+14: TM_HTT_WERR<br>
+15: TM_TTH_RERR<br>
+16: TM_TTH_WERR<br>
+17: DIAG_BCST0<br>
+18: DIAG_BCST1<br>
+19: DIAG_BCST2<br>
+20: DIAG_BCST3<br>
+21: CFG_PROT_VIOL<br>
+22: PWR_ALARM<br>
+23: PWR_HIGH<br>
+24: CLK_LIMIT_FAIL
+<br><br><I>This register is protected at level 1</I>
+<br><img src="rsh_pics/RSH_INT_VEC0_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>CFG_PROT_VIOL</TD> <TD>RO</TD> <TD>0</TD> <TD>A config access attempted to exceed its allowed protection level.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>DIAG_BCST3</TD> <TD>RO</TD> <TD>0</TD> <TD>Diag Broadcast-3 Asserted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>DIAG_BCST2</TD> <TD>RO</TD> <TD>0</TD> <TD>Diag Broadcast-2 Asserted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>DIAG_BCST1</TD> <TD>RO</TD> <TD>0</TD> <TD>Diag Broadcast-1 Asserted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>DIAG_BCST0</TD> <TD>RO</TD> <TD>0</TD> <TD>Diag Broadcast-0 Asserted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>TM_TTH_WERR</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor TileToHost Write-Full Error</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>TM_TTH_RERR</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor TileToHost Read-Empty Error</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>TM_HTT_WERR</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor HostToTile Write-Full Error</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>TM_HTT_RERR</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor HostToTile Read-Empty Error</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>TM_TTH_HWM</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor TileToHost High Water Mark</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>TM_TTH_LWM</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor TileToHost Low Water Mark</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>TM_HTT_HWM</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor HostToTile High Water Mark</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>TM_HTT_LWM</TD> <TD>RO</TD> <TD>0</TD> <TD>TileMonitor HostToTile Low Water Mark</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>DCNT2</TD> <TD>RO</TD> <TD>0</TD> <TD>Down Counter 2</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>DCNT1</TD> <TD>RO</TD> <TD>0</TD> <TD>Down Counter 1</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>DCNT0</TD> <TD>RO</TD> <TD>0</TD> <TD>Down Counter 0</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MMIO_ERR</TD> <TD>RO</TD> <TD>0</TD> <TD>An MMIO request encountered an error.  Error info captured in MMIO_ERROR_INFO</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>DEV_PROT</TD> <TD>RO</TD> <TD>0</TD> <TD>Device Protection Error.  Device or remote command interface attempted access but associated protection bit was set in DEVICE_PROTECTION.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SWINT3</TD> <TD>RO</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>SWINT2</TD> <TD>RO</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>SWINT1</TD> <TD>RO</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SWINT0</TD> <TD>RO</TD> <TD>0</TD> <TD>Software Interrupt</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SWINT"></a>
+<br><br><h4>Software Interrupt (RSH_SWINT: 0x0318)</h4>
+Used to trigger interrupts via register write.  Each bit corresponds to a single SWINT interrupt which will be triggered when written with a 1.
+<br><img src="rsh_pics/RSH_SWINT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>SWINT</TD> <TD>WO</TD> <TD>0</TD> <TD>Used to trigger interrupts via register write.  Each bit corresponds to a single SWINT interrupt which will be triggered when written with a 1.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PG_CTL"></a>
+<br><br><h4>Packet Generator Control (RSH_PG_CTL: 0x0400)</h4>
+Configuration of the packet generator
+<br><img src="rsh_pics/RSH_PG_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:48</TD> <TD>SENT_COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Count of number of words successfully sent from the packet generator.  This is typically used by external devices to flow control the boot stream and prevent blocking between boot writes and debug accesses. In FIFO_MODE, this represents the number of words that have been read (dequeued) from the FIFO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>35:32</TD> <TD>DATA_IDX</TD> <TD>RW</TD> <TD>1</TD> <TD>Data word to be read/written.  The maximum allowed value is 10.  Increments automatically on each access to PG_DATA. When incremented to PKT_WORDS, DATA_IDX wraps back to START_IDX.  <br>
+<br>
+Note that R/SDN packets each use two data words per packet flit.  16 bits from the upper word are unused on RDN packets.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>X_FIRST</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets use X_FIRST route order.  Only applies when AUTO_RTE is 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>HFH</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will calculate the home tile based on the address field in the packet using the hash-for-home table.  In HFH mode, the MASK field for the lookup comes from bits[3:0] of the first data word.  The OFFSET comes from bits[7:4] of the first data word.  HFH will only be applied on SDN packets and only when AUTO_RTE is also 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>AUTO_RTE</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, the packet's route header will be auto-generated based on the low 8 bits of data word 0.  The bits are interpreted as {TILE_X[3:0],TILE_Y[3:0]}.  When 0, the first data word contains the actual route header.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>AUTO_SEND</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, the packet will automatically send when the data register is written and DATA_IDX is (PKT_WORDS-1).  When AUTO_SEND is 1, the 32kB boot FIFO will be used to stream data into the packet generator.  The AUTO_SEND bit must not be changed unless the SEND bit is clear indicating all previous transactions have completed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>START_IDX</TD> <TD>RW</TD> <TD>1</TD> <TD>When the DATA_IDX reaches PKT_WORDS in AUTO_SEND mode, the DATA_IDX will be reset to START_IDX.  This allows the first START_IDX flits to remain intact for each packet.  START_IDX must be even for S/RDN packets.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>PKT_WORDS</TD> <TD>RW</TD> <TD>2</TD> <TD>Number of 64-bit words to be sent including the route header.  The maximum legal value is 10.  For the S/RDN, two words will be consumed for each flit that is sent.  Hence for R/SDN, this value MUST be even.  For U/IDN, the first DATA word is treated as the header flit and each subsequent data word will result in two 32-bit flits on the network. So setting this register to 3 will result in the 1st word from the data buffer being sent as the route header and the subsequent two words will result in 4 additional flits on the U/IDN.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>NW_SEL</TD> <TD>RW</TD> <TD>4</TD> <TD>Selects target network for packet<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>QDN</TD><TD>QDN</TD></TR>
+   <TR><TD>1</TD><TD>RDN</TD><TD>RDN</TD></TR>
+   <TR><TD>2</TD><TD>SDN</TD><TD>SDN</TD></TR>
+   <TR><TD>3</TD><TD>IDN</TD><TD>IDN<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+   <TR><TD>4</TD><TD>UDN</TD><TD>UDN<br><br><I>NOTE: This value is only used in the following devices: Gx9 Gx16 Gx36 Gx72.</I></TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SEND</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the packet in the PG_DATA buffer will be sent.  This bit will read as 1 if there is a send in progress or if there is data in the boot FIFO.  Sending a packet while a send is in progress has unpredictable results.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PG_DATA"></a>
+<br><br><h4>Packet Generator Data (RSH_PG_DATA: 0x0408)</h4>
+10 Data words for packet generator.  The data word to be read or written is indexed by PG_CTL.DATA_IDX.  The DATA_IDX is incremented automatically on each access.  Note that R/SDN packets each use two data words per packet flit. If either the PG_CTL.AUTO_SEND or the PG_CTL.FIFO_MODE is 1, writes to PG_DATA go into the boot FIFO.  Similarly, if the PG_CTL.FIFO_MODE is 1, reads to PG_DATA pop one word from the FIFO. In this case, if the FIFO is empty, the read will return all 1's and the FIFO state will not be affected.
+<br><img src="rsh_pics/RSH_PG_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PG_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>10 Data words for packet generator.  The data word to be read or written is indexed by PG_CTL.DATA_IDX.  The DATA_IDX is incremented automatically on each access.  Note that R/SDN packets each use two data words per packet flit. If either the PG_CTL.AUTO_SEND or the PG_CTL.FIFO_MODE is 1, writes to PG_DATA go into the boot FIFO.  Similarly, if the PG_CTL.FIFO_MODE is 1, reads to PG_DATA pop one word from the FIFO. In this case, if the FIFO is empty, the read will return all 1's and the FIFO state will not be affected.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PG_COMP_DATA"></a>
+<br><br><h4>Packet Generator Completion Data (RSH_PG_COMP_DATA: 0x0410-0x0457)</h4>
+Any data received on the RDN will be placed into this data buffer.  The first COMP_DATA register contains the RDN header (but no data bytes).  The remaining 8 data registers contain any data from the RDN packet.Any data received on the RDN will be placed into this data buffer.  The first COMP_DATA register contains the RDN header.
+<br><img src="rsh_pics/RSH_PG_COMP_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DATA</TD> <TD>RO</TD> <TD>0</TD> <TD>Completion data word.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PG_COMP_STS"></a>
+<br><br><h4>Packet Generator Completion Status (RSH_PG_COMP_STS: 0x0480)</h4>
+This register contains status information for completions that have been captured from the RDN.
+<br><img src="rsh_pics/RSH_PG_COMP_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>18:16</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of flits received in the last completion packet on the RDN.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of completion packets received.  This counter saturates at 65535 but may be cleared by software.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BYTE_ACC_CTL"></a>
+<br><br><h4>Byte Access Control (RSH_BYTE_ACC_CTL: 0x0490)</h4>
+Provides 8-byte access to rshim registers using 1B, 2B, or 4B accesses.
+<br><img src="rsh_pics/RSH_BYTE_ACC_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>READ_TRIG</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, a read to BYTE_ACC_ADDR is triggered and the resulting data is placed into BYTE_ACC_RDAT.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD>When asserted, an access is still pending.  Attempting to access the WDAT/RDAT/ADDR registers when an access is pending has unpredictable results.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:3</TD> <TD>SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Size of access.  This controls how much the BYTE_PTR increments by on each BYTE_ACC_WDAT/RDAT access.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>1BYTE</TD><TD>Single byte access.</TD></TR>
+   <TR><TD>1</TD><TD>2BYTE</TD><TD>Two byte access.</TD></TR>
+   <TR><TD>2</TD><TD>4BYTE</TD><TD>Four byte access.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>BYTE_PTR</TD> <TD>RW</TD> <TD>0</TD> <TD>Byte-index into the 8-byte wdat/rdat/addr register for access.  Increments automatically on access to the BYTE_ACC_WDAT, BYTE_ACC_RDAT, or BYTE_ACC_ADDR registers.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BYTE_ACC_WDAT"></a>
+<br><br><h4>Byte Access Write Data (RSH_BYTE_ACC_WDAT: 0x0498)</h4>
+8 bytes of write data written when BYTE_ACC_CTL.BYTE_PTR wraps back to zero.
+<br><img src="rsh_pics/RSH_BYTE_ACC_WDAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RW</TD> <TD>0</TD> <TD>The 8-bytes in this register are updated based on BYTE_ACC_CTL.BYTE_PTR and SIZE.  Each time this register is written, the BYTE_ACC_CTL.BYTE_PTR is incremented based on BYTE_ACC_CTL.SIZE.  When the most significant byte of this register is written, the register at address BYTE_ACC_ADDR is written using the data in this register.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BYTE_ACC_RDAT"></a>
+<br><br><h4>Byte Access Read Data (RSH_BYTE_ACC_RDAT: 0x04a0)</h4>
+8 bytes of read data captured when READ_TRIGGER is written with a 1.
+<br><img src="rsh_pics/RSH_BYTE_ACC_RDAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Each time this register is read, the BYTE_ACC_CTL.BYTE_PTR is incremented based on BYTE_ACC_CTL.SIZE.  The bytes returned will be shifted into the least significant BYTE_ACC_CTL.SIZE bytes based on the current value of BYTE_ACC_CTL.BYTE_PTR.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BYTE_ACC_ADDR"></a>
+<br><br><h4>Byte Access Register Address (RSH_BYTE_ACC_ADDR: 0x04a8)</h4>
+Register address used for read/write accesses triggered by BYTE_ACC_WDAT/RDAT.  The BYTE_ACC_CTL.BYTE_PTR is used and auto incremented when writing or reading this register.
+<br><img src="rsh_pics/RSH_BYTE_ACC_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:16</TD> <TD>CHANNEL</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address selects the channel (device).  Channel-0 is the common rshim registers.  Channels 1-8 are used to access the rshim-attached devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:3</TD> <TD>REGNUM</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the 8-byte register to be accessed within the channel specified by CHANNEL.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_CLOCK_CONTROL"></a>
+<br><br><h4>Clock Control (RSH_CLOCK_CONTROL: 0x04f8)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides control over the core PLL
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_CLOCK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>CLOCK_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that PLL has been enabled and clock is now running off of the PLL output.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20:13</TD> <TD>PLL_M</TD> <TD>RW</TD> <TD>0</TD> <TD>Feedback divider value.  The resulting clock frequency is calculated as ((REF / (PLL_N+1)) * 2 * (PLL_M + 1)) / (2^Q).  The VCO frequency is (REF / (PLL_N+1)) * 2 * (PLL_M + 1)) and must be in the range of 2133 MHz to 4266 MHz.  <br>
+<br>
+For example, to create a 1 GHz clock from a 125 MHz refclk, Q would be set to 2 so that the VCO would be 1 GHz*2^2 = 4000 MHz.  2*(PLL_M+1)/(PLL_N+1) = 32.  PLL_N=0 and PLL_M=15 would keep the post divide frequency within the legal range since 125/(0+1) is 125.  PLL_RANGE would be set to R104_166.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12:7</TD> <TD>PLL_N</TD> <TD>RW</TD> <TD>0</TD> <TD>Reference divider value.  Input refclk is divided by (PLL_N+1).  The post-divided clock must be in the range of 14 MHz to 200 MHz.  The low 5 bits of this field are used.  The MSB is reserved.  The minimum value of PLL_N that keeps the post-divided clock within the legal range will provide the best jitter performance.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:4</TD> <TD>PLL_Q</TD> <TD>RW</TD> <TD>0</TD> <TD>Output divider.  The VCO clock is divided by 2^PLL_Q to create the final output clock.  This should be set such that 2133 MHz<(output_frequency * 2^PLL_Q)<4266 MHz.  The maximum supported value of PLL_Q is 6 (divide by 64).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>PLL_RANGE</TD> <TD>RW</TD> <TD>0</TD> <TD>This value should be set based on the post divider frequency, REF/(PLL_N+1).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>BYP</TD><TD>Bypass mode.  Not typically used by software-controlled settings.</TD></TR>
+   <TR><TD>1</TD><TD>R14_16</TD><TD>14-16 MHz</TD></TR>
+   <TR><TD>2</TD><TD>R16_26</TD><TD>16-26 MHz</TD></TR>
+   <TR><TD>3</TD><TD>R26_42</TD><TD>26-42 MHz</TD></TR>
+   <TR><TD>4</TD><TD>R42_65</TD><TD>42-65 MHz</TD></TR>
+   <TR><TD>5</TD><TD>R65_104</TD><TD>65-104 MHz</TD></TR>
+   <TR><TD>6</TD><TD>R104_166</TD><TD>104-166 MHz</TD></TR>
+   <TR><TD>7</TD><TD>R166_200</TD><TD>166-200 MHz</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the PLL will be configured with the settings in PLL_RANGE/Q/N/M.  When written with a zero, the PLL will be bypassed.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_RESET_CONTROL"></a>
+<br><br><h4>Reset Control (RSH_RESET_CONTROL: 0x0500)</h4>
+Reset Control
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_RESET_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>RESET_CHIP</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with the KEY, the chip will be soft reset.  On soft reset, the BREADCRUMB registers will be left intact allowing reboot software to determine why the chip was reset.  Using a KEY reduces the likelihood that a misconfigured boot ROM or other errant write could accidentally reset the chip.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0xca710001</TD><TD>KEY</TD><TD>Writing this value resets the chip.  All other values ignored.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="RSH_RESET_MASK"></a>
+<br><br><h4>Reset MASK (RSH_RESET_MASK: 0x0508)</h4>
+Each bit corresponds to a device or function within a device.  The bit assignments match the IO_RESET register.   Any devices or functions corresponding to bits that are set will NOT be reset when RESET_CONTROL is used to issue a software reset.   Software must insure that any associated devices have been properly quiesced prior to issuing a RESET_CHIP with any RESET_MASK bits set.  This register is reset by hard_rst_l but not software reset.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_RESET_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>RESET_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a device or function within a device.  The bit assignments match the IO_RESET register.   Any devices or functions corresponding to bits that are set will NOT be reset when RESET_CONTROL is used to issue a software reset.   Software must insure that any associated devices have been properly quiesced prior to issuing a RESET_CHIP with any RESET_MASK bits set.  This register is reset by hard_rst_l but not software reset.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BREADCRUMB0"></a>
+<br><br><h4>Breadcrumb0 (RSH_BREADCRUMB0: 0x0510)</h4>
+Scratchpad register that resets only on hard_rst_l (power on reset).  Typically used by software to leave information for the reboot software on software reset.
+<br><img src="rsh_pics/RSH_BREADCRUMB0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>BREADCRUMB0</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad register that resets only on hard_rst_l (power on reset).  Typically used by software to leave information for the reboot software on software reset.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BREADCRUMB1"></a>
+<br><br><h4>Breadcrumb1 (RSH_BREADCRUMB1: 0x0518)</h4>
+Scratchpad register that resets only on hard_rst_l (power on reset).  Typically used by software to leave information for the reboot software on software reset.
+<br><img src="rsh_pics/RSH_BREADCRUMB1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>BREADCRUMB1</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad register that resets only on hard_rst_l (power on reset).  Typically used by software to leave information for the reboot software on software reset.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_IO_RESET"></a>
+<br><br><h4>IO Reset (RSH_IO_RESET: 0x0520)</h4>
+Each bit corresponds to a device or function within a device.  When written with a 1, the associated device or function will be reset. Software is responsible for any quiesce procedures required for the associated device prior to reset.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_IO_RESET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>VAL</TD> <TD>WO</TD> <TD>0</TD> <TD>Bits in this vector are chip specific (see the definitions for GX**_IO_RESET).</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX36_IO_RESET"></a>
+<br><br><h4>IO Reset (RSH_GX36_IO_RESET: 0x0520)</h4>
+<I>NOTE: This register only exists in the following devices: Gx36.</I><br><br>
+Each bit corresponds to a device or function within a device.  When written with a 1, the associated device or function will be reset. Software is responsible for any quiesce procedures required for the associated device prior to reset.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_GX36_IO_RESET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>MSH3</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>MSH2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>CRYPTO</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>COMPRESSION</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>GPIO</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>MSH1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>MSH0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>USB</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>PCIE2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>PCIE1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>PCIE0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>TRIO</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MPIPE_QUAD3</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MPIPE_QUAD2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>MPIPE_QUAD1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>MPIPE_QUAD0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MPIPE_KCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>MPIPE_PCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX72_IO_RESET"></a>
+<br><br><h4>IO Reset (RSH_GX72_IO_RESET: 0x0520)</h4>
+<I>NOTE: This register only exists in the following devices: Gx72.</I><br><br>
+Each bit corresponds to a device or function within a device.  When written with a 1, the associated device or function will be reset. Software is responsible for any quiesce procedures required for the associated device prior to reset.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_GX72_IO_RESET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28</TD> <TD>CRYPTO</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27</TD> <TD>GPIO</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>26</TD> <TD>MSH3</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25</TD> <TD>MSH2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>MSH1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23</TD> <TD>MSH0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22</TD> <TD>USB</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21</TD> <TD>PCIE1_2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>PCIE1_1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>PCIE1_0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>TRIO1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>PCIE0_2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>PCIE0_1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>PCIE0_0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>TRIO0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>MPIPE1_QUAD3</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>MPIPE1_QUAD2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>MPIPE1_QUAD1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>MPIPE1_QUAD0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>MPIPE1_KCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>MPIPE1_PCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>MPIPE0_QUAD3</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MPIPE0_QUAD2</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MPIPE0_QUAD1</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>MPIPE0_QUAD0</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>MPIPE0_KCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MPIPE0_PCLK</TD> <TD>WO</TD> <TD>0</TD> <TD> </TD> </TR>
+</TABLE><br><br>
+<a name="RSH_BOOT_CONTROL"></a>
+<br><br><h4>Boot Control (RSH_BOOT_CONTROL: 0x0528)</h4>
+Boot Control
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_BOOT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>BOOT_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates source for ROM boot on next software reset.  Initialized based on strapping pins on hard_rst_l.  This register is not reset on software reset.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>NONE</TD><TD>Boot loader will not be initiated on next software reset.  Boot stream must instead be pushed into the chip (via PCIe, UART, I2Cs etc.)</TD></TR>
+   <TR><TD>1</TD><TD>SPI</TD><TD>Boot loader will attempt to read a boot stream from SPI ROM on next software reset.</TD></TR>
+   <TR><TD>2</TD><TD>I2CM</TD><TD>Boot loader attempt to read from a boot stream from I2C ROM on next software reset.</TD></TR>
+   <TR><TD>4</TD><TD>EMMC</TD><TD>Boot loader attempt to read from a boot stream from EMMC on next software reset. Use alternate boot mode (50MHz HS mode, 8-bit)<br><br><I>NOTE: This value is only used in the following devices:.</I></TD></TR>
+   <TR><TD>5</TD><TD>EMMC_LEGACY</TD><TD>Boot loader attempt to read from a boot stream from EMMC on next software reset. Use legacy mode (400KHz, 1-bit).<br><br><I>NOTE: This value is only used in the following devices:.</I></TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="RSH_WATCHDOG_CONTROL"></a>
+<br><br><h4>Watchdog Control (RSH_WATCHDOG_CONTROL: 0x0530)</h4>
+Watchdog Control
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_WATCHDOG_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>RESET_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to one of the 3 down counters.  When asserted, if the associated down counter triggers an interrupt condition, the RESET_CHIP functionality will be triggered automatically (the interrupt binding doesn't have to be enabled).</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_DEVICE_PROTECTION"></a>
+<br><br><h4>Device Protection (RSH_DEVICE_PROTECTION: 0x0538)</h4>
+Controls device access to rshim services.  When a bit is one, the associated device will be disabled.  Reads and writes from the device will acknowledged but ignored.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_DEVICE_PROTECTION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:32</TD> <TD>DISABLE_RCI</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a remote command interface.  Multiple bits may be set.  The interface mapping is:<br>
+<br>
+0 : JTAG.<br>
+1 : TRIO0.<br>
+2 : USB.<br>
+3 : TRIO1.<br>
+4 : TRIO2.<br>
+5 : RSVD5.<br>
+6 : RSVD6.<br>
+7 : RSVD7.<br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>DISABLE_DEVICE</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a device.  The device mapping is:<br>
+<br>
+0 : UART0.<br>
+1 : UART1.<br>
+2 : I2CM0.<br>
+3 : I2CM1.<br>
+4 : I2CM2.<br>
+5 : I2CS.<br>
+6 : SPI.<br>
+7 : MMC.<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_VID_CORE"></a>
+<br><br><h4>VID Core (RSH_VID_CORE: 0x0540)</h4>
+This register provides the the value driven out on VDD_CORE pins, which drive VID[5:0] of the core voltage regulator.  Note that the VR11 VID code is 8-bits; VID[7:6] should be tied to 01 on the PC board. Note that these pins may not exist on all devices or be used on all boards.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_VID_CORE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:0</TD> <TD>VID</TD> <TD>RW</TD> <TD>2ah</TD> <TD>Value for VID[5:0] of the core voltage regulator.  The reset value corresponds to 0.9500 V.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_VID_DDR"></a>
+<br><br><h4>VID for DDR DRAMs (RSH_VID_DDR: 0x0548)</h4>
+This register provides the value driven out on VDD_DDR pins, which drive VID[6:3] of the DRAM voltage regulator.  Note that the VR11 VID code is 8-bits; VID[7] should be tied to 0 and VID[2:0] tied to 010, respectively, on the PC board. Note that these pins may not exist on all devices or be used on all boards.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="rsh_pics/RSH_VID_DDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:3</TD> <TD>VID</TD> <TD>RW</TD> <TD>8</TD> <TD>Value for VID[6:3] of the DRAM voltage regulator.  The reset value corresponds to 1.2000 V.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SCRATCH_BUF_CTL"></a>
+<br><br><h4>Scratch buffer control (RSH_SCRATCH_BUF_CTL: 0x0600)</h4>
+Controls R/W access to scratch buffer.
+<br><img src="rsh_pics/RSH_SCRATCH_BUF_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into the 128 word scratch buffer.   Increments automatically on write or read to SCRATCH_BUF_DAT.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_SCRATCH_BUF_DAT"></a>
+<br><br><h4>Scratch buffer data (RSH_SCRATCH_BUF_DAT: 0x0610)</h4>
+Read/Write data for scratch buffer
+<br><img src="rsh_pics/RSH_SCRATCH_BUF_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCH_BUF_DAT</TD> <TD>RW</TD> <TD>HW <TD>Read/Write data for scratch buffer</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PSEUDO_RAND"></a>
+<br><br><h4>Pseudo-Rand (RSH_PSEUDO_RAND: 0x0620)</h4>
+Provides a pseudo-random 64-bit value in the range of [1..(2**64)-1] using a 64-bit LFSR (taps are 64,63,61,60). 
+<br><img src="rsh_pics/RSH_PSEUDO_RAND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PSEUDO_RAND</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides a pseudo-random 64-bit value in the range of [1..(2**64)-1] using a 64-bit LFSR (taps are 64,63,61,60). </TD> </TR>
+</TABLE><br><br>
+<a name="RSH_PSEUDO_RAND_CONTROL"></a>
+<br><br><h4>Pseudo-Rand Control (RSH_PSEUDO_RAND_CONTROL: 0x0628)</h4>
+Pseudo-Rand Control
+<br><img src="rsh_pics/RSH_PSEUDO_RAND_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>P_RAND_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the RSHIM_P_RAND value advances once each time it is read.  When 0, it is free running.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_UPTIME"></a>
+<br><br><h4>Uptime (RSH_UPTIME: 0x0630)</h4>
+Provides core_refclk cycle count since last reset (either hard or soft).
+<br><img src="rsh_pics/RSH_UPTIME.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:0</TD> <TD>UPTIME</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides core_refclk cycle count since last reset (either hard or soft).</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_UPTIME_POR"></a>
+<br><br><h4>Uptime (RSH_UPTIME_POR: 0x0638)</h4>
+Provides core_refclk cycle count since last hard_reset.  This register is not reset on a software reset.
+<br><img src="rsh_pics/RSH_UPTIME_POR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:0</TD> <TD>UPTIME_POR</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides core_refclk cycle count since last hard_reset.  This register is not reset on a software reset.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_DOWN_COUNT_VALUE"></a>
+<br><br><h4>Down Count Current Value (RSH_DOWN_COUNT_VALUE: 0x0700-0x0737 stride: 24)</h4>
+Down Count Current Value
+<br><img src="rsh_pics/RSH_DOWN_COUNT_VALUE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>47:0</TD> <TD>COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Current value for the down counter.  Writable by SW.  Decremented by HW based on setup in control register.  When counter is 0 and timer tick occurs, an interrupt is signaled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_DOWN_COUNT_REFRESH_VALUE"></a>
+<br><br><h4>Down Count Refresh Value (RSH_DOWN_COUNT_REFRESH_VALUE: 0x0708-0x073f stride: 24)</h4>
+Down Count Refresh Value
+<br><img src="rsh_pics/RSH_DOWN_COUNT_REFRESH_VALUE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>47:0</TD> <TD>REFRESH</TD> <TD>RW</TD> <TD>0</TD> <TD>When COUNT reaches 0, this value is loaded at the next time interval (defined in the control register).</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_DOWN_COUNT_CONTROL"></a>
+<br><br><h4>Down Count Control (RSH_DOWN_COUNT_CONTROL: 0x0710-0x0747 stride: 24)</h4>
+Down Count Control
+<br><img src="rsh_pics/RSH_DOWN_COUNT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:12</TD> <TD>DIV</TD> <TD>RW</TD> <TD>0</TD> <TD>Clock divisor.  Number of additional ticks of clock source to trigger a down count.  Setting to 0 causes the down counter to decrement every cycle.  Setting to 1 causes the down counter to decrement every other cycle.  To convert a 10 MHz source to a 100 KHz down count, for example, the value would be set to 99(d).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:3</TD> <TD>PINSEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Pin select for external clocking.  Can source 1 of 3 pins.  This setting only matters if MODE is nonzero.  The minimum pulse width supported on these pins is 10 ns (50 MHz with a 50% duty cycle).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>TBD0</TD><TD>See datasheet for PINSEL mapping to GPIO pins.</TD></TR>
+   <TR><TD>1</TD><TD>TBD1</TD><TD>See datasheet for PINSEL mapping to GPIO pins.</TD></TR>
+   <TR><TD>2</TD><TD>TBD2</TD><TD>See datasheet for PINSEL mapping to GPIO pins.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Clock mode for the down counter.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>CORE_REFCLK</TD><TD>Use core reference clock.</TD></TR>
+   <TR><TD>1</TD><TD>POS_EXTCLK</TD><TD>Use positive edge of external clock.</TD></TR>
+   <TR><TD>2</TD><TD>NEG_EXTCLK</TD><TD>Use negative edge of external clock.</TD></TR>
+   <TR><TD>3</TD><TD>DDR_EXTCLK</TD><TD>Use either edge of external clock.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 0, the current value is frozen and no interrupts will be signaled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_EFUSE_CTL"></a>
+<br><br><h4>EFUSE Control (RSH_EFUSE_CTL: 0x0800)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides access to the on-chip eFuse structure
+<br><img src="rsh_pics/RSH_EFUSE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>READ_PEND</TD> <TD>RO</TD> <TD>0</TD> <TD>When 1, the fuse read is still pending and the data in EFUSE_DATA is not valid.  Software must poll this bit until clear whenever EFUSE_CTL.INDEX is changed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:0</TD> <TD>INDEX</TD> <TD>RW</TD> <TD>0</TD> <TD>8-byte address into the fuse array.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_EFUSE_CTL_DATA_0"></a>
+<br><br><h4>EFUSE Control Data word0 (RSH_EFUSE_CTL_DATA_0: 0x0808)</h4>
+EFUSE_DATA contents when EFUSE_CTL.INDEX is set to the first efuse control (after IO_DISABLE words).
+<br><img src="rsh_pics/RSH_EFUSE_CTL_DATA_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>59:50</TD> <TD>COL5_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-5.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>49:40</TD> <TD>COL4_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>39:30</TD> <TD>COL3_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-3.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:20</TD> <TD>COL2_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19:10</TD> <TD>COL1_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:0</TD> <TD>COL0_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-0.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_EFUSE_CTL_DATA_1"></a>
+<br><br><h4>EFUSE Control Data word1 (RSH_EFUSE_CTL_DATA_1: 0x0808)</h4>
+EFUSE_DATA contents when EFUSE_CTL.INDEX is set to the second efuse control (after IO_DISABLE words).
+<br><img src="rsh_pics/RSH_EFUSE_CTL_DATA_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63</TD> <TD>FUSE_PROTECT</TD> <TD>RO</TD> <TD>0</TD> <TD>FUSEs are Write-Protected</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>62:61</TD> <TD>INFO_VLD</TD> <TD>RO</TD> <TD>0</TD> <TD>Fuse info valid.  Bit[61] must be zero and Bit[62] must be one to indicate valid efuse data.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>60</TD> <TD>CACHE_SKU_DISABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>This bit is not used (RESERVED).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>59:56</TD> <TD>CACHE_SKU</TD> <TD>RO</TD> <TD>0</TD> <TD>Cache SKU Configuration</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>55:40</TD> <TD>RESET_ADJ</TD> <TD>RO</TD> <TD>0</TD> <TD>Provides an adjustment of the reset timer.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:30</TD> <TD>COL9_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-9.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:20</TD> <TD>COL8_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-8.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:10</TD> <TD>COL7_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-7.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>COL6_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Contents of the Tile-Disable fuses for column-6.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_EFUSE_DATA"></a>
+<br><br><h4>EFUSE Data (RSH_EFUSE_DATA: 0x0808)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Data corresponding to EFUSE_CTL.INDEX.  Valid only when EFUSE_CTL.READ_PEND is zero.
+<br><img src="rsh_pics/RSH_EFUSE_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>EFUSE_DATA</TD> <TD>RO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Data corresponding to EFUSE_CTL.INDEX.  Valid only when EFUSE_CTL.READ_PEND is zero.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_JTAG_CONTROL"></a>
+<br><br><h4>JTAG Control (RSH_JTAG_CONTROL: 0x0a00)</h4>
+JTAG Control.  When this register is written, a JTAG transaction will be initiated as long as JTAG_ENA is asserted.
+<br><img src="rsh_pics/RSH_JTAG_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:7</TD> <TD>JTAG_CMD</TD> <TD>WO</TD> <TD>0</TD> <TD>Determines JTAG operation to be performed.  All JTAG operations must end with END_SHIFT which causes the JTAG data register to be updated with the shifted-in data.  The END_SHIFT can contain 0 or more bits.  Transactions may contain zero or more START_SHIFT/CONTINUE_SHIFT operations (both are treated the same).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>RESET_TAP</TD><TD>Resets the TAP controller (not generally required in normal operation)</TD></TR>
+   <TR><TD>1</TD><TD>START_SHIFT</TD><TD>Start new shift.  Begin shifting data into the data register selected by JTAG_SETUP.JTAG_INST.  This command may also be used to continue a SHIFT transaction.</TD></TR>
+   <TR><TD>2</TD><TD>CONTINUE_SHIFT</TD><TD>Continue with shift that was initiated with START_SHIFT.  This command is only included for compatibility.  CONTINUE_SHIFT and START_SHIFT have the same behavior.  If CONTINUE_SHIFT is used after an END_SHIFT, a capture will still occur.</TD></TR>
+   <TR><TD>3</TD><TD>END_SHIFT</TD><TD>Complete the shift operation (and update the target register).</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>JTAG_SHIFT_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Shift count for reads/writes.  Decremented by hardware as data is shifted into or out of JTAG interface.  Valid values are 0-64.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_JTAG_SETUP"></a>
+<br><br><h4>JTAG Setup (RSH_JTAG_SETUP: 0x0a08)</h4>
+JTAG Setup
+<br><img src="rsh_pics/RSH_JTAG_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>43:16</TD> <TD>JTAG_INST</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects the custom JTAG instruction number to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>MBIST_REPAIR</TD><TD>Enable wtap control of MBIST repair operations.</TD></TR>
+   <TR><TD>0xfe</TD><TD>CR_MAIN0</TD><TD>Enable wtap control of cr_main0.</TD></TR>
+   <TR><TD>0xfc</TD><TD>CR_MAIN1</TD><TD>Enable wtap control of cr_main1.</TD></TR>
+   <TR><TD>0xfa</TD><TD>CR_PK0</TD><TD>Enable wtap control of cr_pk0.</TD></TR>
+   <TR><TD>0xf8</TD><TD>CR_PK1</TD><TD>Enable wtap control of cr_pk1.</TD></TR>
+   <TR><TD>0xf7</TD><TD>MSH0</TD><TD>Enable wtap control of msh0.</TD></TR>
+   <TR><TD>0xf5</TD><TD>MSH1</TD><TD>Enable wtap control of msh1.</TD></TR>
+   <TR><TD>0xf3</TD><TD>TILE_0_0</TD><TD> </TD></TR>
+   <TR><TD>0xf1</TD><TD>TILE_0_1</TD><TD> </TD></TR>
+   <TR><TD>0xf6</TD><TD>TILE_0_2</TD><TD> </TD></TR>
+   <TR><TD>0xf4</TD><TD>TILE_0_3</TD><TD> </TD></TR>
+   <TR><TD>0xf2</TD><TD>TILE_0_4</TD><TD> </TD></TR>
+   <TR><TD>0xf0</TD><TD>TILE_0_5</TD><TD> </TD></TR>
+   <TR><TD>0x100</TD><TD>TILE_0_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x101</TD><TD>TILE_0_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x102</TD><TD>TILE_0_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x103</TD><TD>TILE_0_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xef</TD><TD>TILE_1_0</TD><TD> </TD></TR>
+   <TR><TD>0xed</TD><TD>TILE_1_1</TD><TD> </TD></TR>
+   <TR><TD>0xeb</TD><TD>TILE_1_2</TD><TD> </TD></TR>
+   <TR><TD>0xe9</TD><TD>TILE_1_3</TD><TD> </TD></TR>
+   <TR><TD>0xee</TD><TD>TILE_1_4</TD><TD> </TD></TR>
+   <TR><TD>0xec</TD><TD>TILE_1_5</TD><TD> </TD></TR>
+   <TR><TD>0x104</TD><TD>TILE_1_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x105</TD><TD>TILE_1_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x106</TD><TD>TILE_1_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x107</TD><TD>TILE_1_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xea</TD><TD>TILE_2_0</TD><TD> </TD></TR>
+   <TR><TD>0xe8</TD><TD>TILE_2_1</TD><TD> </TD></TR>
+   <TR><TD>0xe7</TD><TD>TILE_2_2</TD><TD> </TD></TR>
+   <TR><TD>0xe5</TD><TD>TILE_2_3</TD><TD> </TD></TR>
+   <TR><TD>0xe3</TD><TD>TILE_2_4</TD><TD> </TD></TR>
+   <TR><TD>0xe1</TD><TD>TILE_2_5</TD><TD> </TD></TR>
+   <TR><TD>0x108</TD><TD>TILE_2_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x109</TD><TD>TILE_2_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x10a</TD><TD>TILE_2_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x10b</TD><TD>TILE_2_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xe6</TD><TD>TILE_3_0</TD><TD> </TD></TR>
+   <TR><TD>0xe4</TD><TD>TILE_3_1</TD><TD> </TD></TR>
+   <TR><TD>0xe2</TD><TD>TILE_3_2</TD><TD> </TD></TR>
+   <TR><TD>0xe0</TD><TD>TILE_3_3</TD><TD> </TD></TR>
+   <TR><TD>0xdf</TD><TD>TILE_3_4</TD><TD> </TD></TR>
+   <TR><TD>0xdd</TD><TD>TILE_3_5</TD><TD> </TD></TR>
+   <TR><TD>0x10c</TD><TD>TILE_3_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x10d</TD><TD>TILE_3_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x10e</TD><TD>TILE_3_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x10f</TD><TD>TILE_3_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xdb</TD><TD>TILE_4_0</TD><TD> </TD></TR>
+   <TR><TD>0xd9</TD><TD>TILE_4_1</TD><TD> </TD></TR>
+   <TR><TD>0xde</TD><TD>TILE_4_2</TD><TD> </TD></TR>
+   <TR><TD>0xdc</TD><TD>TILE_4_3</TD><TD> </TD></TR>
+   <TR><TD>0xda</TD><TD>TILE_4_4</TD><TD> </TD></TR>
+   <TR><TD>0xd8</TD><TD>TILE_4_5</TD><TD> </TD></TR>
+   <TR><TD>0x110</TD><TD>TILE_4_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x111</TD><TD>TILE_4_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x112</TD><TD>TILE_4_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x113</TD><TD>TILE_4_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xd7</TD><TD>TILE_5_0</TD><TD> </TD></TR>
+   <TR><TD>0xd5</TD><TD>TILE_5_1</TD><TD> </TD></TR>
+   <TR><TD>0xd3</TD><TD>TILE_5_2</TD><TD> </TD></TR>
+   <TR><TD>0xd1</TD><TD>TILE_5_3</TD><TD> </TD></TR>
+   <TR><TD>0xd6</TD><TD>TILE_5_4</TD><TD> </TD></TR>
+   <TR><TD>0xd4</TD><TD>TILE_5_5</TD><TD> </TD></TR>
+   <TR><TD>0x114</TD><TD>TILE_5_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x115</TD><TD>TILE_5_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x116</TD><TD>TILE_5_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x117</TD><TD>TILE_5_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x118</TD><TD>TILE_6_0</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x119</TD><TD>TILE_6_1</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11a</TD><TD>TILE_6_2</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11b</TD><TD>TILE_6_3</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11c</TD><TD>TILE_6_4</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11d</TD><TD>TILE_6_5</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11e</TD><TD>TILE_6_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x11f</TD><TD>TILE_6_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x120</TD><TD>TILE_6_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x121</TD><TD>TILE_6_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x122</TD><TD>TILE_7_0</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x123</TD><TD>TILE_7_1</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x124</TD><TD>TILE_7_2</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x125</TD><TD>TILE_7_3</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x126</TD><TD>TILE_7_4</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x127</TD><TD>TILE_7_5</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x128</TD><TD>TILE_7_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x129</TD><TD>TILE_7_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12a</TD><TD>TILE_7_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12b</TD><TD>TILE_7_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12c</TD><TD>TILE_8_0</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12d</TD><TD>TILE_8_1</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12e</TD><TD>TILE_8_2</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x12f</TD><TD>TILE_8_3</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x130</TD><TD>TILE_8_4</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x131</TD><TD>TILE_8_5</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x132</TD><TD>TILE_8_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x133</TD><TD>TILE_8_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x134</TD><TD>TILE_8_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x135</TD><TD>TILE_8_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x136</TD><TD>TILE_9_0</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x137</TD><TD>TILE_9_1</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x138</TD><TD>TILE_9_2</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x139</TD><TD>TILE_9_3</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13a</TD><TD>TILE_9_4</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13b</TD><TD>TILE_9_5</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13c</TD><TD>TILE_9_6</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13d</TD><TD>TILE_9_7</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13e</TD><TD>TILE_9_8</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0x13f</TD><TD>TILE_9_9</TD><TD> <br><br><I>NOTE: This value is only used in the following devices: Gx72.</I></TD></TR>
+   <TR><TD>0xd2</TD><TD>GP</TD><TD>Enable wtap control of gp.</TD></TR>
+   <TR><TD>0xd0</TD><TD>PP_IF0</TD><TD>Enable wtap control of pp_if0.</TD></TR>
+   <TR><TD>0xcf</TD><TD>PP_IF1</TD><TD>Enable wtap control of pp_if1.</TD></TR>
+   <TR><TD>0xcd</TD><TD>PP_IF2</TD><TD>Enable wtap control of pp_if2.</TD></TR>
+   <TR><TD>0xcb</TD><TD>PP_IF3</TD><TD>Enable wtap control of pp_if3.</TD></TR>
+   <TR><TD>0xc9</TD><TD>PDE_CLS_PROC0</TD><TD>Enable wtap control of pde_cls_proc0.</TD></TR>
+   <TR><TD>0xce</TD><TD>PDE_CLS_PROC1</TD><TD>Enable wtap control of pde_cls_proc1.</TD></TR>
+   <TR><TD>0xcc</TD><TD>PDE_CLS_PROC2</TD><TD>Enable wtap control of pde_cls_proc2.</TD></TR>
+   <TR><TD>0xca</TD><TD>PDE_CLS_PROC3</TD><TD>Enable wtap control of pde_cls_proc3.</TD></TR>
+   <TR><TD>0xc8</TD><TD>PDE_CLS_PROC4</TD><TD>Enable wtap control of pde_cls_proc4.</TD></TR>
+   <TR><TD>0xc7</TD><TD>PDE_CLS_PROC5</TD><TD>Enable wtap control of pde_cls_proc5.</TD></TR>
+   <TR><TD>0xc5</TD><TD>PDE_CLS_PROC6</TD><TD>Enable wtap control of pde_cls_proc6.</TD></TR>
+   <TR><TD>0xc3</TD><TD>PDE_CLS_PROC7</TD><TD>Enable wtap control of pde_cls_proc7.</TD></TR>
+   <TR><TD>0xc1</TD><TD>PDE_CLS_PROC8</TD><TD>Enable wtap control of pde_cls_proc8.</TD></TR>
+   <TR><TD>0xc6</TD><TD>PDE_CLS_PROC9</TD><TD>Enable wtap control of pde_cls_proc9.</TD></TR>
+   <TR><TD>0xc4</TD><TD>PDE_CLS_EDMA</TD><TD>Enable wtap control of pde_edma.</TD></TR>
+   <TR><TD>0xc2</TD><TD>PDE</TD><TD>Enable wtap control of pde.</TD></TR>
+   <TR><TD>0xc0</TD><TD>RSH</TD><TD>Enable wtap control of rsh.</TD></TR>
+   <TR><TD>0xbf</TD><TD>PCIE0</TD><TD>Enable wtap control of pcie0.</TD></TR>
+   <TR><TD>0xbd</TD><TD>PCIE1</TD><TD>Enable wtap control of pcie1.</TD></TR>
+   <TR><TD>0xbb</TD><TD>PCIE2</TD><TD>Enable wtap control of pcie2.</TD></TR>
+   <TR><TD>0xb9</TD><TD>TRIO</TD><TD>Enable wtap control of trio.</TD></TR>
+   <TR><TD>0xbe</TD><TD>USB</TD><TD>Enable wtap control of usb.</TD></TR>
+   <TR><TD>0xbc</TD><TD>ZIP0</TD><TD>Enable wtap control of zip0.</TD></TR>
+   <TR><TD>0xba</TD><TD>ZIP1</TD><TD>Enable wtap control of zip1.</TD></TR>
+   <TR><TD>0xb8</TD><TD>EFUSE_RW</TD><TD>Enable jtag control of efuse read/write interface.</TD></TR>
+   <TR><TD>0xb7</TD><TD>EFUSE_MIRROR</TD><TD>Enable jtag control of efuse repair mirror interface.</TD></TR>
+   <TR><TD>0xb5</TD><TD>EFUSE_MIRROR_PGM</TD><TD>Enable jtag control of efuse repair mirror programming (any write initiates copy).</TD></TR>
+   <TR><TD>0xb3</TD><TD>RAM_RWM</TD><TD>Enable jtag control of RAM read/write margin interface.</TD></TR>
+   <TR><TD>0xb1</TD><TD>JTAG_RSHIM</TD><TD>Enable jtag control of RSIM registers.</TD></TR>
+   <TR><TD>0xb6</TD><TD>JTAG_INT_SPARE0</TD><TD>Spare internal jtag control.</TD></TR>
+   <TR><TD>0xb4</TD><TD>JTAG_INT_SPARE1</TD><TD>Spare internal jtag control.</TD></TR>
+   <TR><TD>0xb2</TD><TD>JTAG_INT_SPARE2</TD><TD>Spare internal jtag control.</TD></TR>
+   <TR><TD>0xb0</TD><TD>JTAG_CRC_CCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xaf</TD><TD>JTAG_CRC_PP0_PCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa2</TD><TD>JTAG_CRC_PP1_PCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xad</TD><TD>JTAG_CRC_PP0_KCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0x9c</TD><TD>JTAG_CRC_PP1_KCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xab</TD><TD>JTAG_CRC_TP0_TCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa4</TD><TD>JTAG_CRC_TP1_TCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa9</TD><TD>JTAG_CRC_ZCLK0</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xae</TD><TD>JTAG_CRC_ZCLK1</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xac</TD><TD>JTAG_CRC_SCLK0</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xaa</TD><TD>JTAG_CRC_SCLK1</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa8</TD><TD>JTAG_CRC_UCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa7</TD><TD>JTAG_CRC_RCLK</TD><TD>Clock configuration control.</TD></TR>
+   <TR><TD>0xa0</TD><TD>JTAG_GPIO_RSH</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x9f</TD><TD>JTAG_GPIO_GP</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x9d</TD><TD>JTAG_GPIO_USB</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x9b</TD><TD>JTAG_GPIO_PP</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x99</TD><TD>JTAG_GPIO_TP</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x9e</TD><TD>JTAG_GPIO_CC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x98</TD><TD>JTAG_ENET_PHY_PP0_QUAD0_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x97</TD><TD>JTAG_ENET_PHY_PP0_QUAD1_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x95</TD><TD>JTAG_ENET_PHY_PP0_QUAD2_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x93</TD><TD>JTAG_ENET_PHY_PP0_QUAD3_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x91</TD><TD>JTAG_ENET_PHY_PP1_QUAD0_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x96</TD><TD>JTAG_ENET_PHY_PP1_QUAD1_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x94</TD><TD>JTAG_ENET_PHY_PP1_QUAD2_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x92</TD><TD>JTAG_ENET_PHY_PP1_QUAD3_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x90</TD><TD>JTAG_ENET_PHY_PP0_QUAD0_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8f</TD><TD>JTAG_ENET_PHY_PP0_QUAD1_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8d</TD><TD>JTAG_ENET_PHY_PP0_QUAD2_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8b</TD><TD>JTAG_ENET_PHY_PP0_QUAD3_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x89</TD><TD>JTAG_ENET_PHY_PP1_QUAD0_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8e</TD><TD>JTAG_ENET_PHY_PP1_QUAD1_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8c</TD><TD>JTAG_ENET_PHY_PP1_QUAD2_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x8a</TD><TD>JTAG_ENET_PHY_PP1_QUAD3_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x88</TD><TD>JTAG_PCIE_PHY_TP0_QUAD0_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x87</TD><TD>JTAG_PCIE_PHY_TP0_QUAD1_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x85</TD><TD>JTAG_PCIE_PHY_TP0_QUAD2_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x83</TD><TD>JTAG_PCIE_PHY_TP1_QUAD0_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x81</TD><TD>JTAG_PCIE_PHY_TP1_QUAD1_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x86</TD><TD>JTAG_PCIE_PHY_TP1_QUAD2_SERDES</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x80</TD><TD>JTAG_PCIE_PHY_TP0_QUAD0_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x7f</TD><TD>JTAG_PCIE_PHY_TP0_QUAD1_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x7d</TD><TD>JTAG_PCIE_PHY_TP0_QUAD2_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x7b</TD><TD>JTAG_PCIE_PHY_TP1_QUAD0_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x79</TD><TD>JTAG_PCIE_PHY_TP1_QUAD1_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x7e</TD><TD>JTAG_PCIE_PHY_TP1_QUAD2_CRC</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x71</TD><TD>JTAG_DDR_PHY0</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x76</TD><TD>JTAG_DDR_PHY1</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x74</TD><TD>JTAG_DDR_PHY2</TD><TD>External jtag control.</TD></TR>
+   <TR><TD>0x72</TD><TD>JTAG_DDR_PHY3</TD><TD>External jtag control.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>DEC_INST</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx72.</I><br><br>Use decoded instruction.  When 0, the low 9 bits of the JTAG_INST field are decoded.  When 1, the entire JTAG_INST field is used as the JTAG_IR.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>JTAG_RATE</TD> <TD>RW</TD> <TD>0</TD> <TD>Clock rate to use for rshim-based JTAG interface.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>DIV16</TD><TD>Core reference clock divided by 16.</TD></TR>
+   <TR><TD>1</TD><TD>DIV8</TD><TD>Core reference clock divided by 8.</TD></TR>
+   <TR><TD>2</TD><TD>DIV4</TD><TD>Core reference clock divided by 4.</TD></TR>
+   <TR><TD>3</TD><TD>DIV2</TD><TD>Core reference clock divided by 2.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>JTAG_ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>Reflects current state of the rjc/trst pins.  When zero, the rshim will not be able to control the JTAG interface.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_JTAG_DATA"></a>
+<br><br><h4>JTAG Data (RSH_JTAG_DATA: 0x0a10)</h4>
+JTAG shift Data.  SW provides up to 64 bits of data to be shifted into JTAG controller (bits are shifted out of LSBs). Hardware shifts data into the MSBs.
+<br><img src="rsh_pics/RSH_JTAG_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>JTAG_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>JTAG shift Data.  SW provides up to 64 bits of data to be shifted into JTAG controller (bits are shifted out of LSBs). Hardware shifts data into the MSBs.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_DIAG_BROADCAST"></a>
+<br><br><h4>Diag Broadcast (RSH_DIAG_BROADCAST: 0x0a18)</h4>
+Diag Broadcast
+<br><img src="rsh_pics/RSH_DIAG_BROADCAST.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:12</TD> <TD>DIAG_BCST_OUT_LVL</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>When written with a 1, the associated diag broadcast wire will be asserted.  When written with a zero, the associated diag broadcast wire will be deasserted.  These bits may also be set by hardware when DIAG_DCNT_DRV_LVL is 1 and the associated down counter interrupt occurs with the corresponding DIAG_DCNT_DRV_ENA bit set.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>DIAG_DCNT_DRV_LVL</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>When one of the DIAG_DCNT_DRV_ENA bits is set, this controls how the associated network is driven.  1 indicates level, 0 indicates pulse.  When set to level, the DIAG_BCST_OUT_LVL bit will be asserted when the associated DIAG_DCNT_DRV_ENA event occurs.  In DRV_LVL one mode, software can clear a bit that's been asserted by the down counter by writing a zero do the DIAG_BCST_OUT_LVL field.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:8</TD> <TD>DIAG_DCNT_DRV_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Each bit corresponds to one of the rshim's down-counters (0=DCNT0, 1=DCNT1, 2=DCNT2).  When asserted, the down counter's interrupt pulse will be sent onto the associated diag broadcast network (BCST0 = DCNT0,  BCST1 = DCNT1,  BCST2 = DCNT2).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>DIAG_BCST_OUT</TD> <TD>WO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>When written with a 1, the associated diag broadcast wire will be asserted for a single cycle going to the neighboring tile.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>DIAG_BCST_IN</TD> <TD>W1TC</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Asserted by hardware when the associated broadcast wire is asserted (Bit[0] = BCST0, Bit[1] = BCST1, Bit[2] = BCST2, Bit[3] = BCST3).  Cleared by software writing a 1 to this register.   This field provides the same functionality as the associated interrupt status bit.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_HOST_TO_TILE_DATA"></a>
+<br><br><h4>TileMonitor Host to Tile Data (RSH_TM_HOST_TO_TILE_DATA: 0x0a20)</h4>
+Provides read/write access to the HostToTile FIFO.  When written, the TileMonitor HostToTile FIFO will be written with the associated data and the WPTR will be advanced.  When read, the entry at the head of the FIFO will be returned and the RPTR will be advanced.  <br>
+<br>
+When empty, reads will have no effect.  Behavior on an empty read is device dependent.  Tile software will receive all 1's on an empty read.  <br>
+<br>
+When full, writes will be ignored.  Behavior on a full write is device dependent.  <br>
+<br>
+For Gx9/16/36/72 devices, this FIFO may only be used when PG.AUTO_SEND is zero (packet generator not in boot mode).<br>
+<br>
+The FIFO may be drained by reading TM_HOST_TO_TILE_STS.COUNT entries.
+<br><img src="rsh_pics/RSH_TM_HOST_TO_TILE_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>TM_HOST_TO_TILE_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides read/write access to the HostToTile FIFO.  When written, the TileMonitor HostToTile FIFO will be written with the associated data and the WPTR will be advanced.  When read, the entry at the head of the FIFO will be returned and the RPTR will be advanced.  <br>
+<br>
+When empty, reads will have no effect.  Behavior on an empty read is device dependent.  Tile software will receive all 1's on an empty read.  <br>
+<br>
+When full, writes will be ignored.  Behavior on a full write is device dependent.  <br>
+<br>
+For Gx9/16/36/72 devices, this FIFO may only be used when PG.AUTO_SEND is zero (packet generator not in boot mode).<br>
+<br>
+The FIFO may be drained by reading TM_HOST_TO_TILE_STS.COUNT entries.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_HOST_TO_TILE_STS"></a>
+<br><br><h4>TileMonitor Host to Tile Status (RSH_TM_HOST_TO_TILE_STS: 0x0a28)</h4>
+Provides status of the HostToTile TileMonitor FIFO.
+<br><img src="rsh_pics/RSH_TM_HOST_TO_TILE_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Current entry count.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_HOST_TO_TILE_CTL"></a>
+<br><br><h4>TileMonitor Host to Tile Control (RSH_TM_HOST_TO_TILE_CTL: 0x0a30)</h4>
+Provides control over FIFO interrupts.  Note that the HWM/LWM interrupts trigger continuously as long as the FIFO is is at or above/below the associated water mark.  Thus these interrupts are typically used in INT_BIND.MODE=0 and should be cleared by SW after the condition has been handled (FIFO filled/drained as appropriate).
+<br><img src="rsh_pics/RSH_TM_HOST_TO_TILE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:32</TD> <TD>MAX_ENTRIES</TD> <TD>RO</TD> <TD>256</TD> <TD>Provides size of the HostToTile FIFO in terms of 8-byte entries.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>HWM</TD> <TD>RW</TD> <TD>128</TD> <TD>Level at which to trigger the high water mark interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>LWM</TD> <TD>RW</TD> <TD>128</TD> <TD>Level at which to trigger the low water mark interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_TILE_TO_HOST_DATA"></a>
+<br><br><h4>TileMonitor tile to host Data (RSH_TM_TILE_TO_HOST_DATA: 0x0a40)</h4>
+Provides read/write access to the TileToHost FIFO.  When written, the TileMonitor TileToHost FIFO will be written with the associated data and the WPTR will be advanced.  When read, the entry at the head of the FIFO will be returned and the RPTR will be advanced.  <br>
+<br>
+When empty, reads will have no effect.  Behavior on an empty read is device dependent.  Tile software will receive all 1's on an empty read.  <br>
+<br>
+When full, writes will be ignored.  Behavior on a full write is device dependent.  <br>
+<br>
+For Gx9/16/36/72 devices, this FIFO may only be used when PG.AUTO_SEND is zero (packet generator not in boot mode).<br>
+<br>
+The FIFO may be drained by reading TM_TILE_TO_HOST_STS.COUNT entries.
+<br><img src="rsh_pics/RSH_TM_TILE_TO_HOST_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>TM_TILE_TO_HOST_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides read/write access to the TileToHost FIFO.  When written, the TileMonitor TileToHost FIFO will be written with the associated data and the WPTR will be advanced.  When read, the entry at the head of the FIFO will be returned and the RPTR will be advanced.  <br>
+<br>
+When empty, reads will have no effect.  Behavior on an empty read is device dependent.  Tile software will receive all 1's on an empty read.  <br>
+<br>
+When full, writes will be ignored.  Behavior on a full write is device dependent.  <br>
+<br>
+For Gx9/16/36/72 devices, this FIFO may only be used when PG.AUTO_SEND is zero (packet generator not in boot mode).<br>
+<br>
+The FIFO may be drained by reading TM_TILE_TO_HOST_STS.COUNT entries.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_TILE_TO_HOST_STS"></a>
+<br><br><h4>TileMonitor tile to host status (RSH_TM_TILE_TO_HOST_STS: 0x0a48)</h4>
+Provides status of the TileToHost TileMonitor FIFO.
+<br><img src="rsh_pics/RSH_TM_TILE_TO_HOST_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Current entry count.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TM_TILE_TO_HOST_CTL"></a>
+<br><br><h4>TileMonitor tile to host Control (RSH_TM_TILE_TO_HOST_CTL: 0x0a50)</h4>
+Provides control over FIFO interrupts.  Note that the HWM/LWM interrupts trigger continuously as long as the FIFO is is at or above/below the associated water mark.  Thus these interrupts are typically used in INT_BIND.MODE=0 and should be cleared by SW after the condition has been handled (FIFO filled/drained as appropriate).
+<br><img src="rsh_pics/RSH_TM_TILE_TO_HOST_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:32</TD> <TD>MAX_ENTRIES</TD> <TD>RO</TD> <TD>256</TD> <TD>Provides size of the TileToHost FIFO in terms of 8-byte entries.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>HWM</TD> <TD>RW</TD> <TD>128</TD> <TD>Level at which to trigger the high water mark interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>LWM</TD> <TD>RW</TD> <TD>128</TD> <TD>Level at which to trigger the low water mark interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_TILE_COL_DISABLE"></a>
+<br><br><h4>Tile Disable (RSH_TILE_COL_DISABLE: 0x0b00-0x0b4f)</h4>
+Disable individual Tiles. When set, the associated Tile is disabled.  There is one register per column.  Not all devices implement all possible rows and columns.
+<br><img src="rsh_pics/RSH_TILE_COL_DISABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When 1, the associated Tile is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX36_IO_DISABLE0"></a>
+<br><br><h4>IO Disable-0 (RSH_GX36_IO_DISABLE0: 0x0b50)</h4>
+<I>NOTE: This register only exists in the following devices: Gx36.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX36_IO_DISABLE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:59</TD> <TD>RESERVED_IO</TD> <TD>RW</TD> <TD>HW <TD>Reserved.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>58</TD> <TD>CRYPTO1_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>57</TD> <TD>CRYPTO1_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>56:55</TD> <TD>CRYPTO1_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>54</TD> <TD>CRYPTO1_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>53</TD> <TD>CRYPTO1_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>52</TD> <TD>CRYPTO0_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>51</TD> <TD>CRYPTO0_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>50:49</TD> <TD>CRYPTO0_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>48</TD> <TD>CRYPTO0_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47</TD> <TD>CRYPTO0_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46</TD> <TD>USB_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire USB interface is disabled (all ports disabled).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>45</TD> <TD>USB_EP_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the USB endpoint is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>44</TD> <TD>USB_HOST1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host1 is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>43</TD> <TD>USB_HOST0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host0 is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>42:41</TD> <TD>DDR3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated DDR3 interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>40</TD> <TD>TRIO_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire TRIO interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:37</TD> <TD>TRIO_STREAM_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a StreamIO port.  When set, the associated port may not be used for StreamIO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>36:35</TD> <TD>TRIO_PCIE_PORT2_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>34:33</TD> <TD>TRIO_PCIE_PORT1_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>32:31</TD> <TD>TRIO_PCIE_PORT0_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X8</TD><TD>Port enabled for x8 or smaller.</TD></TR>
+   <TR><TD>1</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>MPIPE_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire MPIPE is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:20</TD> <TD>MPIPE_CLS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a classification processor.  When set, the processor is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>MPIPE_XAUI3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:15</TD> <TD>MPIPE_SGMII_15_12_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>MPIPE_XAUI2_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:10</TD> <TD>MPIPE_SGMII_11_8_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>MPIPE_XAUI1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:5</TD> <TD>MPIPE_SGMII_7_4_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MPIPE_XAUI0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MPIPE_SGMII_3_0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX9_IO_DISABLE0"></a>
+<br><br><h4>IO Disable-0 (RSH_GX9_IO_DISABLE0: 0x0b50)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX9_IO_DISABLE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:59</TD> <TD>RESERVED_IO</TD> <TD>RW</TD> <TD>HW <TD>Reserved.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>58</TD> <TD>CRYPTO1_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>57</TD> <TD>CRYPTO1_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>56:55</TD> <TD>CRYPTO1_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>54</TD> <TD>CRYPTO1_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>53</TD> <TD>CRYPTO1_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>52</TD> <TD>CRYPTO0_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>51</TD> <TD>CRYPTO0_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>50:49</TD> <TD>CRYPTO0_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>48</TD> <TD>CRYPTO0_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47</TD> <TD>CRYPTO0_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46</TD> <TD>USB_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire USB interface is disabled (all ports disabled).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>45</TD> <TD>USB_EP_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the USB endpoint is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>44</TD> <TD>USB_HOST1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host1 is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>43</TD> <TD>USB_HOST0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host0 is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>42:41</TD> <TD>DDR3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated DDR3 interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>40</TD> <TD>TRIO_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire TRIO interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:37</TD> <TD>TRIO_STREAM_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a StreamIO port.  When set, the associated port may not be used for StreamIO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>36:35</TD> <TD>TRIO_PCIE_PORT2_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>34:33</TD> <TD>TRIO_PCIE_PORT1_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>32:31</TD> <TD>TRIO_PCIE_PORT0_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X8</TD><TD>Port enabled for x8 or smaller.</TD></TR>
+   <TR><TD>1</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>MPIPE_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire MPIPE is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:20</TD> <TD>MPIPE_CLS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a classification processor.  When set, the processor is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>MPIPE_XAUI3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:15</TD> <TD>MPIPE_SGMII_15_12_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>MPIPE_XAUI2_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:10</TD> <TD>MPIPE_SGMII_11_8_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>MPIPE_XAUI1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:5</TD> <TD>MPIPE_SGMII_7_4_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MPIPE_XAUI0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MPIPE_SGMII_3_0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX72_IO_DISABLE0"></a>
+<br><br><h4>IO Disable-0 (RSH_GX72_IO_DISABLE0: 0x0b50)</h4>
+<I>NOTE: This register only exists in the following devices: Gx72.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX72_IO_DISABLE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>60</TD> <TD>CRYPTO1_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>59</TD> <TD>CRYPTO1_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>58:57</TD> <TD>CRYPTO1_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>56</TD> <TD>CRYPTO1_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>55</TD> <TD>CRYPTO1_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>54</TD> <TD>CRYPTO0_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire crypto interface is disabled for all engines.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>53</TD> <TD>CRYPTO0_PUBKEY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the public key engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>52:51</TD> <TD>CRYPTO0_PKT_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated set of packet crypto engines (DES/AES/SHA/MD5 etc.) is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>50</TD> <TD>CRYPTO0_WIRELESS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the SNOW and KASUMI crypto engines are disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>49</TD> <TD>CRYPTO0_MEM_CPY_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the MemCopy engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>USB_INTERFACE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire USB interface is disabled (all ports disabled).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47</TD> <TD>USB_EP_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the USB endpoint is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>46</TD> <TD>USB_HOST1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host1 is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>45</TD> <TD>USB_HOST0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, USB Host0 is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>44:41</TD> <TD>DDR3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated DDR3 interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>40</TD> <TD>TRIO0_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire TRIO interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>39:37</TD> <TD>TRIO0_STREAM_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a StreamIO port.  When set, the associated port may not be used for StreamIO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>36:35</TD> <TD>TRIO0_PCIE_PORT2_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>34:33</TD> <TD>TRIO0_PCIE_PORT1_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>32:31</TD> <TD>TRIO0_PCIE_PORT0_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X8</TD><TD>Port enabled for x8 or smaller.</TD></TR>
+   <TR><TD>1</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>30</TD> <TD>MPIPE0_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire MPIPE is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:20</TD> <TD>MPIPE0_CLS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a classification processor.  When set, the processor is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>MPIPE0_XAUI3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:15</TD> <TD>MPIPE0_SGMII_15_12_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>MPIPE0_XAUI2_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:10</TD> <TD>MPIPE0_SGMII_11_8_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>MPIPE0_XAUI1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8:5</TD> <TD>MPIPE0_SGMII_7_4_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>MPIPE0_XAUI0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>MPIPE0_SGMII_3_0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX36_IO_DISABLE1"></a>
+<br><br><h4>IO Disable-1 (RSH_GX36_IO_DISABLE1: 0x0b58)</h4>
+<I>NOTE: This register only exists in the following devices: Gx36.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX36_IO_DISABLE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:8</TD> <TD>RESERVED_IO</TD> <TD>RW</TD> <TD>HW <TD>Reserved.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>COMP_INTERFACE1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire compression/decompression/MemCPY interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>MEM_CPY1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated MEM_CPY (DMA) interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>DECOMP1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated decompression engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>COMP1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated compression engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>COMP_INTERFACE0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire compression/decompression/MemCPY interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>MEM_CPY0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated MEM_CPY (DMA) interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>DECOMP0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated decompression engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>COMP0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated compression engine is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX9_IO_DISABLE1"></a>
+<br><br><h4>IO Disable-1 (RSH_GX9_IO_DISABLE1: 0x0b58)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX9_IO_DISABLE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:8</TD> <TD>RESERVED_IO</TD> <TD>RW</TD> <TD>HW <TD>Reserved.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>COMP_INTERFACE1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire compression/decompression/MemCPY interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>MEM_CPY1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated MEM_CPY (DMA) interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>DECOMP1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated decompression engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>COMP1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated compression engine is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>COMP_INTERFACE0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire compression/decompression/MemCPY interface is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>MEM_CPY0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated MEM_CPY (DMA) interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>DECOMP0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated decompression engine is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>COMP0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated compression engine is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX72_IO_DISABLE1"></a>
+<br><br><h4>IO Disable-1 (RSH_GX72_IO_DISABLE1: 0x0b58)</h4>
+<I>NOTE: This register only exists in the following devices: Gx72.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX72_IO_DISABLE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>TRIO1_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire TRIO interface is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16:14</TD> <TD>TRIO1_STREAM_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a StreamIO port.  When set, the associated port may not be used for StreamIO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:12</TD> <TD>TRIO1_PCIE_PORT2_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>11:10</TD> <TD>TRIO1_PCIE_PORT1_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>9:8</TD> <TD>TRIO1_PCIE_PORT0_CONFIG</TD> <TD>RW</TD> <TD>HW <TD>Configures width/availability of the PCIe port<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>X8</TD><TD>Port enabled for x8 or smaller.</TD></TR>
+   <TR><TD>1</TD><TD>X4</TD><TD>Port enabled for x4 or smaller.</TD></TR>
+   <TR><TD>2</TD><TD>X2</TD><TD>Port enabled for x2 or smaller.</TD></TR>
+   <TR><TD>3</TD><TD>DISABLED</TD><TD>Port disabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="RSH_GX72_IO_DISABLE2"></a>
+<br><br><h4>IO Disable-2 (RSH_GX72_IO_DISABLE2: 0x0b60)</h4>
+<I>NOTE: This register only exists in the following devices: Gx72.</I><br><br>
+Device specific feature disable bits.  These may be set (hardcoded) in hardware or set by software.
+<br><img src="rsh_pics/RSH_GX72_IO_DISABLE2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>30</TD> <TD>MPIPE1_DEVICE_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the entire MPIPE is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:20</TD> <TD>MPIPE1_CLS_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to a classification processor.  When set, the processor is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>MPIPE1_XAUI3_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:15</TD> <TD>MPIPE1_SGMII_15_12_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>MPIPE1_XAUI2_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:10</TD> <TD>MPIPE1_SGMII_11_8_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>MPIPE1_XAUI1_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8:5</TD> <TD>MPIPE1_SGMII_7_4_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>MPIPE1_XAUI0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>When set, the associated XAUI port is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>MPIPE1_SGMII_3_0_DISABLE</TD> <TD>RW</TD> <TD>HW <TD>Each bit corresponds to an SGMII port.  When set, the port is disabled.</TD> </TR>
+</TABLE><br><br>
+<a name="RSH_GX72_GPIO_MODE"></a>
+<br><br><h4>GPIO Mode Control (RSH_GX72_GPIO_MODE: 0x0b70)</h4>
+<I>NOTE: This register only exists in the following devices: Gx72.</I><br><br>
+Device specific mode control for GPIO pins.  The bit location in this register corresponds to the GPIO pin being used for the associated function.
+<br><img src="rsh_pics/RSH_GX72_GPIO_MODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>46:45</TD> <TD>MPIPE1_XAUI3_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>42:41</TD> <TD>MPIPE1_XAUI2_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>38:37</TD> <TD>MPIPE1_XAUI1_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:33</TD> <TD>MPIPE1_XAUI0_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:29</TD> <TD>MPIPE0_XAUI3_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26:25</TD> <TD>MPIPE0_XAUI2_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22:21</TD> <TD>MPIPE0_XAUI1_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:17</TD> <TD>MPIPE0_XAUI0_LED_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LED outputs on the associated GPIO pins.  The MSB is LED[1] (typically "link") and the LSB is LED[0] (typically "activity").</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

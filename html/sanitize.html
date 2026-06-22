@@ -1,0 +1,527 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="../tilera.css" title="Tilera Style
+">
+   <TITLE>Erasing Nonvolatile Storage on TILE-Gx Platforms (AN042)</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#CCFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF
+0000">
+
+<H1 class=title>
+Erasing Nonvolatile Storage on Tilera's TILE-Gx Platforms (AN042)
+</H1>
+
+<p>
+Last revised for MDE version 4.0, 21 December 2011<br>
+
+<h1>Introduction</h1>
+
+<p>
+Tilera's TILE-Gx system products include numerous nonvolatile memory
+components, used for various purposes.  Some customers require the
+ability to erase data from a system's nonvolatile components (termed
+<em>sanitization</em>).  This may be needed if sensitive, proprietary,
+or classified data has been written to a system which must later be used
+for a different purpose, or returned for repair.  This document outlines
+the nonvolatile components found in Tilera's system products, explains
+which ones may be erased, and details the software support provided for
+erasing them.
+
+<h1>Nonvolatile Component Overview</h1>
+
+<p>
+Tilera's systems have many different types of nonvolatile memory devices,
+used for different purposes; for instance, the TILEncore-Gx system has
+over 20 such devices.  These devices fall into varying classes depending
+upon their intended use, and their accessibility.
+
+<p>
+The different intended uses are as follows:
+
+<ol type="A">
+<li>
+<p>
+Devices designed to hold user data; writable by the main processor
+without any special configuration.  The data written here will vary
+between systems and is very likely to be sensitive; for instance,
+the CPU boot SROM which holds the system software and possibly
+user applications.
+</li>
+
+<li>
+<p>
+Devices designed to hold system configuration and identification data.
+The data written here may be things like system-unique data (e.g.,
+serial numbers, MAC addresses) or support data for various bits of
+hardware (e.g., code which gets automatically downloaded into an
+Ethernet PHY or an FPGA).
+</li>
+
+<li>
+<p>
+Devices not really designed to store data, but which may have
+nonvolatile parameters.  For instance, a power supply monitor chip,
+or a clock generator chip, might have dozens to hundreds of bits
+of nonvolatile state configuring expected current values, requested
+frequencies, or the like.  Another example of this might be the SPD
+ROMs on DIMMs, which may be writable depending upon the vendor.
+</li>
+</ol>
+
+<p>
+Note that typically, devices in classes B and C would be initialized
+during manufacturing and would never be written after that; there is
+typically no software support in the MDE for writing them.
+
+<p>
+The different types of accessibility are as follows:
+
+<ol>
+<li>
+<p>
+Devices writable by the system without any special configuration.
+</li>
+
+<li>
+<p>
+Devices not writable in the system as delivered unless the hardware
+is reconfigured (e.g., installing a jumper inside the case, throwing
+a DIP switch inside the case).
+</li>
+
+<li>
+<p>
+Devices not writable in the system as delivered unless the circuit
+board is modified (e.g., installing a resistor, cutting a package
+pin).
+</li>
+
+<li>
+<p>
+Devices not writable in the system as delivered even with modification,
+but which can be written with an external agent (e.g., by plugging
+a JTAG programmer into a socket inside the system).
+</li>
+</ol>
+
+<p>
+Most customers with sanitization requirements focus on devices in classes
+A1 and B1.  Devices in class A1 are obviously intended and commonly
+used for holding user data, which is what is likely to be sensitive.
+And devices in class B1, although not intended to be modified, could
+potentially be written by malfunctioning or compromised software.
+
+<p>
+Tilera's current systems have one device in class A1 (the majority of
+the boot SPI ROM) and one device in class B1 (the last two sectors of
+the boot SPI ROM); all other devices which hold system information have
+a hardware write-protect feature which is activated at the end of the
+manufacturing process, and which requires physical reconfiguration of the
+hardware to defeat.  Thus, our current sanitization tools, detailed below,
+only support erasing the SROM.  We do not currently support erasing any
+other devices; customers requiring this should contact Tilera Customer
+Support for assistance.
+
+<h1>Sanitization Tools</h1>
+
+<p>
+Tilera supports two different sanitization tools, running in two different
+environments: the built-in sanitization features of the Tilera Board
+Test Kit (BTK), and the <tt>sbim</tt> utility running under Tile Linux.
+Whenever possible, Tilera recommends using the BTK to sanitize a target
+system.  There are two reasons for this.
+
+<p>
+First, since the BTK does not depend upon software executing upon
+the target system.  it is much more resilient to failures during the
+sanitization process.  For instance, if a power failure occurs during a
+BTK sanitization, the process may just be restarted from the beginning.
+If the same thing happened under Linux, the system might end up being
+only half-erased; since some of the system software would be corrupted,
+it would not be able to reboot, but since the operation did not complete,
+the system could still contain sensitive data.
+
+<p>
+Second, the BTK has the ability to be more thorough when erasing the SROM.
+As noted above, the last two sectors of the SROM are reserved for future use
+by system software and are not accessible by Linux.  The BTK sanitization
+operations will erase these sectors, while the Linux-based operations
+will be unable to.  While no user data is stored in these sectors, erasing
+them does provide protection against leaking data which might have ended
+up there via software or hardware errors.
+
+<p>
+The BTK does have the drawback of being somewhat slower than Linux, but
+in most cases sanitization happens infrequently enough that this is not
+a concern.
+
+<h2>Sanitization Using The Board Test Kit</h2>
+
+<p>
+The BTK supports a variety of sanitization operations, detailed in the
+following sections.  For general information on the BTK, consult the BTK
+documentation provided as part of the MDE.
+
+<h3>Basic sanitization operation</h3>
+
+<p>
+Basic sanitization using the BTK is accomplished via the
+<tt>board.sanitize()</tt> command.  This operation erases all sectors
+of the SROM, which sets all bits to 1, then reads all bytes within
+each sector and verifies that they have the expected value (0xFF).
+Example output from this command follows:
+
+<p>
+<pre>
+  example$ <b>tile-btk</b>
+  /tmp/tile-btk-5ktR0i-user/logs created as temporary log directory
+  Exploring chip to find devices and fabric dimensions
+  Discovered tile fabric dimensions are 6 x 6
+  Discovered rshim coordinates are 1,-1
+  Discovered device table
+  Type         Instance     X     Y
+  ----         --------     -     -
+  CRYPTO           1        6     0
+  CRYPTO           0       -1     0
+  RSHIM            0        1    -1
+  DDR3             1        6     1
+  DDR3             0       -1     1
+  USBS             0        2    -1
+  MPIPE            0        2     6
+  COMPRESSION      0        3    -1
+  COMPRESSION      1        3     6
+  GPIO             0        4    -1
+  TRIO             0        5     6
+  Tilera TILE-Gx Board Test Kit
+  btk> <b>board.sanitize()</b>
+  
+  You are about to erase one or more of this system's onboard nonvolatile
+  storage devices.  This will erase data needed to boot the system in
+  standalone mode, although you should still be able to boot the system
+  under control of a host system (i.e., over USB or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD drives,
+  CFast cards and the like connected to or resident within this system.
+  
+  Are you sure you want to do this [no]? <b>yes</b>
+  Erasing SROM...
+  SROM is Numonyx M25P128 page size 256 sector size 262144 srom size 16777216
+  Erasing sector  64 of  64
+  Verifying SROM...
+  Verifying sector  64 of  64
+  SROM sanitized successfully.
+  Board sanitized successfully.
+  btk> 
+</pre>
+
+
+<h3>Multiple passes specifying different patterns</h3>
+
+<p>
+
+Some customers may require that components to be sanitized be written
+with multiple data patterns. This can be accomplished by adding the
+<tt>pattern=</tt> argument to the <tt>board.sanitize()</tt> command.
+The <tt>pattern=</tt> argument specifies a list of bytes, which will
+be replicated throughout the sanitized component.  As an example, the
+following first sanitizes a system by writing all 0's, followed by all 1's.
+After each write pass the data is read back and verified.
+
+<p>
+<pre>
+  example$ <b>tile-btk</b>
+  btk> <b>board.sanitize(pattern=[0x00])</b>
+  
+  You are about to erase one or more of this system's onboard nonvolatile
+  storage devices.  This will erase data needed to boot the system in
+  standalone mode, although you should still be able to boot the system
+  under control of a host system (i.e., over USB or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD drives,
+  CFast cards and the like connected to or resident within this system.
+  
+  Are you sure you want to do this [no]? <b>yes</b>
+  Erasing SROM...
+  SROM is Numonyx M25P128 page size 256 sector size 262144 srom size 16777216
+  Erasing sector  64 of  64
+  Verifying SROM...
+  Verifying sector  64 of  64
+  SROM sanitized successfully.
+  Board sanitized successfully.
+  btk> <b>board.sanitize(pattern=[0xFF])</b>
+  
+  You are about to erase one or more of this system's onboard nonvolatile
+  storage devices.  This will erase data needed to boot the system in
+  standalone mode, although you should still be able to boot the system
+  under control of a host system (i.e., over USB or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD drives,
+  CFast cards and the like connected to or resident within this system.
+  
+  Are you sure you want to do this [no]? <b>yes</b>
+  Erasing SROM...
+  Erasing sector  64 of  64
+  Verifying SROM...
+  Verifying sector  64 of  64
+  SROM sanitized successfully.
+  Board sanitized successfully.
+  btk> 
+</pre>
+
+<h3>Separate erase and verify operations</h3>
+
+<p>
+It is also possible to run the erase and verify stages separately.  This
+might be useful if one person will be performing the sanitization operation
+and another person will be verifying it.  Such an erase operation would
+look like this:
+
+<p>
+<pre>
+  btk> <b>board.sanitize_erase()</b>
+  
+  You are about to erase one or more of this system's onboard nonvolatile
+  storage devices.  This will erase data needed to boot the system in
+  standalone mode, although you should still be able to boot the system
+  under control of a host system (i.e., over USB or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD drives,
+  CFast cards and the like connected to or resident within this system.
+  
+  Are you sure you want to do this [no]? <b>yes</b>
+  Erasing SROM...
+  Erasing sector  64 of  64
+  Board erased successfully.
+  btk> 
+</pre>
+
+<p>
+and the verification operation would look like this:
+
+<p>
+<pre>
+  btk> <b>board.sanitize_verify()</b>
+  Verifying SROM...
+  Verifying sector  64 of  64
+  Board sanitization verified successfully.
+  btk> 
+</pre>
+
+<p>
+The <tt>pattern=</tt> argument is accepted by the
+<tt>board.sanitize_erase()</tt> and <tt>board.sanitize_verify()</tt> commands.
+If used, the same list of bytes must be specified for both operations, or
+the verification pass will fail, for example:
+
+<p>
+<pre>
+  btk> <b>board.sanitize_erase()</b>
+  
+  You are about to erase one or more of this system's onboard nonvolatile
+  storage devices.  This will erase data needed to boot the system in
+  standalone mode, although you should still be able to boot the system
+  under control of a host system (i.e., over USB or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD drives,
+  CFast cards and the like connected to or resident within this system.
+  
+  Are you sure you want to do this [no]? <b>yes</b>
+  Erasing SROM...
+  Erasing sector  64 of  64
+  Board erased successfully.
+  
+  btk> <b>board.sanitize_verify(pattern=[0x00])</b>
+  Verifying SROM...
+  Verifying sector   1 of  64Traceback (most recent call last):
+    File "<console>", line 1, in ?
+    File "/opt/tilera/mde/tilegx/lib/tile-btk/board.py", line 2064, in sanitize_verify
+      pattern=pattern)
+    File "/opt/tilera/mde/tilegx/lib/tile-btk/sanitize.py", line 127, in sanitize_verify_list
+      i.sanitize_verify(pattern=pattern)
+    File "/opt/tilera/mde/tilegx/lib/tile-btk/srom.py", line 753, in sanitize_verify
+      raise Exception("SROM verify failed for sector %d page "
+  Exception: SROM verify failed for sector 0 page 0: expected [255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+  255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], got [0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  btk> 
+</pre>
+
+
+<h3>Random read/write</h3>
+
+<p>
+More elaborate sanitization procedures could be constructed using the
+BTK's facilities for reading and writing arbitrary ranges of data within
+the SROM.  Consult the BTK documentation for further details.
+
+<h2>Sanitization Under Linux Using sbim</h2>
+
+<p>
+<tt>sbim</tt>, which runs under Tile Linux, supports several sanitization
+operations, detailed below.  For more information on sbim, refer to the sbim
+manual page distributed with the MDE.
+
+<h3>Basic sanitization operation</h3>
+
+<p>
+Basic sanitization is accomplished via sbim's <tt>--sanitize</tt> action.
+This operation erases all sectors of the SROM, which sets all bits to 1,
+then reads all bytes within each sector and verifies that they have the
+expected value (0xFF).  Example output from this command follows:
+
+<p>
+<pre>
+  # <b>sbim --sanitize</b>
+  You are about to erase all data from the SROM.  This will prevent the
+  system from being booted in standalone mode, although you should still
+  be able to boot the system under control of a host system (i.e., over USB
+  or PCIe).
+  
+  Note that this operation does NOT erase any data on disk drives, SSD
+  drives, CFast cards and the like connected to or resident within this
+  system.
+  
+  Are you sure you want to do this (yes/no)? <b>yes</b>
+  Erasing /dev/srom/bootimage, 15204352 bytes.
+  [buffer 1856 of 1856]
+  Erasing /dev/srom/bootparam, 524288 bytes.
+  [buffer 64 of 64]
+  Erasing /dev/srom/userparam, 524288 bytes.
+  [buffer 64 of 64]
+  Verifying /dev/srom/bootimage, 15204352 bytes.
+  [buffer 1856 of 1856]
+  Verifying /dev/srom/bootparam, 524288 bytes.
+  [buffer 64 of 64]
+  Verifying /dev/srom/userparam, 524288 bytes.
+  [buffer 64 of 64]
+  SROM sanitized successfully.
+  # 
+</pre>
+
+<h3>Multiple passes specifying different patterns</h3>
+
+<p>
+As with the BTK sanitization operations, it is possible to use a different
+data pattern with <tt>sbim</tt>, via the <tt>--pattern</tt> argument.
+<tt>--pattern</tt> takes a 64-bit hexadecimal value, which is then
+replicated throughout the SROM.  For instance, to use alternating 1 and
+0 bits to erase the SROM, one might use:
+
+<p>
+<pre>
+  # <b>sbim --sanitize --pattern 0xAAAAAAAAAAAAAAAA</b>
+</pre>
+
+<h1>Devices Not Sanitized</h1>
+<p>
+Tilera's sanitization tools only deal with board-level nonvolatile
+storage components built into our system products.  They explicitly omit
+sanitization of mass storage devices.  This includes disk drives, solid
+state drives (SSDs), and removable storage cards, like the CFast card
+supported by the TILEmpower-Gx system.  We do not support sanitization
+of such devices for several reasons:
+
+<ul>
+<li>
+<p>
+Properly erasing such devices may require specialized knowledge of their
+operation.  For instance, write leveling and sector remapping features
+found in many storage devices mean that a simple write operation may not
+be sufficient to eliminate all traces of sensitive data.  Since Tilera
+does not manufacture these components, we do not always have access to
+the proprietary information required to erase them properly.
+</li>
+
+<li>
+<p>
+These devices are common to many classes of computer systems.  Because
+of this, many customers already have defined procedures and tools for
+sanitizing them.
+</li>
+
+<li>
+<p>
+These devices are not permanently installed, and it is therefore generally
+not difficult for customers to remove them before reusing or returning
+a system.
+</li>
+
+<li>
+<p>
+These devices are often supplied by customers, instead of being purchased
+from Tilera; we therefore do not have the ability to qualify any tools
+we might provide for use with those devices, and could not guarantee
+their performance.
+</li>
+</ul>
+
+<h1>Copyright</h1>
+
+<small>
+
+<p>
+Copyright 2014 Tilera Corporation. All Rights Reserved.
+</p>
+
+<p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p>
+
+</small>
+
+</body>
+</html>

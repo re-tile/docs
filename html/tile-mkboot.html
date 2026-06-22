@@ -1,0 +1,244 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-mkboot</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-mkboot"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-mkboot &#8212; Boot Image Creation</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-mkboot</code>  [
+   <code class="option">--hv-bin-dir</code> 
+  <em class="replaceable"><code>dir</code></em>
+] [ <code class="option">-l</code>  |   <code class="option">--linux</code> ] [
+   <code class="option">--linux-dir</code> 
+  <em class="replaceable"><code>dir</code></em>
+]<br> [ <code class="option">-n</code>  |   <code class="option">--no-strip</code> ] [ <code class="option">-c</code>  |   <code class="option">--compress</code> ] [ <code class="option">-f</code>  |   <code class="option">--fixed</code> ]<br> [ <code class="option">-v</code>  |   <code class="option">--verbose</code> ] {
+   <code class="option">--hvc</code> 
+  <em class="replaceable"><code>file.hvc</code></em>
+...} [
+   <code class="option">--hvd</code> 
+  <em class="replaceable"><code>var[=value]</code></em>
+...] [
+   <code class="option">--hvi</code> 
+  <em class="replaceable"><code>directory</code></em>
+...] [
+   <code class="option">--hvx</code> 
+  <em class="replaceable"><code>value</code></em>
+...] [
+   <code class="option">--dump-hvc</code> 
+]  
+  { <code class="option">-o</code>  |   <code class="option">--output</code> }
+  <em class="replaceable"><code>outfile</code></em>
+   <em class="replaceable"><code>[<span class="optional">outfile=</span>]infile</code></em>... </p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-mkboot</strong></span>
+creates a stream of executable code and data which may be used to boot a
+Tile Processor.
+The boot stream consists of the booter and hypervisor code, followed by a
+hypervisor file system image containing files determined by the user.
+Normally those files consist of the hypervisor configuration file and
+the client operating system image.
+</p><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="hv-bin-dir"></a><span class="term">
+<code class="option">--hv-bin-dir <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+If the <code class="option">--hv-bin-dir</code> option is specified, the hypervisor
+binary files (including the booters) will be taken from the directory
+<em class="replaceable"><code>dir</code></em>; otherwise, they will be taken from
+<code class="filename"><code class="varname">${TILERA_ROOT}</code>/tile/boot</code> when
+running on a host system, or from
+<code class="filename">/boot</code> when running natively on a Tile Processor.
+
+</p></dd><dt><a name="linux"></a><span class="term">
+<code class="option">-l</code>
+, </span><span class="term">
+<code class="option">--linux</code>
+</span></dt><dd><p>
+If the <code class="option">--linux</code> option is specified, files necessary to
+boot a Linux kernel (currently just <code class="filename">vmlinux</code>) will be
+included in the output stream.  In order for those files to be used, the
+hypervisor configuration file must specify <code class="filename">vmlinux</code>
+as a client binary name.
+
+</p></dd><dt><a name="linux-dir"></a><span class="term">
+<code class="option">--linux-dir <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+If the <code class="option">--linux-dir</code> option is specified, any files
+needed to boot a Linux kernel will be taken from the directory
+<em class="replaceable"><code>dir</code></em>; otherwise, they will be taken from
+<code class="filename"><code class="varname">${TILERA_ROOT}</code>/tile/boot</code> when
+running on a host system, or from <code class="filename">/boot</code> when running
+natively on a Tile Processor.  This option is only useful with, and in
+fact implies, the <code class="option">--linux</code> option.
+
+</p></dd><dt><a name="no-strip"></a><span class="term">
+<code class="option">-n</code>
+, </span><span class="term">
+<code class="option">--no-strip</code>
+</span></dt><dd><p>
+If the <code class="option">--no-strip</code> option is specified, ELF executables
+specified as input files are copied unchanged into the output image.
+Normally, such files are first processed to have their symbol information
+removed, making the output image smaller.
+</p></dd><dt><a name="compress"></a><span class="term">
+<code class="option">-c</code>
+, </span><span class="term">
+<code class="option">--compress</code>
+</span></dt><dd><p>
+If the <code class="option">--compress</code> option is specified, files listed in an
+input configuration file as a client supervisor will be compressed before
+inclusion in the output image, making the output image smaller.  Only files
+which are also stripped are compressed, so <code class="option">--no-strip</code>
+disables compression as well.
+</p></dd><dt><a name="fixed"></a><span class="term">
+<code class="option">-f</code>
+, </span><span class="term">
+<code class="option">--fixed</code>
+</span></dt><dd><p>
+If the <code class="option">--fixed</code> option is specified,
+<span><strong class="command">tile-mkboot</strong></span> will not use the current hostname, or time and
+date, when generating comment fields within the output image.  However, files
+used as input to the image generation process may still contain such data.
+</p></dd><dt><a name="verbose"></a><span class="term">
+<code class="option">-v</code>
+, </span><span class="term">
+<code class="option">--verbose</code>
+</span></dt><dd><p>
+If the <code class="option">--verbose</code> option is specified, extra informational
+output may be printed.
+</p></dd><dt><a name="output"></a><span class="term">
+<code class="option">-o</code>
+, </span><span class="term">
+<code class="option">--output <em class="replaceable"><code>outfile</code></em></code>
+</span></dt><dd><p>
+Specify the name of the output boot stream file, unless
+<code class="option">--dump-hvc</code> was provided, in which case it specifies
+the name of the output hypervisor configuration file.
+</p></dd><dt><a name="hvc"></a><span class="term">
+<code class="option">--hvc <em class="replaceable"><code>file.hvc</code></em></code>
+</span></dt><dd><p>
+Request the use of the given hypervisor configuration file.
+</p><p>
+More than one file may be specified, in which case their contents are
+concatenated.
+</p></dd><dt><a name="hvd"></a><span class="term">
+<code class="option">--hvd
+<em class="replaceable"><code>var[<span class="optional">=value</span>]</code></em></code>
+</span></dt><dd><p>
+Provide a variable definition to be used while processing hypervisor
+configuration files.
+</p><p>
+Inside hypervisor configuration files, such variables can be accessed
+using <code class="code">$<em class="replaceable"><code>var</code></em></code>, and can be used
+with <code class="code">ifdef</code>, <code class="code">ifndef</code>, and
+<code class="code">defined(<em class="replaceable"><code>var</code></em>)</code>.
+</p><p>
+Multiple <code class="option">--hvd</code> values may be specified.
+</p></dd><dt><a name="hvi"></a><span class="term">
+<code class="option">--hvi <em class="replaceable"><code>dir</code></em></code>
+</span></dt><dd><p>
+Append a directory to the search path used to find hypervisor
+configuration files.
+</p><p>
+This search path affects both <code class="option">--hvc</code> arguments and
+<code class="code">include</code> directives inside hypervisor configuration files.
+</p><p>
+If multiple <code class="option">--hvi</code> values are specified, they are
+searched in the order provided.
+
+Note that the system default directory for hypervisor configuration files
+is always added to the end of the list of directories to be searched;
+this directory is
+<code class="filename"><code class="varname">${TILERA_ROOT}</code>/tile/etc/hvc</code> when
+running on a host system, or
+<code class="filename">/etc/hvc</code> when running natively on a Tile Processor.
+
+</p></dd><dt><a name="hvx"></a><span class="term">
+<code class="option">--hvx <em class="replaceable"><code>value</code></em></code>
+</span></dt><dd><p>
+Append a single space plus <em class="replaceable"><code>value</code></em> to the
+definition of the special <code class="code">XARGS</code> variable, which starts
+out defined, but empty.  This variable is used by some hypervisor
+configuration files, usually to extend the primary client args.
+</p></dd><dt><a name="dump-hvc"></a><span class="term">
+<code class="option">--dump-hvc</code>
+</span></dt><dd><p>
+Emit the result of preprocessing input hypervisor configuration files.
+If <code class="option">--output</code> is specified, the result is written to
+that file. Otherwise it is printed to standard output.
+</p></dd><dt><a name="infile"></a><span class="term">
+<code class="option"><em class="replaceable"><code>[<span class="optional">outfile=</span>]infile</code></em></code>
+</span></dt><dd><p>
+Specify a file to be included in the hypervisor filesystem image.  If
+the <code class="option"><em class="replaceable"><code>outfile</code></em>=</code> prefix is
+included, the input file <em class="replaceable"><code>infile</code></em> is added to
+the filesystem under the name <em class="replaceable"><code>outfile</code></em>.
+Otherwise, the name in the output filesystem is identical to the input
+file name.
+</p><p>
+The hypervisor configuration specified by using one or more
+<code class="option">--hvc</code> options becomes a file called "config" in the
+generated filesystem.  This is subject to change, but the filename
+"config" should be considered reserved.  The name of the client
+operating system is specified in the configuration file, but is
+conventionally <code class="filename">vmlinux</code>.
+</p></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="example"></a><h2>Example</h2><p>
+In order to create a new boot stream <code class="filename">myboot.bootrom</code>
+with a customized hypervisor configuration file
+<code class="filename">myconfig.hvc</code>,
+and then boot it on a TILExpress card, one could do the following
+(but see below for a better technique):
+</p><pre class="programlisting">
+tile-mkboot --output myboot.bootrom --hvc myconfig.hvc --linux
+tile-monitor --bootrom-file myboot.bootrom --pci
+</pre><p>Note that <span><strong class="command">tile-monitor</strong></span> will automatically run
+<span><strong class="command">tile-mkboot</strong></span> if needed to generate a temporary bootrom
+file from which to boot.  It passes through the <code class="option">--hvc</code>,
+<code class="option">--hvd</code>, <code class="option">--hvi</code>, <code class="option">--hvx</code>,
+and <code class="option">--hv-bin-dir</code> options.  It supplies an appropriate
+<code class="code">vmlinux=<em class="replaceable"><code>vmlinux</code></em></code> argument, using
+<code class="code">${TILERA_ROOT}/tile/boot/vmlinux</code> by default.  It allows the
+<code class="code">--bme</code> and <code class="code">--mkboot-args</code> options to be used to
+specify other extra arguments.  And, it automatically provides various
+<code class="option">--hvd</code> arguments appropriate to the target platform.
+So it is usually best to use <span><strong class="command">tile-monitor</strong></span> instead of
+<span><strong class="command">tile-mkboot</strong></span>.  For example, the commands above could
+have been replaced by:
+</p><pre class="programlisting">
+tile-monitor --pci --hvc myconfig.hvc
+</pre></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor(1)</strong></span></a>.
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

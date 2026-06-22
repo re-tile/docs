@@ -1,0 +1,227 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>hardwall</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="hardwall"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>hardwall &#8212; /dev/hardwall/* special files for per-cpu resource
+management</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><pre class="synopsis">#include &lt;asm/hardwall.h&gt;</pre></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+The <span><strong class="command">/dev/hardwall/*</strong></span> special files allows user
+processes to request access to per-cpu resources such as
+the user dynamic network (UDN) that
+permits low-latency communication between processors on the Tile chip
+(/dev/hardwall/udn) or the IPI mechanism that allows tiles to
+request user-space interrupts be delivered to particular tiles
+by I/O shims (/dev/hardwall/ipi).
+</p><p>
+User processes can open the <span><strong class="command">/dev/hardwall/udn</strong></span>
+file, then use an ioctl to create a reserved rectangle of the chip,
+e.g. 20 tiles in a 5x4 grid with the upper left corner at tile
+coordinate (2,3).  Tasks (either processes or threads) can then use
+affinity to "lock" themselves to a single processor within that
+rectangle, then, via another ioctl() on the still-open hardwall file
+descriptor, associate themselves with the rectangle and gain access to
+the UDN.  The <span><strong class="command">/dev/hardwall/ipi</strong></span> file works
+similarly, though it does not require rectangular set of tiles.
+
+</p><p>
+Tasks that have access to the UDN can send and receive UDN messages
+freely with other tasks that have associated themselves with the same
+hardwall file descriptor.  When the file descriptor has been
+closed by all processes that had it open,
+the rectangle is deallocated, the kernel performs some cleanup to make
+sure no UDN messages are left in the network, and that region of the
+chip can be used by a new application.  If any task tries to send a
+message outside the rectangle, the message will be trapped by the
+network hardware and the kernel notified, and the kernel will send a
+SIGABRT to all the tasks that have activated that hardwall
+file (much like an illegal instruction will kill a process and
+all the threads in it).
+</p><p>
+The <span><strong class="command">/proc/tile/hardwall</strong></span> directory contains
+the current set of hardwalls, one per file.
+</p><div class="variablelist"><a name="ioctls"></a><p class="title"><b>Ioctls</b></p><dl><dt><a name="create"></a><span class="term">
+<span><strong class="command">HARDWALL_CREATE(size)</strong></span> 
+</span></dt><dd><p>
+Create a new hardwall.  These are kept unique across the
+chip by the kernel and must not share cpus with each other.  Normally this
+operation is performed at the start of an application, before any
+other threads or processes are created.  A pointer to a
+<span><strong class="command">cpu_set_t</strong></span> is passed as the argument to the ioctl;
+sizeof(cpu_set_t) must be passed to the HARDWALL_CREATE macro, so
+that the kernel is independent of the cpu_set_t size chosen by user space.
+</p><p>
+For UDN hardwalls, the <span><strong class="command">cpu_set_t</strong></span> argument must
+contain a geometrically
+contiguous rectangular set of cpus.  All the cpus in the rectangle
+must be set in the <span><strong class="command">cpu_set_t</strong></span> mask or an error is
+returned.  (Note that the <span><strong class="command">tmc_cpus_grid_add_rect()</strong></span>
+is useful for creating such a cpumask.)  The set can contain cpus that
+are not available for Linux to use, such as dedicated hypervisor driver cpus.
+</p></dd><dt><a name="activate"></a><span class="term">
+<span><strong class="command">HARDWALL_ACTIVATE</strong></span>
+</span></dt><dd><p>
+Activate the specified hardwall file for access by the calling task.  A
+process or thread that has a <span><strong class="command">/dev/hardwall/</strong></span>
+file descriptor that has been associated with a hardwall via
+<span><strong class="command">HARDWALL_CREATE</strong></span> may use this ioctl to associate
+itself with that hardwall.  The task must have used
+<span><strong class="command">sched_setaffinity()</strong></span> to bind itself to a single
+processor (or some equivalent wrapper mechanism, such as the
+<span><strong class="command">tmc_cpus_set_my_cpu()</strong></span> function or the
+<span><strong class="command">taskset</strong></span> command).  On successful return from the
+ioctl, the task can then access the resource guarded by the hardwall
+(e.g. the UDN network, or the IPI functionality of the iorpc driver).
+For the UDN network, the task is then subject to being
+killed if it or any other task associated with the hardwall tries to
+send a UDN message outside the rectangle.
+If the task subsequently changes its affinity, it will cease to
+be activated for the hardwall and lose access to the resource
+guarded by the hardwall.
+</p></dd><dt><a name="deactivate"></a><span class="term">
+<span><strong class="command">HARDWALL_DEACTIVATE</strong></span>
+</span></dt><dd><p>
+Deactivate the specified hardwall file for access by the calling task.  
+This just undoes the effect of a previous
+<span><strong class="command">HARDWALL_ACTIVATE</strong></span> ioctl.
+</p></dd></dl></div></div><div class="refsect1" lang="en"><a name="usage"></a><h2>Usage</h2><p>
+Typically, the <span><strong class="command">HARDWALL_CREATE</strong></span> ioctl is used at
+application startup to associate an opened
+<span><strong class="command">/dev/hardwall/*</strong></span> file descriptor with a group of
+tiles.  The file thus opened is then the "token" that all other
+threads and processes must "activate" to be able to access the UDN.
+</p><p>
+For threaded applications, this is very simple, since all threads share
+the same table of file descriptors.  Each thread, as it starts up,
+should bind itself to a cpu within the hardwall with a suitable
+affinity-setting technique, then use the
+<span><strong class="command">HARDWALL_ACTIVATE</strong></span> ioctl to gain access to the resource
+on that tile.  Typically the hardwall file descriptor would be kept in
+a global variable or passed as an argument to the new thread.
+</p><p>
+For applications that start up as a single process and then fork multiple
+other processes, there is still a simple model to use.  The first
+process creates the hardwall, and then after each fork(), the child
+process should bind itself to a cpu via affinity, then use the
+<span><strong class="command">HARDWALL_ACTIVATE</strong></span> ioctl to gain access to the resource
+on that tile, just like a thread would.  If the application uses
+exec() to start other programs that want UDN access on the tile,
+either the child can activate the file descriptor, or the new program
+can activate the file descriptor, as long as the actual file
+descriptor number can be conveyed to the new program somehow (e.g. in
+an environment variable).  The <span><strong class="command">dup()</strong></span> function
+is also useful for creating multiple file descriptors referencing
+the same underlying file, or <span><strong class="command">dup2()</strong></span> to make a
+file descriptor with a fixed number.
+Note that normally file descriptors survive
+an exec(), unless the file descriptor has been marked as "close on
+exec" via <span><strong class="command">fcntl()</strong></span>'s <span><strong class="command">CLOEXEC</strong></span>
+flag.
+</p><p>
+For applications that consist of multiple processes started separately
+(with no common ancestor to perform the
+<span><strong class="command">HARDWALL_CREATE</strong></span>) but that wish to share the
+resource, a more complex method of sharing a single open file must be
+used.  Generally speaking the only way to do this is via
+<span><strong class="command">sendmsg()</strong></span> and <span><strong class="command">recvmsg()</strong></span> across a
+Unix socket, using <span><strong class="command">SCM_RIGHTS</strong></span> to transfer a file
+descriptor in such a way that the receiving process receives a true
+reference to the underlying open file.
+</p><p>
+There is no way for multiple processes to access the same hardwall
+simply by opening the <span><strong class="command">/dev/hardwall/*</strong></span>
+file multiple times; this is by design, since otherwise it would be
+possible for some other process to enter the hardwall
+unexpectedly, and, for example, violate the boundaries of a UDN hardwall
+rectangle with a bad UDN message and cause all the processes to
+receive a SIGABRT.
+</p><p>
+If a user process with an active UDN hardwall tries to send a UDN packet
+that crosses out of the hardwall region, all the processes that are
+currently bound to that hardwall will receive a
+<span><strong class="command">SIGILL</strong></span> signal, with the signal code
+(<span><strong class="command">si_code</strong></span>) set to <span><strong class="command">ILL_HARDWALL</strong></span>.
+This is by extension of the fact that if you neglect to set up a
+hardwall in the first place and then try to use the UDN, your
+process will receive a 
+<span><strong class="command">SIGILL</strong></span> signal, with the signal code
+(<span><strong class="command">si_code</strong></span>) set to <span><strong class="command">ILL_PRVREG</strong></span>.
+</p></div><div class="refsect1" lang="en"><a name="errors"></a><h2>Errors</h2><div class="variablelist"><a name="create-errors"></a><p class="title"><b>HARDWALL_CREATE errors:</b></p><dl><dt><span class="term">EFAULT</span></dt><dd><p>
+Pointer to <span><strong class="command">cpu_set_t</strong></span> is invalid.
+</p></dd><dt><span class="term">EALREADY</span></dt><dd><p>
+File descriptor is already associated with a hardwall.
+</p></dd><dt><span class="term">EINVAL</span></dt><dd><p>
+Set contains cpus outside the rectangular dimensions of the
+chip, or (for UDN hardwall) does not contain a geometrically
+contiguous rectangle of cpus.
+</p></dd><dt><span class="term">EBUSY</span></dt><dd><p>
+Requested cpu set intersects an existing cpu set.
+</p></dd><dt><span class="term">ENOSYS</span></dt><dd><p>
+The kernel does not have access to the resource due to a boot argument
+(the UDN due to the "noudn" boot argument, or IPI resources due
+to the "noipi" boot argument).
+</p></dd></dl></div><p>
+Note that, while not an error condition, it is not recommended
+to set up a UDN hardwall rectangle that includes hypervisor dedicated
+tiles.  This is due to missing functionality in the
+dedicated hypervisor drivers that prevents them from participating in
+the UDN cleanup process when the last reference to a kernel hardwall
+rectangle is closed.  The result is that there may still be UDN
+message traffic stuck in the network when the kernel creates the next
+rectangle for a new application, which could then cause the new
+application to hang.  This situation is believed to be uncommon
+unless traffic is directed to the dedicated tile itself by mistake.
+</p><div class="variablelist"><a name="activate-errors"></a><p class="title"><b>HARDWALL_ACTIVATE errors:</b></p><dl><dt><span class="term">ENODATA</span></dt><dd><p>
+This file descriptor does not have a hardwall associated with it,
+i.e. <span><strong class="command">HARDWALL_CREATE</strong></span> has not already been called on it.
+</p></dd><dt><span class="term">EINVAL</span></dt><dd><p>
+The hardwall is currently being torn down by the
+kernel due to a hardwall violation, or the calling task is not bound
+to a cpu within the hardwall rectangle.
+</p></dd><dt><span class="term">EPERM</span></dt><dd><p>
+The calling task is not bound to a single tile.
+</p></dd></dl></div><div class="variablelist"><a name="deactivate-errors"></a><p class="title"><b>HARDWALL_DEACTIVATE errors:</b></p><dl><dt><span class="term">EINVAL</span></dt><dd><p>
+This file descriptor does not have a hardwall associated with it, or
+this task is activated on a different hardwall (or none at all).
+</p></dd></dl></div></div><div class="refsect1" lang="en"><a name="seealso"></a><h2>See Also</h2><p>
+The Tilera Multicore Library (TMC) has a subcomponent for wrapping the
+UDN and IPI hardware; its use is recommended.  See the Application Libraries
+Reference Guide (UG227) or &lt;tmc/udn.h&gt; for more information.
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

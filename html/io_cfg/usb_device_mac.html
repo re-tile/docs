@@ -1,0 +1,1486 @@
+<html>
+<title>usb_device_mac Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>USB Device MAC (0x10000-0x10544) : </b> 
+These registers control the USB Device MAC interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>10000<TD><a href="#USB_DEVICE_MAC_EP0_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP0_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10004<TD><a href="#USB_DEVICE_MAC_EP0_IN_STS_UDC_REG">USB_DEVICE_MAC_EP0_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10008<TD><a href="#USB_DEVICE_MAC_EP0_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP0_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1000c<TD><a href="#USB_DEVICE_MAC_EP0_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP0_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1001c<TD><a href="#USB_DEVICE_MAC_EP0_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP0_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10020<TD><a href="#USB_DEVICE_MAC_EP1_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP1_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10024<TD><a href="#USB_DEVICE_MAC_EP1_IN_STS_UDC_REG">USB_DEVICE_MAC_EP1_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10028<TD><a href="#USB_DEVICE_MAC_EP1_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP1_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1002c<TD><a href="#USB_DEVICE_MAC_EP1_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP1_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1003c<TD><a href="#USB_DEVICE_MAC_EP1_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP1_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10040<TD><a href="#USB_DEVICE_MAC_EP2_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP2_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10044<TD><a href="#USB_DEVICE_MAC_EP2_IN_STS_UDC_REG">USB_DEVICE_MAC_EP2_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10048<TD><a href="#USB_DEVICE_MAC_EP2_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP2_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1004c<TD><a href="#USB_DEVICE_MAC_EP2_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP2_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1005c<TD><a href="#USB_DEVICE_MAC_EP2_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP2_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10060<TD><a href="#USB_DEVICE_MAC_EP3_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP3_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10064<TD><a href="#USB_DEVICE_MAC_EP3_IN_STS_UDC_REG">USB_DEVICE_MAC_EP3_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10068<TD><a href="#USB_DEVICE_MAC_EP3_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP3_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1006c<TD><a href="#USB_DEVICE_MAC_EP3_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP3_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1007c<TD><a href="#USB_DEVICE_MAC_EP3_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP3_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10080<TD><a href="#USB_DEVICE_MAC_EP4_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP4_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10084<TD><a href="#USB_DEVICE_MAC_EP4_IN_STS_UDC_REG">USB_DEVICE_MAC_EP4_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10088<TD><a href="#USB_DEVICE_MAC_EP4_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP4_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1008c<TD><a href="#USB_DEVICE_MAC_EP4_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP4_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1009c<TD><a href="#USB_DEVICE_MAC_EP4_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP4_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>100a0<TD><a href="#USB_DEVICE_MAC_EP5_IN_CTRL_UDC_REG">USB_DEVICE_MAC_EP5_IN_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>100a4<TD><a href="#USB_DEVICE_MAC_EP5_IN_STS_UDC_REG">USB_DEVICE_MAC_EP5_IN_STS_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>100a8<TD><a href="#USB_DEVICE_MAC_EP5_IN_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP5_IN_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>100ac<TD><a href="#USB_DEVICE_MAC_EP5_IN_MPKT_SZ_REG">USB_DEVICE_MAC_EP5_IN_MPKT_SZ_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>100bc<TD><a href="#USB_DEVICE_MAC_EP5_WR_CFRM_UDC_REG">USB_DEVICE_MAC_EP5_WR_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10200<TD><a href="#USB_DEVICE_MAC_EP0_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP0_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10204<TD><a href="#USB_DEVICE_MAC_EP0_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP0_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1020c<TD><a href="#USB_DEVICE_MAC_EP0_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP0_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1021c<TD><a href="#USB_DEVICE_MAC_EP0_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP0_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10220<TD><a href="#USB_DEVICE_MAC_EP1_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP1_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10224<TD><a href="#USB_DEVICE_MAC_EP1_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP1_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1022c<TD><a href="#USB_DEVICE_MAC_EP1_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP1_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1023c<TD><a href="#USB_DEVICE_MAC_EP1_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP1_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10240<TD><a href="#USB_DEVICE_MAC_EP2_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP2_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10244<TD><a href="#USB_DEVICE_MAC_EP2_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP2_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1024c<TD><a href="#USB_DEVICE_MAC_EP2_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP2_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1025c<TD><a href="#USB_DEVICE_MAC_EP2_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP2_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10260<TD><a href="#USB_DEVICE_MAC_EP3_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP3_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10264<TD><a href="#USB_DEVICE_MAC_EP3_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP3_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1026c<TD><a href="#USB_DEVICE_MAC_EP3_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP3_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1027c<TD><a href="#USB_DEVICE_MAC_EP3_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP3_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10280<TD><a href="#USB_DEVICE_MAC_EP4_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP4_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10284<TD><a href="#USB_DEVICE_MAC_EP4_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP4_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1028c<TD><a href="#USB_DEVICE_MAC_EP4_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP4_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1029c<TD><a href="#USB_DEVICE_MAC_EP4_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP4_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>102a0<TD><a href="#USB_DEVICE_MAC_EP5_OUT_CTRL_UDC_REG">USB_DEVICE_MAC_EP5_OUT_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>102a4<TD><a href="#USB_DEVICE_MAC_EP5_OUT_STS_UDC_REG">USB_DEVICE_MAC_EP5_OUT_STS_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>102ac<TD><a href="#USB_DEVICE_MAC_EP5_OUT_BUFSIZE_UDC_REG">USB_DEVICE_MAC_EP5_OUT_BUFSIZE_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>102bc<TD><a href="#USB_DEVICE_MAC_EP5_RD_CFRM_UDC_REG">USB_DEVICE_MAC_EP5_RD_CFRM_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10400<TD><a href="#USB_DEVICE_MAC_D_CFG_UDC_REG">USB_DEVICE_MAC_D_CFG_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10404<TD><a href="#USB_DEVICE_MAC_D_CTRL_UDC_REG">USB_DEVICE_MAC_D_CTRL_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10408<TD><a href="#USB_DEVICE_MAC_D_STS_UDC_REG">USB_DEVICE_MAC_D_STS_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1040c<TD><a href="#USB_DEVICE_MAC_D_INTR_UDC_REG">USB_DEVICE_MAC_D_INTR_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10410<TD><a href="#USB_DEVICE_MAC_D_INTR_MSK_UDC_REG">USB_DEVICE_MAC_D_INTR_MSK_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10414<TD><a href="#USB_DEVICE_MAC_EP_INTR_UDC_REG">USB_DEVICE_MAC_EP_INTR_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10418<TD><a href="#USB_DEVICE_MAC_EP_INTR_MSK_UDC_REG">USB_DEVICE_MAC_EP_INTR_MSK_UDC_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1041c<TD><a href="#USB_DEVICE_MAC_TEST_MODE_UDC_REG">USB_DEVICE_MAC_TEST_MODE_UDC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10504<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_0">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10508<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_1">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1050c<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_2">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10510<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_3">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_3</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10514<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_4">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_4</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10518<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_5">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_5</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1051c<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_6">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_6</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10520<TD><a href="#USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_7">USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_7</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10524<TD><a href="#USB_DEVICE_MAC_UDC_VCON_UDC_REG">USB_DEVICE_MAC_UDC_VCON_UDC_REG</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="USB_DEVICE_MAC_EP0_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP0_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP0_IN_CTRL_UDC_REG: 0x10000)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>MRX_FLUSH</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive FIFO Flush for Multiple Receive FIFO.<br>
+ When the application wants to flush the endpoint<br>
+receive FIFO, it must first set the SNAK bit in the<br>
+Endpoint Control register. If the receive DMA is in<br>
+progress, then the core will finish the current<br>
+descriptor, terminate the DMA, and flush the data in<br>
+the endpoint receive FIFO and clear this bit. The<br>
+application must clear this bit after the EP receive<br>
+FIFO is empty, by checking the MRXFIFO EMPTY<br>
+bit in the Endpoint Status register. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>CLOSE_DESC</TD> <TD>RW</TD> <TD>0</TD> <TD>Close descriptor channel for this endpoint.<br>
+This bit applies only to OUT endpoints and is<br>
+available only when the Close Descriptor Channel<br>
+option is selected through coreConsultant.<br>
+The application sets this bit to close the descriptor<br>
+channel, and the  Subsystem clears this bit<br>
+after the channel is closed.<br>
+This bit provides the application with a mechanism<br>
+to close the descriptors in cases where the USB<br>
+host does not indicate an end-of-transfer (by<br>
+issuing a short packet to the USB device). To close<br>
+the descriptor channel for a particular endpoint, the<br>
+application sets the CLOSE DESC bit in the<br>
+Endpoint Control register. When the channel is<br>
+closed, the  Subsystem clears this bit and<br>
+generates an interrupt.<br>
+This bit must be used only for bulk and interrupt<br>
+OUT endpoints. In addition, before closing the<br>
+descriptor, software must ensure that the current<br>
+descriptor reachable by the DMA is active (buffer<br>
+status is Host Ready). When closed, the descriptor<br>
+is marked with the Last bit set. When the descriptor<br>
+is closed, it is assigned one of the following<br>
+descriptor statuses:<br>
+ Buffer Fill mode: Accumulated byte count is<br>
+available in the Rx Bytes field.<br>
+ Packet-Per-Buffer With Descriptor Update mode:<br>
+Current reachable descriptor is marked with the<br>
+Last descriptor, and the Rx Bytes field is set to 0.<br>
+ Packet-Per-Buffer Without Descriptor Update<br>
+mode: Current reachable descriptor is marked<br>
+with the Last descriptor, and the accumulated<br>
+byte count is available in the Rx Bytes field.<br>
+When this bit is available, you can enable or disable<br>
+it using the strap signal, ss_close_desc_ena_i.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>SEND_NULL</TD> <TD>RW</TD> <TD>0</TD> <TD>Send NULL packet<br>
+This bit is available only when the Send NULL<br>
+option is selected through coreConsultant.<br>
+This bit provides the application with a mechanism<br>
+to instruct the  Subsystem to send a NULL<br>
+(zero-length) packet when no data is available in<br>
+the particular endpoint's TxFIFO. If this bit is set,<br>
+when no data is available in the endpoint's TxFIFO,<br>
+the  Subsystem sends a NULL packet.<br>
+When this bit is available, you can enable or disable<br>
+it using the strap signal, ss_send_null_ena_i.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>RRDY</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive Ready<br>
+If this bit is set by the application, on receiving an<br>
+OUT packet, the DMA sends the packet to system<br>
+memory. This bit is deasserted at the end of packet<br>
+if the Descriptor Update bit is set in the Device<br>
+Control register. This bit is deasserted at the end of<br>
+payload if the Descriptor Update bit is deasserted.<br>
+This bit can be set by the application at any time.<br>
+The application cannot clear this bit if the DMA is<br>
+busy transferring the data. If multiple receive FIFO<br>
+controllers is not implemented, this bit is reserved.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>CNAK</TD> <TD>WO</TD> <TD>0</TD> <TD>Clear NAK<br>
+Used by the application to clear the NAK bit (bit 6,<br>
+below). After the subsystem sets bit 6 (NAK), the<br>
+application must clear it with a write of 1 to the<br>
+CNAK bit. (For example, after the application has<br>
+decoded the SETUP packet and determined it is<br>
+not an invalid command, the application must set<br>
+the CNAK bit of the control endpoint to 1'b1 to clear<br>
+the NAK bit.)<br>
+The application also must clear the NAK bit<br>
+whenever the subsystem sets it. (The subsystem<br>
+sets it due to the application setting the Stall bit.)<br>
+The application can clear this bit only <br>
+when the RxFIFO<br>
+corresponding to the same logical endpoint is<br>
+empty (Multiple RxFIFO implementation).<br>
+Note: With the Clear NAK enhancement is enabled  the<br>
+application can write CNAK any time without<br>
+waiting for a RxFIFO empty condition. The NAK bit<br>
+is cleared immediately upon write to CNAK bit. No<br>
+polling is necessary.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>SNAK</TD> <TD>WO</TD> <TD>0</TD> <TD>Set NAK<br>
+Used by the application to set the NAK bit (bit 6 of<br>
+this register). The application must not set the NAK<br>
+bit for an IN endpoint until it has received an IN<br>
+token interrupt indicating that the TxFIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>NAK</TD> <TD>RO</TD> <TD>0</TD> <TD>After a SETUP packet, which is decoded by the<br>
+application, is received by the core, the core sets<br>
+the NAK bit for all control IN/OUT endpoints. NAK is<br>
+also set after a STALL response for the endpoint<br>
+(the STALL bit is set in Endpoint Control register bit<br>
+0).<br>
+ 1: The endpoint responds to the USB host with a<br>
+NAK handshake.<br>
+ 0: The endpoint responds normally.<br>
+Note 1: A SETUP packet is sent to the application<br>
+regardless of whether the NAK bit is set.<br>
+Note 2: If the NAK for ISOC OUT endpoint is set, then<br>
+the data out from the host is accepted, provided<br>
+there is space in the fifo. Without this enhancement<br>
+enabled, the NAK set on ISOC OUT endpoint<br>
+rejects the ISOC out data packet.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ET</TD> <TD>RW</TD> <TD>0</TD> <TD>Endpoint Type (2-bit). The possible options are:<br>
+ 2'b00: Control endpoint<br>
+ 2'b01: Isochronous endpoint<br>
+ 2'b10: Bulk endpoint<br>
+ 2'b11: Interrupt endpoint</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>P</TD> <TD>RW</TD> <TD>0</TD> <TD>Poll Demand<br>
+Poll demand from the application.<br>
+The application can set this bit after an IN token is<br>
+received from the endpoint. The application can<br>
+also set this bit before an IN token is received for<br>
+the endpoint, if it has the IN transfer data in<br>
+advance.<br>
+Note: After sending a zero-length or short packet,<br>
+the application must wait for the next<br>
+XFERDONE_TXEMPTY interrupt, before setting up<br>
+the P bit for the next transfer.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>SN</TD> <TD>RW</TD> <TD>0</TD> <TD>Configures the endpoint for Snoop mode. In this<br>
+mode, the subsystem does not check the<br>
+correctness of OUT packets before transferring<br>
+them to application memory. Reserved for IN<br>
+endpoints.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>F</TD> <TD>RW</TD> <TD>0</TD> <TD>Flush the TxFIFO<br>
+Reserved for OUT endpoints.<br>
+The application firmware sets this bit to 1'b1 after it<br>
+has detected a disconnect/connect on the USB<br>
+cable, then waits for the IN token endpoint interrupt<br>
+before resetting this bit to 1'b0. This flushes the<br>
+stale data out of the TxFIFO. This bit is cleared by<br>
+the core when TDC (Transmit DMA Complete)<br>
+occurs on this endpoint.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>S</TD> <TD>RW</TD> <TD>0</TD> <TD>STALL Handshake: <br>
+On successful reception of a SETUP packet<br>
+(decoded by the application), the subsystem clears<br>
+both IN and OUT Stall bits, and sets both the IN and<br>
+OUT NAK bits. The application must check for<br>
+RxFIFO emptiness before setting the IN and OUT<br>
+STALL bit.<br>
+For non-SETUP packets, the subsystem clears<br>
+either IN or out STALL bits only if a STALL<br>
+handshake is returned to the USB host, then sets<br>
+the corresponding NAK bit. The subsystem returns<br>
+a STALL handshake for the subsequent<br>
+transactions of the stalled endpoint until the USB<br>
+host issues a Clear_Feature command to clear it.<br>
+Once this bit is set, if the subsystem has already<br>
+returned a STALL handshake to the USB host, the<br>
+application firmware cannot clear the S bit to stop<br>
+the subsystem from sending the STALL handshake<br>
+on the endpoint. The host must instead send one of<br>
+the following commands to clear the endpoint Halt<br>
+status:<br>
+ Clear Feature (Halt)<br>
+ SetConfiguration<br>
+ SetInterface.<br>
+Note: When the configuration option Enable to set<br>
+the IN and OUT STALL bit (S) when the RxFIFO is<br>
+not empty is selected and<br>
+ss_set_stall_nempty_en_i = 1, then the application<br>
+can set the STALL bit anytime without having to<br>
+wait for RxFIFO empty. No polling is necessary.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_IN_STS_UDC_REG"></a>
+<br><br><h4>EP0_IN_STS_UDC_REG (USB_DEVICE_MAC_EP0_IN_STS_UDC_REG: 0x10004)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28</TD> <TD>CDC_Clear</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit is valid only for OUT endpoints when<br>
+CLOSE_DESC feature is enabled. This bit will<br>
+be set by the core HW when CDC bit in the EP<br>
+Control register is cleared by the HW<br>
+generating an interrupt. After servicing the<br>
+interrupt the application (SW) must clear this<br>
+bit.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27</TD> <TD>XFERDONE_TXEMPTY</TD> <TD>RW</TD> <TD>0</TD> <TD>Transfer Done/Transmit FIFO Empty.<br>
+This bit indicates that the TXFIFO is empty<br>
+after the DMA transfer has been completed.<br>
+The application can use this bit to set the poll<br>
+bit for the next transfer. The application must<br>
+first clear this bit after servicing the interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>26</TD> <TD>RSS</TD> <TD>RW</TD> <TD>0</TD> <TD>Received Set Stall indication.<br>
+This bit indicates that the Set Feature (EP<br>
+HALT) command is received for this endpoint.<br>
+To stall this endpoint, the application can set<br>
+the S bit in Endpoint Control Register. After<br>
+this, the application clears this RSS bit to<br>
+acknowledge the reception of Set Feature stall<br>
+command. Once this RSS bit is cleared, core<br>
+sends the zero-length packet for the Status IN<br>
+phase of Set Feature command. Strap signal<br>
+ss_set_clr_stall_ena_i is used to enable/disable this enhancement.<br>
+Received Set Stall indication is applicable only<br>
+for Bulk and Interrupt transactions, and only<br>
+when the Set and Clear Feature<br>
+enhancement is enabled. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25</TD> <TD>RCS</TD> <TD>RW</TD> <TD>0</TD> <TD>Received Clear Stall indication.<br>
+This bit indicates that the Clear Feature (EP<br>
+HALT) command is received for this endpoint.<br>
+To continue to stall the endpoint, the application<br>
+must set the S bit Endpoint Control Register.<br>
+After this, the application clears this RCS bit to<br>
+acknowledge the reception of clear stall<br>
+command. Once this bit is cleared, core sends<br>
+the zero-length packet for the Status IN phase<br>
+of clear stall command. Strap signal<br>
+ss_set_clr_stall_ena_i is used to enable/<br>
+disable this enhancement.<br>
+Received Clear Stall indication is applicable<br>
+only for Bulk and Interrupt transactions, and<br>
+only when the Set and Clear Feature<br>
+enhancement is enabled. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>TXEMPTY</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit FIFO Empty detected.<br>
+This bit indicates that the Transmit FIFO Empty<br>
+condition is triggered. Application can use this<br>
+information to load the subsequent data into the<br>
+Transmit FIFO. The application must clear this<br>
+bit after writing the data into the Transmit FIFO.<br>
+Note: This bit is not used for Isochronous<br>
+endpoints<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23</TD> <TD>ISO_IN_DONE</TD> <TD>RW</TD> <TD>0</TD> <TD>Isochronous IN transaction for the current<br>
+microframe is complete.<br>
+This bit indicates that the isochronous IN<br>
+transaction for this endpoint is complete. The<br>
+application can use this information to program<br>
+the isochronous IN data for the next<br>
+microframe. This bit is used only in Slave-Only<br>
+mode.<br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22:11</TD> <TD>RX_PKT_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive Packet Size<br>
+Indicates the number of bytes in the current<br>
+receive packet the RxFIFO is receiving.<br>
+Because the USB host always sends 8 bytes of<br>
+SETUP data, these bits do not indicate the<br>
+receipt of 8 bytes of SETUP data for a SETUP<br>
+packet. Rather, these bits indicate the<br>
+configuration status (Configuration number<br>
+[22:19], Interface number [18:15], and Alternate<br>
+Setting number [14:11]). This field is used in<br>
+slave mode only.<br>
+In DMA mode, the application must check the<br>
+status from the endpoint data descriptor.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>TDC</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit DMA Completion<br>
+Indicates the transmit DMA has completed<br>
+transferring a descriptor chain's data to the Tx<br>
+FIFO. After servicing the interrupt, the<br>
+application must clear this bit.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>HE</TD> <TD>RW</TD> <TD>0</TD> <TD>Error response on the host bus (AHB) when<br>
+doing a data transfer, descriptor fetch, or<br>
+descriptor update for this particular endpoint.<br>
+After servicing the interrupt, the application<br>
+must clear this bit.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>MRXFIFO_EMPTY</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive Address FIFO Empty Status<br>
+This bit indicates the empty status of the<br>
+endpoint receive address FIFO. This bit is set<br>
+by the core after the DMA transfers data to<br>
+system memory, and there are no new packets<br>
+received from the USB. This bit is cleared by<br>
+the core after receiving a valid packet from the<br>
+USB.<br>
+ 1'b1: EP RXFIFO is empty<br>
+ 1'b0: EP RXFIFO is not empty<br>
+Note: This field is reserved in single receive<br>
+FIFO configurations.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>BNA</TD> <TD>RW</TD> <TD>0</TD> <TD>Buffer Not Available<br>
+The subsystem sets this bit when the<br>
+descriptor's status is either Host Busy or DMA<br>
+Done to indicate that the descriptor was not<br>
+ready at the time the DMA tried to access it.<br>
+After servicing the interrupt, the application<br>
+must clear this bit.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>IN_RCV</TD> <TD>RW</TD> <TD>0</TD> <TD>An IN token has been received by this<br>
+endpoint. After servicing the interrupt, the<br>
+application must clear this bit. (Reserved for<br>
+OUT endpoints.)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>OUT_RCV</TD> <TD>RW</TD> <TD>0</TD> <TD>An OUT packet has been received by this<br>
+endpoint. The encoding of these two bits<br>
+indicates the type of data received.<br>
+The possible options are:<br>
+ 2'b00: None<br>
+ 2'b01: Received data<br>
+ 2'b10: Received SETUP data (8 bytes)<br>
+ 2'b11: Reserved<br>
+(The application must write the same values to<br>
+clear these bits.)<br>
+Note: In Slave mode, when the Set and Clear<br>
+Feature enhancement is enabled in<br>
+coreConsultant, then the application must clear<br>
+these bits only after clearing the FIFO (in other<br>
+words, only when the RXFIFO is empty).<br>
+Clearing these bits while FIFO is not empty<br>
+causes these bits to remain set until the FIFO is<br>
+cleared. If by that time the Set/Clear Feature<br>
+command referring to this endpoint is received,<br>
+then the Endpoint Status register shows both<br>
+OUT and RCS/RSS bits, which the application<br>
+might not be able to handle properly.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP0_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP0_IN_BUFSIZE_UDC_REG: 0x10008)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>ISO_IN_PID</TD> <TD>RW</TD> <TD>0</TD> <TD>Initial data PID to be sent for a high-bandwidth<br>
+isochronous IN transaction.<br>
+This field is used only in Slave-Only mode.<br>
+ 2'b00: DATA0 PID is sent<br>
+ 2'b01: DATA0 PID is sent<br>
+ 2'b10: DATA1 PID is sent<br>
+ 2'b11: DATA2 PID is sent<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>BUFF_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Buffer size required for this endpoint.<br>
+The application can program this field to make<br>
+each endpoint's buffers adaptive, providing<br>
+flexibility in buffer size when the interface or<br>
+configuration is changed. This value is in 32-bit<br>
+words, and indicates the number of 32-bit word<br>
+entries in the Transmit FIFO.<br>
+(IN only)<br>
+Note: This value cannot be changed<br>
+dynamically during operation.<br>
+<br>
+      </TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP0_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP0_IN_MPKT_SZ_REG: 0x1000c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>MAX_PKT_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Maximum packet size for the endpoint. This is<br>
+the value in bytes. The maximum packet size<br>
+must equal the packet size being programmed<br>
+in the  endpoint register.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP0_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP0_WR_CFRM_UDC_REG: 0x1001c)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP0_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP1_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP1_IN_CTRL_UDC_REG: 0x10020)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_IN_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_IN_STS_UDC_REG"></a>
+<br><br><h4>EP1_IN_STS_UDC_REG (USB_DEVICE_MAC_EP1_IN_STS_UDC_REG: 0x10024)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_IN_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP1_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP1_IN_BUFSIZE_UDC_REG: 0x10028)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_IN_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP1_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP1_IN_MPKT_SZ_REG: 0x1002c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EP1_IN_MPKT_SZ_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP1_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP1_WR_CFRM_UDC_REG: 0x1003c)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP2_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP2_IN_CTRL_UDC_REG: 0x10040)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_IN_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_IN_STS_UDC_REG"></a>
+<br><br><h4>EP2_IN_STS_UDC_REG (USB_DEVICE_MAC_EP2_IN_STS_UDC_REG: 0x10044)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_IN_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP2_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP2_IN_BUFSIZE_UDC_REG: 0x10048)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_IN_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP2_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP2_IN_MPKT_SZ_REG: 0x1004c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EP2_IN_MPKT_SZ_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP2_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP2_WR_CFRM_UDC_REG: 0x1005c)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP3_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP3_IN_CTRL_UDC_REG: 0x10060)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_IN_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_IN_STS_UDC_REG"></a>
+<br><br><h4>EP3_IN_STS_UDC_REG (USB_DEVICE_MAC_EP3_IN_STS_UDC_REG: 0x10064)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_IN_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP3_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP3_IN_BUFSIZE_UDC_REG: 0x10068)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_IN_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP3_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP3_IN_MPKT_SZ_REG: 0x1006c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EP3_IN_MPKT_SZ_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP3_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP3_WR_CFRM_UDC_REG: 0x1007c)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP4_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP4_IN_CTRL_UDC_REG: 0x10080)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_IN_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_IN_STS_UDC_REG"></a>
+<br><br><h4>EP4_IN_STS_UDC_REG (USB_DEVICE_MAC_EP4_IN_STS_UDC_REG: 0x10084)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_IN_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP4_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP4_IN_BUFSIZE_UDC_REG: 0x10088)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_IN_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP4_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP4_IN_MPKT_SZ_REG: 0x1008c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EP4_IN_MPKT_SZ_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP4_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP4_WR_CFRM_UDC_REG: 0x1009c)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_IN_CTRL_UDC_REG"></a>
+<br><br><h4>EP5_IN_CTRL_UDC_REG (USB_DEVICE_MAC_EP5_IN_CTRL_UDC_REG: 0x100a0)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_IN_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_IN_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_IN_STS_UDC_REG"></a>
+<br><br><h4>EP5_IN_STS_UDC_REG (USB_DEVICE_MAC_EP5_IN_STS_UDC_REG: 0x100a4)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_IN_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_IN_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_IN_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP5_IN_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP5_IN_BUFSIZE_UDC_REG: 0x100a8)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_IN_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_IN_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_IN_MPKT_SZ_REG"></a>
+<br><br><h4>EP5_IN_MPKT_SZ_REG (USB_DEVICE_MAC_EP5_IN_MPKT_SZ_REG: 0x100ac)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_IN_MPKT_SZ_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EP5_IN_MPKT_SZ_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_WR_CFRM_UDC_REG"></a>
+<br><br><h4>EP5_WR_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP5_WR_CFRM_UDC_REG: 0x100bc)</h4>
+Writing to register confirms the IN data into the TxFIFO.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_WR_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_WR_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register confirms the IN data into the TxFIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP0_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP0_OUT_CTRL_UDC_REG: 0x10200)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP0_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP0_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP0_OUT_STS_UDC_REG: 0x10204)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP0_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP0_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP0_OUT_BUFSIZE_UDC_REG: 0x1020c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP0_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP0_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP0_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP0_RD_CFRM_UDC_REG: 0x1021c)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP0_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP0_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP1_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP1_OUT_CTRL_UDC_REG: 0x10220)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP1_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP1_OUT_STS_UDC_REG: 0x10224)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP1_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP1_OUT_BUFSIZE_UDC_REG: 0x1022c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP1_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP1_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP1_RD_CFRM_UDC_REG: 0x1023c)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP1_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP1_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP2_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP2_OUT_CTRL_UDC_REG: 0x10240)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP2_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP2_OUT_STS_UDC_REG: 0x10244)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP2_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP2_OUT_BUFSIZE_UDC_REG: 0x1024c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP2_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP2_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP2_RD_CFRM_UDC_REG: 0x1025c)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP2_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP2_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP3_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP3_OUT_CTRL_UDC_REG: 0x10260)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP3_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP3_OUT_STS_UDC_REG: 0x10264)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP3_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP3_OUT_BUFSIZE_UDC_REG: 0x1026c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP3_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP3_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP3_RD_CFRM_UDC_REG: 0x1027c)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP3_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP3_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP4_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP4_OUT_CTRL_UDC_REG: 0x10280)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP4_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP4_OUT_STS_UDC_REG: 0x10284)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP4_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP4_OUT_BUFSIZE_UDC_REG: 0x1028c)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP4_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP4_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP4_RD_CFRM_UDC_REG: 0x1029c)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP4_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP4_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_OUT_CTRL_UDC_REG"></a>
+<br><br><h4>EP5_OUT_CTRL_UDC_REG (USB_DEVICE_MAC_EP5_OUT_CTRL_UDC_REG: 0x102a0)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_OUT_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_OUT_CTRL_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_OUT_STS_UDC_REG"></a>
+<br><br><h4>EP5_OUT_STS_UDC_REG (USB_DEVICE_MAC_EP5_OUT_STS_UDC_REG: 0x102a4)</h4>
+The Endpoint Status register indicates the endpoint status.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_OUT_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_OUT_STS_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>The Endpoint Status register indicates the endpoint status.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_OUT_BUFSIZE_UDC_REG"></a>
+<br><br><h4>EP5_OUT_BUFSIZE_UDC_REG (USB_DEVICE_MAC_EP5_OUT_BUFSIZE_UDC_REG: 0x102ac)</h4>
+This register is used to program the endpoints as required by the application.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_OUT_BUFSIZE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_OUT_BUFSIZE_UDC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>This register is used to program the endpoints as required by the application.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP5_RD_CFRM_UDC_REG"></a>
+<br><br><h4>EP5_RD_CFRM_UDC_REG_ADDR (USB_DEVICE_MAC_EP5_RD_CFRM_UDC_REG: 0x102bc)</h4>
+Writing to register for zero-length OUT data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP5_RD_CFRM_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>EP5_RD_CFRM_UDC_REG</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing to register for zero-length OUT data.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_D_CFG_UDC_REG"></a>
+<br><br><h4>D_CFG_UDC_REG_ADDR (USB_DEVICE_MAC_D_CFG_UDC_REG: 0x10400)</h4>
+This register configures the device. It is only set during initial configuration or when there is a change in<br>
+the configuration.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_D_CFG_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>LPM_EN</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0.  <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>LPM_AUTO</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>DDR</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0: SDR mode. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>SET_DESC</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the device supports Set<br>
+Descriptor requests.<br>
+Options are:<br>
+ 1'b0: The  Subsystem returns a<br>
+STALL handshake to the USB host.<br>
+ 1'b1: The SETUP packet for the Set<br>
+Descriptor request passes to the<br>
+application.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>CSR_PRG</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the device supports dynamic<br>
+ register programming.<br>
+The application can program the <br>
+registers dynamically whenever it has<br>
+received an interrupt for either a Set<br>
+Configuration or a Set Interface request. If<br>
+this bit is enabled, the  Subsystem<br>
+returns a NAK handshake during the status<br>
+IN stage of both the Set Configuration and<br>
+Set Interface requests until the application<br>
+has written 1'b1 to the CSR_DONE bit 13 of<br>
+the Device Control Register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>HALT_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit indicates whether the  Subsystem must respond with a STALL or an<br>
+ACK handshake when the USB host has<br>
+issued a Clear_Feature (ENDPOINT_HALT)<br>
+request for Endpoint 0.<br>
+Options are:<br>
+ 1'b0: ACK<br>
+ 1'b1: STALL</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:13</TD> <TD>HS_TIMEOUT_CALIB</TD> <TD>RW</TD> <TD>0</TD> <TD>These three bits indicate the number of PHY<br>
+clocks to the  Subsystem's<br>
+timeout counter. The application uses these<br>
+bits to increase the timeout value (736 to 848<br>
+bit times in high-speed operation), which<br>
+depends on the PHY's delay in generating a<br>
+line state condition. The default timeout value<br>
+is 736 bit times.<br>
+For example, using 30 MHz PHY clock, the<br>
+timeout time would be 736 + 48 = 784 bit<br>
+times. The value of 48 bit times comes from<br>
+the 3 x 30 MHz PHY clock = 3 x [(33.3 ns x<br>
+3)/2.08]. Please note the bit times in this<br>
+example are USB bit times.<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:10</TD> <TD>FS_TIMEOUT_CALIB</TD> <TD>RW</TD> <TD>0</TD> <TD>These three bits indicate the number of PHY<br>
+clocks to the  Subsystem's<br>
+timeout counter. The application uses these<br>
+bits to increase the timeout value (16 to 18 bit<br>
+times in full-speed operation), which depends<br>
+on the PHY's delay in generating line state<br>
+condition. The default timeout value is 16 bit<br>
+times.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>PHY_ERROR_DETECT</TD> <TD>RW</TD> <TD>0</TD> <TD>If the application sets this bit, the device<br>
+detects the phy_rxvalid or phy_rxactive input<br>
+signal to be continuously asserted for 2 ms,<br>
+indicating PHY error.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>STATUS_1</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit, together with STATUS Bit 7, provides<br>
+an option for the  Subsystem to<br>
+respond to the USB host with a STALL or<br>
+ACK handshake if the USB host has issued a<br>
+non-zero-length data packet during the<br>
+STATUS-OUT stage of a CONTROL transfer. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit, together with STATUS Bit 8, provides<br>
+an option for the  Subsystem to<br>
+respond to the USB host with a STALL or<br>
+ACK handshake if the USB host has issued a<br>
+non-zero-length data packet during the<br>
+STATUS-OUT stage of a CONTROL transfer. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>DIR</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit indicates if the UTMI data bus<br>
+interface has to support a unidirectional or<br>
+bidirectional interface. Options are:<br>
+ 1'b0: Unidirectional interface<br>
+ 1'b1: Bidirectional interface<br>
+ <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>PI</TD> <TD>RW</TD> <TD>0</TD> <TD>PHY interface. Indicates if the UTMI PHY<br>
+must support an 8-bit or 16-bit interface.<br>
+Options are:<br>
+ 1'b0: 16-bit<br>
+ 1'b1: 8-bit. This is the default value.<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>SS</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the device supports Sync<br>
+Frame.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SP</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the device is self-powered.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RWKP</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the device is remote wake up<br>
+capable.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>SPD</TD> <TD>RW</TD> <TD>0</TD> <TD>Device speed. This is the expected speed the<br>
+application programs to the subsystem. The<br>
+actual speed the subsystem operates<br>
+depends on the enumeration speed (ENUM<br>
+SPD) of the Device Status register.<br>
+ 2'b00: HS (PHY clock = 30 or 60 MHz)<br>
+ 2'b01: FS (PHY clock = 30 or 60 MHz)<br>
+ 2'b10: LS (PHY clock = 6 MHz)<br>
+ 2'b11: FS (PHY clock = 48 MHz)<br>
+Note: The  Subsystem uses only<br>
+bit 0; bit 1 is a don't care bit (2'bx0 = LS,<br>
+2'bx1 = FS).</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_D_CTRL_UDC_REG"></a>
+<br><br><h4>D_CTRL_UDC_REG_ADDR (USB_DEVICE_MAC_D_CTRL_UDC_REG: 0x10404)</h4>
+This register is set at runtime and controls the device after device configuration.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_D_CTRL_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>THLEN</TD> <TD>RW</TD> <TD>0</TD> <TD>Threshold Length<br>
+Indicates the number (THLEN + 1) of 32-bit<br>
+entries in the RxFIFO before the DMA can start<br>
+data transfer.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>BRLEN</TD> <TD>RW</TD> <TD>0</TD> <TD>Burst Length<br>
+Indicates the length, in 32-bit transfers, of a<br>
+single burst on the AHB. The subsystem sends<br>
+number of 32-bit transfers equal to (BRLEN + 1).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>SRX_FLUSH</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>CSR_DONE</TD> <TD>RW</TD> <TD>0</TD> <TD>The application uses this bit to notify the <br>
+Subsystem that the application has<br>
+completed programming all required <br>
+registers, and the Subsystem can acknowledge<br>
+the current Set Configuration or Set Interface<br>
+command.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>DEVNAK</TD> <TD>RW</TD> <TD>0</TD> <TD>When the application sets this bit, the<br>
+Subsystem core returns a NAK handshake to all<br>
+OUT endpoints.By writing 1'b1 to this bit, the<br>
+application does not need to write 1'b1 to the<br>
+SNAK bit 7 of each Endpoint Control register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>SCALE</TD> <TD>RW</TD> <TD>0</TD> <TD>Scale Down<br>
+This bit reduces the timer values inside the<br>
+ subsystem when running gate-level<br>
+simulation only. When this bit is set to 1'b1, timer<br>
+values are scaled down to reduce simulation<br>
+time.<br>
+In Scale-Down mode, the  Subsystem detects a<br>
+USB reset within the following PHY clock cycles:<br>
+ 60-MHz PHY clock, 8-bit UTMI: 150 PHY<br>
+clock cycles<br>
+ 30-MHz PHY clock, 16-bit UTMI: 75 PHY<br>
+clock cycles<br>
+Reset this bit to 1'b0 for normal operation.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>SD</TD> <TD>RW</TD> <TD>0</TD> <TD>Soft Disconnect<br>
+The application software uses this bit to signal<br>
+the  Subsystem to soft-disconnect. When set to 1'b1,<br>
+this bit causes the device to enter the<br>
+disconnected state.<br>
+Note: When the enhancement to set SD bit to 1<br>
+and UTMI OpMode to Non-driving during poweron-<br>
+reset is enabled in coreConsultant, and the<br>
+input signal ss_set_opmode_por_i is asserted<br>
+HIGH, then the SD default power-on value will<br>
+be 1'b1 (Disconnect ON). When this<br>
+enhancement is enabled, the application has to<br>
+clear this bit when it is ready (after POR) to<br>
+make the core come out of disconnected state.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0: Slave-Only mode. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>BREN</TD> <TD>RW</TD> <TD>0</TD> <TD>Burst Enable<br>
+When this bit is set, transfers on the AHB are<br>
+split into bursts.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>THE</TD> <TD>RW</TD> <TD>0</TD> <TD>Threshold Enable<br>
+When this bit is set, a number of quadlets<br>
+equivalent to the threshold value is transferred<br>
+from the RxFIFO to the memory.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>BF</TD> <TD>RW</TD> <TD>0</TD> <TD>The DMA is in Buffer Fill mode and transfers<br>
+data into contiguous locations pointed to by the<br>
+buffer address.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>BE</TD> <TD>RW</TD> <TD>0</TD> <TD>System Endianness Bit<br>
+A value of 1'b1 indicates a big endian system.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>DU</TD> <TD>RW</TD> <TD>0</TD> <TD>Descriptor Update<br>
+When this bit is set, the DMA updates the<br>
+descriptor at the end of each packet processed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>TDE</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit DMA is enabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>RDE</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive DMA is enabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RES</TD> <TD>RW</TD> <TD>0</TD> <TD>Resuming Signaling on the USB<br>
+To perform a remote wakeup resume the<br>
+application sets this bit to 1'b1, then resets it to<br>
+1'b0 after 1 ms. The  Subsystem<br>
+signals the USB host to resume the USB bus.<br>
+However:<br>
+ The application must first set RWKP bit 2 in<br>
+the Device Configuration Register, indicating<br>
+that the subsystem supports the Remote<br>
+Wakeup feature).<br>
+ The host must already have issued a Set<br>
+Feature request to enable the device Remote<br>
+Wakeup feature.<br>
+ However:<br>
+ The application must first set RWKP bit 2 in<br>
+the Device Configuration Register, indicating<br>
+that the Subsystem supports the Remote<br>
+Wakeup feature.<br>
+ The host must indicate Device Remote<br>
+Enable in the LPM transaction.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_D_STS_UDC_REG"></a>
+<br><br><h4>D_STS_UDC_REG_ADDR (USB_DEVICE_MAC_D_STS_UDC_REG: 0x10408)</h4>
+This register reflects status information needed to service some of the interrupts. This is a read-only<br>
+register.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_D_STS_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:18</TD> <TD>TS</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame number of the received SOF<br>
+For high-speed operation:<br>
+ [31:21]: Millisecond frame number<br>
+ [20:18]: Microframe number<br>
+For full-speed operation:<br>
+ [31:29]: Reserved<br>
+ [28:18]: Millisecond frame number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>RMTWKP_STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>The state of Remote wakeup feature due to<br>
+Set/Clear Feature (Remotewakeup)<br>
+command from the host. A value of 1<br>
+indicates a Set Feature (Remotewakeup) has<br>
+been received. A value of 0 indicates Clear<br>
+Feature (Remotewakeup) has been received.<br>
+Any change to this bit sets an interrupt in<br>
+bit#7 of Device Interrupt register, if not<br>
+masked.<br>
+Note: This bit is valid only when the strap<br>
+signal input ss_setclr_rmtwkp_ena_i is tied<br>
+HIGH. When ss_setclr_rmtwkp_ena_i is not<br>
+tied HIGH, this bit reads 1'b0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>PHY_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD>Either the phy_rxvalid or phy_rxactive input<br>
+signal is detected to be continuously asserted<br>
+for 2 ms, indicating PHY error. The  Subsystem goes to the Suspend state<br>
+as a result.<br>
+When the application serves the early<br>
+suspend interrupt (ES bit 2 of the Device<br>
+Interrupt register) it also must check this bit to<br>
+determine if the early suspend interrupt was<br>
+generated due to PHY error detection. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>RXFIFO_EMPTY</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit indicates Receive Address FIFO<br>
+empty status.<br>
+This bit is set after the DMA transfers data to<br>
+system memory and there are no new<br>
+packets received.<br>
+This bit is cleared after receiving a good<br>
+packet from the USB.<br>
+ 1'b1 RXFIFO is empty.<br>
+ 1'b0 RXFIFO is not empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14:13</TD> <TD>ENUM_SPD</TD> <TD>RW</TD> <TD>0</TD> <TD>Enumerated Speed. These bits hold the<br>
+speed at which the subsystem comes up after<br>
+the speed enumeration.<br>
+ If the expected speed (SPD of the Device<br>
+Configuration register) is high speed and<br>
+the subsystem connects to a 1.1 host<br>
+controller, then after Speed Enumeration,<br>
+these bits indicate that the subsystem is<br>
+operating in full speed mode (2'b01 for<br>
+SPD = 2b'00).<br>
+ If the SPD is high speed and the<br>
+subsystem connects to a 2.0 host<br>
+controller, then after Speed Enumeration,<br>
+these bits indicate that the subsystem is<br>
+operating in high speed mode (2'b00 for<br>
+SPD = 2'b00).<br>
+ If the speed is low speed or full speed and<br>
+the subsystem connects to either a 1.1 or a<br>
+2.0 host controller, then after Speed<br>
+Enumeration, these bits indicate that the<br>
+subsystem is operating in low speed mode<br>
+(2'b10 for SPD = 2'b10) or full speed mode<br>
+(2'b01 for SPD = 2'b01, and 2'b11 for SPD<br>
+= 2'b11).<br>
+Possible options are:<br>
+ 2'b00 HS<br>
+ 2'b01 FS<br>
+ 2'b10 LS<br>
+ 2'b11 FS <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>SUSP</TD> <TD>RW</TD> <TD>0</TD> <TD>Suspend status. This bit is set as long as a<br>
+Suspend condition is detected on the USB.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>ALT</TD> <TD>RW</TD> <TD>0</TD> <TD>This 4-bit field represents the alternate setting<br>
+to which the above interface is switched.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>INTF</TD> <TD>RW</TD> <TD>0</TD> <TD>This 4-bit field reflects the interface set by the<br>
+SetInterface command.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>CFG</TD> <TD>RW</TD> <TD>0</TD> <TD>This 4-bit field reflects the configuration set<br>
+by the SetConfiguration command.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_D_INTR_UDC_REG"></a>
+<br><br><h4>D_INTR_UDC_REG_ADDR (USB_DEVICE_MAC_D_INTR_UDC_REG: 0x1040c)</h4>
+Device interrupts are set when there are system-level events. Interrupts are used by the application to<br>
+make system-level decisions. After checking the register, the application must clear the interrupt by<br>
+writing a 1'b1 to the correct bit.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_D_INTR_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>EARLY_SLEEP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>SLEEP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>LPM_TKN</TD> <TD>W1TC</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>RMTWKP_STATE_INT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>A Set/Clear Feature (Remote Wakeup) is<br>
+received by the core. This bit is set by the core<br>
+whenever bit 17 of the Device Status Register<br>
+changes: HIGH to LOW or LOW to HIGH.<br>
+Note: This bit is valid only when the strap signal<br>
+input ss_setclr_rmtwkp_ena_i is tied HIGH.<br>
+When ss_setclr_rmtwkp_ena_i is not tied HIGH,<br>
+this bit reads 1'b0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>ENUM_COMP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Speed enumeration is complete.<br>
+Note: This bit is used only for the  Subsystem.<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>SOF</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An SOF token is detected on the USB.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>US</TD> <TD>W1TC</TD> <TD>0</TD> <TD>A suspend state is detected on the USB for a<br>
+duration of 3 milliseconds, following the 3-<br>
+millisecond ES interrupt activity due to an idle<br>
+state.<br>
+Note: For the  subsystem, there is<br>
+no Suspend interrupt to the application if the PHY<br>
+clock is suspended via the suspendm signal</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>UR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>A reset is detected on the USB.<br>
+Note: If the application has not served this<br>
+interrupt, the  Subsystem returns a NAK<br>
+handshake for all transactions except the 8<br>
+SETUP packet bytes from the USB host.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>ES</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An idle state is detected on the USB for a<br>
+duration of 3 milliseconds.<br>
+This interrupt bit is used for the application<br>
+firmware to finish its job before the subsystem<br>
+generates a true suspend (US) interrupt (another<br>
+3 milliseconds after the ES interrupt).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SI</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The device has received a Set_Interface<br>
+command.<br>
+Note: If the application has not served this<br>
+interrupt, the subsystem returns a NAK<br>
+handshake to all transactions except the 8<br>
+SETUP packet bytes coming from the USB host.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The device has received a Set_Configuration<br>
+command.<br>
+Note: If the application has not served this<br>
+interrupt, the subsystem returns a NAK<br>
+handshake to all transactions except the 8<br>
+SETUP packet bytes coming from the USB host.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_D_INTR_MSK_UDC_REG"></a>
+<br><br><h4>D_INTR_MSK_UDC_REG_ADDR (USB_DEVICE_MAC_D_INTR_MSK_UDC_REG: 0x10410)</h4>
+The device interrupt mask can be set for system-level interrupts using this register. Programming 1b1 in<br>
+the appropriate bit position in the Interrupt Mask register masks the designated interrupt. Once<br>
+masked, an interrupt signal does not reach the application, nor does its interrupt bit get set.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_D_INTR_MSK_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>EARLY_SLEEP</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>SLEEP</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>LPM_TKN</TD> <TD>RW</TD> <TD>0</TD> <TD>This field is reserved, and reads 1'b0. <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Mask equivalent device interrupt bit. (RapidScript/<br>
+coreConsultant determines the reset value.)</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP_INTR_UDC_REG"></a>
+<br><br><h4>EP_INTR_UDC_REG_ADDR (USB_DEVICE_MAC_EP_INTR_UDC_REG: 0x10414)</h4>
+ The Endpoint Interrupt register is used to set endpoint-level interrupts. Since all 16 endpoints can be<br>
+bidirectional, each endpoint has two interrupt bits (one for each direction). The application needs to<br>
+clear the interrupt by writing a 1'b1 to the correct bit after checking the register.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP_INTR_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>OUT_EP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>One bit per OUT endpoint, set when there is an event<br>
+on that endpoint.<br>
+ <br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>IN_EP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>One bit per IN endpoint, set when there is an event<br>
+on that endpoint.<br>
+<br>
+      </TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_EP_INTR_MSK_UDC_REG"></a>
+<br><br><h4>EP_INTR_MSK_UDC_REG_ADDR (USB_DEVICE_MAC_EP_INTR_MSK_UDC_REG: 0x10418)</h4>
+The Endpoint Interrupt register is used to set endpoint-level interrupts. Since all 16 endpoints can be<br>
+bidirectional, each endpoint has two interrupt bits (one for each direction). The application needs to<br>
+clear the interrupt by writing a 1'b1 to the correct bit after checking the register.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_EP_INTR_MSK_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>OUT_EP_MASK</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Masks interrupts to the OUT endpoint equivalent to<br>
+this value. (RapidScript/coreConsultant determines<br>
+the reset value.)<br>
+<br>
+      </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>IN_EP_MASK</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Masks interrupts to the IN endpoint equivalent to this<br>
+value. (RapidScript/coreConsultant determines the<br>
+reset value.)<br>
+ <br>
+      </TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_TEST_MODE_UDC_REG"></a>
+<br><br><h4>TEST_MODE_UDC_REG (USB_DEVICE_MAC_TEST_MODE_UDC_REG: 0x1041c)</h4>
+In Test mode, the application can use the AHB to read from a TxFIFO or write to an RxFIFO. Test mode<br>
+is supported only in the Slave-Only operational mode. In Test mode, only single- DWORD transactions<br>
+are supported: byte and word transactions on the AHB are not supported. To synchronize the write/<br>
+read pulses between AHB and VCI clocks, wait states are introduced on the AHB for every data transfer.<br>
+While in Test mode, all transactions from the USB host, except the SETUP packet, receive a NAK<br>
+response. When the SETUP packet is received, it is accepted, but the data is not written into the Receive<br>
+FIFO. After writing the TxFIFO, the data must be confirmed by writing to the offset address (offset<br>
+12h01C + [endpoint number x 12h020]) (hexadecimal), which is similar to the normal mode of<br>
+operation. In non-Test modes, reading from a TxFIFO or writing to an RxFIFO results in an AHB error<br>
+response. The application must never read an empty TxFIFO or write a full RxFIFO even though an<br>
+AHB error response is not provided. Writing to the RxFIFO in Test mode and enabling the DMA to transfer <br>
+the data are not supported.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_TEST_MODE_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>TSTMODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Test Mode indicator</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_0"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_0 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_0: 0x10504)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:30</TD> <TD>ISO</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved for non-isochronous IN endpoints.<br>
+If the endpoint is an isochronous IN endpoint, this field indicates the number of<br>
+isochronous IN commands the application sends in a given microframe. If the<br>
+application programs 2'h0 or 2'h1 in this field, the  Subsystem uses DATA0 PID<br>
+for all transfers from this endpoint. If the application programs 2'h2 in this field,<br>
+the  Subsystem uses DATA1 PID for first transfer and DATA0 PID for the second<br>
+transfer from this endpoint in the given microframe. If the application programs<br>
+2'h3 in this field, the  Subsystem uses DATA2 PID for first transfer from this<br>
+endpoint, DATA1 PID for the second transfer, and DATA0 for the third transfer in<br>
+the given microframe.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:19</TD> <TD>MPKT</TD> <TD>RW</TD> <TD>0</TD> <TD>Maximum packet size<br>
+Isochronous IN endpoints may have a maximum packet size of 1024 in High-<br>
+Speed mode. If this is the case, and if the  Subsystem enumerates in Full-Speed<br>
+mode, then this field must be reprogrammed to 1023.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:15</TD> <TD>ASN</TD> <TD>RW</TD> <TD>0</TD> <TD>Alternate setting to which this endpoint belongs</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:11</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Interface number to which this endpoint belongs</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:7</TD> <TD>CONFIG_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Configuration number to which this endpoint belongs</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>EP_TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Endpoint type<br>
+ 00: Control<br>
+ 01: Isochronous<br>
+ 10: Bulk<br>
+ 11: Interrupt</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>EP_DIR</TD> <TD>RW</TD> <TD>0</TD> <TD>Endpoint direction<br>
+ 0: OUT<br>
+ 1: IN</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>EP_NUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Endpoint number</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_1"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_1 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_1: 0x10508)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_1</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_2"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_2 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_2: 0x1050c)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_2</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_3"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_3 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_3: 0x10510)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_3</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_4"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_4 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_4: 0x10514)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_4</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_5"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_5 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_5: 0x10518)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_5</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_6"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_6 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_6: 0x1051c)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_6</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_7"></a>
+<br><br><h4>UDC_EP_NE_UDC_REG_7 (USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_7: 0x10520)</h4>
+This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_EP_NE_UDC_REG_7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UDC_EP_NE_UDC_REG_7</TD> <TD>RW</TD> <TD>0</TD> <TD>This register stores endpoint information. A register is dedicated to each implemented endpoint, and<br>
+each register stores the endpoints maximum packet size, direction, type, configuration number,<br>
+interface number, and the alternate interface value to which the endpoint is tied.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_DEVICE_MAC_UDC_VCON_UDC_REG"></a>
+<br><br><h4>UDC_VCON_UDC_REG (USB_DEVICE_MAC_UDC_VCON_UDC_REG: 0x10524)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+ULPI PHY registers can be accessed by firmware through the FW access path. There is one 32-bit<br>
+register, vcontrol, whose address is just one above the highest endpoint address. When writing to this register, the structure is as shown. When the CPU reads from this register,<br>
+the lower 8 bits are replaced by the actual register read data.
+<br><img src="usb_device_mac_pics/USB_DEVICE_MAC_UDC_VCON_UDC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25</TD> <TD>CLEAN</TD> <TD>RW</TD> <TD>0</TD> <TD>new_reg_request, self cleaned</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:22</TD> <TD>RW</TD> <TD>RW</TD> <TD>0</TD> <TD>10: reg write, 11: reg read. Other: reserved</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21:16</TD> <TD>IMMEDIATE</TD> <TD>RW</TD> <TD>0</TD> <TD>2F: ext reg, other: immediate reg read/write/set/clear</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>EXT_REG_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>ext reg address</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>(reg write/set/clear data) or (reg read data)</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

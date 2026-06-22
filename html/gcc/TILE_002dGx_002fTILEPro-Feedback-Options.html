@@ -1,0 +1,221 @@
+<html lang="en">
+<head>
+<title>TILE-Gx/TILEPro Feedback Options - Using the GNU Compiler Collection (GCC)</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Using the GNU Compiler Collection (GCC)">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Submodel-Options.html#Submodel-Options" title="Submodel Options">
+<link rel="prev" href="TILEPro-Options.html#TILEPro-Options" title="TILEPro Options">
+<link rel="next" href="V850-Options.html#V850-Options" title="V850 Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+2008 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Funding Free Software'', the Front-Cover
+Texts being (a) (see below), and with the Back-Cover Texts being (b)
+(see below).  A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="TILE-Gx%2fTILEPro-Feedback-Options"></a>
+<a name="TILE_002dGx_002fTILEPro-Feedback-Options"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="V850-Options.html#V850-Options">V850 Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="TILEPro-Options.html#TILEPro-Options">TILEPro Options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Submodel-Options.html#Submodel-Options">Submodel Options</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.17.38 TILE-Gx/TILEPro Feedback Options</h4>
+
+<p><a name="index-TILE_002dGx_002fTILEPro-Feedback-Options-1946"></a>
+Feedback-based optimization (also known as profile-guided
+optimizations) means using run-time data from a "training run" to make
+better optimization decisions.  With this data, the compiler will know
+how often functions are called to guide inlining, how often loops are
+executed to guide unrolling and other loop optimizations, and which
+blocks of code are executed more often to guide code scheduling,
+layout, and register allocation decisions.  Performance gains can be
+quite large, 20% or more, at the expense of a more complex build
+process.
+
+ <p>Gcc provides feedback-based optimizations through the
+<samp><span class="option">-fprofile-generate</span></samp> and <samp><span class="option">-fprofile-use</span></samp> flags.  Both
+TILE-Gx and TILEPro ports of gcc support these flags, but they also
+provides similar functionality through the
+<samp><span class="option">-ffeedback</span></samp>-prefixed group of flags.  There are two
+differences between the two.  First, the <samp><span class="option">fprofile</span></samp> options use
+multiple files, one per object file, to collect run-time data, while
+the <samp><span class="option">ffeedback</span></samp> options uses a single file.  Second, the
+<samp><span class="option">fprofile</span></samp> options only use the data for compile-time
+optimization, while the <samp><span class="option">ffeedback</span></samp> options use the data for
+both compile-time optimization and cache packing optimization at
+link-time.  Note that the optimizations done at compile-time, as well
+as the raw data collected for compile-time use, are exactly the same
+between the two sets of options.
+
+ <p>This section describes how to use the <samp><span class="option">ffeedback</span></samp>-prefixed
+options.  The <samp><span class="option">ffeedback</span></samp> workflow supports two sets of
+feedback optimizations, one for the compiler, and one for the linker. 
+The compiler based feedback uses the feedback data to guide
+compile-time decisions on inlining, code layout, unrolling, and
+creating hot/cold sections. The linker based feedback optimization is
+Tilera-specific. It uses feedback data to better assign functions to
+physical addresses to reduce instruction cache conflict misses.
+
+ <p>Feedback-based optimization is a multi-step process. In general, one
+must:
+
+     <ol type=1 start=1>
+
+     <li>Compile using <samp><span class="option">-ffeedback-generate</span></samp>,
+<samp><span class="option">-ffeedback-generate-compiler</span></samp>, or
+<samp><span class="option">-ffeedback-generate-linker</span></samp>, which will create an instrumented
+application that will create a feedback file.
+
+     <li>Link with <samp><span class="option">-ffeedback-emit</span></samp> to indicate where to write the
+linker feedback data.
+
+     <li>Run the instrumented application with one or more representative test
+inputs.
+
+     <li>Convert and combine the raw feedback data emitted above using the
+tile-convert-feedback program.
+
+     <li>Recompile with <samp><span class="option">-ffeedback-use</span></samp>,
+<samp><span class="option">-ffeedback-use-compiler</span></samp>, or <samp><span class="option">-ffeedback-use-linker</span></samp>,
+which will optimize using the feedback file(s) generated in the
+previous step.  It's also helpful to specify
+<samp><span class="option">-freorder-blocks-and-partition</span></samp>, which will separate each
+function into "hot" and "cold" portions.  By collecting all the "hot"
+portions together, instruction memory locality is improved.
+
+     <p>When <samp><span class="option">-ffeedback-use</span></samp> or <samp><span class="option">-ffeedback-use-linker</span></samp> is
+passed to the link step, the compiler uses the feedback data to select
+function addresses that improve cache locality.  For this to work
+effectively, each function must be in its own section, which the
+compiler will do implicitly by enabling <samp><span class="option">-ffunction-sections</span></samp>. 
+The <samp><span class="option">-static</span></samp> flag also gives the link optimizer freedom to
+choose optimized addresses for system library code, which can further
+improve performance.
+      </ol>
+
+ <p>In summary, the full feedback-based optimization workflow using the
+cross-tools is:
+
+     <ul>
+<li>Compile instrumented object files:
+
+     <pre class="example">          tile-gcc -O2 -ffeedback-generate -c *.c
+</pre>
+     <li>Link instrumented object files:
+
+     <pre class="example">          tile-gcc -O2 -ffeedback-generate -ffeedback-emit=/tmp/raw_feedback \
+            -static *.o -o my_app
+</pre>
+     <li>Discard old feedback data and run instrumented application:
+
+     <pre class="example">          rm -rf *.gcda raw_feedback
+          tile-monitor --pci --batch-mode --here --upload my_app /my_app \
+            --run - /my_app my_arg1 my_arg2 - --download /tmp/raw_feedback raw_feedback
+</pre>
+     <li>Convert and combine raw feedback data into a single feedback file:
+
+     <pre class="example">          tile-convert-feedback -o my_app.feedback raw_feedback
+</pre>
+     <li>Compile feedback-optimized objects:
+
+     <pre class="example">          tile-gcc -O2 -ffeedback-use=my_app.feedback -freorder-blocks-and-partition -c *.c
+</pre>
+     <li>Link feedback-optimized objects:
+
+     <pre class="example">          tile-gcc -O2 -ffeedback-use=my_app.feedback -static *.o -o my_optimized_app
+</pre>
+     </ul>
+
+ <p>Note that the profile data degrades gracefully, remaining mostly valid
+if only small application changes are made.  As individual functions
+are modified they lose the benefits of feedback optimization but
+others do not.  Thus not all the above steps need to be executed for
+every build during development to realize most of the benefits.
+
+ <p>Here is a list of the feedback-related options:
+
+     <dl>
+<dt><code>-fcoverage-permissive</code><dd><a name="index-fcoverage_002dpermissive-1947"></a>Inform but don't fail on missing or mismatch coverage counters.
+
+     <br><dt><code>-ffeedback-generate</code><dd><a name="index-ffeedback_002dgenerate-1948"></a>Inserts extra instrumentation code that collects information for later
+feedback-directed optimization via the <samp><span class="option">-ffeedback-use</span></samp>
+option. <samp><span class="option">-ffeedback-generate</span></samp> is used when compiling individual
+source files.  It must be combined with the <samp><span class="option">-ffeedback-emit</span></samp>
+option at the link step to specify where the raw feedback should be
+written.
+
+     <br><dt><code>-ffeedback-generate-compiler</code><dd><a name="index-ffeedback_002dgenerate_002dcompiler-1949"></a>Similar to <samp><span class="option">-ffeedback-generate</span></samp>, but only instruments code to
+collect data for compiler feedback-directed optimization via
+<samp><span class="option">-ffeedback-use-compiler</span></samp>.
+
+     <br><dt><code>-ffeedback-generate-linker</code><dd><a name="index-ffeedback_002dgenerate_002dlinker-1950"></a>Similar to <samp><span class="option">-ffeedback-generate</span></samp>, but only instruments code to
+collect data for linker feedback-directed optimization via
+<samp><span class="option">-ffeedback-use-linker</span></samp>.
+
+     <br><dt><code>-ffeedback-emit=directory</code><dd><a name="index-ffeedback_002demit-1951"></a>Specifies a directory name into which the raw feedback data will be
+emitted.  Each instrumented process will create a unique file in the
+specified directory.  The instrumented binary will create this
+directory at runtime if it does not already exist.
+
+     <p>The <code>tile-convert-feedback</code> program converts the contents of a
+raw feedback directory, which may contain data from many different
+processes, into a single feedback file suitable for use with
+<samp><span class="option">-ffeedback-use</span></samp>.
+
+     <br><dt><code>-ffeedback-use=file</code><dd><a name="index-ffeedback_002duse-1952"></a>Perform both compiler and linker feedback-based optimization using the
+runtime profile data in the specified file produced by
+<code>tile-convert-feedback</code>.
+
+     <br><dt><code>-ffeedback-use-compiler=file</code><dd><a name="index-ffeedback_002duse_002dcompiler-1953"></a>Perform compiler feedback-based optimization using the runtime profile
+data in the specified file produced by <code>tile-convert-feedback</code>.
+
+     <br><dt><code>-ffeedback-use-linker=file</code><dd><a name="index-ffeedback_002duse_002dlinker-1954"></a>Perform linker feedback-based optimization using the runtime profile
+data in the specified file produced by <code>tile-convert-feedback</code>.
+
+     <br><dt><code>-fprofile-correction</code><dd><a name="index-fprofile_002dcorrection-1955"></a>Enable correction of flow inconsistent profile data input.  This
+option exists on all gcc ports, but it's enabled by default on
+TILE-Gx/TILEPro.
+
+     <br><dt><code>-fstrip-file-prefix=path</code><dd><a name="index-fstrip_002dfile_002dprefix-1956"></a>Strip the prefix <var>path</var> off of file names for feedback use.
+
+     <br><dt><code>-Wcoverage</code><dd><a name="index-Wcoverage-1957"></a>Report any inconsistency involving coverage counters. 
+</dl>
+
+ </body></html>
+

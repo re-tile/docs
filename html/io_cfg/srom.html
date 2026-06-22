@@ -1,0 +1,566 @@
+<html>
+<title>srom Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>SPI SROM (0x0100-0x0208) : </b> 
+These registers provide access to the SPI-based SROM controller.
+
+
+<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#SROM_DEV_INFO">SROM_DEV_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#SROM_DEV_CTL">SROM_DEV_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#SROM_MMIO_INFO">SROM_MMIO_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#SROM_MEM_INFO">SROM_MEM_INFO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#SROM_SCRATCHPAD">SROM_SCRATCHPAD</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#SROM_SEMAPHORE0">SROM_SEMAPHORE0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#SROM_SEMAPHORE1">SROM_SEMAPHORE1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#SROM_CLOCK_COUNT">SROM_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0100<TD><a href="#SROM_BASELINE_CTL">SROM_BASELINE_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0108<TD><a href="#SROM_FLAG">SROM_FLAG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0110<TD><a href="#SROM_FIFO_COUNT">SROM_FIFO_COUNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0118<TD><a href="#SROM_ELECTRICAL_CONTROL">SROM_ELECTRICAL_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0120<TD><a href="#SROM_BOOT_REVISION_ID">SROM_BOOT_REVISION_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0130<TD><a href="#SROM_WRITE_DATA">SROM_WRITE_DATA</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0138<TD><a href="#SROM_READ_DATA">SROM_READ_DATA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0140<TD><a href="#SROM_ADDRESS">SROM_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0148<TD><a href="#SROM_BYTE">SROM_BYTE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0150<TD><a href="#SROM_INSTRUCTION">SROM_INSTRUCTION</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0160<TD><a href="#SROM_PAGE_SIZE">SROM_PAGE_SIZE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0170<TD><a href="#SROM_PAUSE">SROM_PAUSE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0178<TD><a href="#SROM_RES_TYPE">SROM_RES_TYPE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0180<TD><a href="#SROM_CODE_WREN">SROM_CODE_WREN</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0188<TD><a href="#SROM_CODE_WRDI">SROM_CODE_WRDI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0190<TD><a href="#SROM_CODE_RDID0">SROM_CODE_RDID0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01a0<TD><a href="#SROM_CODE_RDSR">SROM_CODE_RDSR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01a8<TD><a href="#SROM_CODE_WRSR">SROM_CODE_WRSR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01b0<TD><a href="#SROM_CODE_READ">SROM_CODE_READ</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01b8<TD><a href="#SROM_CODE_PP">SROM_CODE_PP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01c0<TD><a href="#SROM_CODE_SE0">SROM_CODE_SE0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01d0<TD><a href="#SROM_CODE_BE0">SROM_CODE_BE0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01e0<TD><a href="#SROM_CODE_DP">SROM_CODE_DP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01e8<TD><a href="#SROM_CODE_RES">SROM_CODE_RES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0200<TD><a href="#SROM_INT_VEC_W1TC">SROM_INT_VEC_W1TC</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0208<TD><a href="#SROM_INT_VEC_MASK">SROM_INT_VEC_MASK</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="SROM_DEV_INFO"></a>
+<br><br><h4>Device Info (SROM_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="srom_pics/SROM_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>022h</TD> <TD>Encoded device Type - 34 to indicate SROM Controller<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="SROM_DEV_CTL"></a>
+<br><br><h4>Device Control (SROM_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><img src="srom_pics/SROM_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (SROM_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="srom_pics/SROM_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>9</TD> <TD>Each configuration channel is mapped to a device having its own config registers.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>4</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_MEM_INFO"></a>
+<br><br><h4>Memory Info (SROM_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="srom_pics/SROM_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (SROM_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="srom_pics/SROM_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (SROM_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="srom_pics/SROM_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (SROM_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><img src="srom_pics/SROM_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (SROM_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="srom_pics/SROM_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_BASELINE_CTL"></a>
+<br><br><h4>Baseline Control (SROM_BASELINE_CTL: 0x0100)</h4>
+Baseline Control
+<br><img src="srom_pics/SROM_BASELINE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>1</TD> <TD>Interface Enable.<br>
+1: to enable the interface<br>
+0: to reset the interface (such as FIFOs and state machines)<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_FLAG"></a>
+<br><br><h4>FLAG (SROM_FLAG: 0x0108)</h4>
+FLAG
+<br><img src="srom_pics/SROM_FLAG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>BFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: BFIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>WFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: WFIFO is full.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>RFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: RFIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>BFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: BFIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>WFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: WFIFO is empty.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: RFIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>BOOT_BUSY</TD> <TD>RO</TD> <TD>0</TD> <TD>1: in the middle of flash boot sequence.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>BUSY</TD> <TD>RO</TD> <TD>0</TD> <TD>1: SPI interface is busy.  </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_FIFO_COUNT"></a>
+<br><br><h4>FIFO Count (SROM_FIFO_COUNT: 0x0110)</h4>
+FIFO Count
+<br><img src="srom_pics/SROM_FIFO_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>BFIFO_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the boot FIFO (max is 2**1). Each entry has 64 bits + controls.<br>
+0: no active entry in the boot FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>WFIFO_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the write FIFO (max is 2**3). Each entry has 64 bits.<br>
+0: no active entry in the write FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>RFIFO_CNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the read FIFO (max is 2**3). Each entry has 64 bits.<br>
+0: no active entry in the read FIFO (that is empty).</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_ELECTRICAL_CONTROL"></a>
+<br><br><h4>Electrical Control (SROM_ELECTRICAL_CONTROL: 0x0118)</h4>
+Electrical Control
+<br><img src="srom_pics/SROM_ELECTRICAL_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>ELEC_SCHM</TD> <TD>RW</TD> <TD>0</TD> <TD>Schmitt control<br>
+0: no schmitt </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>ELEC_PULLDOWN</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pulldown in IO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>ELEC_PULLUP</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pullup in IO </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ELEC_SLEW</TD> <TD>RW</TD> <TD>3</TD> <TD>Slew rate control<br>
+00 = slowest<br>
+11 = fastest</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>ELEC_SUSTAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>1: Enable sustain keeper, about 100 uA to flip the state <br>
+<br>
+0: no keeper</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>ELEC_STRENGTH</TD> <TD>RW</TD> <TD>2</TD> <TD> Drive strength.<br>
+0 = tristate<br>
+1 = 2 ma<br>
+2 = 4 ma (default)<br>
+3 = 6 ma<br>
+4 = 8 ma<br>
+5 = 10 ma<br>
+6 = 12 ma<br>
+7 = RESERVED<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_BOOT_REVISION_ID"></a>
+<br><br><h4>Boot Revision ID (SROM_BOOT_REVISION_ID: 0x0120)</h4>
+ Boot Revision ID.<br>
+   
+<br><img src="srom_pics/SROM_BOOT_REVISION_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>REV_ID</TD> <TD>RO</TD> <TD>0</TD> <TD>SPI Boot ROM Revision ID.  </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_WRITE_DATA"></a>
+<br><br><h4>SPI Write Data (SROM_WRITE_DATA: 0x0130)</h4>
+SPI Write Data
+<br><img src="srom_pics/SROM_WRITE_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>WDAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the write data. Used by WRSR and PP instructions. <br>
+[7:0] contains data in the lowest address.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_READ_DATA"></a>
+<br><br><h4>SPI Read Data (SROM_READ_DATA: 0x0138)</h4>
+SPI Read Data
+<br><img src="srom_pics/SROM_READ_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>RDAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the read data (read ID, status register, electronic signature or boot code data). Used by RDID0,  RDSR, RES and READ instructions. A read operation starts with the lowest address. A byte of returned read data is stored in [63:56]. All bytes of read data shift down as a new byte of read data is returned. For example, once a read with eight bytes is done, [7:0] contains data from the lowest address and [63:56] contains data from the highest address. </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_ADDRESS"></a>
+<br><br><h4>SPI Address (SROM_ADDRESS: 0x0140)</h4>
+SPI Address
+<br><img src="srom_pics/SROM_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the starting byte address in the SROM for the next instruction. Used by READ, PP, SE0 and SE1 instructions.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_BYTE"></a>
+<br><br><h4>SPI Byte (SROM_BYTE: 0x0148)</h4>
+SPI Byte
+<br><img src="srom_pics/SROM_BYTE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:0</TD> <TD>BYTE</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the transfer size (in bytes) of the next instruction. Used by RDID0, READ, PP and RES instructions.<br>
+0: 2^20 bytes <br>
+N: n bytes<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_INSTRUCTION"></a>
+<br><br><h4>SPI Instruction (SROM_INSTRUCTION: 0x0150)</h4>
+SPI Instruction
+<br><img src="srom_pics/SROM_INSTRUCTION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>INST</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the SPI instruction to be executed. The default value for the instruction code is listed below. Each instruction code can be reprogrammed in the corresponding configurable instruction code register. Each instruction code defines a sequence of operation associated with the instruction, e.g. number of address bytes, number of dummy bytes, number of write data bytes, and number of read data bytes.<br>
+<br>
+For example, if 0x20 is a new instruction code for SubSector Erase, which involves three address byte, 0 dummy byte, 0 write data byte, and 0 read data byte, then it has the same sequence as the SE0 or SE1. In this case, SROM_CODE_SE1 can be programmed to be 0x20. Writing 0x20 to SROM_INSTRUCTION will result in a match to SROM_CODE_SE1, the SROM controller will in turn send the 0x20 instruction along with three address bytes, 0 dummy byte, 0 write data byte, and 0 read data byte.<br>
+<br>
+For example, if 0x05 is a new instruction code for Read Status Register, which involves 0 address byte, 0 dummy byte, 0 write data byte, N read data bytes, then it has the same sequence as the RDID0. In this case, SROM_CODE_RDID0 can be programmed to be 0x05. Writing 0x05 to SROM_INSTRUCTION will result in a match to SROM_CODE_RDID0, the SROM controller will in turn send/receive the 0x05 instruction along with the 0 address byte, 0 dummy byte, 0 write data byte, and N read data bytes.<br>
+<br>
+For example, if 0xE5 is a new instruction code for Write to Lock Register, which involves 3 address bytes, 0 dummy byte, n write data bytes, 0 read data byte, then is has the same sequence as the PP. In this case, SROM_CODE_PP can be programmed to be 0xE5. Writing 0xE5 to SROM_INSTRUCTION will result in a match to SROM_CODE_PP, the SROM controller will in turn send the 0xE5 instruction along with 3 address bytes, 0 dummy byte, n write data bytes, and 0 read data byte.<br>
+<br>
+Note: For instructions require address and/or transfer size, SROM_ADDRESS and/or SROM_BYTE must be programmed before the SROM_INSTRUCTION. Otherwise, previously programmed SROM_ADDRESS and SROM_BYTE will be reused.<br>
+<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x6</TD><TD>WREN</TD><TD>Write enable</TD></TR>
+   <TR><TD>0x4</TD><TD>WRDI</TD><TD>Write disable</TD></TR>
+   <TR><TD>0x9f</TD><TD>RDID0</TD><TD>Read ID register (Spansion)</TD></TR>
+   <TR><TD>0x5</TD><TD>RDSR</TD><TD>Read status register</TD></TR>
+   <TR><TD>0x1</TD><TD>WRSR</TD><TD>Write status register</TD></TR>
+   <TR><TD>0x3</TD><TD>READ</TD><TD>Read</TD></TR>
+   <TR><TD>0x2</TD><TD>PP</TD><TD>Page program</TD></TR>
+   <TR><TD>0xd8</TD><TD>SE0</TD><TD>Sector erase (Spansion)</TD></TR>
+   <TR><TD>0xc7</TD><TD>BE0</TD><TD>Bulk erase (Spansion)</TD></TR>
+   <TR><TD>0xb9</TD><TD>DP</TD><TD>Deep power down</TD></TR>
+   <TR><TD>0xab</TD><TD>RES</TD><TD>Resume from deep power down (with 0 or 3 dummy bytes, depending on SROM_RES_TYPE)</TD></TR>
+   <TR><TD>0x100</TD><TD>BOOT</TD><TD>Boot</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="SROM_PAGE_SIZE"></a>
+<br><br><h4>SPI Page Size (SROM_PAGE_SIZE: 0x0160)</h4>
+SPI Page Size
+<br><img src="srom_pics/SROM_PAGE_SIZE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>PSIZE</TD> <TD>RW</TD> <TD>4</TD> <TD>Specifies the page program size.<br>
+0: reserved<br>
+1: 8B<br>
+2: 16B<br>
+3: 32B<br>
+4: 64B<br>
+5: 128B<br>
+6: 256B<br>
+7: 512B <br>
+It is recommended to use the PP instruction to program all consecutive targeted bytes in a single sequence (up to the page size). It is up to software to partition the bytes so that the transfer size does not cross the page size boundary. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_PAUSE"></a>
+<br><br><h4>SPI Pause Control (SROM_PAUSE: 0x0170)</h4>
+SPI Pause Control
+<br><img src="srom_pics/SROM_PAUSE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:32</TD> <TD>PAUSE_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Current state of the pause counter. <br>
+         0: pause counter expires.<br>
+         n: n additional cycles to be paused.<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>PAUSE_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the number of cycles (core reference clock) to pause before the next transaction on the SPI interface. The pause is done by stopping the transition on the serial clock (SCK) of the SPI interface. Writing to the PAUSE register will initiate the pause function.<br>
+         0: no pause.<br>
+         n: pause n cycles.<br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_RES_TYPE"></a>
+<br><br><h4>Instruction RES type (SROM_RES_TYPE: 0x0178)</h4>
+Instruction RES type. <br>
+   1: with 3 dummy bytes and N data bytes (depending on SROM_BYTE). <br>
+   0: no dummy byte and no data byte.
+<br><img src="srom_pics/SROM_RES_TYPE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RES_TYPE</TD> <TD>RW</TD> <TD>1</TD> <TD>Instruction RES type. <br>
+   1: with 3 dummy bytes and N data bytes (depending on SROM_BYTE). <br>
+   0: no dummy byte and no data byte.</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_WREN"></a>
+<br><br><h4>WREN Instruction Code (SROM_CODE_WREN: 0x0180)</h4>
+ Configurable instruction code for WREN. If the INSTRUCTION matches the CODE_WREN, then the SROM controller treats the INSTRUCTION as a WREN instruction. A WREN instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_WREN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_WREN</TD> <TD>RW</TD> <TD>6</TD> <TD> Configurable instruction code for WREN. If the INSTRUCTION matches the CODE_WREN, then the SROM controller treats the INSTRUCTION as a WREN instruction. A WREN instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_WRDI"></a>
+<br><br><h4>WRDI Instruction Code (SROM_CODE_WRDI: 0x0188)</h4>
+ Configurable instruction code for WRDI. If the INSTRUCTION matches the CODE_WRDI, then the SROM controller treats the INSTRUCTION as a WRDI instruction. A WRDI instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_WRDI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_WRDI</TD> <TD>RW</TD> <TD>4</TD> <TD> Configurable instruction code for WRDI. If the INSTRUCTION matches the CODE_WRDI, then the SROM controller treats the INSTRUCTION as a WRDI instruction. A WRDI instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_RDID0"></a>
+<br><br><h4>RDID0 Instruction Code (SROM_CODE_RDID0: 0x0190)</h4>
+ Configurable instruction code for RDID0. If the INSTRUCTION matches the CODE_RDID0, then the SROM controller treats the INSTRUCTION as a RDID0 instruction. A RDID0 instruction involves 0 address byte, 0 dummy byte, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+   
+<br><img src="srom_pics/SROM_CODE_RDID0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_RDID0</TD> <TD>RW</TD> <TD>9fh</TD> <TD> Configurable instruction code for RDID0. If the INSTRUCTION matches the CODE_RDID0, then the SROM controller treats the INSTRUCTION as a RDID0 instruction. A RDID0 instruction involves 0 address byte, 0 dummy byte, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_RDSR"></a>
+<br><br><h4>RDSR Instruction Code (SROM_CODE_RDSR: 0x01a0)</h4>
+ Configurable instruction code for RDSR. If the INSTRUCTION matches the CODE_RDSR, then the SROM controller treats the INSTRUCTION as a RDSR instruction. A RDSR instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 1 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_RDSR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_RDSR</TD> <TD>RW</TD> <TD>5</TD> <TD> Configurable instruction code for RDSR. If the INSTRUCTION matches the CODE_RDSR, then the SROM controller treats the INSTRUCTION as a RDSR instruction. A RDSR instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 1 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_WRSR"></a>
+<br><br><h4>WRSR Instruction Code (SROM_CODE_WRSR: 0x01a8)</h4>
+ Configurable instruction code for WRSR. If the INSTRUCTION matches the CODE_WRSR, then the SROM controller treats the INSTRUCTION as a WRSR instruction. A WRSR instruction involves 0 address byte, 0 dummy byte, 1 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_WRSR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_WRSR</TD> <TD>RW</TD> <TD>1</TD> <TD> Configurable instruction code for WRSR. If the INSTRUCTION matches the CODE_WRSR, then the SROM controller treats the INSTRUCTION as a WRSR instruction. A WRSR instruction involves 0 address byte, 0 dummy byte, 1 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_READ"></a>
+<br><br><h4>READ Instruction Code (SROM_CODE_READ: 0x01b0)</h4>
+ Configurable instruction code for READ. If the INSTRUCTION matches the CODE_READ, then the SROM controller treats the INSTRUCTION as a READ instruction. A READ instruction involves 3 address bytes, 0 dummy byte, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+   
+<br><img src="srom_pics/SROM_CODE_READ.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_READ</TD> <TD>RW</TD> <TD>3</TD> <TD> Configurable instruction code for READ. If the INSTRUCTION matches the CODE_READ, then the SROM controller treats the INSTRUCTION as a READ instruction. A READ instruction involves 3 address bytes, 0 dummy byte, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_PP"></a>
+<br><br><h4>PP Instruction Code (SROM_CODE_PP: 0x01b8)</h4>
+ Configurable instruction code for PP. If the INSTRUCTION matches the CODE_PP, then the SROM controller treats the INSTRUCTION as a PP instruction. A PP instruction involves 3 address bytes, 0 dummy byte, N write data bytes (depending on SROM_BYTE), 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_PP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_PP</TD> <TD>RW</TD> <TD>2</TD> <TD> Configurable instruction code for PP. If the INSTRUCTION matches the CODE_PP, then the SROM controller treats the INSTRUCTION as a PP instruction. A PP instruction involves 3 address bytes, 0 dummy byte, N write data bytes (depending on SROM_BYTE), 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_SE0"></a>
+<br><br><h4>SE0 Instruction Code (SROM_CODE_SE0: 0x01c0)</h4>
+ Configurable instruction code for SE0. If the INSTRUCTION matches the CODE_SE0, then the SROM controller treats the INSTRUCTION as a SE0 instruction. A SE0 instruction involves 3 address bytes, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_SE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_SE0</TD> <TD>RW</TD> <TD>d8h</TD> <TD> Configurable instruction code for SE0. If the INSTRUCTION matches the CODE_SE0, then the SROM controller treats the INSTRUCTION as a SE0 instruction. A SE0 instruction involves 3 address bytes, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_BE0"></a>
+<br><br><h4>BE0 Instruction Code (SROM_CODE_BE0: 0x01d0)</h4>
+ Configurable instruction code for BE0. If the INSTRUCTION matches the CODE_BE0, then the SROM controller treats the INSTRUCTION as a BE0 instruction. A BE0 instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_BE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_BE0</TD> <TD>RW</TD> <TD>c7h</TD> <TD> Configurable instruction code for BE0. If the INSTRUCTION matches the CODE_BE0, then the SROM controller treats the INSTRUCTION as a BE0 instruction. A BE0 instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_DP"></a>
+<br><br><h4>DP Instruction Code (SROM_CODE_DP: 0x01e0)</h4>
+ Configurable instruction code for DP. If the INSTRUCTION matches the CODE_DP, then the SROM controller treats the INSTRUCTION as a DP instruction. A DP instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_DP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_DP</TD> <TD>RW</TD> <TD>b9h</TD> <TD> Configurable instruction code for DP. If the INSTRUCTION matches the CODE_DP, then the SROM controller treats the INSTRUCTION as a DP instruction. A DP instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_CODE_RES"></a>
+<br><br><h4>RES Instruction Code (SROM_CODE_RES: 0x01e8)</h4>
+ Configurable instruction code for RES. If the INSTRUCTION matches the CODE_RES, then the SROM controller treats the INSTRUCTION as a RES instruction. <br>
+RES_TYPE=1: A RES instruction involves 0 address byte, 3 dummy bytes, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+RES_TYPE=0: A RES instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   
+<br><img src="srom_pics/SROM_CODE_RES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8:0</TD> <TD>CODE_RES</TD> <TD>RW</TD> <TD>abh</TD> <TD> Configurable instruction code for RES. If the INSTRUCTION matches the CODE_RES, then the SROM controller treats the INSTRUCTION as a RES instruction. <br>
+RES_TYPE=1: A RES instruction involves 0 address byte, 3 dummy bytes, 0 write data byte, N read data bytes (depending on SROM_BYTE).<br>
+RES_TYPE=0: A RES instruction involves 0 address byte, 0 dummy byte, 0 write data byte, 0 read data byte.<br>
+   </TD> </TR>
+</TABLE><br><br>
+<a name="SROM_INT_VEC_W1TC"></a>
+<br><br><h4>Interrupt vector, write-one-to-clear (SROM_INT_VEC_W1TC: 0x0200)</h4>
+Each bit in this register corresponds to a specific interrupt. Hardware sets the bit when the associated condition has occurred. Writing a 1 clears the status bit.<br>
+
+<br><img src="srom_pics/SROM_INT_VEC_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>INST_EXEC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>INST_EXEC - An instruction execution is completed, including known/unknown executed instruction (excluding dropped instructions). A new instruction can be scheduled once this interrupt is received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>WFIFO_READ</TD> <TD>W1TC</TD> <TD>0</TD> <TD>WFIFO_READ - A WFIFO entry was read from the write FIFO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RFIFO_WRITE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>RFIFO_WRITE - An RFIFO entry was written to the read FIFO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>INST_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>INST_ERR - The instruction register was written but the controller was busy, e.g. previous instruction is in progress. This instruction will be dropped.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>WDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>WDAT_ERR - The write FIFO was written but it was full. Write data is dropped.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>RDAT_ERR - The read FIFO was read but it was empty. No read data available and all 0s are returned as read data (e.g. due to SPI controller is busy or due to over-read when there is no data to be read).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>INST_UNK_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>INST_UNK_ERR - An unknown instruction was executed by the controller</TD> </TR>
+</TABLE><br><br>
+<a name="SROM_INT_VEC_MASK"></a>
+<br><br><h4>Interrupt Vector Mask (SROM_INT_VEC_MASK: 0x0208)</h4>
+Each bit in this register corresponds to a specific interrupt. When set, the associated interrupt will not be dispatched.
+<br><img src="srom_pics/SROM_INT_VEC_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>INST_EXEC</TD> <TD>RW</TD> <TD>1</TD> <TD>INST_EXEC - An instruction execution is completed, including known/unknown executed instruction (excluding dropped instructions). A new instruction can be scheduled once this interrupt is received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>WFIFO_READ</TD> <TD>RW</TD> <TD>1</TD> <TD>WFIFO_READ - A WFIFO entry was read from the write FIFO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RFIFO_WRITE</TD> <TD>RW</TD> <TD>1</TD> <TD>RFIFO_WRITE - An RFIFO entry was written to the read FIFO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>INST_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>INST_ERR - The instruction register was written but the controller was busy, e.g. previous instruction is in progress. This instruction will be dropped.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>WDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>WDAT_ERR - The write FIFO was written but it was full. Write data is dropped.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>RDAT_ERR - The read FIFO was read but it was empty. No read data available and all 0s are returned as read data (e.g. due to SPI controller is busy or due to over-read when there is no data to be read).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>INST_UNK_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>INST_UNK_ERR - An unknown instruction was executed by the controller</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

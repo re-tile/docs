@@ -1,0 +1,562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" 
+    "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+  <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <link rel=stylesheet type="text/css" href="tilera.css" title="Tilera Style">
+
+  <title>Tilera&reg; MDE Document Index</title>
+
+</head>
+
+<body>
+  
+<h1 class=title>Multicore Development Environment&trade; (MDE)<br>Document Index</h1> 
+
+<!-- start of text copied to doc search welcome page - don't delete this marker! -->
+<!-- BEGIN BODY TEXT -->
+
+<h2>Contents:</h2>
+
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#books">MDE Software Documentation</a></li>
+<li><a href="#architecture">Architecture and Hardware</a>
+<li><a href="#libraries">Libraries</a>
+<li><a href="#tools">Development Tools</a>
+<li><a href="#runtime">Runtime Tools</a>
+<li><a href="#appnotes">Application Notes</a>
+<li><a href="#technotes">Technical Notes</a>
+<li><a href="#io_docs">I/O Devices</a>
+</ul>
+
+<a name="overview"><h2>Overview:</h2></a>
+
+<p>All contents of this release and documents therein are strictly
+confidential and proprietary to Tilera Corporation, and are provided to
+you under the Mutual Non-Disclosure Agreement executed between Tilera
+and your company. In addition the content of this release may not be
+disclosed under any circumstances to any other party. All details are
+subject to change without notification.
+
+<ul>
+<li> <a href="pdf/Tilera-MDE-License.pdf">MDE License</a> 
+  </li>
+<li> <a href="UG500_DocOverview.pdf">Documentation Overview</a> 
+  </li>
+</ul>
+
+<a name="books"><h2>MDE Software Documentation:</h2></a>
+
+<p>The MDE software documentation includes the documents listed
+below. When you work with a new release of the MDE, you should first
+read the <em>MDE Release Notes</em> and then <em>Getting Started with
+the MDE.</em>
+
+<p>
+<table border cellpadding=6>
+<thead>
+<tr>
+<th>Documents Supplied with the MDE</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="pdf/UG504-Gx-MDE-GettingStartedGuide.pdf">Getting Started
+with the Multicore Development Environment, UG504</a></td>
+<td>
+This guide offers a brief introduction to the Multicore
+Development Environment&trade; (MDE) and provides instructions to help
+developers install the software and get up and running quickly using
+the IDE or the command-line interface.  It is intended for use by
+individuals who are responsible for installing software and by
+application developers. 
+</td> 
+</tr>
+<tr>
+<td><a href="pdf/UG505-Gx-MDE-ProgrammingOverview.pdf">Programming the TILE-Gx
+Processor, UG505</a>
+</td> 
+<td>
+This guide describes the basic concepts involved in developing
+applications for the Tile Processor&trade; and also provides specific
+implementation details.  It is intended as a next step for application
+developers who have worked through the Getting Started Guide
+(UG504). We also recommend that you read the <em>Tile Processor
+Architecture Overview for the TILE-Gx Series</em> (UG130).
+</td>
+</tr> 
+<tr>
+<td><a href="pdf/UG501-Gx-MDE-UserGuide.pdf">MDE User Guide, UG501</a></td>
+<td>
+This guide describes how to use the MDE, providing instructions for
+creating, running, debugging, and profiling applications using the
+command-line tools. It is intended for use by application developers. 
+</td>
+</tr>
+<tr>
+<td><a href="pdf/UG511-Using-the-IDE.pdf">Using the Tilera IDE, UG511</a></td>
+<td>
+This guide describes how to use the <tt>tile-eclipse</tt> Integrated
+Development Environment (IDE), a version of the standard Eclipse
+graphical IDE enhanced for use in programming Tilera's multicore
+processors. It is intended for use by application developers. 
+</td>
+</tr>
+<tr>
+<td><a href="pdf/UG509-Gx-MDE-SystemProgrammersGuide.pdf">MDE System
+Programmer's Guide, UG509</a>
+</td> 
+<td>This guide describes how to customize the system software
+environment for the Tile Processor. It is intended for use by
+developers and administrators responsible for the OS, device drivers,
+and other software running at the system level.
+</td>
+</tr>
+<tr>
+<td><a href="pdf/UG515-Gx-MDE-OptimizationGuide.pdf">MDE Optimization
+Guide, UG515</a> 
+</td>
+<td>
+This guide describes how to improve the performance of multicore
+applications that are using the MDE. It is intended for use by
+application developers.  
+</td>
+</tr>
+<tr>
+<td><a href="pdf/UG521-Gx-Migration-Guide.pdf">Migrating to the
+TILE-Gx Processor Family, UG521</a> 
+</td>
+<td>
+This guide describes how to migrate applications from TILEPro and
+previous MDE versions to TILE-Gx and MDE 4.0.  It is intended for use
+by application and system developers.
+</td>
+</tr>
+</tbody>
+</table>
+
+<a name="architecture"><h2>TILE-Gx Processor Architecture</h2></a>
+
+<p>This section lists hardware documentation for the TILE-Gx series
+processors.  The books listed in this section are divided into
+Architecture and Platform documentation. 
+
+<p>
+<table border cellpadding=6>
+<thead>
+<tr>
+<th>Documents Supplied with the MDE</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan=2>
+<center><em>Architecture Manuals</em></center>
+</td>
+</tr>
+<tr>
+<td>
+<a href="pdf/UG130-ArchOverview-TILE-Gx.pdf">Tile Processor
+Architecture Overview for the TILE-Gx Series, UG130</a> 
+</td>
+<td>
+This manual provides an overview of the TILE-Gx architecture,
+identifies the features, briefly identifies the supported interfaces
+and methods for using them.
+</td>
+</tr>
+<tr>
+<td>
+<a href="html/isa/isa.html">TILE-Gx Instruction Set Architecture
+Specification, UG401</a> (or <a href="pdf/UG401-ISA.pdf">PDF</a>)  
+</td>
+<td>
+This manual describes the Instruction Set Architecture (ISA) for the
+TILE-Gx Processor. 
+</td>
+</tr>
+<tr>
+<td>
+<a href="html/spr.html">TILE-Gx Special Purpose Register
+Specification</a> 
+</td>
+<td>
+This manual describes the Special Purpose Registers of the TILE-Gx
+Processor. 
+</td>
+</tr>
+<tr>
+<td>
+<a href="pdf/UG404-IO-Device-Guide.pdf">Tile Processor and I/O Device Guide, UG404</a> 
+</td>
+<td>
+This manual describes the Tile-Gx Processor's system architecture and
+its I/O interfaces.  See also I/O Device Documentation below. 
+</td>
+</tr>
+<tr>
+<td colspan=2>
+<center><em>Platform Manuals</em></center>
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG415-TILEmpower-Gx36-Users-Guide.pdf">TILEmpower-Gx36 
+Platform User's Guide, UG415</a> 
+</td>
+<td>
+This guide describes usage of Tilera's TILEmpower-Gx36&trade;.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG419-TILEmpower-Gx-FR-Users-Guide.pdf">TILEmpower-Gx FR
+Platform User's Guide, UG419</a> 
+</td>
+<td>
+This guide describes usage of Tilera's TILEmpower-Gx FR&trade;.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG420-TILEmpower-Gx72-MP-UG.pdf">TILEmpower-Gx72 MP
+Platform User's Guide, UG420</a> 
+</td>
+<td>
+This guide describes usage of Tilera's TILEmpower-Gx72 MP&trade;.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG416-TILEncore-Gx36-Card-UG.pdf">TILEncore-Gx36
+Card User's Guide, UG416</a> 
+</td>
+<td>
+This guide describes usage of Tilera's TILEncore-Gx36&trade;.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG414-TILEncore-Gx72-Card-UG.pdf">TILEncore-Gx72
+Card User's Guide, UG414</a> 
+</td>
+<td>
+This guide describes usage of Tilera's TILEncore-Gx72&trade;.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG417-TILEncore-Gx16-and-9-Card-UG.pdf">TILEncore-Gx
+  Intelligent Application Adapter User's Guide, UG417</a> 
+</td>
+<td>
+This guide describes usage of the TILEncore-Gx Intelligent
+Application Adapter, featuring the TILE-Gx16 or TILE-Gx9 processors.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG421-TILEncore-Gx36-Q40.pdf">TILEncore-Gx36 Q40 Card User's
+  Guide, UG421</a>  
+</td>
+<td>
+This guide describes usage of the TILEncore-Gx36 Q40 PCIe card.
+</td>
+</tr>
+<tr>
+<td>
+<a href="pdf/UG533-BMC-Users-Guide.pdf">Baseboard Management
+Controller User's Guide, UG533 </a>
+</td>
+<td>
+This guide describes usage of Tilera's Baseboard Management Controller.
+</td>
+</tr>
+<tr>
+<td>
+<a
+href="pdf/UG422-BTK-User-Guide-for-TILE-Gx.pdf">Tilera Board Test Kit
+Guide for TILE-Gx Processors, UG422</a> 
+</td>
+<td>
+This guide explains how to use the Board Test Kit (BTK) to run a set of
+tests on a TILE-Gx based platform, as well as how to develop
+additional tests using the unique features of the platform.
+</td>
+</tr>
+</tbody>
+</table>
+
+<a name="libraries"><h2>Libraries:</h2></a>
+
+<ul>
+
+<li> <a href="html/application_libraries_reference/index.html">
+  Application Libraries Reference Guide, UG527</a>
+  (or <a href="pdf/UG527-Application-Libraries-Reference-Manual.pdf">PDF</a>)
+  </li>
+
+<li> <a href="pdf/UG503-MDE-Gx-TRIO-Guide.pdf">MDE Trio Programmer's Guide, UG503</a>
+
+<li> <a href="pdf/UG506-mPIPE-Guide.pdf">MDE mPIPE Programmer's Guide, UG506</a>
+
+<li> <a href="pdf/UG507-Gx-MiCA-Guide.pdf">MDE MiCA Programmer's Guide, UG507</a>
+
+<li> <a href="html/vector/index.html">Vector Library API Reference,
+  UG217</a> (or <a href="pdf/UG217-Vector-API-Reference.pdf">PDF</a>)
+  </li>
+
+<li> Alternate C Runtime Library (newlib) API Reference
+  (<a href="html/newlib/libc.html">libc</a>
+  or <a href="pdf/newlib/libc.pdf">PDF</a>)
+  (<a href="html/newlib/libm.html">libm</a>
+  or <a href="pdf/newlib/libm.pdf">PDF</a>)
+  </li>
+
+<li> <a href="html/libc-choice.html"> Choosing Which Libc to Use</a>
+  </li>
+
+<li> <a href="html/set_dataplane.html">set_dataplane() - Set Characteristics of Dataplane Mode</a>
+</li>
+
+<li> <a href="html/bme/index.html">Bare Metal Environment Runtime API
+Reference</a>, UG228
+</li>
+
+</ul>
+
+
+<a name="tools"><h2>Development Tools:</h2></a>
+
+<ul>
+
+<li> <a href="html/gcc/index.html">TILE-Gx Processor C and C++
+  Compiler (tile-gcc, tile-g++)</a>.
+  For TILE-Gx specific features, see Sections
+  <a href="html/gcc/TILE_002dGx-Options.html#TILE_002dGx-Options">3.17.36</a>,
+  <a href="html/gcc/TILE_002dGx_002fTILEPro-Feedback-Options.html#TILE_002dGx_002fTILEPro-Feedback-Options">3.17.38</a>,
+  <a href="html/gcc/TILE_002dGx-Built_002din-Functions.html#TILE_002dGx-Built_002din-Functions">5.50.15</a>, and
+  <a href="html/gcc/TILE_002dGx_002fTILEPro-Loop-Pragmas.html#TILE_002dGx_002fTILEPro-Loop-Pragmas">5.50.17</a>.
+  </li>
+
+<li> <a href="html/gdb/index.html">TILE-Gx Processor Debugger (tile-gdb)</a> 
+  </li>
+
+<li> <a href="html/tile-monitor.html">TILE-Gx Processor Monitor
+  (tile-monitor)</a> 
+  </li>
+
+<li> <a href="html/tile-console.html">TILE-Gx Processor Console
+  Interaction (tile-console)</a>
+  </li>
+
+<li> <a href="html/tile-eclipse.html">TILE-Gx Processor Eclipse-based
+  Integrated Development Environment (tile-eclipse)</a>
+  </li>
+
+<li> <a href="html/profiling.html">Profiling Applications from the
+  Command Line with <tt>OProfile</tt></a> 
+  </li>
+
+<li> <a href="html/perf_events.html">Profiling applications
+  with the Linux <tt>perf</tt> tool</a> 
+  </li>
+
+<li> <a href="html/mpipe-stat.html">TILE-Gx mPIPE I/O Statistics (mpipe-stat)
+  </li>
+
+<li> <a href="html/trio-stat.html">TILE-Gx TRIO I/O Statistics (trio-stat)
+  </li>
+
+<li> <a href="html/mcstat.html">Monitor Memory Controller Usage (mcstat)
+  </li>
+
+<li> <a href="html/memprof.html">Linux Kernel Memory Bandwidth
+    Profiling Device (memprof)
+  </li>
+
+<li> <a href="html/tile-mpipe-cc.html">C Compiler for TILE-Gx
+  Classifier Processor (tile-mpipe-cc)
+  </li>
+
+<li> <a href="html/tile-mpipe-as.html">Assembler for TILE-Gx
+  Classifier Processor (tile-mpipe-as)
+  </li>
+
+<li> <a href="html/as.html">TILE-Gx Processor Assembler (tile-as)</a>.
+  For TILE-Gx specific features, see Section
+  <a href="html/as.html#TILE_002dGx_002dDependent">9.38</a>.
+  </li>
+
+<li> <a href="html/tile-sim.html"> TILE-Gx Processor Simulator
+  (tile-sim)</a> (Note that the TILE-Gx simulator has certain
+  limitations in functionality and timing accuracy.  See <a
+  href="html/tile-sim.html#caveats">Caveats</a> in the tile-sim man
+  page for more information.)
+  </li>
+
+<li> <a href="html/tile-trace-view.html">TILE-Gx Processor Trace Viewer
+  (tile-trace-view)</a> 
+  </li>
+
+<li> <a href="html/ld.html">TILE-Gx Processor Linker (tile-ld)</a> 
+  </li>
+
+<li> <a href="html/binutils.html">TILE-Gx Processor binary utilities</a> 
+  </li>
+
+<li> <a href="html/tile-mkboot.html">TILE-Gx Processor Boot Image Creator
+  (tile-mkboot)</a>
+  </li>
+
+<li> <a href="html/tile-mkrom.html">TILE-Gx Processor Bootstream Formatter
+  (tile-mkrom)</a>
+  </li>
+
+<li> <a href="html/sbim.html">TILE-Gx Processor SROM Boot Image Manager
+  (sbim, tile-sbim)</a>
+  </li>
+
+<li> <a href="html/tile-gen-initramfs.html">TILE-Gx Processor
+    Initramfs File Generator (tile-gen-initramfs)</a>
+  </li>
+
+</ul>
+
+
+<a name="runtime"><h2>Runtime Tools:</h2></a>
+
+<ul>
+
+<li> <a href="html/hardwall.html">Hardwall Special File for UDN Access</a>
+  </li>
+
+<li> <a href="html/pgtable.html">Page Table Special Files</a>
+  </li>
+
+<li> <a href="html/pka.html">Special File for Public Key
+  Authentication Acceleration</a>
+  </li>
+
+<li> <a href="html/tile-thd.html">Tilera HTTP Daemon (tile-thd)</a>
+  </li>
+
+</ul>
+
+
+<a name="appnotes"><h2>Application Notes:</h2></a>
+
+<ul>
+  <li> <a href="html/board-info.html">Board Information Block, AN040</a> </li>
+  <li> <a href="html/sanitize.html">Erasing Nonvolatile Storage, AN042</a> </li>
+  <li> <a href="pdf/AN044-HostPCIe-PacketQueue.pdf">Host PCIe Packet Queue API, AN044</a> </li>
+  <li> <a href="pdf/AN053-TILE-Gx-Host-NIC-API.pdf">Host PCIe NIC API, AN053</a> </li>
+</ul>
+
+
+<a name="technotes"><h2>Technical Notes:</h2></a>
+
+<ul>
+
+<li> <a href="html/cross-compiling.html">Compiling for the TILE Architecture</a> 
+  </li>
+
+<li> <a href="pdf/UG513-ABI.pdf">Application Binary Interface (ABI), UG513</a> 
+  </li>
+
+<li> <a href="html/hypervisor-arch/hypervisor-arch-gx.html">
+     Tilera Hypervisor Theory of Operation</a> 
+  </li>
+
+</ul>
+
+
+<a name="io_docs"><h2>I/O Device Documentation:</h2></a>
+
+<p> The following documents describe the hardware interface to various
+I/O devices on the TILE-Gx processor.  In most cases, Tilera provides
+software libraries that wrap these hardware interfaces; see the
+Application Libraries Reference Guide for more information.
+
+<ul>
+
+<li> <a href="html/io_cfg/gpio.html">
+   GPIO MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/i2cm.html">
+   I2C Master MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/i2cs.html">
+   I2C Slave MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/msh.html">
+   Memory Controller MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_comp.html">
+   MiCA Compression/Decompression MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_comp_eng_infl.html">
+   MiCA Inflate engine MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_comp_eng_defl.html">
+   MiCA Deflate engine MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_comp_ctx_sys.html">
+   MiCA Compression/Decompression System Context MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_comp_ctx_user.html">
+   MiCA Compression/Decompression User Context MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_crypto.html">
+   MiCA Crypto MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_crypto_eng.html">
+   MiCA Crypto Engine MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_crypto_ctx_sys.html">
+   MiCA Crypto System Context MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mica_crypto_ctx_user.html">
+   MiCA Crypto User Context MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mpipe.html">
+   mPIPE MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mpipe_gbe.html">
+   mPIPE Gigabit Ethernet MAC MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/mpipe_xaui.html">
+   mPIPE XAUI MAC MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/rsh.html">
+   RShim MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/srom.html">
+   SPI ROM Register Interface</a></li>
+<li> <a href="html/io_cfg/serdes.html">
+   SERDES Control MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/trio.html">
+   TRIO Register Interface</a></li>
+<li> <a href="html/io_cfg/trio_pcie_intfc.html">
+   TRIO PCIe MAC Shared MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/trio_pcie_ep.html">
+   TRIO PCIe MAC Endpoint Mode MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/trio_pcie_rc.html">
+   TRIO PCIe MAC Root Complex Mode MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/uart.html">
+   UART MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/usb_device.html">
+   USB Device MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/usb_device_mac.html">
+   USB Device MAC MMIO Register Interface</a>
+<li> <a href="html/io_cfg/usb_host.html">
+   USB Host Adapter MMIO Register Interface</a></li>
+<li> <a href="html/io_cfg/usb_host_mac.html">
+   USB Host Adapter MAC MMIO Register Interface</a>
+</ul>
+
+<address><a href="mailto:support@tilera.com">Tilera Customer
+Support</a></address> 
+
+<!-- END BODY TEXT -->
+<!-- end of text copied to doc search welcome page - don't delete this marker! -->
+
+</body>
+</html>

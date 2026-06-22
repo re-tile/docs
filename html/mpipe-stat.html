@@ -1,0 +1,276 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mpipe-stat</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="mpipe-stat"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mpipe-stat &#8212; TILE-Gx mPIPE I/O Statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mpipe-stat</code>  [
+	{ <code class="option">-i</code>  |   <code class="option">--interval</code> }
+		<em class="replaceable"><code>interval</code></em>
+] [
+	  <code class="option">-p</code>  |   <code class="option">--preamble</code>  
+] [
+	  <code class="option">-r</code>  |   <code class="option">--rates</code>  
+] [
+	  <code class="option">-t</code>  |   <code class="option">--totals</code>  
+] [
+	  <code class="option">-v</code>  |   <code class="option">--verbose</code>  
+] [
+	  <code class="option">-d</code>  |   <code class="option">--packet-drops</code>  
+] [
+	  <code class="option">-h</code>  |   <code class="option">--human-readable</code>  
+] [
+	  <code class="option">--config-lbl=drop</code>  |   <code class="option">--config-lbl=bkt</code>  |   <code class="option">--config-lbl=nr</code>  
+] [
+	  <code class="option">--config-ipkt=trunc</code>  |   <code class="option">--config-ipkt=drop</code>  
+]  
+	<em class="replaceable"><code>link</code></em>1
+  [
+	  <em class="replaceable"><code>link</code></em>2  |   ...  |   <em class="replaceable"><code>link</code></em>N  
+]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">mpipe-stat</strong></span> prints network I/O statistics, such as
+bytes and packets sent, received, and dropped.  Note
+that it is a native tool, and must be run on the Tile Processor
+itself.
+</p><p>
+The <em class="replaceable"><code>link</code></em> must be one or multiple on-chip mPIPE
+network interfaces: <code class="code">gbe1</code>, <code class="code">gbe2</code>,
+<code class="code">xgbe1</code>, or <code class="code">xgbe2</code> etc.
+</p><p>
+For example:
+</p><pre class="programlisting">
+# /usr/sbin/mpipe-stat xgbe1 xgbe2
+LINK     Tx Pkt       Tx bits    Rx pkt       Rx bits  Tx err    Rx err
+--------------------------------------------------------------------------
+xgbe1    635788      19934271     88832       9938956       0         0
+xgbe2    243578       1683427      4423         68837       0         0
+</pre><p>
+The LINK column shows the link names. The Tx Pkt column shows the total
+number of egress packets. The Tx bits column shows the total number of
+egress bits. The Rx pkt column shows the total number of ingress packets.
+The Rx bits column shows the total number of ingress bits. The Tx err
+column shows the total number of egress packets with errors. The Rx err
+column shows the total number of ingress packets with errors (i.e. CRC etc).
+</p><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="interval"></a><span class="term">
+<code class="option">-i | --interval <em class="replaceable"><code>interval</code></em></code>
+</span></dt><dd><p>
+By default, <span><strong class="command">mpipe-stat</strong></span> prints out statistics once.
+If you set an interval, <span><strong class="command">mpipe-stat</strong></span> repeats the statistics
+every specified number of seconds.
+</p></dd><dt><a name="preamble"></a><span class="term">
+<code class="option">-p | --preamble</code>
+</span></dt><dd><p>
+Include the packet preamble and inter-frame gap when calculating bits per
+second and total bytes values.
+</p></dd><dt><a name="rates"></a><span class="term">
+<code class="option">-r | --rates</code>
+</span></dt><dd><p>
+Print statistics per second instead of counts. Note that the
+<code class="option">--rates</code> option requires that you set an interval using
+the <a href="#interval"><code class="option">--interval</code></a>
+option.   For example:
+</p><pre class="programlisting">
+# /usr/sbin/mpipe-stat xgbe1 xgbe2 --interval 10 --rates
+
+LINK    Tx Pkt/s    Tx bits/s  Rx pkt/s     Rx bits/s Tx err/s  Rx err/s
+--------------------------------------------------------------------------
+xgbe1      35788     1934271      18832        938956       0         0
+xgbe2      43578      163427       4423          6837       0         0
+xgbe1      37781     1734712      17321        949568       0         0
+xgbe2      45783      144277       4532          6773       0         0
+...
+</pre></dd><dt><a name="totals"></a><span class="term">
+<code class="option">-t | --totals</code>
+</span></dt><dd><p>
+Print total accumulated statistics instead of counts per interval.
+</p></dd><dt><a name="packet-drops"></a><span class="term">
+<code class="option">-d | --packet-drops</code>
+</span></dt><dd><p>
+Print packet drop count or rate of an mPIPE instance per interval.
+</p><pre class="programlisting">
+# /usr/sbin/mpipe-stat xgbe1 xgbe2 --interval 10 --rates --packet-drops
+
+LINK    Tx Pkt/s    Tx bits/s  Rx pkt/s     Rx bits/s Tx err/s  Rx err/s
+--------------------------------------------------------------------------
+xgbe1      35788     1934271      18832        938956       0         0
+xgbe2      43578      163427       4423          6837       0         0
+                                                      drop/0:     12.00/s
+xgbe1      37781     1734712      17321        949568       0         0
+xgbe2      45783      144277       4532          6773       0         0
+                                                      drop/0:      7.00/s
+...
+</pre><p>
+drop/0:  12/s indicates mPIPE0 has 12 packets dropped per second in the 10
+seconds interval.
+</p><p>
+Note: Packets dropped are per mPIPE instance and could be from multiple links.
+</p></dd><dt><a name="human-readable"></a><span class="term">
+<code class="option">-h | --human-readable</code>
+</span></dt><dd><p>
+Print statistics numbers as human readable format.
+i.e. K: Kilo (1000), M: Mega (10^6), G: Giga (10^9), T: Tera (10^12)
+and P: Peta (10^15).
+</p><pre class="programlisting">
+# /usr/sbin/mpipe-stat xgbe1 xgbe2 --interval 10 --rates --packet-drops
+--human-readable
+LINK    Tx Pkt/s    Tx bits/s  Rx pkt/s     Rx bits/s Tx err/s  Rx err/s
+--------------------------------------------------------------------------
+xgbe1     35.78K        1.93M    18.83K       938.95K       0         0
+xgbe2     43.57K      163.42K     4.42K         6.83K       0         0
+                                                      drop/0:     12.00/s
+...
+</pre></dd><dt><a name="verbose"></a><span class="term">
+<code class="option">-v | --verbose</code>
+</span></dt><dd><p>
+Print many more statistics.  For example:
+</p><pre class="programlisting">
+# /usr/sbin/mpipe-stat --verbose xgbe1
+
+xgbe1:  Link Up, 10 Gbps, Full-duplex
+
+ Octets transmitted            54436220   Octets received              300063848
+ Frames transmitted              281906   Frames received                 667675
+ Broadcast frames                     4   Broadcast frames                 82883
+ Multicast frames                     6   Multicast frames                238822
+ Pause frames                         0   Pause frames                         0
+ 64 byte frames                      54   64 byte frames                  230103
+ 65-127 byte frames               91849   65-127 byte frames              220604
+ 128-255 byte frames             104169   128-255 byte frames              22828
+ 256-511 byte frames              85787   256-511 byte frames              18639
+ 512-1023 byte frames                46   512-1023 byte frames             10850
+ 1024-1518 byte frames                1   1024-1518 byte frames           164651
+ &gt; 1518 byte frames                   0   &gt; 1518 byte frames                   0
+ Transmit underruns                   0   Undersize frames                     0
+ Single collision frames              0   Oversize frames                      0
+ Mult. collision frames               0   Jabbers                              0
+ Excessive collisions                 0   Frame chk sequence errs              0
+ Late collisions                      0   Length frame errors                  0
+ Deferred tx frames                   0   Receive symbol errors                0
+ Carrier sense errors                 0   Alignment errors                     0
+                                          Receive overruns                     0
+                                          IP header checksum errs              0
+                                          TCP checksum errors                  0
+                                          UDP checksum errors                  0
+mPIPE0 Overall Statistics (cumulative)
+ Bytes out              245550958562412   Bytes in                  128143947234
+ Packets out              4092353950231   Packets in                  2131359547
+ Total drops                          0
+ Packets dropped or truncated due to [No Buffer]                               0
+ Packets dropped or truncated due to [iPKT FIFO full]                          0
+ Packets dropped by [Classifier/LBal]                                          0
+
+</pre></dd><dt><a name="list"></a><span class="term">
+<code class="option">-l | --list</code>
+</span></dt><dd><p>
+Enumerate all link names.
+</p></dd><dt><a name="scan-drop"></a><span class="term">
+<code class="option">--scan-drop</code>
+</span></dt><dd><p>
+Cycle through packet drop reasons, one per given interval, then
+display each counter value, and repeat.
+</p></dd><dt><a name="config-lbl=drop"></a><span class="term">
+<code class="option">--config-lbl=drop</code>
+</span></dt><dd><p>
+Reconfigure the Load Balancer statistics counter to count packets dropped by load
+balancer only (excluding those packets dropped by Classifier).
+The <code class="option">--config-lbl=drop</code> option requires
+a <a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd><dt><a name="config-lbl=bkt"></a><span class="term">
+<code class="option">--config-lbl=bkt</code>
+</span></dt><dd><p>
+Reconfigure Load Balancer statistics counter to count packets dropped
+by load balancer due to bucket full.
+The <code class="option">--config-lbl=btk</code> option requires
+a <a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd><dt><a name="config-lbl=nr"></a><span class="term">
+<code class="option">--config-lbl=nr</code>
+</span></dt><dd><p>
+Reconfigure Load Balancer statistics counter to count packets dropped
+by load balancer due to NotifRing full.
+The <code class="option">--config-lbl=nr</code> option requires
+a <a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd><dt><a name="config-ipkt=trunc"></a><span class="term">
+<code class="option">--config-ipkt=trunc</code>
+</span></dt><dd><p>
+Reconfigure iPKT statistics counter to count packets truncated due to
+out of iPkt buffer.  The <code class="option">--config-iptk=trunc</code> option
+requires
+a <a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd><dt><a name="config-ipkt=drop"></a><span class="term">
+<code class="option">--config-ipkt=drop</code>
+</span></dt><dd><p>
+Reconfigure iPKT statistics counter to count packets dropped due to
+out of iPkt buffers.  The <code class="option">--config-ipkt=drop</code> option
+requires
+a <a href="#verbose"><code class="option">--verbose</code></a> option.
+</p></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="notes"></a><h2>Notes</h2><p>
+
+The rates statistics are calculated based on the time measured by
+the system's core reference clock, which is unlikely to be completely
+accurate; typical oscillators used for this purpose might vary by as much
+as 300 parts per million (0.03%).  Ethernet standards also allow variance
+of up to 100 ppm (0.01%) in the output clock rate of the interface.
+This means that there may be some minor variation in the statistics
+reported on different boards, or when connected to different devices.
+For instance, a 10 Gbps interface which was in fact completely saturated
+might be reported to be running at anywhere from 9.996 Gbps to 10.004 Gbps.
+
+</p><p>
+
+When using <a href="#interval"><code class="option">--interval</code></a>, or when running
+<span><strong class="command">mpipe-stat</strong></span> several times in succession, you may notice
+that some values seem to reset from zero, while others do not.
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+Some values are incremental; each time they're displayed, you see the
+count of events since the last time the value was displayed.  This is
+true of all of the MAC statistics (Tx/Rx packets, Tx/Rx bits, Tx/Rx packets
+of specific sizes, various types of error frames), This is because these
+values are maintained by hardware in clear-on-read registers; whenever
+<span><strong class="command">mpipe-stat</strong></span> reads them, they're reset to zero.
+</p></li><li><p>
+Other values are cumulative; each time they're displayed, you see the
+total count of events since some time in the past.  This is true of
+mPIPE Overall Statistics (cumulative) with <a href="#verbose"><code class="option">--verbose</code></a>. This is because
+these values are maintained by software; they are implemented as cumulative
+counters since that behavior is more useful. Use the <a href="#interval"><code class="option">--interval
+</code></a> option to count these values incrementally during that execution
+of <span><strong class="command">mpipe-stat</strong></span>.
+</p></li></ul></div></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

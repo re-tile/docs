@@ -1,0 +1,3372 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="../tilera.css" title="Tilera Style
+">
+   <TITLE>Tilera Board Information Block Format (AN040)</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#CCFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF
+0000">
+
+<style TYPE="text/css">
+pre {
+    font-family: courier, monospace, serif;
+    font-size: 80%;
+}
+</style>
+
+<H1 class=title>
+Tilera Board Information Block Format for TILE-Gx Processors (AN040)
+</H1>
+
+<p>
+Last revised for MDE version 4.3.2, 12 September 2014<br>
+
+<h1>Introduction</h1>
+
+<p>
+The Tilera runtime software stack uses a set of system-specific information
+to govern the configuration and initialization of the Tile Processor&trade;
+and the devices it connects to.  This data is contained in a structure
+called the <em>Board Information Block</em> (BIB).
+
+<p>
+Much of the data in the BIB is unique to a particular hardware design,
+but is the same on all boards of that design; for instance, a description
+of the connectivity between the on-chip memory controllers and the memory
+on the board.  Some of the data might be different on every board;
+for instance, the board's serial number can be recorded in the BIB.
+Note that a board that contains multiple Tile Processors would need a
+separate BIB for each Tile Processor.
+
+<p>
+Tilera's board products are provided with a BIB during manufacturing, and
+that data is not expected to be modified by the end user.  This document is
+instead aimed at customers designing and producing their own board products.
+It explains the format of the BIB, and provides the semantics of the
+various data items within it.  Creating a BIB is an essential and early
+part of bringing up a new board design, since the Tilera Board Test Kit
+(BTK) derives virtually all of its board-specific knowledge from the BIB,
+either read from the board under test, or assumed as a result of configuring
+the BTK to work with a specific board type.
+
+<h1>Differences from previous BIB versions</h1>
+
+<p>
+The version of the BIB used with TILE-Gx processors is culturally compatible
+with, but not at all identical to, the version used on previous Tilera
+products.  Some of the notable differences:
+
+<ul>
+<li>
+<p>
+Some things are now properties of the chip, rather than the board, and so
+are no longer part of the BIB.  For instance, the frequency-to-voltage
+tables present in the TILEPro BIB are now burned into the TILE-Gx processor
+during manufacturing.
+</li>
+
+<li>
+<p>
+Some things which could be automatically determined on TILEPro can
+no longer be so treated on TILE-Gx, and are thus now part of the BIB.
+For instance, on TILEPro, there was a separate MDIO interface for every
+Ethernet port, so it was reasonable to just search for a port's PHY by
+probing all possible addresses on that port's MDIO bus.  On TILE-Gx,
+there are only two MDIO buses for up to 16 Ethernet ports, so the BIB
+needs to contain the MDIO address of each port's PHY.
+</li>
+
+<li>
+<p>
+TILEPro was able to run in a limited mode without a BIB if the system
+configuration followed a very restrictive set of rules, mostly related to
+memory configuration.  This is not possible on TILE-Gx, mainly because
+of an explosion of configuration options; without a BIB, the hypervisor
+will not boot.
+</li>
+
+<li>
+<p>
+In several cases, different BIB item types which all applied to the
+same piece of hardware, but which had been added at different times,
+were combined into a new unified item type.
+</li>
+
+<li>
+<p>
+The BIB creation and manipulation tools provided with TILE-Gx are a
+substantial upgrade over the tools provided with previous chips.
+</li>
+
+</ul>
+
+<h1>Creation of the BIB</h1>
+
+<h2>BIB creation via the BTK</h2>
+<p>
+Most users will want to use the BIB support in the BTK to create their BIB.
+This feature allows you to specify your BIB using a sequence of Python
+objects, which automatically check all item values for legality, scale
+some values for easier presentation, and allow many values to be specified
+using symbolic constants.  Once created, you can dump out the contents
+of the BIB in human-readable form or binary form, and write the BIB to an
+I2C EEPROM or SPI ROM on your board.  You can also read the BIB back from
+such a ROM (the BTK does this automatically in most cases to learn about
+the board under test), and then dump it in human-readable or binary form,
+or even turn it back into Python code which, when run, recreates the BIB.
+
+<p>
+If you will be using the BTK to create your BIB (which we highly recommend),
+you can skip the parts of this document which describe the BIB header
+and trailer, and other low-level formatting details, since the BTK will
+handle that for you automatically.  You will still need to understand
+the contents of the items within the BIB; the names used here are the
+same as those used by the Python objects supplied as part of the BTK.
+This document does not define the generic BIB operations; for that,
+see the BTK documentation.
+
+<h2>BIB creation via custom code</h2>
+<p>
+Users who, for whatever reason, cannot use the BTK to create their
+boards' BIBs may wish to implement their own BIB-creation code.
+To assist in this process, the MDE includes a C header file with
+definitions for the BIB header, trailer, and all of the items and
+structures contained in the body of the BIB.  This file is shipped
+as part of the hypervisor source distribution, and can be found at
+<br>
+<tt>$TILERA_ROOT/src/sys/common_hvbme/tilegx/include/hvbme/board_info.h</tt>.
+Customers writing their own code should pay special attention to the
+sections in this document which describe the proper values for header
+fields, including the CRC, and are advised to cross-check their output
+BIB against one generated by the BTK to check the correctness of their
+implementation.
+
+<h1>Location of the BIB</h1>
+
+<h2>Onboard</h2>
+<p>
+An onboard BIB can be located within an I<sup>2</sup>C EEPROM that is
+connected to the master I<sup>2</sup>C interface of the Tile Processor, or
+within an SPI ROM that is connected to the Tile Processor's SPI interface.
+An I<sup>2</sup>C EEPROM or SPI ROM can contain only one BIB, so a separate
+EEPROM or SPI ROM is required for each Tile Processor.
+
+<p>
+If the BIB is within an I<sup>2</sup>C EEPROM, that device must use
+16-bit addressing; this means it will most likely be at least 4 Kbit in
+size.  The software that locates the BIB will probe all of the standard
+addresses for I<sup>2</sup>C EEPROMs (7-bit addresses 0x50 through 0x57,
+or 8-bit addresses 0xA0 through 0xAE), on I2C bus zero, and will examine
+each EEPROM found for a BIB.  When a BIB in the appropriate format with
+a good checksum is found, the search terminates.
+
+<p>
+If the BIB is within an SPI ROM, there are no special device requirements.
+Because only one SPI ROM can be connected to a Tile Processor, only
+one probe operation is performed.  If a valid BIB is present in both an
+I<sup>2</sup>C EEPROM and the SPI ROM, the I<sup>2</sup>C version will
+be used.
+
+<p>
+Within either type of ROM, the BIB is contained in the set of bytes with
+the highest-possible addresses; in other words, at the very end of the ROM.
+For example, if a 32-word BIB (128 or 0x80 bytes) were contained in a 512
+Kbit EEPROM (64K or 0x10000 bytes), it would start at byte address 0xFF80
+and end at byte address 0xFFFF.  This placement, combined with the BIB
+trailer format, allows the block to be found without prior knowledge of
+the ROM's size.  (It could also be placed at the very start of the ROM,
+but that space is reserved for bootable code or register settings.)
+
+<h2>Compiled-in</h2>
+<p>
+In some situations, it is not convenient to include the BIB in
+onboard nonvolatile memory.  For instance, if the I2C or SPI buses were
+nonfunctional on the first version of a prototype board, you might want
+to be able to boot the software stack on that board before the I2C or
+SPI problems were fixed.  Another example might be a board where the Tile
+Processor is a slave coprocessor, controlled by another master processor
+which supplies its boot image; if the master processor knows all of the
+board characteristics already, via some other mechanism, it might be
+duplicative to supply a BIB for the coprocessor.
+
+<p>
+In cases like these, it is possible to compile the BIB directly into the
+hypervisor.  To do so, follow these steps:
+
+<ol>
+<li>
+<p>
+Create the BIB using the BTK.  In most cases you will have already implemented
+a create_bib() method as part of your board class, so you could just do:
+
+<p>
+<pre>
+  btk> b = board.create_bib()
+</pre>
+
+</li>
+
+<li>
+<p>
+Use the BTK to convert the Python BIB object to a C source file.
+
+<p>
+<pre>
+  btk> outfile = open("my_bib.c", "w")
+  btk> outfile.write(b.get_c())
+  btk> outfile.close()
+</pre>
+
+</li>
+
+<li>
+<p>
+Do a custom hypervisor build, adding that C source file to the hypervisor
+and the booter.  This can be done by specifying the newly created C source
+file in the EXTRA_SHARED_SOURCES variable:
+
+<pre>
+  $ cp my_bib.c $TILERA_ROOT/src/sys/hv
+  $ cd $TILERA_ROOT/src
+  $ make -C sys EXTRA_SHARED_SOURCES="my_bib.c"
+</pre>
+
+<p>
+See the System Programmer's Guide for more information on compiling
+a custom hypervisor, and on using it once you've compiled it.
+
+</li>
+</ol>
+
+<h1>Notes on Data Formats</h1>
+
+<p>
+In the descriptions below, we use C language conventions for numeric
+literals and expressions.  Numerical values without a prefix are decimal;
+those with a <tt>0x</tt> prefix are in hexadecimal.
+
+<p>
+Multi-byte quantities (16-bit halfwords or 32-bit words) are arranged
+within byte-addressed storage in little-endian format, since that is the
+native format of the Tile Processor.  This means that the least significant
+bits of the quantity appear in the lowest-addressed byte, while the most
+significant bits of the quantity appear in the highest-addressed byte.
+So, if a word containing 0x12345678 hexadecimal (305419896 decimal)
+were stored starting at byte address zero, byte 0 would contain 0x78;
+byte 1 would contain 0x56; byte 2 would contain 0x34; and byte 3 would
+contain 0x12.
+
+<h1>Format Overview</h1>
+
+<p>
+A BIB consists of a header, zero or more item descriptors, and a trailer.
+The total length of the BIB can be no more than 1024 4-byte words (4096
+bytes), although it is generally much smaller.
+
+<p>
+Both the header and trailer contain specific values (<em>magic numbers</em>)
+used to identify the block, as well as the block's length.  The trailer
+also contains a checksum (a Cyclic Redundancy Check, CRC-32), which
+validates that the block has not become corrupt.
+
+<p>
+Each item descriptor is variable-length, and contains a type code, an
+instance number (used to associate multiple items of the same type with a
+specific piece of hardware), and some type-dependent data.
+
+<h1>Header Format</h1>
+
+<p>
+The header consists of three 4-byte words:
+
+<ul>
+<li>
+<p>
+  The first word contains the header magic number.  For a BIB, the magic
+  number is 0x30426942 (<tt>BiB0</tt> if interpreted as ASCII text).
+</li>
+
+<li>
+<p>
+  The second word contains the version number of the BIB format.  Currently,
+  this is 1 (it was 0 for TILE64 and TILEPro).  The version defines the
+  overall structure of the block (for instance, the components of the
+  header or of an item descriptor); it will not change just because new
+  item types are added.
+</li>
+
+<li>
+<p>
+  The third word contains the number of 4-byte words in the block, not
+  counting the header or trailer.  So, for a block which contained no
+  items, this word would contain zero.
+</li>
+</ul>
+
+<h1>BIB Body</h1>
+
+<p>
+The body of the BIB is made of of a sequence of items, each with an item
+descriptor and zero or more members.  Members may be booleans; bitfields
+or integers of various sizes; character strings; structures, which are
+containers for members; fixed- or variable-length arrays of those types;
+or unions, which contain different members, depending on a selector field.
+Members, even structures, do not stand alone; they only appear as part
+of an item.
+
+<h2>Overall Item Format</h2>
+
+<p>
+Each item consists of a 4-byte item descriptor, followed by zero or more
+members; the item's length in bytes is always an integral multiple of four.
+If the last member of an item is a character string, and the last character
+in such a string is not aligned with the end of the item, then any remaining
+filler bytes are zero, but if it is, the string will not be null-terminated.
+
+<p>
+The descriptor itself consists of three subfields:
+
+<ul>
+<li>
+<p>
+  The low 8 bits of the 4-byte word contain the number of 4-byte words
+  in the data payload; this does not count the descriptor itself, so in
+  a descriptor without a data payload, this field is zero.
+</li>
+<li>
+<p>
+  The next 8 bits of the 4-byte word (bits [15:8]) contain the instance
+  number of the descriptor.  The instance number is used to distinguish
+  between multiple descriptors with the same type, and its interpretation
+  depends upon the particular descriptor type is it used with.  Often an
+  instance number is associated with a particular hardware entity; for
+  instance, a descriptor that contains a particular property of memory
+  shim <em>n</em> might have instance number <em>n</em>.  In some cases
+  the instance number is a structure.
+</li>
+<li>
+<p>
+  The top 16 bits of the 4-byte word contain a type field.  Valid types
+  are detailed in the next section.
+</li>
+</ul>
+<p>
+Since the length is included as part of the descriptor, items of unknown
+type may be skipped by code that reads the block.
+
+<h2>Specific Item/Structure Descriptions</h2>
+
+<p>
+The name of the item or structure appears in the first line of its
+description.  This is used to identify the item when using the BIB-building
+support in the BTK (where it will appear in lower-case) or when using
+the C structures in the supplied header files (where it may appear in
+upper- or lower-case, perhaps with a prefix, depending on the context).
+Items also have a code, which is included as part of the item's descriptor.
+
+<p>
+In the tables following:
+
+<ul>
+
+<li>
+<p>
+<b>Pos</b> is the position of a member within an item, in the format
+<em>w</em>.<em>b</em>.  <em>w</em> is the 4-byte word offset of the first
+bit of the item, while <em>b</em> is the bit offset within the word of
+that first bit; both are numbered from zero, and in the case of the bit
+offset, bit 0 is the least significant bit of the little-endian 4-byte word.
+(This column is really informational; if you use the BTK to generate your BIB,
+or you write your own code using the C structure definitions, this will be
+taken care of automatically.)
+</li>
+
+<li>
+<p>
+<b>Len</b> is the length, in bits, of the member.  For arrays, this will
+be given as the length of one array element, an asterisk, and the number
+of array elements; if the latter is ?, the array is variable-length.
+Variable-length arrays must always be the last member of an item, so the
+number of elements in one can be deduced from the array's position and
+the total item length.
+</li>
+
+<li>
+<p>
+<b>Name</b> is the name of the member.  As previously noted, these
+names are used to set the member
+</li>
+
+<li>
+<p>
+<b>Type</b> is the type of data contained by the member.  These are
+typically standard C data types, but may be names of BIB structures; for
+arrays, the type name is followed by a length in brackets, which may be
+? for variable-length arrays.
+</li>
+
+<li>
+<p>
+<b>Description</b> describes the meaning and use of the member.  In some
+cases, a description may outline how the current software stack uses the
+member's value.  This is purely advisory, and may change in the future.
+</li>
+</ul>
+
+
+<h3 id="struct_i2c_addr">Structure I2C_ADDR</h3>
+<p>
+I2C Address.  This structure describes an I2C device attached to a Tile
+Processor, and is used in several of the BIB item types.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>7</td>
+<td>dev_addr</td>
+<td>uint8_t</td>
+<td>I2C address of the device.  In the binary representation, this is the 7-bit
+address (the low read/write bit is omitted).
+</td></tr>
+<tr><td>0.7</td>
+<td>3</td>
+<td>bus</td>
+<td>uint8_t</td>
+<td>Number of the I2C slave bus to which the device is attached (0-2).
+</td></tr>
+<tr><td>0.10</td>
+<td>3</td>
+<td>switch_inst</td>
+<td>uint8_t</td>
+<td>I2C switch instance.  Some devices are only reachable via I2C switches;
+the switch must be activated and the proper switch channel selected
+before the device may be read or written.  For such devices, this field
+will be nonzero, and will be part of the instance number of an item of
+type I2C_SWITCH which describes the relevant switch.  (The switch item's
+instance number also uses bits from the bus number; see the description
+of that item type for details.)  If this field is NONE, no I2C switch
+need be configured to read or write this device.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>7</td><td>No I2C switch need be configured to read or write this device.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.13</td>
+<td>3</td>
+<td>switch_chan</td>
+<td>uint8_t</td>
+<td>I2C switch channel.  This field is only relevant if the switch field
+is not NONE; in that case, it denotes the channel on the switch which
+must be activated in order to communicate with this device.  Otherwise,
+this field must be zero.
+</td></tr>
+</table>
+
+<h3 id="struct_signal_gpio">Structure SIGNAL_GPIO</h3>
+<p>
+GPIO-specific information in a signal descriptor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>6</td>
+<td>pin</td>
+<td>uint8_t</td>
+<td>GPIO pin number.
+</td></tr>
+<tr><td>0.6</td>
+<td>2</td>
+<td>bank</td>
+<td>uint8_t</td>
+<td>GPIO controller number.  This is for future expansion and must be zero
+on TILE-Gx chips.
+</td></tr>
+<tr><td>0.8</td>
+<td>1</td>
+<td>open_drain</td>
+<td>bool</td>
+<td>If true, the GPIO pin is configured as an open-drain pin.  This bit is ignored
+on signal descriptors which describe inputs.
+</td></tr>
+<tr><td>0.9</td>
+<td>1</td>
+<td>inverted</td>
+<td>bool</td>
+<td>If true, signal is asserted when the pin is low.
+</td></tr>
+</table>
+
+<h3 id="struct_signal_i2c">Structure SIGNAL_I2C</h3>
+<p>
+I2C-specific information in a signal descriptor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>2</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>GPIO expander type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>PCA9555</td><td>0</td><td>PCA9555 or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.3</td>
+<td>4</td>
+<td>pin</td>
+<td>uint8_t</td>
+<td>GPIO expander pin number.
+</td></tr>
+<tr><td>0.7</td>
+<td>1</td>
+<td>inverted</td>
+<td>bool</td>
+<td>If true, signal is asserted when the pin is low.
+</td></tr>
+<tr><td>0.8</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the GPIO port expander.</td></tr>
+</table>
+
+<h3 id="struct_signal_reset">Structure SIGNAL_RESET</h3>
+<p>
+Reset-specific information in a signal descriptor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>inverted</td>
+<td>bool</td>
+<td>If true, reset is asserted when the pin is low.
+</td></tr>
+</table>
+
+<h3 id="struct_signal_fixed">Structure SIGNAL_FIXED</h3>
+<p>
+Fixed-specific information in a signal descriptor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>value</td>
+<td>bool</td>
+<td>If true, the pin is tied high; otherwise, it is tied low.
+</td></tr>
+</table>
+
+<h3 id="struct_signal_enet_int">Structure SIGNAL_ENET_INT</h3>
+<p>
+Ethernet interrupt-specific information in a signal descriptor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>2</td>
+<td>pin</td>
+<td>uint8_t</td>
+<td>ENET_INT pin number.
+</td></tr>
+<tr><td>0.3</td>
+<td>1</td>
+<td>inverted</td>
+<td>bool</td>
+<td>If true, signal is asserted when the pin is low.  NOTE: this item is included
+for future expansion.  On current TILE-Gx processors, only active high
+interrupts are supported on ENET_INT pins; 10 Gbps Ethernet links whose
+PHYS have active low interrupts should wire those interrupts to an SGMII_INT
+pin instead, and then use the GPIO signal type.
+</td></tr>
+</table>
+
+<h3 id="struct_signal">Structure SIGNAL</h3>
+<p>
+Many items contain descriptions of how a particular board signal is
+wired to the Tile Processor. These descriptions share a common format,
+which is called a signal descriptor and defined by this structure.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Type of signal.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>This signal is not connected.</td></tr>
+<tr><td>GPIO</td><td>1</td><td>The signal is connected to a processor GPIO pin.</td></tr>
+<tr><td>I2C</td><td>2</td><td>The signal is connected to an I2C GPIO expander pin.</td></tr>
+<tr><td>RESET</td><td>3</td><td>The signal is connected to the TILE Processor's reset pin; this is
+generally used only with the output signal for watchdog timers.</td></tr>
+<tr><td>FIXED</td><td>4</td><td>The signal is tied to a fixed value.</td></tr>
+<tr><td>ENET_INT</td><td>5</td><td>The signal is tied to one of the dedicated 10 Gbps Ethernet interrupt
+pins (ENET_INT[0:3]).  Note that some pins are designated as both GPIO
+pins and SGMII Ethernet interrupt pins; these should use the GPIO signal
+type, not this type.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>24</td>
+<td>u</td>
+<td>Union</td>
+<td>Information for specific types of signals.
+<br><br>The selector for this union is type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0</td>
+<td>NULL</td>
+<td>No contents</td>
+<td></td>
+</tr>
+<tr><td>1</td>
+<td>gpio</td>
+<td><a href="#struct_signal_gpio">SIGNAL_GPIO</a></td>
+<td></td>
+</tr>
+<tr><td>2</td>
+<td>i2c</td>
+<td><a href="#struct_signal_i2c">SIGNAL_I2C</a></td>
+<td></td>
+</tr>
+<tr><td>3</td>
+<td>reset</td>
+<td><a href="#struct_signal_reset">SIGNAL_RESET</a></td>
+<td></td>
+</tr>
+<tr><td>4</td>
+<td>fixed</td>
+<td><a href="#struct_signal_fixed">SIGNAL_FIXED</a></td>
+<td></td>
+</tr>
+<tr><td>5</td>
+<td>enet_int</td>
+<td><a href="#struct_signal_enet_int">SIGNAL_ENET_INT</a></td>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3>Item NOM_TILE_FREQ (code 3)</h3>
+<p>
+Nominal tile clock in Hz.  Typically this item is not included in the BIB;
+in that case, the maximum frequency, based on the CPU's speed grade and
+the board's voltage capability, is used.  System software can override
+the processor frequency within limits set by the processor.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>clock</td>
+<td>uint32_t</td>
+<td>Nominal tile clock in Hz.
+</td></tr>
+</table>
+
+<h3>Item BOARD_PART_NUM (code 5)</h3>
+<p>
+Board part number.  Tilera's board part numbers are of the following format:
+<p>
+402-ddddd-dd
+<p>
+where d is a digit from 0 to 9. Although it is not a desired practice,
+some parts of the current system software stack may make assumptions
+about the board's properties based on this number. Thus, you are advised
+to avoid part numbers that might be confused with Tilera's.
+<p>
+This item's value may be retrieved from the /sys/hypervisor/board/board_part
+file under Tile Linux. Its presence is highly recommended, but not required.
+<p>
+The instance number is numeric. Its value depends upon the type of board being described.  Items associated
+with instance 0 pertain to the system motherboard; values associated with
+instance 1 pertain to a mezzanine or I/O module; and values associated
+with instance 2 pertain to a CPU module.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>part_num</td>
+<td>char[?]</td>
+<td>Part number.</td></tr>
+</table>
+
+<h3>Item BOARD_SERIAL_NUM (code 6)</h3>
+<p>
+Board serial number.  This item's value may be retrieved from the
+/sys/hypervisor/board/board_serial file under Tile Linux. Its presence
+is not required.
+<p>
+The instance number is numeric. Its value depends upon the type of board being described.  Items associated
+with instance 0 pertain to the system motherboard; values associated with
+instance 1 pertain to a mezzanine or I/O module; and values associated
+with instance 2 pertain to a CPU module.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>serial_num</td>
+<td>char[?]</td>
+<td>Serial number.</td></tr>
+</table>
+
+<h3>Item CHIP_NUM (code 7)</h3>
+<p>
+Chip serial number.  This item's value may be retrieved from the
+/sys/devices/system/cpu/chip_serial file under Tile Linux. Its presence
+is not required.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>chip_num</td>
+<td>char[?]</td>
+<td>Chip number.</td></tr>
+</table>
+
+<h3>Item MAX_MEM_SPEED (code 8)</h3>
+<p>
+This entry limits the speed at which a memory shim's memory is run.
+The entries in the speed array are indexed by the number of DIMMs installed;
+if one is installed, the first array entry is used, if two are installed,
+the second array entry is used, etc.  If there are fewer array entries
+than installed DIMMs, the last entry in the array will be used.
+<p>
+Note that this is a board property.  The actual speed will be the lowest
+of this value; the maximum speed supported by the processor; and the
+maximum speed supported by the installed memory, as described by the SPD
+for a DIMM or a virtual SPD for an onboard memory bank.  Other factors
+evaluated by the memory controller configuration software may also result
+in a lower memory speed.
+<p>
+The instance number is numeric. Its value is the mshim instance.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16 * ?</td>
+<td>speed</td>
+<td>uint16_t[?]</td>
+<td>Maximum memory speed in millions of transactions per second.</td></tr>
+</table>
+
+<h3>Item BOARD_REV (code 14)</h3>
+<p>
+Board revision.  This item's value may be retrieved from the
+/sys/hypervisor/board/board_revision file under Tile Linux. Its presence
+is strongly recommended but not required.
+<p>
+The instance number is numeric. Its value depends upon the type of board being described.  Items associated
+with instance 0 pertain to the system motherboard; values associated with
+instance 1 pertain to a mezzanine or I/O module; and values associated
+with instance 2 pertain to a CPU module.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>board_rev</td>
+<td>char[?]</td>
+<td>Board revision.</td></tr>
+</table>
+
+<h3 id="struct_dimm_map_entry">Structure DIMM_MAP_ENTRY</h3>
+<p>
+Entry in a DIMM map.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>onboard</td>
+<td>bool</td>
+<td>If nonzero, this entry describes onboard memory, not a DIMM slot.
+</td></tr>
+<tr><td>0.16</td>
+<td>16</td>
+<td>addr</td>
+<td>Union</td>
+<td>Per-DIMM information.
+<br><br>The selector for this union is onboard.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0</td>
+<td>i2c</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address information for the SPD ROM on this DIMM.</td>
+</tr>
+<tr><td>1</td>
+<td>onboard_inst</td>
+<td>uint16_t</td>
+<td>Instance number of the SPD_DATA item which contains the SPD bytes for
+this onboard memory bank.</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3>Item DIMM_MAP (code 15)</h3>
+<p>
+The DIMM map describes how memory DIMMs or onboard memories are wired to
+a memory shim, as well as how software can access data about those memories.
+<p>
+Note that this item describes the availability of sockets for DIMMs, not
+the presence of DIMMs themselves; the latter is determined by means of
+probing for the relevant SPD PROM. This item does not need to be modified
+if DIMMs are added to or removed from sockets on the board.
+<p>
+One instance of this item is required for each memory shim, unless the
+shim is to be unused.
+<p>
+The instance number is numeric. Its value is the mshim instance.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>3</td>
+<td>cs_per_slot</td>
+<td>uint8_t</td>
+<td>Number of chip select lines connected to each DIMM slot or onboard memory
+bank on this mshim; must be 1, 2, or 4.  Chip select lines are assumed
+to be used in order.  Thus, line 0 is always assigned to CS0 on DIMM
+slot/onboard bank 0; if N lines are connected to each slot, then slot
+M gets chip select lines (M * N) to (M * N) + N - 1.
+</td></tr>
+<tr><td>0.8</td>
+<td>8</td>
+<td>dqs_offset</td>
+<td>int8_t</td>
+<td>Length of the DQS (data strobe) traces as compared to the DQ (data) traces, in
+picoseconds.
+</td></tr>
+<tr><td>1.0</td>
+<td>32 * ?</td>
+<td>map</td>
+<td><a href="#struct_DIMM_MAP_ENTRY">DIMM_MAP_ENTRY</a>[?]</td>
+<td>DIMM map entries, 1 per DIMM.</td></tr>
+</table>
+
+<h3>Item SPD_DATA (code 16)</h3>
+<p>
+This entry contains Serial Presence Detect data for onboard memory.
+We recommend constructing this virtual SPD using the latest available
+version of the JEDEC DDR3 SPD specification.
+<p>
+The instance number is numeric. Values must be different for each copy of this item, since they are
+specified in the DIMM_MAP_ENTRY structure and used to find a particular
+instance.  One SPD_DATA item may be used to describe multiple banks of
+onboard memory.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>spd</td>
+<td>uint8_t[?]</td>
+<td>SPD data.</td></tr>
+</table>
+
+<h3 id="struct_dimm_inst">Structure DIMM_INST</h3>
+<p>
+Instance number for DIMM-based items, like the DIMM label.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>3</td>
+<td>dimm</td>
+<td>uint8_t</td>
+<td>DIMM number within a shim.
+</td></tr>
+<tr><td>0.3</td>
+<td>3</td>
+<td>shim</td>
+<td>uint8_t</td>
+<td>Memory shim instance number.
+</td></tr>
+</table>
+
+<h3>Item DIMM_LABEL (code 17)</h3>
+<p>
+Board silkscreen label or other human-readable identifier for a DIMM.  This
+is intended to be used in error reporting by automated diagnosis routines.
+This item's presence is not required, but its omission will potentially
+lead to less useful error messages when memory errors are detected.
+<p>
+The instance number is of type <a href="#struct_dimm_inst">DIMM_INST</a>. 
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>label</td>
+<td>char[?]</td>
+<td>DIMM label.</td></tr>
+</table>
+
+<h3 id="struct_fan_info">Structure FAN_INFO</h3>
+<p>
+This structure, known as a fan descriptor, describes a fan attached to
+a fan controller.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>max_speed</td>
+<td>uint8_t</td>
+<td>Maximum fan speed, in hundreds of revolutions per minute.  If zero,
+no fan is connected.
+</td></tr>
+<tr><td>0.8</td>
+<td>2</td>
+<td>tach_ppr</td>
+<td>uint8_t</td>
+<td>Tachometer pulses per revolution, minus 1.  Thus, a value of 0
+in this field denotes a tachometer which produces one pulse per
+fan revolution.
+</td></tr>
+<tr><td>0.10</td>
+<td>1</td>
+<td>four_wire</td>
+<td>bool</td>
+<td>Four wire fan flag.  If true, this is a four-wire fan, with tachometer speed
+sending and direct PWM control.  If false, this is a 3-wire fan, with tachometer
+speed sensing only.
+</td></tr>
+<tr><td>0.11</td>
+<td>1</td>
+<td>pwm_act_low</td>
+<td>bool</td>
+<td>PWM active low flag.  If true, the PWM output is active low; i.e., it should be
+low all the time when the fan is running at a 100% duty cycle.
+</td></tr>
+<tr><td>0.15</td>
+<td>1</td>
+<td>temp_valid</td>
+<td>bool</td>
+<td>Temperature channel valid flag.  If true, the temperature channel is
+actually connected to an external diode; if false, it is not connected.
+</td></tr>
+</table>
+
+<h3 id="struct_temp_cfg_max6639">Structure TEMP_CFG_MAX6639</h3>
+<p>
+Temperature configuration specialized for MAX6639 controller.  Note that
+if this sensor has instance zero, and thus monitors processor temperature,
+that measurement must be done via temperature channel 1. Also, in that
+case, if fan 1 is marked as being present, it is assumed to be part of
+an active heatsink for the processor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16 * 2</td>
+<td>fans</td>
+<td><a href="#struct_FAN_INFO">FAN_INFO</a>[2]</td>
+<td>Fan descriptors.</td></tr>
+<tr><td>1.0</td>
+<td>32 * ?</td>
+<td>sigs</td>
+<td><a href="#struct_SIGNAL">SIGNAL</a>[?]</td>
+<td>Signal descriptors.  If present, the described signals will be asserted
+when the controller is initialized. This is intended to support systems
+where the selection of 3-wire vs. 4-wire fans is made via a GPIO signal,
+although it could be used for other purposes, like modifying system
+overtemperature behavior.</td></tr>
+</table>
+
+<h3 id="struct_temp_cfg_adt7467">Structure TEMP_CFG_ADT7467</h3>
+<p>
+Temperature configuration specialized for ADT7467 controller.  Note that
+if this sensor has instance zero, and thus monitors processor temperature,
+that measurement must be done via temperature channel 1. Also, in that
+case, if fan 1 is marked as being present, it is assumed to be part of
+an active heatsink for the processor.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16 * 4</td>
+<td>fans</td>
+<td><a href="#struct_FAN_INFO">FAN_INFO</a>[4]</td>
+<td>Fan descriptors.  As recommended by ON Semi, if there are 4 fans, fans
+3 and 4 have individual tachometer sensing inputs (TACH3/TACH4) but are
+both driven from the fan 3 output (PWM3).</td></tr>
+<tr><td>2.0</td>
+<td>32 * ?</td>
+<td>sigs</td>
+<td><a href="#struct_SIGNAL">SIGNAL</a>[?]</td>
+<td>Signal descriptors.  If present, the described signals will be asserted
+when the controller is initialized. This is intended to support systems
+where the selection of 3-wire vs. 4-wire fans is made via a GPIO signal,
+although it could be used for other purposes, like modifying system
+overtemperature behavior.</td></tr>
+</table>
+
+<h3>Item TEMP_CFG (code 25)</h3>
+<p>
+Temperature sensor configuration.
+<p>
+The instance number is numeric. Values must be different for each copy of this item.  More than one
+sensor may be present.  The sensor with instance 0 is assumed to be the
+one which measures the processor die temperature.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>type</td>
+<td>uint16_t</td>
+<td>Sensor type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>UNKNOWN</td><td>0</td><td>Unknown sensor.</td></tr>
+<tr><td>LM84</td><td>1</td><td>Sensor is a National Semiconductor LM84 or equivalent.</td></tr>
+<tr><td>LM95235</td><td>2</td><td>Sensor is a National Semiconductor LM95235 or equivalent.</td></tr>
+<tr><td>MAX6639</td><td>3</td><td>Sensor is a Maxim MAX6639 or equivalent.</td></tr>
+<tr><td>ADT7467</td><td>4</td><td>Sensor is an ON Semiconductor ADT7467 or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.16</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the sensor.</td></tr>
+<tr><td>1.0</td>
+<td>64</td>
+<td>u</td>
+<td>Union</td>
+<td>Information for specific types of controllers.
+<br><br>The selector for this union is type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0, 1, 2</td>
+<td>NULL</td>
+<td>No contents</td>
+<td></td>
+</tr>
+<tr><td>3</td>
+<td>max6639</td>
+<td><a href="#struct_temp_cfg_max6639">TEMP_CFG_MAX6639</a></td>
+<td></td>
+</tr>
+<tr><td>4</td>
+<td>adt7467</td>
+<td><a href="#struct_temp_cfg_adt7467">TEMP_CFG_ADT7467</a></td>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3>Item BOARD_DESCRIPTION (code 26)</h3>
+<p>
+Board description.  This is intended to be a human-readable
+description of the board's properties, and is explicitly not designed
+to be parsed by software; its format is therefore undefined.
+<p>
+The instance number is numeric. Its value depends upon the type of board being described.  Items associated
+with instance 0 pertain to the system motherboard; values associated with
+instance 1 pertain to a mezzanine or I/O module; and values associated
+with instance 2 pertain to a CPU module.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>desc</td>
+<td>char[?]</td>
+<td>Board description.</td></tr>
+</table>
+
+<h3>Item FAIL_LED (code 27)</h3>
+<p>
+Wiring of the board failure LED.  If present, the described signal will
+be deasserted during the boot process if there have been no POST failures.
+The intent is that the LED is lit at reset and stays lit until that happens;
+thus, if the LED is lit, either there has been a POST failure, or the system
+did not make sufficient progress through the boot process to douse the LED.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>signal</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Board failure LED signal.</td></tr>
+</table>
+
+<h3>Item FIRMWARE_REV (code 29)</h3>
+<p>
+Revision level of low-level board firmware (e.g., CPLD or FPGA configuration
+data).  This value is used during manufacturing.  Its presence is not
+required.
+<p>
+The instance number is numeric. Its value must be zero in a BIB, and INST_AIB in an AIB.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>rev</td>
+<td>char[?]</td>
+<td>Firmware revision.</td></tr>
+</table>
+
+<h3>Item BOM_REV (code 30)</h3>
+<p>
+Board bill of materials revision level.  This value is used during
+manufacturing.  Its presence is not required.
+<p>
+The instance number is numeric. Its value must be zero in a BIB, and INST_AIB in an AIB.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8 * ?</td>
+<td>rev</td>
+<td>char[?]</td>
+<td>BOM revision.</td></tr>
+</table>
+
+<h3 id="struct_rtc_pcf8563">Structure RTC_PCF8563</h3>
+<p>
+PCF8563-specific RTC information.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the device.</td></tr>
+</table>
+
+<h3>Item RTC_CFG (code 34)</h3>
+<p>
+Describes the interface to a real-time clock chip.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this
+item which appears in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Clock type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No clock.</td></tr>
+<tr><td>PCF8563</td><td>1</td><td>Clock is an NXP PCF8563 or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>16</td>
+<td>u</td>
+<td>Union</td>
+<td>Information for specific types of clocks.
+<br><br>The selector for this union is type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>1</td>
+<td>pcf8563</td>
+<td><a href="#struct_rtc_pcf8563">RTC_PCF8563</a></td>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3 id="struct_aib_i2c">Structure AIB_I2C</h3>
+<p>
+I2C-specific AIB information.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the device which contains the AIB.</td></tr>
+</table>
+
+<h3>Item AIB (code 36)</h3>
+<p>
+Points to a potential location for an additional information block.
+<p>
+The instance number is numeric. Values must be different and nonzero for each copy of this item.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>AIB type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No AIB.</td></tr>
+<tr><td>I2C</td><td>1</td><td>AIB in an I2C EEPROM with 16-bit addressing.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>16</td>
+<td>u</td>
+<td>Union</td>
+<td>Information for specific types of AIBs.
+<br><br>The selector for this union is type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>1</td>
+<td>i2c</td>
+<td><a href="#struct_aib_i2c">AIB_I2C</a></td>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3 id="struct_watch_max6369">Structure WATCH_MAX6369</h3>
+<p>
+MAX6369-specific watchdog information.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the device.</td></tr>
+<tr><td>0.16</td>
+<td>32</td>
+<td>set0</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Wiring for the SET0 pin.</td></tr>
+<tr><td>1.16</td>
+<td>32</td>
+<td>set1</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Wiring for the SET1 pin.</td></tr>
+<tr><td>2.16</td>
+<td>32</td>
+<td>set2</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Wiring for the SET0 pin.</td></tr>
+<tr><td>3.16</td>
+<td>32</td>
+<td>wdi</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Wiring for the WDI pin.</td></tr>
+<tr><td>4.16</td>
+<td>32</td>
+<td>wdo</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Wiring for the WDO pin.</td></tr>
+</table>
+
+<h3 id="struct_watch_pcf8563">Structure WATCH_PCF8563</h3>
+<p>
+PCF8563-specific watchdog information.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the device.  Note that this may be the same device which
+is described by an RTC_CFG item elsewhere in the BIB.</td></tr>
+<tr><td>0.16</td>
+<td>32</td>
+<td>enable</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a timer enable signal.  If present, this signal will be
+asserted when the watchdog is enabled.  It is typically ANDed with the
+reset output of the watchdog chip, and is used to protect against inadvertent
+reset when the watchdog is not enabled.</td></tr>
+</table>
+
+<h3>Item WATCH_CFG (code 37)</h3>
+<p>
+Describes the interface to a watchdog timer.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Watchdog type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No watchdog.</td></tr>
+<tr><td>MAX6369</td><td>1</td><td>Watchdog is a Maxim MAX6369 or equivalent.</td></tr>
+<tr><td>PCF8563</td><td>1</td><td>Watchdog is an NXP PCF8563 or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>176</td>
+<td>u</td>
+<td>Union</td>
+<td>Information for specific types of watchdog timers.
+<br><br>The selector for this union is type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>1</td>
+<td>max6369</td>
+<td><a href="#struct_watch_max6369">WATCH_MAX6369</a></td>
+<td></td>
+</tr>
+<tr><td>1</td>
+<td>pcf8563</td>
+<td><a href="#struct_watch_pcf8563">WATCH_PCF8563</a></td>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3>Item POWEROFF (code 41)</h3>
+<p>
+This item describes the wiring of a board power-off signal. If defined,
+this signal will be asserted when a system power-off is requested (for
+instance, via the Linux shutdown -h command).
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>signal</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Poweroff signal.</td></tr>
+</table>
+
+<h3>Item I2C_DEV_CFG (code 43)</h3>
+<p>
+This item describes customer-specific devices that are intended to be
+accessible from the client OS.
+<p>
+The instance number is numeric. Its value is ignored.  Multiple items of this type may be present.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>16</td>
+<td>addr</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address of the device.</td></tr>
+<tr><td>0.16</td>
+<td>1</td>
+<td>mem_addr_8bit</td>
+<td>bool</td>
+<td>If true, the device uses 8-bit memory addresses.  If neither mem_addr_8bit
+nor mem_addr_0bit are set, the device is treated as 16-bit.
+</td></tr>
+<tr><td>0.17</td>
+<td>1</td>
+<td>mem_addr_0bit</td>
+<td>bool</td>
+<td>If true, the device does not use memory addresses.  If neither mem_addr_8bit
+nor mem_addr_0bit are set, the device is treated as 16-bit.
+</td></tr>
+<tr><td>0.18</td>
+<td>4</td>
+<td>page_size</td>
+<td>uint8_t</td>
+<td>log base 2 of the page size to use when accessing this device.  The
+page size affects I2C writes: the controller hardware inserts a delay
+(controlled by the write_cycle member of this item) when a page's worth
+of bytes have been written.  This is intended to accommodate devices like
+EEPROMs which require such delays for correct operation.  Many devices
+have more relaxed requirements, and may thus perform better with larger
+page sizes or smaller delays.
+<br><br>
+The I2C master hardware only supports page sizes of up to 64 bytes
+(log2 page size of 6).  If a value larger than that is specified here,
+reads or writes longer than 64 bytes will be done as a sequence of
+64-byte I2C transactions without intermediate STOP conditions; instead,
+each transaction after the first is initiated with a repeated START.
+This is intended for use with devices that support multiple writes, all
+of which take effect atomically when a STOP is seen.  However, it may not
+be appropriate for all devices.  For instance, some I2C EEPROMs support
+a page size larger than 64 bytes, but abort a write in progress when
+a repeated START condition is seen.  Thus, setting this value to such
+a device's native page size will result in data corruption on writes,
+and should be avoided.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>DEFAULT</td><td>0</td><td>Hardware default (8 bytes).</td></tr>
+</table>
+</td></tr>
+<tr><td>0.22</td>
+<td>4</td>
+<td>write_cycle</td>
+<td>uint8_t</td>
+<td>Delay between writes of I2C pages (see the page_size member of this item).
+This may be 1 to 8 milliseconds, or one of the defined settings (default,
+max, min).  Note that due to backwards compatibility requirements, the
+default is much larger than required for most devices.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>DEFAULT</td><td>0</td><td>Hardware default (5 ms).</td></tr>
+<tr><td>MAX</td><td>9</td><td>Hardware maximum (8.4 ms).</td></tr>
+<tr><td>MIN</td><td>10</td><td>Hardware minimum (80 ns).</td></tr>
+</table>
+</td></tr>
+<tr><td>1.0</td>
+<td>8 * ?</td>
+<td>name</td>
+<td>char[?]</td>
+<td>Name of the device.  This field is optional.  Names longer than 19 characters
+will be silently truncated.</td></tr>
+</table>
+
+<h3 id="struct_i2c_switch_inst">Structure I2C_SWITCH_INST</h3>
+<p>
+Instance number for items describing I2C switches.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>4</td>
+<td>shim</td>
+<td>uint8_t</td>
+<td>I2C master shim within the chip.  Starts at 0, and increments by 1 for each
+shim.
+</td></tr>
+<tr><td>0.4</td>
+<td>4</td>
+<td>switch_inst</td>
+<td>uint8_t</td>
+<td>I2C switch instance within I2C bus hanging off the given shim.  Must be
+unique for each switch within a bus, since other items use this value to
+identify a specific switch.
+</td></tr>
+</table>
+
+<h3>Item I2C_SWITCH (code 46)</h3>
+<p>
+Description of an I2C switch.
+<p>
+The instance number is of type <a href="#struct_i2c_switch_inst">I2C_SWITCH_INST</a>. 
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Switch type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No switch.</td></tr>
+<tr><td>PCA954X_SWITCH</td><td>1</td><td>NXP PCA9543, PCA9545, PCA9546, or PCA9548 switch or equivalent.</td></tr>
+<tr><td>PCA954X_MUX</td><td>2</td><td>NXP PCA9540, PCA9542, or PCA9544 multiplexer or equivalent.</td></tr>
+<tr><td>PCA9547</td><td>3</td><td>NXP PCA9547 multiplexer or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>7</td>
+<td>dev_addr</td>
+<td>uint8_t</td>
+<td>I2C address of the switch.  In the binary representation, this is the 7-bit
+address (the low read/write bit is omitted).
+</td></tr>
+<tr><td>0.15</td>
+<td>8</td>
+<td>conflict_ports</td>
+<td>uint8_t</td>
+<td>Bitmap of downstream switch ports that will be disabled immediately after
+use; to reduce the cost of I2C transactions, ports not specfied in this
+mask are typically left enabled until a different downstream port is
+selected on that switch.
+<br><br>
+This setting is useful in cases where multiple switches on a bus have
+downstream devices with identical I2C addresses.  For instance, consider
+a system with switches A and B on a bus, each with four downstream
+legs, where leg 0 on each switch contains an EEPROM at I2C address 0xA0.
+Assume the EEPROM behind switch A is accessed, which would require enabling
+its downstream leg 0.  In the absence of this member, a subsequent access
+to the EEPROM behind switch B might fail, since once switch B's downstream
+leg 0 was enabled, two devices at 0xA0 would be visible to the I2C master.
+If this member were set to 0x1 for both switches, their leg 0s would be
+disabled after accessing the respective EEPROM, and no conflict would occur.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>reset</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Reset signal.</td></tr>
+</table>
+
+<h3>Item MISC_RESET (code 49)</h3>
+<p>
+This item describes reset signals which need to be asserted as part of
+the hypervisor boot process; these signals normally reset a variety of
+devices on the board.  Note that other, more specific reset items should
+be used if possible; for instance, the PHY_LINK_CFG item describes the
+reset signal for PHYs.
+<p>
+During boot, the hypervisor will process the items of this type in
+the order that they appear in the BIB.  When each item is processed,
+the hypervisor will assert each reset signal in resets[]; delay for the
+number of microseconds in assert_time; and then deassert each reset signal.
+<p>
+The instance number is numeric. Its value is ignored.  Multiple items of this type may be present.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>assert_time</td>
+<td>uint32_t</td>
+<td>Reset assertion time in microseconds.
+</td></tr>
+<tr><td>1.0</td>
+<td>32 * ?</td>
+<td>resets</td>
+<td><a href="#struct_SIGNAL">SIGNAL</a>[?]</td>
+<td>Reset signals to be asserted at startup.</td></tr>
+</table>
+
+<h3>Item IO_DISABLE (code 51)</h3>
+<p>
+This item allows I/O devices to be disabled at boot time.  Disabled devices
+will not show up when software enumerates on-chip hardware and will thus
+be unusable.  This is the best way to ensure that a device which is always
+unused in a particular system will consume the lowest amount of power.
+Note that in some chip series, some devices are always disabled.  This entry
+cannot enable those devices; it can only disable additional devices.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>64 * ?</td>
+<td>disable</td>
+<td>uint64_t[?]</td>
+<td>Values to be ORed into the rshim's IO_DISABLE registers; the first element
+in the array corresponds to IO_DISABLE0, the second to IO_DISABLE1,
+etc.  For an explanation of which devices this affects, see the rshim
+documentation.</td></tr>
+</table>
+
+<h3>Item CPU_VOLT_RANGE (code 52)</h3>
+<p>
+This item specifies the available range of values for the CPU core voltage,
+in uV.  If the system does not provide a variable CPU voltage, both the
+vmin and vmax values should be set to the fixed voltage which is provided.
+If this entry is not present, software will assume that the full range
+of voltage values expressible by the CPU's 6-bit subset of the VR11 VID
+code is available (0.8818V to 1.2125V).
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>vmin</td>
+<td>uint32_t</td>
+<td>Minimum CPU voltage, in uV.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>vmax</td>
+<td>uint32_t</td>
+<td>Maximum CPU voltage, in uV.
+</td></tr>
+</table>
+
+<h3>Item MEM_VOLT_RANGE (code 53)</h3>
+<p>
+This item specifies the available range of values for the DDR3 voltage,
+in uV.  If the system does not provide a variable memory voltage, both the
+vmin and vmax values should be set to the fixed voltage which is provided.
+If this entry is not present, software will assume that the full range
+of voltage values expressible by the CPU's 4-bit subset of the VR11 VID
+code is available (1.2V to 1.6V).
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>vmin</td>
+<td>uint32_t</td>
+<td>Minimum DDR3 voltage, in uV.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>vmax</td>
+<td>uint32_t</td>
+<td>Maximum DDR3 voltage, in uV.
+</td></tr>
+</table>
+
+<h3 id="struct_clock_inst">Structure CLOCK_INST</h3>
+<p>
+Instance number for items which relate to shim clocks.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>4</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Shim type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>MICA_CRYPTO</td><td>0</td><td>MiCA cryptographic shim.</td></tr>
+<tr><td>MICA_COMPRESS</td><td>1</td><td>MiCA compression shim.</td></tr>
+<tr><td>TRIO</td><td>2</td><td>TRIO PCIe shim.</td></tr>
+<tr><td>USB</td><td>3</td><td>USB shim.</td></tr>
+<tr><td>MPIPE_MAIN</td><td>4</td><td>mPIPE main.</td></tr>
+<tr><td>MPIPE_CLASSIFIER</td><td>5</td><td>mPIPE classifier.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.4</td>
+<td>3</td>
+<td>shim</td>
+<td>uint8_t</td>
+<td>Shim instance within the specified type.
+</td></tr>
+</table>
+
+<h3>Item SHIM_CLOCK (code 54)</h3>
+<p>
+This item specifies the clock frequency for I/O shim clocks.  Typically
+this frequency is set automatically based on the chip's speed grade and
+the board's voltage capability.  This item is only useful if a particular
+system desires to run a shim's clock slower than the chip's default value,
+perhaps to save power.  Note that the best power saving can be achieved
+by turning off a shim entirely; see the IO_DISABLE item.
+<p>
+The instance number is of type <a href="#struct_clock_inst">CLOCK_INST</a>. 
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>freq</td>
+<td>uint32_t</td>
+<td>Shim frequency, in hertz.
+</td></tr>
+</table>
+
+<h3 id="struct_enet_led">Structure ENET_LED</h3>
+<p>
+This structure describes how a LED signal on an Ethernet PHY should be
+configured.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>5</td>
+<td>cfg</td>
+<td>uint8_t</td>
+<td>Describe the behavior desired for the LED.  The behavior which is actually
+achievable depends on the capabilities of the installed PHY; if it cannot
+support the requested behavior the results are undefined.  In some cases
+the setting for one LED may limit the choices available for other LEDs.
+Also, note that some configurations supported by the PHY hardware may
+not necessarily be supported by the hypervisor PHY drivers.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>LED does not exist.</td></tr>
+<tr><td>OFF</td><td>1</td><td>LED is always off.</td></tr>
+<tr><td>ON</td><td>2</td><td>LED is always on.</td></tr>
+<tr><td>LINK</td><td>3</td><td>LED shows link up/down status (i.e., is on if the link is up).</td></tr>
+<tr><td>LINK_ACT</td><td>4</td><td>LED shows link status and activity (i.e., is on if the link is up, off if not,
+and blinks if there is transmit or receive activity).</td></tr>
+<tr><td>LINK_ACT_TX</td><td>5</td><td>LED shows link status and transmit activity (i.e., is on if the link is
+up, off if not, and blinks if there is transmit activity).</td></tr>
+<tr><td>LINK_ACT_RX</td><td>6</td><td>LED shows link status and receive activity (i.e., is on if the link is up,
+off if not, and blinks if there is receive activity).</td></tr>
+<tr><td>ACT</td><td>7</td><td>LED shows Tx/Rx activity (i.e., blinks if packets are sent or received).</td></tr>
+<tr><td>ACT_TX</td><td>8</td><td>LED shows transmit activity (i.e., blinks if packets are sent).</td></tr>
+<tr><td>ACT_RX</td><td>9</td><td>LED shows receive activity (i.e., blinks if packets are received).</td></tr>
+<tr><td>SPEED_10M</td><td>10</td><td>LED is on if link speed is 10 Mbps.</td></tr>
+<tr><td>SPEED_100M</td><td>11</td><td>LED is on if link speed is 100 Mbps.</td></tr>
+<tr><td>SPEED_1G</td><td>12</td><td>LED is on if link speed is 1 Gbps.</td></tr>
+<tr><td>FDX</td><td>13</td><td>LED is on if link is full-duplex.</td></tr>
+<tr><td>INTR</td><td>30</td><td>Signal is not connected to an LED, but is used as the PHY interrupt line.</td></tr>
+<tr><td>DEFAULT</td><td>31</td><td>LED should get its default meaning.  This is obviously very PHY-dependent,
+and may be affected by the settings of other LEDs.</td></tr>
+</table>
+</td></tr>
+</table>
+
+<h3>Item PHY_LINK_CFG (code 55)</h3>
+<p>
+This item specifies the properties of a communication path connected to
+an mPIPE shim: this is generally either an Ethernet PHY, a set of SERDES
+lanes run directly to a connector (like CX4 for XAUI), or a set of SERDES
+lanes connected via circuit board traces to another chip.  SERDES lanes
+not described in at least one PHY_LINK_CFG item are assumed to not be
+connected, and will not be accessible by software.
+<p>
+Dual-mode PHYs (for instance, 4-SERDES-lane, 10 Gbps PHYs which also support a
+1 Gbps mode using 1 SERDES lane) must be described by only one PHY_LINK_CFG
+item, which specifies all of the PHY's possible speeds.
+<p>
+The instance number is numeric. The value must be the instance number of the mPIPE shim to which this
+link is connected; thus, in many configurations, there will be multiple
+copies of this item with the same instance number.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>speed_10m</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 10 Mbps operation (Ethernet).
+</td></tr>
+<tr><td>0.1</td>
+<td>1</td>
+<td>speed_100m</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 100 Mbps operation (Fast Ethernet).
+</td></tr>
+<tr><td>0.2</td>
+<td>1</td>
+<td>speed_1g</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 1 Gbps operation (Gigabit Ethernet).
+</td></tr>
+<tr><td>0.3</td>
+<td>1</td>
+<td>speed_10g</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 10 Gbps operation (10 Gigabit Ethernet or
+3-lane Interlaken).
+</td></tr>
+<tr><td>0.4</td>
+<td>1</td>
+<td>speed_20g</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 20 Gbps operation (20 Gigabit
+Ethernet/Dual-speed XAUI).
+</td></tr>
+<tr><td>0.5</td>
+<td>1</td>
+<td>speed_25g</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 25 Gbps operation (5-lane Interlaken).
+</td></tr>
+<tr><td>0.6</td>
+<td>1</td>
+<td>speed_50g</td>
+<td>bool</td>
+<td>If true, the PHY/link can support 50 Gbps operation (10-lane Interlaken).
+</td></tr>
+<tr><td>0.10</td>
+<td>1</td>
+<td>sfp_txout_inv</td>
+<td>bool</td>
+<td>If true, the connection between the PHY and the SFP/SFP+  socket reverses the
+transmit out signals (PHY + wired to SFP -).
+</td></tr>
+<tr><td>0.11</td>
+<td>1</td>
+<td>phy_auto_cfg</td>
+<td>bool</td>
+<td>If true, the PHY on this port will automatically configure itself. The
+precise effect of this flag depends upon the PHY used. For instance, on
+the AMCC QT2025, it means that we will assume that the PHY is configured
+with both a firmware EEPROM and a configuration EEPROM, and that none of
+our normal configuration register settings need be performed.  (Note that
+a firmware EEPROM is always required for PHYs which need firmware; it's
+just the configuration EEPROM which is optional.)
+</td></tr>
+<tr><td>0.12</td>
+<td>1</td>
+<td>no_phy</td>
+<td>bool</td>
+<td>If true, there is no PHY connected to this link which can be managed
+by this processor via MDIO; the SERDES lanes are wired to an external
+connector or directly to another chip.
+</td></tr>
+<tr><td>0.13</td>
+<td>1</td>
+<td>shared_reset</td>
+<td>bool</td>
+<td>If true, the PHY reset line for this link resets other PHYs as well.
+This is commonly the case with a multiport PHY.
+</td></tr>
+<tr><td>0.14</td>
+<td>1</td>
+<td>shared_intr</td>
+<td>bool</td>
+<td>If true, the PHY interrupt line for this link is shared with other links.
+This is reserved for future use; currently the hypervisor will treat such
+PHYs as non-interrupting.
+</td></tr>
+<tr><td>0.16</td>
+<td>8 * 6</td>
+<td>leds</td>
+<td><a href="#struct_ENET_LED">ENET_LED</a>[6]</td>
+<td>Desired LED behavior.</td></tr>
+<tr><td>2.0</td>
+<td>1</td>
+<td>mdio_bus_xgbe</td>
+<td>bool</td>
+<td>If true, the PHY's MDIO connection is via the XGBE_MDIO/XGBE_MDC pins;
+otherwise, it is via the GBE_MDIO/GBE_MDC pins.
+</td></tr>
+<tr><td>2.1</td>
+<td>5</td>
+<td>mdio_addr</td>
+<td>uint8_t</td>
+<td>The 5-bit address of the PHY on the MDIO bus.
+</td></tr>
+<tr><td>2.8</td>
+<td>5</td>
+<td>num_mac_addrs</td>
+<td>uint8_t</td>
+<td>Number of sequential MAC addresses assigned to this link.  This value may be
+zero; in that case, mac_addr is ignored.
+</td></tr>
+<tr><td>2.16</td>
+<td>8 * 6</td>
+<td>mac_addr</td>
+<td>uint8_t[6]</td>
+<td>MAC address assigned to this link (or the first address of a contiguous
+sequence if num_mac_addrs is greater than one; such values are reserved
+for future use).</td></tr>
+<tr><td>4.0</td>
+<td>5</td>
+<td>lanes</td>
+<td>uint8_t</td>
+<td>Code identifying which SERDES lanes make up this link.  Note that some link
+modes may not use all available lanes.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>LANE0</td><td>0</td><td>Lane 0.</td></tr>
+<tr><td>LANE1</td><td>1</td><td>Lane 1.</td></tr>
+<tr><td>LANE2</td><td>2</td><td>Lane 2.</td></tr>
+<tr><td>LANE3</td><td>3</td><td>Lane 3.</td></tr>
+<tr><td>LANE4</td><td>4</td><td>Lane 4.</td></tr>
+<tr><td>LANE5</td><td>5</td><td>Lane 5.</td></tr>
+<tr><td>LANE6</td><td>6</td><td>Lane 6.</td></tr>
+<tr><td>LANE7</td><td>7</td><td>Lane 7.</td></tr>
+<tr><td>LANE8</td><td>8</td><td>Lane 8.</td></tr>
+<tr><td>LANE9</td><td>9</td><td>Lane 9.</td></tr>
+<tr><td>LANE10</td><td>10</td><td>Lane 10.</td></tr>
+<tr><td>LANE11</td><td>11</td><td>Lane 11.</td></tr>
+<tr><td>LANE12</td><td>12</td><td>Lane 12.</td></tr>
+<tr><td>LANE13</td><td>13</td><td>Lane 13.</td></tr>
+<tr><td>LANE14</td><td>14</td><td>Lane 14.</td></tr>
+<tr><td>LANE15</td><td>15</td><td>Lane 15.</td></tr>
+<tr><td>LANE0_3</td><td>16</td><td>Lanes 0 through 3.</td></tr>
+<tr><td>LANE4_7</td><td>17</td><td>Lanes 4 through 7.</td></tr>
+<tr><td>LANE8_11</td><td>18</td><td>Lanes 8 through 11.</td></tr>
+<tr><td>LANE12_15</td><td>19</td><td>Lanes 12 through 15.</td></tr>
+<tr><td>LANE13_15</td><td>20</td><td>Lanes 13 through 15.</td></tr>
+<tr><td>LANE11_15</td><td>21</td><td>Lanes 11 through 15.</td></tr>
+<tr><td>LANE6_15</td><td>22</td><td>Lanes 6 through 15.</td></tr>
+</table>
+</td></tr>
+<tr><td>4.8</td>
+<td>6</td>
+<td>link_name_num</td>
+<td>uint8_t</td>
+<td>Human-readable link number, to be used in error messages, software-visible
+names, and so forth.  This should match any physical labels used on
+the platform.
+<br><br>
+The numbers assigned to all 10/20 Gbps links, on all mPIPE shims, must
+be distinct; similarly, the numbers assigned to all 10 Mbps/100 Mbps/1
+Gbps links must be distinct.  If this is not the case, software may use
+different link names, or may make some links inaccessible.
+<br><br>
+If set to DEFAULT, software will choose a number for this link.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>DEFAULT</td><td>0x3F</td><td>Default value.</td></tr>
+</table>
+</td></tr>
+<tr><td>5.0</td>
+<td>32</td>
+<td>reset_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, resets the PHY.  Note that
+in MDE versions prior to MDE 4.1, the hypervisor did not use this signal
+to do PHY reset.  Board designs which need to support pre-4.1 MDEs are
+advised to reset PHYs via signals described in a MISC_RESET item.</td></tr>
+<tr><td>6.0</td>
+<td>32</td>
+<td>intr_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, means that the PHY has
+interrupted.  If this signal is of type NONE, this link's PHY cannot
+interrupt the processor.  Such PHYs will not be able to fully implement all
+software features, so this configuration is not advisable.  For instance,
+such a PHY may not react properly to link connect/disconnect during use.</td></tr>
+</table>
+
+<h3 id="struct_port_inst">Structure PORT_INST</h3>
+<p>
+Instance number for items which relate to shim ports.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>3</td>
+<td>shim</td>
+<td>uint8_t</td>
+<td>Shim instance.
+</td></tr>
+<tr><td>0.3</td>
+<td>4</td>
+<td>port</td>
+<td>uint8_t</td>
+<td>Port within the specified shim.
+</td></tr>
+</table>
+
+<h3 id="struct_pcie_id">Structure PCIE_ID</h3>
+<p>
+Identifying information for a PCIe port, supplied to the host via registers
+in PCIe configuration space.  Note that the Tilera PCIe drivers use the
+high 8 bits of the subsystem device ID for use in communication between
+the tile-side driver and the host-side driver, so any value set there
+will be overwritten.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>rev_id</td>
+<td>uint8_t</td>
+<td>Revision ID.
+</td></tr>
+<tr><td>0.8</td>
+<td>8</td>
+<td>prog_intf</td>
+<td>uint8_t</td>
+<td>Programming interface.
+</td></tr>
+<tr><td>0.16</td>
+<td>8</td>
+<td>subclass</td>
+<td>uint8_t</td>
+<td>Subclass code.
+</td></tr>
+<tr><td>0.24</td>
+<td>8</td>
+<td>baseclass</td>
+<td>uint8_t</td>
+<td>Base class code.
+</td></tr>
+<tr><td>1.0</td>
+<td>16</td>
+<td>vendor</td>
+<td>uint16_t</td>
+<td>Vendor ID.
+</td></tr>
+<tr><td>1.16</td>
+<td>16</td>
+<td>device</td>
+<td>uint16_t</td>
+<td>Device ID.
+</td></tr>
+<tr><td>2.0</td>
+<td>16</td>
+<td>subsys_vendor</td>
+<td>uint16_t</td>
+<td>Subsystem vendor ID.
+</td></tr>
+<tr><td>2.16</td>
+<td>16</td>
+<td>subsys_device</td>
+<td>uint16_t</td>
+<td>Subsystem device ID.
+</td></tr>
+</table>
+
+<h3>Item PCIE_PORT_CFG (code 56)</h3>
+<p>
+This item specifies the properties of a PCIe/StreamIO port connected to
+a TRIO shim: this is generally either a PCIe card socket, or a set of
+SERDES lanes connected via circuit board traces to another chip.
+<p>
+Ports not described in a PCIE_PORT_CFG item are assumed to not be
+connected, and will not be accessible by software.
+<p>
+The instance number is of type <a href="#struct_port_inst">PORT_INST</a>. 
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>allow_rc</td>
+<td>bool</td>
+<td>If true, the link can be configured in PCIe root complex mode.
+</td></tr>
+<tr><td>0.1</td>
+<td>1</td>
+<td>allow_ep</td>
+<td>bool</td>
+<td>If true, the link can be configured in PCIe endpoint mode.
+</td></tr>
+<tr><td>0.2</td>
+<td>1</td>
+<td>allow_sio</td>
+<td>bool</td>
+<td>If true, the link can be configured in StreamIO mode.
+</td></tr>
+<tr><td>0.3</td>
+<td>1</td>
+<td>allow_x1</td>
+<td>bool</td>
+<td>If true, the link is allowed to support 1-lane operation.
+Software will not consider it an error if the link comes up as a x1 link.
+</td></tr>
+<tr><td>0.4</td>
+<td>1</td>
+<td>allow_x2</td>
+<td>bool</td>
+<td>If true, the link is allowed to support 2-lane operation.
+Software will not consider it an error if the link comes up as a x2 link.
+</td></tr>
+<tr><td>0.5</td>
+<td>1</td>
+<td>allow_x4</td>
+<td>bool</td>
+<td>If true, the link is allowed to support 4-lane operation.
+Software will not consider it an error if the link comes up as a x4 link.
+</td></tr>
+<tr><td>0.6</td>
+<td>1</td>
+<td>allow_x8</td>
+<td>bool</td>
+<td>If true, the link is allowed to support 8-lane operation.
+Software will not consider it an error if the link comes up as a x8 link.
+</td></tr>
+<tr><td>0.7</td>
+<td>1</td>
+<td>override_id</td>
+<td>bool</td>
+<td>If true, software will override various PCIe identifying information with
+the values in u_id.  Customizing this information is only possible when
+booting from an interface other than PCIe. This is because when booting
+from PCIe, the interface will be identified before any code could run on the
+chip to change the identification information.  If this flag is false, the
+hardware defaults, which provide Tilera's PCI-SIG assigned values, are used.
+</td></tr>
+<tr><td>0.8</td>
+<td>1</td>
+<td>removable</td>
+<td>bool</td>
+<td>If true, this link is connected to a device which may or may not be present;
+for instance, a slot which may or may not contain a PCIe card.  If false,
+this link is connected to a device which will always be present (e.g.,
+a direct connection to another chip on the same board).  This information
+may be used by software to modify certain configuration behavior, like
+the error recovery strategy.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>perst_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, resets the PCIe bus.</td></tr>
+<tr><td>2.0</td>
+<td>96</td>
+<td>u</td>
+<td>Union</td>
+<td>PCIe identification information.
+<br><br>The selector for this union is override_id.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Selector</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0</td>
+<td>NULL</td>
+<td>No contents</td>
+<td></td>
+</tr>
+<tr><td>1</td>
+<td>id</td>
+<td><a href="#struct_pcie_id">PCIE_ID</a></td>
+<td>PCIe identification information.</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<h3>Item GPIO_PIN_CFG (code 57)</h3>
+<p>
+This item specifies which GPIO pins are intended to be made available to
+application software, and the legal modes for those pins.  It is legal for
+pins to appear in more than one mask.  Pins specified elsehere in the BIB
+(in signal descriptors) need not, and generally should not, be included
+in these masks.  Pins not included in any pin mask are assumed to not be
+connected, and will not be accessible by application software.
+<p>
+The instance number is numeric. Its value is ignored.  If more than one item of this type is present in a
+BIB, their pin masks will be ORed together; this allows an AIB to add to
+the set of usable pins.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>64</td>
+<td>input</td>
+<td>uint64_t</td>
+<td>Pins which may be configured as inputs.
+</td></tr>
+<tr><td>2.0</td>
+<td>64</td>
+<td>output</td>
+<td>uint64_t</td>
+<td>Pins which may be configured as outputs.
+</td></tr>
+<tr><td>4.0</td>
+<td>64</td>
+<td>output_od</td>
+<td>uint64_t</td>
+<td>Pins which may be configured as open-drain outputs.
+</td></tr>
+</table>
+
+<h3>Item USB_PORT_CFG (code 58)</h3>
+<p>
+This item specifies the properties of a USB shim port.
+<p>
+The instance number is of type <a href="#struct_port_inst">PORT_INST</a>. 
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>allow_device</td>
+<td>bool</td>
+<td>If true, the port can be configured in device mode.
+</td></tr>
+<tr><td>0.1</td>
+<td>1</td>
+<td>allow_host</td>
+<td>bool</td>
+<td>If true, the port can be configured in host mode.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>phy_reset_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, resets the port's USB PHY.</td></tr>
+</table>
+
+<h3>Item SFP_CFG (code 59)</h3>
+<p>
+This item specifies the properties of an SFP module directly connected to
+an mPIPE shim without an intervening PHY.  Note that most link properties
+still come from the PHY_LINK_CFG item; this item just adds extra properties
+which are only relevant in an SFP-only configuration.
+<p>
+As a special case, this item can be on used on both GbE and 10 GbE links
+even when a PHY is employed to specify a link status LED (although it's
+always a better idea to attach such an LED to the PHY directly).  In that
+case, only the link_led_sig member will be used; all others should be
+set to zero.
+<p>
+The instance number is of type <a href="#struct_port_inst">PORT_INST</a>. Note that the port field in the instance structure is the hardware
+channel number for the relevant MAC.  For the common case of a PHY-less
+SFP connection, this is just the index of the relevant GbE port (so,
+0 through 15).  When specifying a link status LED for a 10 GbE port,
+this is 4 times the index of the port (so, 0, 4, 8, or 12).
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.16</td>
+<td>16</td>
+<td>i2c</td>
+<td><a href="#struct_i2c_addr">I2C_ADDR</a></td>
+<td>I2C address information for the EEPROM on the SFP.</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>rx_los_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, means that the receive
+signal has been lost (connected to RX_LOS on the SFP).</td></tr>
+<tr><td>2.0</td>
+<td>32</td>
+<td>tx_fault_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, means that there has been
+a transmission fault (connected to TX_FAULT on the SFP).</td></tr>
+<tr><td>3.0</td>
+<td>32</td>
+<td>tx_disable_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, disables transmission
+(connected to TX_DISABLE on the SFP).</td></tr>
+<tr><td>4.0</td>
+<td>32</td>
+<td>mod_abs_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which, when asserted, means that the SFP module
+is absent (connected to MOD_ABS on the SFP).</td></tr>
+<tr><td>5.0</td>
+<td>32</td>
+<td>link_led_sig</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Descriptor for a signal which will be asserted whenever the link is up.</td></tr>
+</table>
+
+<h3>Item CONSOLE_CFG (code 60)</h3>
+<p>
+This item specifies the properties of the UART console.  If it is not
+present, the UART console is on port 0, running at 115200 baud, no parity,
+8 data bits, 1 stop bit.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32</td>
+<td>baud_rate</td>
+<td>uint32_t</td>
+<td>Baud rate.
+</td></tr>
+<tr><td>1.0</td>
+<td>1</td>
+<td>port</td>
+<td>uint8_t</td>
+<td>UART port to use.
+</td></tr>
+<tr><td>1.1</td>
+<td>3</td>
+<td>parity</td>
+<td>uint8_t</td>
+<td>Parity.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No parity bit.</td></tr>
+<tr><td>MARK</td><td>1</td><td>Mark parity (parity bit always on).</td></tr>
+<tr><td>SPACE</td><td>2</td><td>Space parity (parity bit always off).</td></tr>
+<tr><td>EVEN</td><td>3</td><td>Even parity (even number of bits in data + parity).</td></tr>
+<tr><td>ODD</td><td>4</td><td>Odd parity (odd number of bits in data + parity).</td></tr>
+</table>
+</td></tr>
+<tr><td>1.4</td>
+<td>1</td>
+<td>data_bits</td>
+<td>uint8_t</td>
+<td>Number of data bits to be used, not including any parity bits.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>EIGHT</td><td>0</td><td>8 data bits.</td></tr>
+<tr><td>SEVEN</td><td>1</td><td>7 data bits.</td></tr>
+</table>
+</td></tr>
+<tr><td>1.5</td>
+<td>1</td>
+<td>stop_bits</td>
+<td>uint8_t</td>
+<td>Number of stop bits to be used.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>ONE</td><td>0</td><td>1 stop bit.</td></tr>
+<tr><td>TWO</td><td>1</td><td>2 stop bits.</td></tr>
+</table>
+</td></tr>
+<tr><td>1.8</td>
+<td>5</td>
+<td>early_console_delay</td>
+<td>uint8_t</td>
+<td>Seconds to delay waiting for the rshim early console to be enabled,
+when booting from SROM.  Typically used on systems which do not have a
+serial connection, and thus must use the early console.  The delay gives
+the host a chance to enable the early console after chip reset.  If the
+timeout expires before the early console is enabled, the UART described
+by this entry will be used instead.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>FOREVER</td><td>31</td><td>If the delay is set to this value, the booter will not proceed until the
+early console is enabled.</td></tr>
+</table>
+</td></tr>
+</table>
+
+<h3>Item I2C_ARBITER (code 61)</h3>
+<p>
+Description of an N-to-1 I2C switch used to allow access from multiple
+masters to a shared I2C bus, as well as signals which implement an
+arbitration scheme for the switch; together these are called an arbiter.
+This allows one or more I2C devices to be shared between processors in a
+multiprocessor system.  If this item is associated with an I2C bus, then all
+I2C devices on that bus are assumed to be on the other side of the arbiter.
+<p>
+The instance number is numeric. Its value must be the instance number of the I2C master shim to which the
+arbiter is connected.  Only one arbiter may be connected to each master shim.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>type</td>
+<td>uint8_t</td>
+<td>Switch type.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>NONE</td><td>0</td><td>No arbiter.</td></tr>
+<tr><td>PCA9541</td><td>1</td><td>NXP PCA9541 or equivalent.</td></tr>
+</table>
+</td></tr>
+<tr><td>0.8</td>
+<td>7</td>
+<td>dev_addr</td>
+<td>uint8_t</td>
+<td>I2C address of the switch.  In the binary representation, this is the 7-bit
+address (the low read/write bit is omitted).
+</td></tr>
+<tr><td>0.16</td>
+<td>2</td>
+<td>switch_chan</td>
+<td>uint8_t</td>
+<td>Switch port number which is connected to the given master shim.
+</td></tr>
+<tr><td>1.0</td>
+<td>32</td>
+<td>reset</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Reset signal for the switch.</td></tr>
+<tr><td>2.0</td>
+<td>32</td>
+<td>req</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Request signal for the arbiter.  This signal is asserted by a processor
+whenever it needs access to a shared device, and is deasserted once access
+is no longer required.  The requesting processor must not reconfigure
+the switch or access any shared devices until the grant signal is asserted.</td></tr>
+<tr><td>3.0</td>
+<td>32</td>
+<td>grant</td>
+<td><a href="#struct_signal">SIGNAL</a></td>
+<td>Grant signal for the arbiter.  This signal is asserted by the arbiter when
+it is safe for the processor requesting access to configure the switch
+and access shared devices.</td></tr>
+</table>
+
+<h3>Item SHIM_VIRT_INST (code 62)</h3>
+<p>
+This item provides for mPIPE and TRIO shim instance numbers to be translated
+to different virtual instance numbers, which are then used when looking
+up certain BIB items; specifically, if this item exists for a particular
+shim, then the virtual instance number within it is used when looking up
+mPIPE PHY_LINK_CFG and SFP_CFG items, and the TRIO PCIE_PORT_CFG item.
+<p>
+The purpose of this translation is to allow plugin modules which contain
+connections to multiple ports to be used with different processor
+configurations.  For instance, a pluggable I/O module might have two
+PCIe connections, described by PCIE_PORT_CFG items in an onboard AIB.
+This module might be capable of connecting to a CPU module with one
+Gx processor, or with two Gx processors.  When used with multiple Gx
+processors, both will have access to the I/O module's AIB, but the second
+processor needs to know that its shim 0 is supposed to connect to the I/O
+module connection designated as shim 1 in the AIB.  Adding an appropriate
+SHIM_VIRT_INST item in the second processor's BIB will accomplish this.
+<p>
+The instance number is of type <a href="#struct_clock_inst">CLOCK_INST</a>. (This item doesn't really have anything to do with clocks, but CLOCK_INST
+can be used to encode both a shim type and a shim number, which is what
+we need here.  For mPIPE, use MPIPE_MAIN for the TYPE field of the struct.)
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>8</td>
+<td>virt_inst</td>
+<td>uint8_t</td>
+<td>Virtual instance number to be used with the BIB items described above.
+</td></tr>
+</table>
+
+<h3>Item CPU_VOLT_CHAR (code 63)</h3>
+<p>
+This item specifies additional CPU voltage characteristics.  This item
+type is experimental; it may change or even disappear in the future.
+Customers are advised against including it in their BIBs without specific
+instructions from Tilera technical support.
+<p>
+The instance number is numeric. Its value must be zero.  Only the first copy of this item which appears
+in a BIB will be used.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>1</td>
+<td>load_line</td>
+<td>bool</td>
+<td>If true, do additional load line processing of the chip operating voltage.
+What this means is that before translating an operating voltage to a
+VID code to be passed to the power supply, it will first be translated
+to a VID voltage; the VID voltage is then translated to a VID code.
+This may be helpful when using power supplies which do not always supply
+the voltage requested by the VID pins, due to load line correction.
+<br><br>
+The translation is done using the load_line_factor and load_line_offset
+members of this item.  load_line_factor is a fraction of the operating
+voltage to add to that voltage, in millionths, and load_line_offset is an
+offset to add to that voltage, in VID steps (6.25 mV).  If load_line is
+True, at least one of load_line_factor and load_line_offset must be nonzero.
+The precise calculation can be expressed as:
+<br><br>
+vid_voltage = (1 + (load_line_factor / 1000000)) * operating_voltage +
+              load_line_offset * .00625
+<br><br>
+Note that the values in the CPU_VOLT_RANGE item are also processed through
+the inverse of this formula.  In other words, CPU_VOLT_RANGE specifies
+the range of VID voltages, not achievable operating voltages.
+</td></tr>
+<tr><td>0.1</td>
+<td>21</td>
+<td>load_line_factor</td>
+<td>int32_t</td>
+<td>Load line factor.  See the load_line description for how this value is used.
+</td></tr>
+<tr><td>0.22</td>
+<td>9</td>
+<td>load_line_offset</td>
+<td>int16_t</td>
+<td>Load line offset.  See the load_line description for how this value is used.
+</td></tr>
+<tr><td>1.31</td>
+<td>1</td>
+<td>reserved</td>
+<td>uint8_t</td>
+<td>This member is reserved for future use and must be zero.
+</td></tr>
+</table>
+
+<h3 id="struct_msh_reg_entry">Structure MSH_REG_ENTRY</h3>
+<p>
+Entry in an MSH_REG item.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>12</td>
+<td>min_speed</td>
+<td>uint16_t</td>
+<td>Minimum memory speed matched by this entry, in MT/s.
+</td></tr>
+<tr><td>0.12</td>
+<td>2</td>
+<td>min_dimm</td>
+<td>uint8_t</td>
+<td>Minimum number of DIMMs matched by this entry.  The value encoded in the
+BIB is one less than the number of DIMMs; the presentation used in the
+BTK is the true value.
+</td></tr>
+<tr><td>0.14</td>
+<td>2</td>
+<td>min_rank</td>
+<td>uint8_t</td>
+<td>Minimum number of ranks per DIMM matched by this entry.  The value encoded
+in the BIB is one less than the number of ranks; the presentation used
+in the BTK is the true value.
+</td></tr>
+<tr><td>0.16</td>
+<td>6</td>
+<td>min_voltage</td>
+<td>uint8_t</td>
+<td>Minimum core voltage matched by this entry.  The value encoded in the BIB is
+a VID code; the presentation used in the BTK is uV.
+</td></tr>
+<tr><td>1.0</td>
+<td>8</td>
+<td>parameter</td>
+<td>uint8_t</td>
+<td>Which parameter to modify.
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Name</th><th>Value</th><th>Description</th></tr>
+<tr><td>RDLAT</td><td>1</td><td>Read latency setting in DDR3_PHY_DELAY.</td></tr>
+<tr><td>ADDR_MIRROR</td><td>2</td><td>Address mirroring setting in DDR3_DIMM_CFG.  Note that overriding this value
+is generally only useful in unusual soldered-down memory configurations.</td></tr>
+<tr><td>ODT_RTT_NOM</td><td>3</td><td>Nominal on-die termination value, in ohms.  The eventual DRAM MR1 register
+settings are calculated assuming that Rzq is 240 ohms, so the only legal
+values for this setting are 0, 20, 30, 40, 60, and 120.  Note that default
+values are calculated based on DIMM characteristics; thus, overriding
+this value is generally only useful in soldered-down memory configurations.</td></tr>
+<tr><td>ODT_RTT_WR</td><td>4</td><td>Write on-die termination value, in ohms.  The eventual DRAM MR2 register
+settings are calculated assuming that Rzq is 240 ohms, so the only legal
+values for this setting are 0, 60, and 120.  Note that default values are
+calculated based on DIMM characteristics; thus, overriding this value is
+generally only useful in soldered-down memory configurations.</td></tr>
+<tr><td>CTRL_TERM</td><td>5</td><td>Controller termination value, in ohms.</td></tr>
+</table>
+</td></tr>
+<tr><td>1.16</td>
+<td>16</td>
+<td>value</td>
+<td>uint16_t</td>
+<td>Value for the specific parameter.
+</td></tr>
+</table>
+
+<h3>Item MSH_REG (code 64)</h3>
+<p>
+This item allows one or more memory shim settings to be overridden,
+based on specific configuration conditions (number of DIMMs per shim,
+number of ranks per DIMM, memory frequency, processor core voltage).
+For each overridable parameter, the memory configuration first computes
+a value that it will use in the absence of any override information;
+it then walks the list of overrides for that shim, looking for entries
+which refer to that parameter.  The last such entry which matches all
+of the conditions for that shim will be used to provide the overriden
+parameter value.  If no such entry exists, the parameter is not overridden.
+<p>
+The instance number is numeric. Its value is the mshim instance.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>64 * ?</td>
+<td>entries</td>
+<td><a href="#struct_MSH_REG_ENTRY">MSH_REG_ENTRY</a>[?]</td>
+<td>MSH_REG entries.</td></tr>
+</table>
+
+<h3 id="struct_serdes_lane_char_entry">Structure SERDES_LANE_CHAR_ENTRY</h3>
+<p>
+Entry in a SERDES_LANE_CHAR item.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>12</td>
+<td>rx_len</td>
+<td>int16_t</td>
+<td>Length of this SERDES lane in the receive direction (i.e., data flowing
+towards the processor).  This length is somewhat notional.  Ideally,
+it's the length of the trace in millimeters.  However, in some cases it
+might be larger or smaller than that, to simulate the effect of channels
+which are more lossy (e.g., incorporating more connectors) or less lossy
+(e.g., containing redrivers).
+</td></tr>
+<tr><td>0.12</td>
+<td>12</td>
+<td>tx_len</td>
+<td>int16_t</td>
+<td>Length of this SERDES lane in the transmit direction (i.e., data flowing
+away from the processor).  This length is somewhat notional.  Ideally,
+it's the length of the trace in millimeters.  However, in some cases it
+might be larger or smaller than that, to simulate the effect of channels
+which are more lossy (e.g., incorporating more connectors) or less lossy
+(e.g., containing redrivers).
+</td></tr>
+<tr><td>0.24</td>
+<td>8</td>
+<td>reserved</td>
+<td>uint8_t</td>
+<td>This member is reserved for future use and must be zero.
+</td></tr>
+</table>
+
+<h3>Item SERDES_LANE_CHAR (code 65)</h3>
+<p>
+This item specifies additional SERDES lane characteristics.  This item
+type is experimental; it may change or even disappear in the future.
+Customers are advised against including it in their BIBs without first
+consulting with Tilera technical support.
+<p>
+The instance number is of type <a href="#struct_clock_inst">CLOCK_INST</a>. (This item doesn't really have anything to do with clocks, but CLOCK_INST
+can be used to encode both a shim type and a shim number, which is what
+we need here.  For mPIPE, use MPIPE_MAIN for the TYPE field of the struct.)
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>32 * ?</td>
+<td>entries</td>
+<td><a href="#struct_SERDES_LANE_CHAR_ENTRY">SERDES_LANE_CHAR_ENTRY</a>[?]</td>
+<td>SERDES_LANE_CHAR entries.</td></tr>
+</table>
+
+<h3>Item XAUI_REFCLK (code 66)</h3>
+<p>
+This entry defines the speed of the XAUI reference clock for an mPIPE shim.
+The typical reference clock speed is 156.25 Mhz, which allows operation
+of the XAUI at either 10 Gbps or 20 Gbps; when that speed is used, this
+entry is not required.  The only other supported reference clock speed
+is 125 MHz, which allows operation of the XAUI at 12 Gbps.
+<p>
+The instance number is numeric. Its value is the mPIPE instance.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>28</td>
+<td>speed</td>
+<td>uint32_t</td>
+<td>XAUI reference clock speed, in Hertz.
+</td></tr>
+</table>
+
+<h3>Item GPIO_NAME (code 67)</h3>
+<p>
+This item specifies a name for one or more GPIO pins.  The name is intended
+to allow application or operating system software to use GPIO functions
+without having to be customized for each board's specific pin wiring.
+Pins specified in this item should also be included in a GPIO_PIN_CFG
+item since otherwise they will be inaccessible.
+<p>
+The instance number is numeric. Its value is ignored.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>64</td>
+<td>input</td>
+<td>uint64_t</td>
+<td>Pins which may be used as inputs.
+</td></tr>
+<tr><td>2.0</td>
+<td>64</td>
+<td>output</td>
+<td>uint64_t</td>
+<td>Pins which may be used as outputs.
+</td></tr>
+<tr><td>4.0</td>
+<td>64</td>
+<td>output_od</td>
+<td>uint64_t</td>
+<td>Pins which may be used as open-drain outputs.
+</td></tr>
+<tr><td>6.0</td>
+<td>64</td>
+<td>invert</td>
+<td>uint64_t</td>
+<td>Pins which should be inverted.
+</td></tr>
+<tr><td>8.0</td>
+<td>8 * ?</td>
+<td>name</td>
+<td>char[?]</td>
+<td>Name of the pin or pins.  Names longer than 63 characters will be silently
+truncated.</td></tr>
+</table>
+
+<h3>Item I2CM_CTL_CFG (code 68)</h3>
+<p>
+This item modifies the configuration of an I2C master controller.  Changes
+made due to the presence of this item occur late in the hypervisor boot
+process, upon initialization of the i2cm device driver, and thus do not
+apply to I2C accesses made early in the boot process, particularly those
+used to find and read the BIB itself.
+<p>
+The instance number is numeric. Its value is the I2C master instance.
+<p>
+Members:
+<table border="1" cellspacing="2" cellpadding="1">
+<tr><th>Pos</th><th>Len</th><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr><td>0.0</td>
+<td>9</td>
+<td>freq_khz</td>
+<td>uint16_t</td>
+<td>Frequency of the I2C bus clock, in kilohertz.
+</td></tr>
+<tr><td>0.12</td>
+<td>6</td>
+<td>glitch</td>
+<td>uint8_t</td>
+<td>Glitch mask, as specified by the I2CM_GLITCH_MASK register in the shim.
+</td></tr>
+<tr><td>0.18</td>
+<td>10</td>
+<td>elec</td>
+<td>uint16_t</td>
+<td>Electrical control settings, as specified by the I2CM_ELECTRICAL_CONTROL
+register in the shim.  Note that the value specified here as the default,
+0x36, is not identical to the hardware default value (the drive strength
+is increased), and is what is used by the booter and hypervisor before
+this item is processed.
+</td></tr>
+</table>
+
+
+<h1>Trailer Format</h1>
+
+<p>
+The trailer consists of three 4-byte words:
+
+<ul>
+<li>
+<p>
+  The first word contains a 32-bit Cyclic Redundancy Check of the block's
+  contents, not including the header and trailer words.  The polynomial
+  used is the standard IEEE 802.3 version, as implemented by the Tile
+  Processor's crc32_8 and crc32_32 instructions.  The following C code
+  could be used to calculate this value:
+
+<p>
+<pre>
+  #include &lt;stdint.h&gt;
+
+  uint32_t
+  crc(uint8_t* ptr, int len)
+  {
+    uint32_t crc = ~0;
+
+    while (len--)
+    {
+      uint8_t input = *ptr++;
+
+      for (int i = 0; i &lt; 8; i++)
+      {
+        crc = (crc >> 1) ^ (((input ^ crc) & 1) ? 0xEDB88320 : 0);
+        input >>= 1;
+      }
+    }
+    return ~crc;
+  }
+</pre>
+
+<p>
+  Other, more efficient algorithms, using lookup tables, also exist and
+  are freely available.
+</li>
+
+<li>
+<p>
+  The second word contains the number of words in the block, not counting
+  the header or trailer.  So, for a block which contained no items,
+  this word would contain zero.
+</li>
+
+<li>
+<p>
+  The third word contains the trailer magic number.  For a BIB, the magic
+  number is 0x31426942 (<tt>BiB1</tt> if interpreted as ASCII text).
+</li>
+</ul>
+
+<h1>Example</h1>
+
+<p>
+This is an example BIB.  It's for a notional board which has two DIMM
+slots on one controller, one GbE port, and one 10 GbE port.  First, we
+show the Python code to create the BIB:
+
+<pre>
+
+  import board_info
+  
+  bib = board_info.Bib()
+  
+  #
+  # Part number.
+  #
+  bib.append(
+      board_info.board_part_num(
+          instance=0,
+          part_num="9500-1234-0",
+      )
+  )
+  
+  #
+  # Board serial number; normally would vary on each board.
+  #
+  bib.append(
+      board_info.board_serial_num(
+          instance=0,
+          serial_num="WB9-DEMO",
+      )
+  )
+  
+  #
+  # Board description.
+  #
+  bib.append(
+      board_info.board_description(
+          instance=0,
+          desc="WhizBang-9000 Demonstration Board",
+      )
+  )
+  
+  #
+  # We're defining memory for only one memory shim.  This board supports
+  # two DIMMs.  The SPD PROMs are on I2C bus 1.
+  #
+  bib.append(
+      board_info.dimm_map(
+          instance=0,
+          cs_per_slot=4,
+          map=(
+              board_info.dimm_map_entry(
+                  onboard=False,
+                  addr_i2c=board_info.i2c_addr(
+                      dev_addr=0xa0,
+                      bus=1,
+                      switch_inst="NONE",
+                      switch_chan=0,
+                  )
+              ),
+              board_info.dimm_map_entry(
+                  onboard=False,
+                  addr_i2c=board_info.i2c_addr(
+                      dev_addr=0xa2,
+                      bus=1,
+                      switch_inst="NONE",
+                      switch_chan=0
+                  )
+              ),
+          )
+      )
+  )
+  
+  #
+  # The memory can run at 1600 MT/s if there is one DIMM installed, but
+  # gets slower if two are.
+  #
+  bib.append(
+      board_info.max_mem_speed(
+          instance=0,
+          speed=(1600, 1333),
+      )
+  )
+  
+  #
+  # Labels for the DIMMs.
+  #
+  bib.append(
+      board_info.dimm_label(
+          instance=board_info.dimm_inst(
+              dimm=0,
+              shim=0,
+          ),
+          label="J39",
+      )
+  )
+  
+  bib.append(
+      board_info.dimm_label(
+          instance=board_info.dimm_inst(
+              dimm=1,
+              shim=0,
+          ),
+          label="J40",
+      )
+  )
+  
+  #
+  # This GPIO signal is asserted when the hypervisor boots; it resets
+  # all of the random hardware on the board.
+  #
+  bib.append(
+      board_info.misc_reset(
+          instance=0,
+          assert_time=10,
+          resets=(
+              board_info.signal(
+                  type="GPIO",
+                  u_gpio=board_info.signal_gpio(
+                      pin=57,
+                      bank=0,
+                      open_drain=False,
+                      inverted=False,
+                  ),
+              ),
+          )
+      )
+  )
+  
+  #
+  # This defines a Gigabit Ethernet link with an onboard PHY.  Note that the
+  # MAC address would vary for each board produced.
+  #
+  bib.append(
+      board_info.phy_link_cfg(
+          instance=0,
+          speed_10m=True,
+          speed_100m=True,
+          speed_1g=True,
+          speed_10g=False,
+          speed_20g=False,
+          speed_25g=False,
+          speed_50g=False,
+          sfp_txout_inv=False,
+          phy_auto_cfg=False,
+          no_phy=False,
+          shared_reset=False,
+          shared_intr=False,
+          leds=(
+              board_info.enet_led(
+                  cfg="ACT",
+              ),
+              board_info.enet_led(
+                  cfg="DEFAULT",
+              ),
+              board_info.enet_led(
+                  cfg="LINK",
+              ),
+              board_info.enet_led(
+                  cfg="DEFAULT",
+              ),
+              board_info.enet_led(
+                  cfg="DEFAULT",
+              ),
+              board_info.enet_led(
+                  cfg="DEFAULT",
+              ),
+          ),
+          mdio_bus_xgbe=False,
+          mdio_addr=0x09,
+          num_mac_addrs=1,
+          mac_addr=(0x01, 0x02, 0x03, 0x04, 0x05, 0x06),
+          lanes="LANE12",
+          link_name_num=0,
+          reset_sig=board_info.signal(
+              type="NONE"
+          ),
+          intr_sig=board_info.signal(
+              type="GPIO",
+              u_gpio=board_info.signal_gpio(
+                  pin=60,
+                  bank=0,
+                  open_drain=False,
+                  inverted=False
+              )
+          ),
+      )
+  )
+  
+  #
+  # This defines a 10 Gigabit Ethernet link with no PHY; perhaps it's a CX4
+  # connector.
+  #
+  bib.append(
+      board_info.phy_link_cfg(
+          instance=0,
+          speed_10m=False,
+          speed_100m=False,
+          speed_1g=False,
+          speed_10g=True,
+          speed_20g=False,
+          speed_25g=False,
+          speed_50g=False,
+          sfp_txout_inv=False,
+          phy_auto_cfg=False,
+          no_phy=True,
+          shared_reset=False,
+          shared_intr=False,
+          leds=(
+              board_info.enet_led(
+                  cfg="ACT",
+              ),
+              board_info.enet_led(
+                  cfg="LINK",
+              ),
+              board_info.enet_led(
+                  cfg="OFF",
+              ),
+              board_info.enet_led(
+                  cfg="OFF",
+              ),
+              board_info.enet_led(
+                  cfg="OFF",
+              ),
+              board_info.enet_led(
+                  cfg="OFF",
+              ),
+          ),
+          mdio_bus_xgbe=True,
+          mdio_addr=0x00,
+          num_mac_addrs=1,
+          mac_addr=(0x01, 0x02, 0x03, 0x04, 0x05, 0x07),
+          lanes="LANE4_7",
+          link_name_num=1,
+          reset_sig=board_info.signal(
+              type="NONE",
+          ),
+          intr_sig=board_info.signal(
+              type="NONE",
+          ),
+      )
+  )
+
+</pre>
+
+<p>
+This is the binary BIB, generated from the code above, which would be
+written to nonvolatile storage on the target board.  Remember, the words are
+represented in little-endian format, so the first byte in the block is 0x42.
+
+<pre>
+  30426942 Header: magic number
+  00000001 Header: version
+  0000002e Header: word count
+
+  Descriptor type
+  |   Instance number
+  |   | Number of words
+  |   | |
+  V   V V
+  00050003 Part number
+  30303539
+  3332312d
+  00302d34
+  
+  00060002 Serial number
+  2d394257
+  4f4d4544
+  
+  001a0009 Description
+  7a696857
+  676e6142
+  3030392d
+  65442030
+  736e6f6d
+  74617274
+  206e6f69
+  72616f42
+  00000064
+  
+  000f0003 DIMM map
+  00000004
+  1cd00000
+  1cd10000
+  
+  00080001 Max memory speed
+  05350640
+  
+  00110001 DIMM label (slot 0)
+  0039334a
+  
+  00110101 DIMM label (slot 1)
+  0030344a
+  
+  00310002 Miscellaneous reset
+  0000000a
+  00003901
+  
+  00370007 Gigabit Ethernet link (onboard PHY)
+  1f070007
+  1f1f1f03
+  02010112
+  06050403
+  0000000c
+  00000000
+  00003c01
+  
+  00370007 10 Gigabit Ethernet link (CX4)
+  03071008
+  01010101
+  02010101
+  07050403
+  00000111
+  00000000
+  00000000
+  
+  90507b86 Trailer: CRC
+  0000002e Trailer: word count
+  31426942 Trailer: magic number
+</pre>
+
+<h1>Extensions</h1>
+
+<p>
+  The BIB format is still evolving.  The items currently included within
+  it have been designed to handle variations among Tilera's current
+  board products.  To some extent we have tried to anticipate some
+  other variations, which we expected would be of interest to customers.
+  However, the current set of items is almost certainly not sufficient to
+  handle every possible board configuration that a customer may require.
+  If Tilera's current software stack is unable to cope with some specific
+  property of your board application, you have two options.
+
+<p>
+  One option is to customize the Tilera runtime software stack for
+  your board.  Tilera provides the source code for our low-level booter
+  and hypervisor as part of the MDE, which you can modify to support
+  your board (see the <em>System Programmer's Guide</em> for details).
+  You could do this in a non-configurable fashion (resulting in a binary
+  which would only run on your board), or you could develop a new BIB item,
+  which triggers the new behavior (resulting in a binary that could run on
+  your board, or on one of Tilera's standard boards).  If you do choose
+  to add your own data types or codes to the BIB, Tilera suggests you
+  use values with the high bit set (i.e., types of 0x8000 or greater,
+  codes of 0x80000000 or greater).  This will prevent conflicts with
+  future items added by Tilera.
+
+<p>
+  The other, often better option involves asking if Tilera could provide
+  support for a new BIB parameter, which would allow the software stack to
+  invoke whatever board-specific behavior you need.  This has a distinct
+  advantage &mdash; Tilera would integrate support for the new configuration
+  option into the standard software stack, and maintain it in the future.
+  In this case, you would not need to merge your custom changes into future
+  versions of the MDE.  While Tilera may not be able to accommodate every
+  such request, we will give each request very serious consideration,
+  since in addition to helping you, it may help future customers with
+  similar needs.
+
+<p>
+  Either way, we urge you to discuss your plans with Tilera customer support
+  or your Field Applications Engineer.  We may be planning development of,
+  or may have already developed, features which could be useful for your
+  board application.
+
+<h1>Additional Information Blocks</h1>
+
+<p>
+<em>Note: this section describes an advanced topic which is not relevant
+to most board designs.</em>
+
+<p>
+The BIB is designed to describe characteristics of a board or system
+which are expected to be stable.  For instance, a board's serial number,
+or an Ethernet interface's MAC address, does not normally change after
+the board is manufactured.  However, some systems are designed with
+removable components.  If those components have attributes which should
+be described in the BIB, that creates a problem, since the BIB is not
+intended to be modified.
+
+<p>
+For instance, some models of the TILEncore card support an optional
+mezzanine card which, when installed, provides additional SFP and SFP+
+module sockets.  When that mezzanine is installed, we would like for
+certain entries to be added to the board's BIB; for instance, type
+<tt>SFP</tt> entries describing the wiring for those sockets.  Also,
+that mezzanine has its own attributes (part number, board description)
+which we would like to make available through the BIB.
+
+<p>
+The solution to this problem is the <em>additional information block</em>
+(AIB).  An AIB looks very much like a BIB, and contains the same item types
+as a BIB.  It is added to an I<sup>2</sup>C EEPROM on the optional module.
+The BIB on the main board contains an item of type <tt>AIB</tt> which
+points to the additional EEPROM.  If that EEPROM is present at boot time,
+then entries from the AIB in that EEPROM are effectively incorporated,
+by reference, into the BIB.  Note that the BIB on the main board is not
+actually modified; this incorporation is done virtually, via software.
+In the current implementation, the BIB is copied into memory at boot time,
+then items from any AIBs are inserted into that in-memory copy, which is
+then used to satisfy any requests for BIB information.
+
+<p>
+BIB items are searched in the order that they occur in the coalesced BIB;
+for most item types, once a matching entry is found, the search stops.
+Entries incorporated by reference from an AIB replace the original AIB
+pointer item from the main board's BIB.  Thus, an entry from an AIB may
+override an entry from the BIB on the main board, or not, depending upon
+whether the AIB pointer item occurs before, or after, the main board
+version of the BIB entry.
+
+<h2>AIB Format</h2>
+
+<p>
+An AIB has almost exactly the same format as a BIB.  It has a header,
+a set of items and a trailer, just like the BIB.  It's also found in
+the same location (the very end of an I<sup>2</sup>C EEPROM).  The only
+difference is in the magic numbers in the header and trailer.  For an AIB,
+the header magic number is 0x30624961 (<tt>aIb0</tt> in ASCII), and the
+trailer magic number is 0x31624961 (<tt>aIb1</tt> in ASCII).
+
+<h2>AIB Instance Numbers</h2>
+
+<p>
+As noted above, items in an AIB can potentially override BIB items.  In some
+cases, this is desirable, but in other cases, it's not.  For instance,
+the BIB might have an entry of type <tt>BOARD_SERIAL_NUM</tt>; an AIB in
+an optional board might also have such an entry.  We'd really like both
+of those to show up in the final, coalesced BIB.  One easy solution is to
+give the BIB entry instance number 0, and the AIB entry instance number 1.
+That seems workable; but what if you have a main board with two slots,
+each of which can take the same type of optional board?  We can ensure
+that the I<sup>2</sup>C EEPROMs on each board get different addresses
+by supplying different signals to the plugin boards depending on which
+slot they're in; we can thus include two AIB pointer entries in the main
+board's BIB, incorporating both AIBs into the final BIB.  However, the
+instance numbers present a problem: if we manufacture the optional board
+so that its entries have instance number 1, and then we install two of
+them, the two items from the AIBs will collide.
+
+<p>
+To avoid this situation, a special instance number, <tt>0xFF</tt>, has been
+defined for AIB entries.  When entries from an AIB are incorporated into
+the final, coalesced BIB, any entries from the AIB with instance number
+<tt>0xFF</tt> are given the instance number from the AIB item, instead.
+Thus, the main BIB gets to control the instance numbers used by the
+AIB items.  Here's an example:
+
+<pre>
+
+   BIB, I2C ROM at 0xA0
+  +----------------------+
+  |Item_B0, inst 0       |
+  |Item_B1, inst 2       |         AIB, I2C ROM at 0xA2
+  |Item_B2 (AIB), inst 1,-------->+---------------------+
+  | type I2C, addr 0xA2  |        |Item_A0, inst 0xFF   |
+  |Item_B3, inst 5       |        |Item_A1, inst 9      |
+  |Item_B4, inst 0       |        |Item_A2, inst 0xFF   |
+  |Item_B5 (AIB), inst 2,----+    +---------------------+
+  | type I2C, addr 0xA4  |   |    
+  +----------------------+   |    
+                             |     AIB, I2C ROM at 0xA4
+                             +--->+---------------------+
+                                  |Item_A3, inst 0xFF   |
+                                  |Item_A4, inst 9      |
+                                  |Item_A5, inst 0xFF   |
+                                  +---------------------+
+
+  Final Items
+  -----------
+  Item_B0, instance 0
+  Item_B1, instance 2
+  Item_A0, instance 1
+  Item_A1, instance 9
+  Item_A2, instance 1
+  Item_B3, instance 5
+  Item_B4, instance 0
+  Item_A3, instance 2
+  Item_A4, instance 9
+  Item_A5, instance 2
+
+</pre>
+
+<h1>Copyright</h1>
+
+<small>
+
+<p>
+Copyright 2014 Tilera Corporation. All Rights Reserved.
+</p>
+
+<p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p>
+
+</small>
+
+</body>
+</html>

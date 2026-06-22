@@ -1,0 +1,4161 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<link rel=stylesheet type="text/css" href="../../tilera.css"
+title="Tilera Style">
+<title>
+Tilera Hypervisor Theory of Operation
+</title>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#CCFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF
+0000">
+
+<H1 class=title>
+Tilera Hypervisor Theory of Operation
+</H1>
+
+<center>
+Last revised for MDE version 4.0, 28 March 2012
+</center>
+
+<h1>
+Introduction
+</h1>
+
+<p>
+
+The Tilera hypervisor (hereinafter just "the hypervisor") is a key component
+in the Tilera system software stack, helping operating systems such as Tile
+Linux, and the applications which run on top of those operating systems,
+take best advantage of the features provided by the Tile Processor.
+This document is a detailed overview and explanation of the operation of
+the hypervisor.  We will explain what the hypervisor does, how it does it,
+and to some extent, why it does it that way.
+
+<p>
+The target audience for this document is system programmers who need to
+understand the operation of the hypervisor at a very detailed level,
+in order to develop extensions to it (for instance, hypervisor device
+drivers), or modifications to it (for instance, to support a new board
+platform which contains a Tile Processor).  Application programmers writing
+code which runs under Tile Linux will in general not need this level of
+detail, and may not derive much value from this document.  People who
+might be porting another operating system to the Tilera platform, either
+running in cooperation with the hypervisor, or replacing it, will find
+useful information here, although the current version of this document
+is not intended to serve as a complete OS porting guide, and does not
+attempt to explain all details of the hypervisor interface.
+
+<p>
+We assume that the reader has a basic level of computer architecture
+knowledge: for instance, how set-associative caches work.  We also
+assume that the reader understands basic system programming concepts:
+for instance, what a TLB flush is, and why you might need to do one in
+a multiprocessor system.  Finally, we assume that readers have a good
+grounding in the unique aspects of the TILE Architecture, including its
+system-level aspects.  To avoid duplication, we will not cover topics
+like the operation of the register-mapped networks, the various memory
+coherency options which are provided, or how an I/O device does DMA.
+Please consult the following documents for these details:
+
+<ul>
+<li>
+UG130 Tile Processor Architecture Overview for the TILE-Gx Series
+</li>
+<li>
+TILE-Gx Instruction Set Architecture Specification
+</li>
+<li>
+TILE-Gx Special Purpose Register Specification
+</li>
+<li>
+UG404 TILE Processor I/O Device Guide
+</li>
+</ul>
+
+<p>
+(We may cover some specific aspects of hardware behavior which are
+currently inadequately described in those documents.)
+
+<p>
+This document is not intended to be a substitute for reading the hypervisor
+source code.  We don't have space here to cover every single detail of
+the hypervisor's operation; even if we did, very detailed explanations of
+program behavior are better done as source code comments, where you can
+follow along with the actual implementation of a particular algorithm.
+Also, although we will try to update this document when major changes
+are made to the code, some skew between the two is inevitable.
+
+<p>
+Finally, it's worth noting that Tilera cannot guarantee that the inner
+workings of the hypervisor, as described in this document, will remain
+constant in the future.  We reserve the right to make changes, even very
+fundamental changes, in order to continue to provide the best possible
+hardware and software products to our customers.
+
+
+<h1>
+Hypervisor Design Goals and Principles
+</h1>
+
+<p>
+The main goals of the hypervisor architecture and design are
+as follows:
+
+<ul>
+<li>
+Make it easier to port operating systems to the TILE Architecture.
+
+<p>
+The TILE Architecture has some features which are relatively uncommon
+in other processors.  These features are helpful in achieving our
+goals of high performance and high scalability.  However, in some
+cases these features may be somewhat more complex than those provided
+on more traditional processors.  This is especially true with some of
+our system-level features; for instance, the boot process, or the way
+in which we configure and control I/O devices.  Without the hypervisor,
+an operating system would need to be modified to incorporate support
+for these features before it would run on a Tile Processor.  With the
+hypervisor, many of these functions can be either handled without any
+OS intervention, or via a simplified interface.  This made the task of
+porting Linux to the TILE Architecture substantially easier.  Future ports
+of other operating systems will also benefit from the fact that much of
+the code necessary to support these system features is already tested
+and working, and does not need to be converted to run as part of the new OS.
+
+</li>
+<li>
+Provide virtualization features.
+
+<p>
+The TILE Architecture was designed to support virtualization.  Specifically,
+we anticipate an environment where we have multiple client operating
+systems running on a Tile Processor, each having access to appropriate
+resources (tiles, memory, I/O, etc.); in some cases those resources might
+be dedicated to a particular client OS, and in some they might be shared,
+with appropriate protections against misuse.
+
+<p>
+As of this writing, the Tilera MDE does not yet provide significant
+virtualization support, but much of the required low-level support is
+partially or completely present in the hypervisor, and many of its design
+decisions (particularly certain divisions or responsibility between it
+and the client OS) were driven by this requirement.
+
+</li>
+
+<li>
+Interfere with the client OS as little as possible.
+
+<p>
+The hypervisor only executes code when it's asked to, either directly
+or indirectly.  There are no periodic housekeeping or overhead functions
+which use the resources of supervisor tiles.  If an application never takes
+a TLB miss, isn't doing any I/O, and isn't sending messages to other tiles,
+it will spend 0% of its time in the hypervisor.  (Note that a supervisor
+might well have periodic background functions or tile-to-tile requests
+of its own which would take time away from the application.)
+
+</li>
+<li>
+Be as simple as possible
+
+<p>
+One important goal for the hypervisor is to avoid unnecessary complexity.
+Although it provides system-level services to its client operating
+systems, the hypervisor is not itself an operating system.  Because of
+this, there are many features normally present in an OS which are not
+present or only minimally present in the hypervisor:
+
+<ul>
+<li>
+Shared memory
+
+<p>
+The hypervisor uses very little shared memory between tiles.  Because of
+this, there are very few shared-memory locks, and limited exposure to
+cache coherence errors or deadlock due to locking problems.
+</li>
+<li>
+Dynamic memory allocation
+
+<p>
+There is only minimal support for dynamic memory allocation (malloc())
+and no support for memory deallocation (free()).  This means that there
+are no memory leaks.  Virtually all memory allocation is done up front,
+so that once the hypervisor and client operating system have booted, there
+should be no cases where we fail due to an inability to allocate memory.
+</li>
+
+<li>
+Tasks
+
+<p>
+There is no task model, and no task context-switching.	The hypervisor
+only runs when it is providing a service for a client operating system,
+and always returns control to that OS when done.
+</li>
+</ul>
+</li>
+</ul>
+
+<h1>
+Hypervisor Functions
+</h1>
+
+<p>
+The rest of this document is mainly focused on explaining the operation
+of the four major hypervisor subsystems:
+
+<ul>
+<li>
+Boot and client OS loading
+</li>
+<li>
+Client resource and memory management
+</li>
+<li>
+Inter-tile messaging
+</li>
+<li>
+I/O and drivers
+</li>
+</ul>
+
+<h1>
+Boot and Client OS Load
+</h1>
+
+<p>
+At a high level, the process of booting a Tile Processor involves the
+following steps:
+
+<ul>
+<li>
+<p>
+The processor is reset, and automatically begins executing the
+built-in hardware bootstrap code.
+</li>
+
+<li>
+<p>
+The hardware bootstrap loads the software bootstrap, which
+initializes each of the tiles in the processor, configures memory,
+and then loads the hypervisor into memory.
+
+</li>
+<li>
+<p>
+The hypervisor begins execution, then initializes its internal
+data structures and sets up I/O devices.
+</li>
+
+<li>
+<p>
+Finally the hypervisor loads the client operating system code and data
+into memory and begins execution of the OS.
+</li>
+</ul>
+
+<p>
+Each of these steps is fairly complex, so we will cover them in detail
+below.  First, however, we will provide some background on the hardware
+support which is unique to booting, and will also discuss various data
+formats used by the boot process.
+
+<h2>
+Boot Hardware Background
+</h2>
+
+<h3>
+Hardware bootstrap (L0 booter)
+</h3>
+
+<p>
+When the Tile Processor emerges from reset, every one of its tiles performs
+the same actions.  First, the registers and memories within each tile
+are set to their documented reset values.  Then, the instruction cache
+is initialized with a specific sequence of code, known as the hardware
+bootstrap or the <em>Level Zero (L0) booter</em>.  Finally, the processor
+begins execution of that bootstrap code.
+
+<p>
+The L0 booter is responsible for reading a sequence of instructions and data
+from the outside world, and then executing them.  This <em>boot stream</em>
+(whose format is documented below) is transmitted to the tile as messages
+on the <em>User Dynamic Network (UDN)</em>.  Each tile interprets the input
+stream, copying it to cache as directed by headers within the stream, and
+finally jumps to a designated address to start executing the loaded code.
+
+<p>
+By default, the very first tile to be booted is tile (0,0).  Once that tile
+is running the loaded code, it can re-send the boot code and data to other
+tiles, thus booting them as well.  Those tiles can then boot other tiles,
+and so on; this process repeats until all tiles on the chip are booted.
+A detailed description of the precise algorithm used to convey boot code
+to every single tile is included below.
+
+<h3>
+Boot devices
+</h3>
+
+<p>
+The Tile Processor supports a number of onboard I/O devices (or I/O shims).
+Six of these devices are able to boot the processor directly; other devices
+may be used as part of the full boot process but cannot provide the initial
+code which is executed at processor reset.  There are two types of boot-capable
+devices:
+
+<ul>
+<li>
+<em>Slave</em> boot devices provide a pathway which allows an external entity
+to inject code and data into the chip.  Until and unless this happens, the
+chip does not boot.
+
+</li>
+<li>
+<em>Master</em> boot devices are able to actively retrieve code and data
+from an external source.  If a master boot device is configured, and its
+external data source is connected (and contains valid data), the chip will
+boot immediately upon reset.
+</li>
+</ul>
+
+<p>
+Which boot devices are enabled depends upon the setting of various
+chip strapping pins during system reset.  A specific board design may
+be configured to boot only one way, or may be able to choose different
+boot paths via switch settings, or under the direction of a special
+control processor.  Note that the chip prevents multiple master boot
+devices from being enabled simultaneously, but other combinations are
+valid; you might have multiple slave devices enabled at the same time,
+or perhaps even slave devices and one of the master devices.  (Some of the
+slave boot devices are in fact always enabled.)
+
+<p>
+Whether master or slave, every boot device provides a way to send words
+via the UDN to a destination tile, using the RShim's packet generator.
+The packet generator can be configured to send messages of varying
+lengths to any tile on the chip, using any of the on-chip networks.
+After reset, it is by default configured to send 1-word messages to
+tile (0,0) via the UDN.  The packet generator includes a boot FIFO which
+allows boot devices to write the boot stream in larger than 1-word chunks.
+Boot devices also provide a means to manipulate other RShim configuration
+registers, either in addition to or instead of supplying a boot stream.
+
+<p>
+The six devices which are boot-capable in the TILE-Gx processor are:
+
+<dl>
+
+<dt>
+USB (slave):
+</dt>
+<dd>
+<p>
+The USB interface is automatically enabled at boot.  An external USB
+host can read and write registers in the RShim via USB control messages.
+A separate bulk data endpoint permits data to be written directly to
+the RShim's boot FIFO and thus to the packet generator.  This endpoint
+provides flow control, so that the USB host does not need to do explicit
+checks of the boot FIFO's state in order to prevent overflow.
+</dd>
+
+<dt>
+PCIe (slave):
+</dt>
+<dd>
+<p>
+Each PCI Express link can be configured as a slave boot device via chip
+strapping pins.  If so configured, the PCIe link will automatically
+be brought up by the chip after reset, and data may be written to
+RShim registers and the RShim's boot FIFO via BAR 0 of the interface.
+Unlike USB, in order to not overflow the boot FIFO, the booting root
+complex must periodically query the boot FIFO state.  This is the default
+method used to boot the TILExpress PCIe board products.
+</dd>
+
+<dt>
+I2C slave (slave):
+</dt>
+<dd>
+<p>
+The I2C slave interface is automatically enabled at boot.  An external I2C
+master can read and write registers in the RShim, including the packet
+generator and boot FIFO.  Like PCIe, the external master is responsible
+for boot FIFO flow control.
+</dd>
+
+<dt>
+UART (slave):
+</dt>
+<dd>
+<p>
+The UART interfaces have a special <em>protocol mode</em> which can be
+enabled via a chip strapping pin or software control.  If protocol mode
+is enabled, characters received by a UART are not written to its input
+FIFO, but are instead interpreted as commands which allow RShim registers
+to be read or written, and data to be fed into the boot FIFO. Like PCIe,
+the external master is responsible for boot FIFO flow control.
+</dd>
+
+<dt>
+I2C master (master):
+</dt>
+<dd>
+<p>
+The I2C master interface has the ability to read configuration commands
+from an external I2C PROM at a specific bus address.  If this mode is
+enabled via chip strapping pins, the I2C master will read the ROM, and
+then decode and execute the configuration commands contained within it.
+The commands enable RShim registers to be set, and also allow data to
+be streamed into the boot FIFO.
+</dd>
+
+<dt>
+SPI ROM (master):
+</dt>
+<dd>
+<p>
+The SPI ROM interface has the ability to read configuration commands
+from the SPI ROM if one is available.  Like the I2C master interface,
+this mode is enabled via chip strapping pins, and allows modification of
+RShim registers and the injection of a boot stream.
+</dd>
+
+</dl>
+
+
+<h3>
+Chip modes and reset behavior
+</h3>
+
+<p>
+There are two special processor modes which are especially relevant to the
+booter:
+
+<ul>
+<li>
+<p>
+<em>Physical memory mode</em> allows the processor to do memory references
+without first needing to program virtual-to-physical address translations
+into the TLB.  In this mode, the 40-bit physical address (PA) used
+for each load, store, or instruction fetch is constructed by using the
+low 40 bits of the 42-bit virtual address (VA) used by the processor.
+The processor is in physical memory mode when it emerges from reset,
+and all of the boot code executes in this mode; the TLB is not enabled
+until just before the hypervisor begins execution.
+</li>
+
+<li>
+<p>
+
+<em>Cache-as-RAM mode</em> allows the processor to execute code and
+perform load and store instructions before the memory controllers have been
+configured, without using any external memory.  This is accomplished by a
+very small change to the behavior of the level two cache (the <em>L2$</em>).
+While in cache-as-RAM mode:
+
+<ul>
+<li>
+<p>
+
+A read to an address which is valid within the cache (a <em>read hit</em>)
+is handled normally: the data is returned to the processor.
+
+<li>
+<p>
+
+A read to an address which is not valid within the cache (a <em>read
+miss</em>) is also handled normally: a request is sent to a memory
+controller, asking for the data.  Typically, when running in cache-as-RAM
+mode, the memory controllers (and the tile SPRs which tell it which one
+to use for which memory region) are not configured, so such a request
+will never complete, hanging the chip.  Thus, the booter never makes a
+memory reference which could cause a read miss.
+
+<li>
+<p>
+
+A write to an address which is valid within the cache (a <em>write hit</em>)
+is handled normally: the data in the cache is modified.
+
+<li>
+<p>
+
+A write to an address which is not valid within the cache (a <em>write
+miss</em>) is handled specially.  Normally, such a request would result
+in an eviction (where the data currently in the relevant cache line,
+if modified, would be written to memory); a background fill (where the
+data in the target memory cache line would be read into the cache); and
+finally, a modification of the data in the cache.  In cache-as-RAM mode,
+the first two steps are skipped.  Instead, a target cacheline is picked
+(a field in an SPR determines which way in the cache is used for this),
+the data is written to that line, and its tags are set to match the newly
+written address.  Note that this modification does <em>not</em> set the
+dirty bit on the cache line; in fact, any write to a cache line while in
+cache-as-RAM mode clears its dirty bit.  This prevents the line (which may
+have a completely bogus physical address in its tags) from ever being
+flushed to memory on eviction.
+
+</li>
+</ul>
+
+Like physical memory mode, the processor is in cache-as-RAM mode when
+it emerges from reset, and all of the boot code executes in this mode.
+Note that the use of an SPR to designate the way targeted on write miss
+means that each byte of the cache must be written to before it can be used
+as memory; this will be elaborated on below as part of the discussion of
+the L0.5 booter.
+
+</li>
+</ul>
+
+<h2>
+Boot flow
+</h2>
+
+<p>
+In this section we will describe the main operations which happen during
+the boot process, and which software components are responsible for them.
+Since all of the boot-capable devices boot tiles by providing data to them
+over the UDN, the boot flow by and large does not depend on the precise
+device being booted from.  However, there are some slight differences
+from this flow when booting from SPI ROM (SROM).  Rather than clutter up
+the main description of the boot process with a bunch of alternatives, we
+will describe that variant behavior in a subsequent section.  Similarly,
+there are a couple of details specific to PCIe boot and reset which are
+covered below.
+
+<h3>
+Level 0.5 booter
+</h3>
+
+<p>
+The <em>Level 0.5 (L0.5) booter</em> is the first bit of code loaded
+by the chip during the boot process.  Its primary responsibility is
+initializing the entire L2$ so that the L1 booter can treat it as one
+256K randomly-addressable piece of memory (and more specifically, so that
+the L1 booter's code and data, which are subsequently loaded by the L0.5
+booter, can be more than 32K in size).
+
+<p>
+This extra step is required due to the behavior of the processor in
+cache-as-RAM mode.  In that mode, new data can only be added to one
+particular way of the L2$ at any one time, based on the setting of the
+cache-as-RAM mode SPR.  For instance, assume things were configured as
+they are directly after processor reset: cache-as-RAM mode is enabled,
+and the target way for write misses is way 0.  If a program wrote a word
+of data to location 0x0, that data would be placed in the first cache
+line in way 0 of the cache.  However, if that same program then wrote to
+location 0x8000, the new word would also be placed in that same location,
+overwriting the first word of data.
+
+<p>
+In order to allow both of those locations to be simultaneously present in
+the cache, you would need to write location 0x0; modify the cache-as-RAM
+configuration so that way 1 of the cache was now the target way; and
+then write location 0x8000.  Once this had been done, you would be able
+to modify the data at 0x0 and the data at 0x8000 without modifying the
+cache-as-RAM configuration, since writes to either of those locations
+would hit in the cache.
+
+<p>
+The procedure for initializing the entire L2$ is very straightforward.
+The L0.5 booter clears the first way of the cache by writing zeroes to 32K
+worth of address space (except for the part which holds the booter itself).
+It then modifies the cache-as-RAM mode SPR to make the second way the
+target way for write misses, and zeroes the immediately following 32K
+worth of address space.  It then does the same thing for the third,
+fourth, fifth, sixth, and seventh ways.
+
+<p>
+In addition to initializing the L2$, the L0.5 booter also performs the
+following miscellaneous functions:
+
+<ul>
+<li>
+<p>
+It clears all of the processor registers.  (This is primarily to provide
+more reproducible behavior during certain types of system testing.)
+</li>
+<li>
+<p>
+It clears the level one instruction cache (the <em>I$</em>).  This prevents
+erroneous behavior during boot due to interactions between stale I$ contents,
+the instruction prefetcher, and physical memory mode operation.
+</li>
+</ul>
+
+<p>
+Once all of those operations have been completed, the L0.5 booter reads the
+L1 booter into memory, checking the CRCs in the boot stream to make sure
+that it is valid.  Once a valid stream has been read in, it is executed.
+
+<p>
+One note on address usage: the L0.5 booter currently starts at address
+0x80000200, and the L1 booter starts after the end of the L0.5 booter
+(rounded up to a cacheline boundary).  These addresses are chosen to not
+overlap with the virtual addresses or I$ lines used by the L0 booter (which
+starts at 0x0), and also to not match any of the physical addresses likely
+to be used by the hypervisor when it is loaded.  This latter restriction
+prevents the L1 booter from evicting itself from the L2$ while it is
+reading the hypervisor into memory.  Since the two booters execute from
+disjoint address regions, the L0.5 booter does not have to worry about
+overwriting itself while loading the L1 booter.
+
+<h3>
+Level 1 booter
+</h3>
+
+<p>
+The <em>Level 1 (L1) booter</em> performs most of the work required to
+boot the chip.  Its primary tasks are:
+
+<ol>
+<li>
+Figure out the size of the chip.
+</li>
+<li>
+Configure the dynamic networks.
+</li>
+<li>
+Get all tiles prepared to accept commands from the hypervisor.
+</li>
+<li>
+Probe the I/O shims, remembering data which is useful to the hypervisor.
+</li>
+<li>
+Configure memory.
+</li>
+<li>
+Configure voltage and clock settings.
+</li>
+<li>
+Copy the hypervisor into memory and execute it.
+</li>
+</li>
+</ol>
+
+<p>
+The first three steps are performed by all tiles acting together under
+the direction of the tile at (0,0) (the <em>master boot tile</em>; the
+other tiles are termed <em>slave boot tiles</em>).  The remaining steps
+are performed by the master boot tile acting alone.
+
+<h4>
+Steps 1-3: Booter propagation and tile configuration
+</h4>
+
+<p>
+The TILE64 and TILEPro processors, the booter performed a fairly elaborate
+algorithm to detect the size of the chip, and to configure each tile's
+set of tile coordinates.  This was because there was no local knowledge
+of the chip's size, and on TILE64, there was initially no local knowledge
+of each tile's position in the tile grid.  Also, the fact that the boot
+path was the point-to-point static network meant that we had to use a
+flooding algorithm to propagate the booter from the initial boot tile
+to the other tiles on the chip.
+
+<p>
+On TILE-Gx, however, this task is much easier.  After reset, each tile's
+set of tile coordinates are properly initialized; (0,0) knows it's (0,0),
+(0,1) knows it's (0,1), and so forth.  Each tile is told where the RShim
+is, and the RShim contains registers which can be read to determine the
+complete set of valid tiles on the chip.  These values are provided by
+the RShim, rather than being compiled into the booter, so that one booter
+binary can support a wide range of chips, as well as a much wider range
+of configurations which might only be buildable via the tile-sim simulator.
+
+<p>
+Given this knowledge, it would be possible for the boot master tile to
+initialize the slave tiles serially.  However, we still use more or less
+the same flooding algorithm that was used on earlier chips to propagate
+the booter.  This is partially for historical reasons, but it's also
+slightly faster, which is especially relevant for hardware simulations.
+The operation proceeds as follows:
+
+<ul>
+<li>
+<p>
+The boot master tile receives the L0.5 and L1 booters from the booting
+I/O shim via the RShim's packet generator and the UDN.
+</li>
+
+<li>
+<p>
+The boot master tile copies the L0.5 and L1 booters to the tiles adjacent
+to it, causing those adjacent tiles to be booted as well.  It also copies
+a couple of state values which allow the downstream tiles to figure out
+which tile sent them their boot stream.
+</li>
+
+<li>
+<p>
+Those tiles send an acknowledgment message to the master, then send
+the two booters to the tiles adjacent to them, and then send the updated
+state values.  This process continues until all of the tiles on the chip
+have been booted.
+</li>
+
+<li>
+<p>
+The boot master waits for acknowledgments from the downstream tiles.
+It knows how many there are (since it knows the topology of the chip
+via the RShim description), so once it's gotten all of the expected
+acknowledgments, it can proceed.
+</li>
+
+</ul>
+
+<p>
+The method by which each tile determines its relative address, and which
+adjacent tiles to propagate itself to, deserves some more explanation.
+Each tile's action is determined by three important inputs (two explicit,
+one implicit):
+
+<ul>
+<li>
+<p>
+The tile coordinates of the tile which is sending the boot stream (or a flag
+saying that the boot stream is coming from an I/O shim).  This information is
+sent from that tile, which is termed the <em>predecessor tile</em>.
+</li>
+<li>
+<p>
+The tile coordinates of the master boot tile.  This is also sent from the
+predecessor tile.
+</li>
+<li>
+<p>
+The direction from which the boot stream is being injected.  (This is not sent
+by the predecessor tile, but is determined by comparing the tile coordinates
+of the local tile and the predecessor tile.)
+</li>
+</ul>
+
+<p>
+These values allow the tile to calculate the edges it will propagate the
+boot stream to, as follows:
+
+<ul>
+<li>
+<p>
+If we're the boot tile, we boot all tiles adjacent to ourselves.
+</li>
+
+<li>
+<p>
+Otherwise, if the tile which booted us was to the north or south of us, we
+boot all tiles adjacent to ourselves, other than the tile which booted us.
+</li>
+
+<li>
+<p>
+Otherwise, the tile which booted us was to the east or the west of
+us; we boot the tile on the other side of us from that tile, but don't
+boot tiles north or south of us.
+</li>
+</ul>
+
+<p>
+This propagation algorithm ensures that we never try to boot a tile which
+might have already been booted by another tile.
+
+<p>
+Here is an example showing the propagation of the booter through a tile
+fabric:
+
+<p>
+Step 1: Boot stream is injected into tile (0,0).
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+-->| 0,0 |   | 1,0 |   | 2,0 |   | 3,0 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+
+
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,1 |   | 1,1 |   | 2,1 |   | 3,1 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+
+
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,2 |   | 1,2 |   | 2,2 |   | 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+
+
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,3 |   | 1,3 |   | 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<p>
+Step 2: The boot master tile, (0,0), sends the boot stream out all of its
+edges other than the one the boot stream came in on.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|-->| 1,0 |   | 2,0 |   | 3,0 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+      | 
+      V 				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,1 |   | 1,1 |   | 2,1 |   | 3,1 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+                                        
+                                        
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,2 |   | 1,2 |   | 2,2 |   | 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+                                        
+                                        
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,3 |   | 1,3 |   | 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<p>
+Step 3: Tile (0,1) was entered from the north, so it continues to propagate
+the stream to the south and east.  (It knows it's on the edge of the chip,
+so it doesn't need to send anything to the west.)  (1,0) was entered from
+the west, so it just propagates the stream to the east.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|-->| 2,0 |   | 3,0 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+                                        
+                                        
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|-->| 1,1 |   | 2,1 |   | 3,1 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+      |
+      V
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,2 |   | 1,2 |   | 2,2 |   | 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,3 |   | 1,3 |   | 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<p>
+Step 4: Tile (0,2) was entered from the north, so it sends the stream to
+the south and east; everyone else was entered from the west, so they just
+relay to the east.
+
+   <pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|   |*2,0*|-->| 3,0 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|   |*1,1*|-->| 2,1 |   | 3,1 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,2*|-->| 1,2 |   | 2,2 |   | 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+      |
+      V
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   | 0,3 |   | 1,3 |   | 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<p>
+Step 5: All tiles were entered from the west, so they just relay to
+the east.  Note that 3,0 is done, since it's on the east edge.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|   |*2,0*|   |*3,0*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|   |*1,1*|   |*2,1*|-->| 3,1 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,2*|   |*1,2*|-->| 2,2 |   | 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+       
+       
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,3*|-->| 1,3 |   | 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+   
+<p>
+Step 6: All tiles were entered from the west, so they just relay to
+the east.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|   |*2,0*|   |*3,0*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|   |*1,1*|   |*2,1*|   |*3,1*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,2*|   |*1,2*|   |*2,2*|-->| 3,2 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+       
+       
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,3*|   |*1,3*|-->| 2,3 |   | 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+   
+   
+<p>
+Step 7: All tiles were entered from the west, so they just relay to
+the east.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|   |*2,0*|   |*3,0*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|   |*1,1*|   |*2,1*|   |*3,1*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,2*|   |*1,2*|   |*2,2*|   |*3,2*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+       
+       
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,3*|   |*1,3*|   |*2,3*|-->| 3,3 |
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<p>
+Step 8: At this point, all tiles are initialized.
+
+<pre>
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,0*|   |*1,0*|   |*2,0*|   |*3,0*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,1*|   |*1,1*|   |*2,1*|   |*3,1*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+   				 
+   				 
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,2*|   |*1,2*|   |*2,2*|   |*3,2*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+       
+       
+   +-----+   +-----+   +-----+   +-----+
+   |     |   |     |   |     |   |     |
+   |*0,3*|   |*1,3*|   |*2,3*|   |*3,3*|
+   |     |   |     |   |     |   |     |
+   +-----+   +-----+   +-----+   +-----+
+</pre>
+
+<h4>
+Step 4: I/O shim probing
+</h4>
+
+<p>
+Once all tiles are running the booter, the master tile probes the
+chip to identify the available I/O shims.  (Again, we do this dynamically
+to support variant chip configurations, particularly in the simulator.)
+RShim registers provide a list of the edge tiles which are connected to
+I/O shims.  However, the RShim does not know what type each shim is.  To
+find that out, the boot master tile must send memory-mapped I/O (MMIO) read
+requests to each of those I/O shims, reading a configuration register which
+denotes the shim's type and other characteristics.
+
+<p>
+We probe the devices in the booter for the following reasons:
+
+<ul>
+<li>
+<p>
+We need to find the memory shims, so that we can configure them properly.
+At the very least, we have to configure the shim which will contain
+the hypervisor, since we will be writing its code and data into memory on
+that shim; as it turns out, we configure all of them, since it doesn't
+make sense to put the memory configuration code in two places.
+</li>
+
+<li>
+<p>
+We need to find all shims that have their own clocks so that we can calculate
+the chip voltage requirements, configure the power supply, and then configure
+all of the shim clocks to have the correct frequencies.
+</li>
+
+<ul>
+<li>
+<p>
+We read the <a href="../board-info.html">board information block</a> from the
+I2C EEPROM via the RShim's I2C master controller, and use data from the
+BIB to influence many other booter operations.
+</li>
+
+<li>
+<p>
+We read the DIMM SPD ROMs, also on the I2C bus, to get data that we need
+for memory configuration.
+</li>
+
+<li>
+<p>
+In some cases (for instance, a memory test failure), we use the UART for
+console error output.
+</li>
+
+<li>
+<p>
+Finally, we pass the RShim address to the hypervisor so it can use it
+before it runs its own device probe.  This is mostly for historical
+reasons, since it could just as well get it from the same tile SPR that
+the booter gets it from.
+</li>
+</ul>
+</ul>
+
+<p>
+The hypervisor does its own device probe step as part of its initialization.
+This is because the hypervisor needs to configure and retrieve information
+from more devices than the booter, so it's not really practical to do
+everything at once.  The L1 booter does give the hypervisor the bitmap
+of tiles which have adjacent shims; again, this is mostly for historical
+reasons since the hypervisor could get that data from the RShim directly
+if it wished.
+
+<h4>
+Step 5: Voltage and frequency configuration
+</h4>
+
+<p>
+Once we know which shims are present, we configure the chip voltage,
+the core (tile) clock frequency, and the shims' clock frequencies.
+This step needs to be done before memory configuration, because certain
+components of the memory controller depend upon constant input voltage
+for correct operation.
+
+<p>
+The voltage required to run a shim at a particular frequency varies
+between shims, and between chips; for instance, chips of different speed
+grade may vary both in maximum attainable frequency, and the voltage
+required for that frequency.  In order to provide the correct behavior
+without customizing the software stack for every part, each chip
+has a set of fuses which are burned as part of the manufacturing process.
+These fuses, among other things, encode specific frequency-to-voltage (and
+thus voltage-to-frequency) curves for each shim, as well as the core clock.
+
+<p>
+The configuration algorithm proceeds in three stages:
+
+<ol>
+<li>
+<p>
+First, we collect the data we need.  We get each shim's frequency-to-voltage
+curve by reading the chip's fuses.  We also get the upper and lower voltage
+limits for the power supply from the BIB.
+
+</li>
+<li>
+<p>
+Second, we go through all of the shims, and compute a desired frequency.
+In some cases, the user may have requested a specific frequency via the
+hypervisor configuration file.  (These requests are parsed as part of
+the bootrom build process and injected into the boot stream as binary
+booter parameters.)  In other cases, the BIB may define default operating
+frequencies for the core or for shims.  If we have a specific speed for
+a shim or the core, then we calculate the voltage required to attain that
+speed, and we keep track of the maximum such voltage over all of the shims;
+this sets the chip's target voltage.
+
+<p>
+If we do not have a specific request for a shim, we mark it as wanting the
+highest possible frequency consistent with the available voltage.  The core
+is a special case; if a specific speed has not been specified, we will
+run it as fast as possible, even if that means raising the target voltage.
+
+</li>
+<li>
+<p>
+
+Finally, having determined and configured the target operating voltage,
+we go through all of the shims again.  We compute the final shim frequency
+as the maximum of either the shim's requested frequency, or the highest
+frequency that the shim can run at given the target voltage.  We then
+configure each shim's PLL to produce the final shim frequency.
+
+</li>
+</ol>
+
+<h4>
+Step 6: Memory configuration
+</h4>
+
+<p>
+Now that the booter has found the memory shims and the RShim, and has
+configured the chip's voltage, it is able to initialize the memory
+controllers.  It does the following for each memory shim:
+
+<ul>
+<li>
+<p>
+Retrieve the shim port number from the shim.  (The memory shim is unique in
+that it has a port number register which denotes which of the four memory
+shims it is.  Other shims are identical; they're identified purely based
+on the order they're found during the discovery process.  We tailor the
+probe order so that we discover them in the order that they're listed on
+the chip data sheet.)
+</li>
+<li>
+<p>
+Get the MShim to DIMM map from the board information block.  This data
+structure tells the booter whether the memory attached to this shim is
+removable (a DIMM) or onboard.  If it's removable, it provides the I2C
+address of the DIMM's Serial Presence Detect (SPD) PROM, which provides
+the characteristics of the DIMM.  If it's not removable, it points to a
+pseudo-SPD contained within the board information block.
+</li>
+<li>
+<p>
+If the memory is removable, read the configuration data from the SPD over
+the I2C bus.
+</li>
+<li>
+<p>
+Set the memory shim configuration registers based on data in the SPD,
+then perform DDR3 memory training.  The specific details of this training
+are beyond the scope of this document, but essentially, the flow involves
+computing candidate values for various DDR3 timing parameters (e.g.,
+transmit delays and receive delays), then testing combinations of those
+values using the memory shim's built-in self-test (BIST) engine until we
+find a set of values which provides reliable memory operation.
+</li>
+</ul>
+
+<p>
+Once the individual shims are configured, we continue with memory
+configuration as follows:
+
+<ul>
+<li>
+<p>
+Initialize memory contents.  If a memory shim is configured with ECC
+memory, we must ensure that the ECC bits are consistent with the memory
+contents, to avoid errors being reported later when we try to use memory.
+The quickest way to ensure this is to just completely fill memory with
+zeroes; we use the memory shim BIST engine for this.  To perform this
+operation as quickly as possible, we run the BIST operation for each shim
+in parallel.
+<li>
+<p>
+Perform a power-on self-test (POST) operation on the memory to check for
+any errors.  We always we do a very basic address and data line test.
+If thorough POST is enabled, we also do a thorough test of the region
+of memory which will contain the hypervisor.
+</li>
+<li>
+<p>
+Determine our memory striping configuration.  TILE-Gx can treat pairs or
+quartets of memory controllers as one range of physical memory as seen
+by the tiles; references to memory in that range are spread among the 2
+or 4 controllers, providing more uniform performance.  The configuration
+algorithm determines the optimal striping setup, based upon the sizes
+of the available memory shims and settings taken from the hypervisor
+configuration file.  (As with shim and core frequencies, these settings
+were extracted as part of the bootrom build process and passed in binary
+form to the booter.)  Once the setup has been determined, configuration
+registers in the boot master tile are set appropriately.
+<li>
+<p>
+Set the tile CBOX configuration registers.  These allow the tile to
+translate physical memory addresses to memory shim locations; it's
+necessary to configure these registers now in the master so that it can
+write to memory in the next step.
+</li>
+</ul>
+
+<h4>
+Step 7: Hypervisor load and execute
+</h4>
+
+<p>
+Finally, the L1 booter copies the hypervisor binary from the input
+boot stream into memory, and jumps to it, beginning execution of the
+hypervisor.  This is reasonably straightforward, but there are a few special
+configuration changes which must happen before the copy loop.  We disable
+cache-as-RAM mode, and modify the physical memory mode configuration SPR
+so that our loads and stores are noncacheable; both of these changes are
+required so that our stores of hypervisor code and data go to memory,
+and not to the L2$.  Once we've done this, we can no longer access our
+stack, so we do this in assembly-language code which runs entirely from
+processor registers.
+
+<p>
+The hypervisor is written to the first working memory shim, or set of
+striped shims.  (Normally this is shim 0, but if that shim is unavailable,
+we renumber the shims so that the physical address range used by the
+hypervisor maps to a working shim.)  The load process verifies the checksum
+of the hypervisor binary; if it is incorrect, we reenable cache-as-RAM mode
+and memory cacheability, and return to the main booter code, which prints an
+error message.  If it's correct, however, the L1 booter's job is complete.
+It jumps to the first instruction of the hypervisor, passing a few useful
+parameters discovered during shim probe, from the board information block,
+from the dynamic sizing algorithm, and from its own compilation environment.
+
+<h2>
+Hypervisor initialization
+</h2>
+
+<p>
+Most of the hypervisor's initialization happens on the boot master tile
+while the slave tiles are still in the booter, waiting for commands from
+the hypervisor.  The slave tiles bring up the rear, doing local per-tile
+setup once the master tile allows them to proceed.
+
+<p>
+Before going through the initialization flow, we'll first explain how
+the hypervisor uses physical and virtual memory.
+
+<h3>
+Memory layout/setup
+</h3>
+
+<p>
+The hypervisor uses the following physical and virtual memory areas:
+
+<ul>
+<li>
+<p>
+The hypervisor executable which is loaded into memory by the L1 booter
+contains the executable code which is used by all tiles, followed by
+a prototype or template for each tile's data area.  This is mapped
+on each tile with one wired ITLB entry, starting at virtual address
+0xFFFF_FFFC_0000_0000.  Physically, this is loaded at the very end of the
+first memory shim (or striped group of shims).  Currently this region is
+1 MB in size.  This memory is locally cached on each tile.
+</li>
+<li>
+<p>
+Each tile has a dedicated data area, which contains read-only constants,
+global variables, the stack, and dynamically-allocated local memory.
+As part of its initialization, each tile copies the template data area
+from the executable code page to its own dedicated data area.  This is
+mapped on that tile with one wired DTLB entry, starting at virtual
+address 0xFFFF_FFFC_0010_0000.  Physically, the per-tile areas abut the
+executable code area.  Currently this region is 1 MB in size, per tile,
+and is locally cached.
+</li>
+<li>
+<p>
+All tiles share a small region of memory which is used for some global
+data structures as well as a few shared-memory locks.  This memory is
+not locked into the TLB, but broken into 64K pages which are faulted in
+to the TLB on demand.  It starts at virtual address 0xFFFF_FFFD_0000_0000.
+Physically, this memory abuts the per-tile areas, along with some other
+miscellaneous regions (see next item).  This memory is cached on the same
+tile which runs the hypervisor console, typically (0,0).
+</li>
+
+<li>
+<p>
+Finally, there are a number of miscellaneous regions which are temporarily
+mapped as required.  These regions are located in virtual address
+space ending at 0xFFFF_FFFF_8000_0000, and along with shared memory, are
+physically located before and adjacent to the array of per-tile data areas.
+These include:
+
+<ul>
+<li>
+<p>
+Memory used by the hypervisor for displacement flush of the on-chip caches.
+</li>
+<li>
+<p>
+Memory shared between the hypervisor and the supervisor.
+</li>
+<li>
+<p>
+Memory used for the hypervisor file system.
+</li>
+</ul>
+
+</li>
+
+</ul>
+
+<p>
+The following table illustrates the memory layout.  The physical addresses
+are based upon a Gx36 chip, and an MShim 0 configured with 8 GB of memory,
+with striping disabled; the specific addresses used will vary in other
+configurations.  Note that in this configuration, memory on shims other
+than MShim 0 would be wholly dedicated to the client.
+
+<table border="1" cellpadding="10" frame="border" rules="all">
+<caption> <b>Hypervisor memory layout</b> </caption>
+<thead>
+</tr> <th>Physical <th>Virtual <th>Usage </tr>
+</thead>
+<tbody>
+<tr>
+<td>0x1_FFF0_0000-0x1_FFFF_FFFF
+<td>0xFFFF_FFFC_0000_0000-0xFFFF_FFFC_000F_FFFF
+<td>Hypervisor code, plus initial data area prototype
+</tr>
+<tr>
+<td>0x1_FFE0_0000-0x1_FFEF_FFFF
+<td>0xFFFF_FFFC_0010_0000-0xFFFF_FFFC_001F_FFFF
+<td>Hypervisor data, tile 0
+</tr>
+<tr>
+<td>0x1_FFD0_0000-0x1_FFDF_FFFF
+<td>0xFFFF_FFFC_0010_0000-0xFFFF_FFFC_001F_FFFF
+<td>Hypervisor data, tile 1
+</tr>
+<tr> <td>.  <td>.  <td>.  </tr>
+<tr> <td>.  <td>.  <td>.  </tr>
+<tr> <td>.  <td>.  <td>.  </tr>
+<tr>
+<td>0x1_FDB0_0000-0x1_FDBF_FFFF
+<td>0xFFFF_FFFC_0010_0000-0xFFFF_FFFC_001F_FFFF
+<td>Hypervisor data, tile 35
+</tr>
+<tr>
+<td>(dynamic)-0x1_FDAF_FFFF
+<td>(dynamic)-0xFFFF_FFFF_7FFF_FFFF
+<td>Hypervisor allocatable space: shared memory, hypervisor
+file system, cache flush region, etc.
+</tr>
+<tr>
+<td>0x0-(dynamic)
+<td>0x0-0xFFFF_FFFB_FFFF_FFFF
+<td>Client memory
+</tr>
+</tbody>
+</table>
+
+
+<h3>
+Initialization flow
+</h3>
+
+<p>
+(Note that every single thing that happens during initialization is not
+necessarily listed here; some fairly simple steps are omitted since they
+don't require much in-depth explanation.  Consult sys/hv.c for the full
+list of activities.)
+
+<p>
+The very first part of hypervisor initialization happens in the
+assembly-language code which is the executable's entry point.  This code
+invalidates the L1 booter from the L2$, and reenables caching; sets the
+Minimum Protection Level (MPL) for various system features; initializes
+the hypervisor debugger; sets its protection level from the reset value
+of PL3 to PL2 (PL3 is reserved for use by the hypervisor debugger, which
+has not yet been implemented on TILE-Gx); sets up the per-tile memory
+area, as described above, and sets up the ITLB and DTLB; sets up a stack;
+and jumps to the main C initialization routine.
+
+<p>
+The C initialization routine performs the following tasks:
+
+<ul>
+
+<li>
+<p>
+Initialize the IDN.  On TILE-Gx, this primarily means setting the demux
+buffer thresholds, and requesting that the IDN interrupt when a message
+is received on one of the ports (see below for a much more detailed
+discussion of IDN usage).
+</li>
+
+<li>
+<p>
+Save some of the data we got from the L1 booter (the shims which were
+found during probe, etc.) as well as some current device state (the
+current SROM position when booting from SROM).
+</li>
+
+<li>
+<p>
+Enable the UART console, so that we can print informational and error
+messages to it.  To do this we both initialize the UART hardware (the L1
+booter has already done this, but the hypervisor configuration is a bit
+different) and configure the hypervisor's internal standard I/O package
+to designate the UART as stdout.
+</li>
+
+<li>
+<p>
+Print the hypervisor banner message to the console.
+</li>
+
+<li>
+<p>
+Initialize the local memory allocator.  This allows subsequent code to
+permanently allocate variable-sized chunks of the per-tile data area.
+</li>
+
+<li>
+<p>
+Probe devices.  We do the same sort of probe operation that the L1 booter
+did (skipping shims which didn't respond during the first probe), but where
+it was looking for just a few devices, we find all of them.  When any device
+is found, we call its driver's probe routine.  Many drivers' probe routines
+do nothing, but those for devices to which the hypervisor needs direct
+access record information about the devices in global data structures.
+These are used later by device access routines.  Notable among these
+is the driver for the memory shims, which updates data structures telling
+us how much memory is available.
+</li>
+
+<li>
+<p>
+Now that we know how much memory exists, initialize the mapping subsystem.
+This is a very, very simplified memory manager for physical and virtual
+memory; among other things, it will soon be used to allocate a large
+block for the hypervisor file system.
+</li>
+
+<li>
+<p>
+Read in the hypervisor file system.  The hypervisor file system is a
+read-only, in-memory collection of files which are used by the hypervisor;
+it is the last part of the incoming boot stream.  Typically, the HVFS
+contains the hypervisor configuration file, the program for the mPIPE
+classifier, and the executable for the client supervisor; it may also
+contain files used by the client supervisor (such as a compressed filesystem
+image for a Linux initramfs).  We first read in its header from the UDN,
+which tells us how much data is contained in the file system.  We then
+allocate sufficient physical memory to hold the data.  We then copy the
+header as well as the rest of the data to the newly allocated physical
+space, and verify that the checksum is correct.  (The copy is done using
+a small virtual address window, which is repeatedly mapped to different
+chunks of the physical memory space.)  Finally, we flush the data from
+our L2$ so that it will be visible to the slave tiles once they're started.
+</li>
+
+<li>
+<p>
+Parse the hypervisor configuration file, validate the commands within it,
+and set up various data structures for later use.
+</li>
+
+<li>
+<p>
+Do miscellaneous tile setup.  For instance, here we configure the Dstream
+and Istream prefetch engines.
+</li>
+
+<li>
+<p>
+Initialize the shared allocator.  This allows tiles to allocate physical
+memory from the globally shared memory pool, while mapping it into each
+tile's shared virtual address space region.
+</li>
+
+<li>
+<p>
+Compute the set of tiles to be used for the client which will own the
+local tile.  Also, compute the set of tiles to be used for hash-for-home
+caching, and configure the tile's home map appropriately.
+</li>
+
+<li>
+<p>
+Configure board-specific hardware settings.  This resets various onboard
+peripherals, and configures driverless devices like the temperature sensor.
+</li>
+
+<li>
+<p>
+Initialize device drivers.  We now call each configured driver's init
+routine, which allows the driver to configure its hardware, set up data
+structures, etc.  If any driver fails initialization, we mark it so that
+later attempt to open that device will fail.
+</li>
+
+<li>
+<p>
+Configure remaining hardware settings.  This enables interrupts, sets up
+notification for hardware errors, configures the firewall for the UDN,
+configures the broadcast diagnostic networks, configures the UART to
+interrupt when input characters are received, etc.
+</li>
+
+<li>
+<p>
+Initialize the slave tiles.  Up to this point, the slave tiles, which are
+still in the L1 booter, have been patiently waiting to be started by the
+master tile.  We send each of them three messages to make this happen, as
+follows:
+
+<ol>
+<li>
+<p>
+First, we send a request which tells the slave how to set its
+CBOX configuration registers, so that it knows how to translate
+physical memory addresses to memory shim locations.  Once that's
+done, the slave acknowledges the request.
+</li>
+
+<li>
+<p>
+Next, we send the second request, telling the slave to begin
+executing instructions at a particular physical memory address (the
+entry point for the hypervisor).  The slave then goes through the
+assembly-level initialization and gets to the hypervisor C code,
+then sends an acknowledgment.
+</li>
+
+<li>
+<p>
+Finally, we send the third request, which tells the client a
+bunch of global data which it needs to know in order to complete
+its initialization.  For instance, we tell it where in physical
+memory the hypervisor file system was placed; the list of shims
+that it should probe; board-related data like the CPU speed; etc.
+The slave tile then runs through much of the above initialization
+itself, skipping things which only need to be done once (which
+were already done by the master).  Finally it sends a third
+acknowledgment, and waits for a message telling it to start
+executing the client supervisor.
+</li>
+</ol>
+
+<p>
+Note that, as a special case, we may start the tile which is going
+to be responsible for running the hypervisor console before we start
+anything else.  This avoids having to change the slave tiles' idea of
+who the console tile is after they've started.  Often the console tile
+is the same as the boot master tile, in which case we can skip this step.
+</li>
+
+</ul>
+
+<p>
+At this point, the hypervisor is pretty much initialized, but we really
+can't do much work without a client operating system.  The next section
+describes how one gets started.
+
+<h3>
+Client supervisor startup
+</h3>
+
+<p>
+To start a client supervisor, the boot master tile performs the following
+tasks:
+
+<ul>
+<li>
+<p>
+Configure the client's physical memory regions.  This sets up the data
+structures which will be used later to validate <em>client physical
+addresses (CPAs)</em>; see below for more information on this process.
+</li>
+
+<li>
+<p>
+Load the client supervisor executable into physical memory.  This involves
+reading the ELF headers from the executable in the HVFS to determine
+which segments of code and data go to which locations in memory,
+and then copying those segments into those locations.  The supervisor
+executable must be fully statically linked, so no relocation or other
+complex link-editing is done at this stage.  (The access routines used
+to read parts of the executable file are also capable of decompressing
+the file, if it's compressed; tile-mkboot supports this as an option,
+which is normally only used when booting from SROM.)  Note that the
+physical address field in the program header, not the virtual address
+field, determines where that segment's data is loaded.
+
+<p>
+As part of the loading operation, we copy some extra executable code to
+a specific location within the client's memory.  This code, known as the
+hypervisor glue, provides the client with the means to request hypervisor
+services.  The need for and operation of the glue is described below.
+
+</li>
+
+
+<li>
+<p>
+At this point, the tile which is leading the client startup process
+may change.  The hypervisor guarantees that the first tile started for
+a client supervisor is the one in the upper left hand corner of that
+client's tile grid.  This is because Linux expects its CPU 0 to be the
+first CPU which executes any Linux code.  In some configurations, the
+boot master tile, which has been performing the client startup steps,
+is not the client's ULHC tile.  If so, the boot master sends a message
+to the ULHC tile telling it to start the client supervisor on that tile
+(and then waits for a message telling <em>itself</em> to start the client,
+just like all of the other slaves).  The message includes information about
+the client's memory regions, and the client entry point as determined during
+the loading step, so that the new tile can properly configure things before
+jumping to the supervisor.  (Note that this handoff does not change the
+location of the master boot tile.)  If we do happen to be the client's
+ULHC tile, which is the common case, we just start executing the supervisor.
+</li>
+</ul>
+
+<p>
+Note that at the end of this process, the client supervisor is running
+only on the client's upper left hand corner tile.  The other tiles which
+may belong to the client are prepared to start execution, but they will
+not do so until the ULHC tile calls the hv_start_all_tiles() hypervisor
+service.  This allows the first tile to execute OS initialization code in
+a single-threaded fashion, without having to worry about multiprocessor
+contention or locking issues until it's ready to do so.
+
+<p>
+Finally, while it was not mentioned above for clarity, we also start
+any hypervisor device driver dedicated tiles as part of the process which
+prepares for client execution.  Essentially, each tile checks to see
+if it's a driver dedicated tile before it starts executing the client
+supervisor; if it is, it instead executes the driver service routine.
+We need to make sure all of those tiles are available even to the very
+first supervisor tile.  Therefore, as a special case, we send a "start
+client supervisor" request to those dedicated tiles before we start the
+supervisor on the client's ULHC tile, knowing that they'll immediately
+become dedicated tiles and will never actually execute the client OS.
+
+<h2>
+Boot Data Formats
+</h2>
+
+<h3>
+Level-0 boot stream format
+</h3>
+
+<p>
+The Level-0 boot stream is understood by the L0 booter (which is
+built into the hardware), and is used to encode the L0.5 booter.
+It consists of one or more segments.  Each segment consists of:
+
+<ul>
+<li>
+<p>
+a 1-word length, specifying the number of words of data in this segment;
+</li>
+
+<li>
+<p>
+a 1-word address, specifying where in memory the data will be loaded;
+</li>
+
+<li>
+<p>
+0 or more words of data; and
+</li>
+
+<li>
+<p>
+a 1-word jump-to address, to which we transfer execution once the data has
+been loaded.
+</li>
+</ul>
+
+<p>
+If more than one segment must be loaded by the L0 booter, the jump-to
+address on all but the last segment should be set to 0; this
+is the address of the start of the "process next segment" part of the
+level-0 booter, so jumping to it will read in another segment.  Note that
+in general, it is not safe to do this once any code other than the L0
+booter has been executed, since that code may have evicted the L0 booter
+from the instruction cache.
+
+<h3>
+Hypervisor boot stream format
+</h3>
+
+<p>
+The hypervisor boot stream is understood by the L0.5 booter and the
+L1 booter, and is used to encode the L1 booter and the hypervisor.
+It consists of one or more segments.  Each segment consists of:
+
+<ul>
+<li>
+<p>
+a 1-word length, specifying the number of words of data in this segment,
+or zero if this is the last segment;
+</li>
+
+<li>
+<p>
+a 1-word address, specifying where in memory the data will be loaded (if
+the length is nonzero), or the address to jump to (if the length is zero);
+</li>
+
+<li>
+<p>
+a 1-word cumulative CRC; and
+</li>
+
+<li>
+<p>
+0 or more words of data.
+</li>
+</ul>
+
+<p>
+Each segment but the last segment contains a nonzero length; the last one,
+with a zero length, contains the jump-to address, to which we transfer
+execution when all segments are loaded.
+
+<p>
+The cumulative CRC covers all words from the start of the hypervisor
+boot stream, up to the actual CRC word itself, but omitting any previous
+CRC words.  So, the first CRC word covers just the first segment's
+address and length; the second one covers the first segment's address,
+length, and data, and the second segment's address and length; etc.
+This arrangement allows each address and length to be validated before
+they are used to read in a segment's data.  The CRC used is the CCITT-32
+CRC, as implemented by the TILE Architecture's crc32_32 instruction.
+(Since each word is 64 bits, the instruction is executed twice, first
+for the low half of the word, then for the high half.)  Note that a boot
+stream normally contains more than one executable (the L1 booter and the
+hypervisor); the CRC is restarted for each of these files.
+
+<h3>
+Hypervisor file system format
+</h3>
+
+<p>
+As noted above, the hypervisor file system contains the hypervisor
+configuration file and the client supervisor executable and (depending
+upon the supervisor) other files as well.  The file system is designed to
+be read-only, and supports only minimal per-file metadata, so its format
+is quite simple.  A hypervisor file system is composed of six regions:
+
+<ol>
+<li>
+<p>
+The file system header.  This contains a magic number for identification,
+the number of files in the file system, its total length, and an offset
+from the start of the file system to a string describing it, which is
+stored in the filename region.
+</li>
+<li>
+<p>
+A CRC of the file system header.
+</li>
+<li>
+<p>
+The inodes.  There is an inode for each file; each inode contains
+the offset of the file's name and the file's data from the start of the
+file system as well as the file's length and the file's attribute flags.
+</li>
+<li>
+<p>
+The filenames.  These are null-terminated.
+</li>
+<li>
+<p>
+File data.  These are not terminated in any way, but extra zeroes are
+added to make every file start on a word boundary.
+</li>
+<li>
+<p>
+A CRC of items 3-5.
+</li>
+</ol>
+
+<p>
+For the specific layout of each section, refer to sys/hv/filesys.h in
+the system source distribution.
+
+
+<h3>
+Boot stream layout
+</h3>
+
+<p>
+A complete boot stream (as might be contained in a .bootrom file) typically
+contains, in order:
+
+<ol>
+<li>
+<p>
+The L0.5 booter executable (coded in L0 boot stream format).
+</li>
+<li>
+<p>
+The L1 booter executable (coded in hypervisor boot stream format).
+</li>
+<li>
+<p>
+The hypervisor executable (coded in hypervisor boot stream format).
+</li>
+<li>
+<p>
+The hypervisor file system.  This must contain the hypervisor configuration
+file (called <tt>config</tt>) and a client supervisor executable (typically
+called <tt>vmlinux</tt>); it generally also contains mPIPE classifier code
+(called <tt>classifier</tt>) and may contain a Linux in-memory root filesystem
+(called <tt>initramfs.cpio.gz</tt>).
+</li>
+</ol>
+
+<p>
+The boot stream is assembled by the <tt>tile-mkboot</tt> program, which
+is a standard component of the MDE.  <tt>tile-mkboot</tt> calls the
+<tt>tile-mkrom</tt> to encode the first three items, and concatenates them;
+it then builds a hypervisor file system containing the remaining items,
+and appends that to the encoded booter and hypervisor.
+
+<p>
+Graphically, a complete boot stream might look like this:
+
+<p>
+<table border="1" cellpadding="10" frame="border" rules="all">
+<tbody>
+<tr>
+<td colspan="2">
+Level 0.5 booter<br>
+MDE file <tt>$TILERA_ROOT/tile/boot/hv_lhboot</tt><br>
+L0 format
+</tr>
+<tr>
+<td colspan="2">
+Level 1 booter<br>
+MDE file <tt>$TILERA_ROOT/tile/boot/hv_l1boot</tt></br>
+Hypervisor format
+</tr>
+<tr>
+<td colspan="2">
+Hypervisor</br>
+MDE file <tt>$TILERA_ROOT/tile/boot/hv</tt></br>
+Hypervisor format
+</tr>
+<tr>
+<td>
+Hypervisor<br>
+File System
+<td>
+HVFS header<br>
+HVFS inodes<br>
+HVFS filenames<br>
+<br>
+Hypervisor configuration<br>
+HVFS filename <tt>config</tt><br>
+<br>
+mPIPE classifier program<br>
+HVFS filename <tt>classifier</tt><br>
+MDE file <tt>$TILERA_ROOT/tile/boot/classifier</tt><br>
+<br>
+Client supervisor<br>
+HVFS filename <tt>vmlinux</tt><br>
+MDE file <tt>$TILERA_ROOT/tile/boot/vmlinux</tt><br>
+<br>
+Client initramfs<br>
+HVFS filename <tt>initramfs.cpio.gz</tt><br>
+MDE file <tt>$TILERA_ROOT/tile/boot/initramfs.cpio.gz</tt><br>
+<br>
+HVFS trailer<br>
+</tr>
+</tbody>
+</table>
+
+<h2>
+SROM boot differences
+</h2>
+
+<p>
+As noted above, the boot process differs slightly from what has previously
+been described when booting from SROM.  The main issue here is that the
+SROM boot process supports multiple boot images resident within one ROM;
+we choose which one to boot based on an image choice policy which might
+consider inputs such as the age of the images, whether they have a good
+CRC, whether certain environmental factors are present (such as a GPIO
+pin being asserted), etc.  Because of this, we cannot just put one image
+in the ROM and have it streamed into the processor as we do with all other
+boot methods.  Instead, we stream a small bit of code into the processor,
+which decides which image to boot, and which then must explicitly read
+that image out of the SROM.
+
+<p>
+The start of a bootable SROM contains a descriptive header, followed by
+a small boot image, which comprises the L0.5 booter, and a dedicated boot
+program called the SROM booter.  The rest of the SROM contains one or more
+boot images, consisting of a descriptive header and a standard boot stream.
+The detailed format of a bootable SROM is documented in the system source
+distribution in sys/hv/srom_format.h.  The sbim and tile-sbim programs
+manipulate SROMs and SROM images in that format.
+
+<p>
+The process of booting from SROM consists of the following steps:
+
+<ul>
+<li>
+<p>
+The L0.5 booter is booted by the hardware, and performs the usual functions
+listed above.  Instead of loading the L1 booter, it loads the SROM booter,
+which follows it in the boot stream.  Unlike the L1 booter, which follows
+the L0.5 booter at the top of the available 256K of address space, the
+SROM booter is linked to load at the very bottom of that address space.
+(This is so that subsequent load operations performed by the SROM booter
+won't overwrite it.)
+</li>
+
+<li>
+<p>
+Following the SROM booter in the boot stream is some data telling it where
+the images are within that SROM.  The SROM booter examines those images,
+checks their age, their checksums, etc., and then picks one of them to
+boot.
+</li>
+
+<li>
+<p>
+The SROM booter then loads the first part of the chosen boot image, in
+the same way as the L0 booter would, and then jumps to it.  (The loaded
+code will of course be the L0.5 booter from the target bootable image.)
+It passes this executable a flag telling it that it's being booted from
+SROM, not from a normal I/O shim boot stream, as well as the address of
+a callback routine.
+
+</li>
+
+<li>
+<p>
+The second instance of the L0.5 booter sees the special flag, and skips
+most of its normal initialization, since it knows it's already been done.
+It then makes a callback to the SROM booter, at the address it was given,
+asking it to load the next part of the boot stream from SROM.  It passes
+several parameters to the booted program, including a flag which tells
+it that it's being booted from SROM.
+</li>
+
+<li>
+<p>
+The SROM booter loads the next part of the chosen boot image, this time
+in the same way as the L0.5 booter would, and jumps to it.  (The loaded
+code will be the L1 booter from the target image.)
+</li>
+
+<li>
+<p>
+Once the L1 booter starts running, the boot process proceeds in much the
+same was as it normally does.  The SROM booter gets overwritten by the
+L1 booter's stack, so it is no longer available to be called back to.
+The L1 booter thus has special-case code which knows how to read the SROM
+when appropriate; the first tile's configuration data (the master tile
+coordinates, predecessor tile coordinates, etc.) must be read from the
+SROM, and the hypervisor executable must be read from the SROM.
+</li>
+
+<li>
+<p>
+As with both previous booter invocations, a flag is passed to the hypervisor,
+telling it that it's being booted from SROM.  This lets the hypervisor know
+that the hypervisor file system must be read from SROM instead of from the
+static network.
+</li>
+</ul>
+
+<h1>
+Client Resource and Memory Management
+</h1>
+
+<p>
+Client supervisors are given various hardware resources, most notably
+memory and tiles, which they can use to support user applications.
+This section describes these resources, and how they are managed by
+the hypervisor.
+
+<h2>
+Client Resources
+</h2>
+
+<h3>
+Physical Addresses
+</h3>
+
+<p>
+As in non-virtualized system environments, client supervisors use
+physical addresses for various memory management operations, most notably
+constructing page tables.  However, the physical addresses used by the
+client for this purpose are actually another level of virtual addresses.
+These are termed <em>client physical addresses (CPAs)</em>; as needed, the
+hypervisor translates these to and from the real physical addresses used
+by the hardware.  We use this extra level of indirection for two reasons:
+
+<ul>
+<li>
+<p>
+In order to protect itself and other clients from the actions of a
+faulty or malicious client, the hypervisor must ensure that only the
+memory allocated to a client may be used by it.  Performing a translation
+step between the client physical address and the real physical address
+allows easier control of the real physical addresses which are accessible.
+</li>
+
+<li>
+<p>
+Many clients assume that certain ranges of physical addresses are
+available to them; for instance, an OS may assume that at boot time
+it is loaded into physical memory starting at address 0.  If we were
+to use real physical addresses in the client, only one client would be
+able to use any particular address.
+</li>
+</ul>
+
+<p>
+To make things as easy as possible for the client, CPAs have the following
+properties:
+
+<ul>
+<li>
+<p>
+CPAs are equal to the corresponding PA, modulo the largest page size
+supported by the hypervisor memory interfaces.  This means that when
+mapping virtual to physical memory, the client can use the same page
+alignment rules it would use if it was specifying real PAs.
+</li>
+
+<li>
+<p>
+CPAs have the same cache alignment behavior as their corresponding
+PAs; for instance, if two CPAs do not appear to alias in the L2$,
+the underlying PAs won't either.
+</li>
+
+<li>
+<p>
+If two CPAs are contiguous, the underlying memory is physically
+contiguous.  This means that if a hypervisor I/O driver requires
+a physically contiguous range of memory, the client can meet that
+requirement by providing a contiguous span of CPA space.
+</li>
+</ul>
+
+<p>
+Clients use the hv_inquire_physical() service during their startup
+processing to determine which ranges of CPA space they have access to.
+This service also allows the client to determine locality properties
+of the memory, so that each tile can optimize its use of the memory networks
+by preferentially allocating memory on closer shims.
+
+<p>
+Currently the method for translating between CPAs and PAs is a simple base
+and bounds scheme.  The client has one contiguous range of physical memory
+available to it on each memory shim.  When translating from a CPA to a PA,
+the hypervisor checks the CPA against a bounds value; if it is in range,
+it adds a base value to produce the PA.
+
+<h3>
+Virtual Addresses
+</h3>
+
+<p>
+The TILE Architecture has only one virtual address space for all
+protection levels; it is not possible for two different PLs to
+have different translations for the same VA.  Because of this, the
+hypervisor reserves part of the available 4 TB of virtual address space
+for itself, leaving the rest to the client supervisor.  Currently,
+it reserves 0xFFFF_FFFC_0000_0000 to 0xFFFF_FFFF_7FFF_FFFF.  Thus, the
+client OS gets to use 0x0000_0000_0000_0000 to 0x0000_01FF_FFFF_FFFF,
+0xFFFF_FE00_0000_0000 to 0xFFFF_FFFB_FFFF_FFFF, and 0xFFFF_FFFF_8000_0000
+to 0xFFFF_FFFF_FFFF_FFFF.  (Since we only have 42 bits of virtual address
+space, there is a hole in the middle of the 64-bit range.  The virtual
+addresses from 0x0000_0200_0000_0000 to 0xFFFF_FDFF_FFFF_FFFF do not exist.)
+
+<p>
+The hv_inquire_virtual() service allows a client supervisor to find out
+which parts of the virtual address space are available to it.  While
+it would potentially be possible to dynamically adjust the OS's allocation
+policies to the data returned from this call, it is somewhat inconvenient,
+so Tile Linux does not do this.  Instead, it has a set of virtual address
+ranges built in at compile time, and it double-checks those against what
+the hypervisor makes available at boot time, printing an error message if
+something it had assumed was available is not.
+
+<h3>
+Tiles and Tile Coordinates
+</h3>
+
+<p>
+Each client is given a set of tiles which it controls.  This set is
+represented as a "rectangle with holes punched out of it"; more specifically,
+the client is given the width and height of its tile region, as well as a
+bitmap which specifies the valid tiles within it.
+
+<p>
+As with physical memory, and for similar reasons, the client does not use
+the same names for these tiles that the hypervisor does.  No matter where on
+the chip the client's <em>width</em> x <em>height</em> rectangle of tiles
+is located, the tile in the rectangle's upper left hand corner is referred
+to as (0,0) by the client.  This naming scheme is used to specify remote
+homing of memory pages, as well as when sending messages between tiles.
+The same type of base-and-bounds scheme as used for memory is also used
+to translate between client tile coordinates and real tile coordinates.
+
+<h3>
+Resource Data Structure Notes
+</h3>
+
+<p>
+As noted above, the current hypervisor architecture was designed to
+support multiple independent client supervisors.  To the extent that
+this is realized in the current implementation, the hypervisor assumes
+that the processor allocation granularity is a tile.  In other words,
+we support space-division multiplexing of multiple supervisors over the
+available tiles, but not time-division multiplexing, where more than one
+supervisor would execute on the same tile.
+
+<p>
+Because of this, the data structures describing client resources are
+quite simple; on each tile, the hypervisor knows about the resources
+owned by the client which executes on that tile, and there need be no
+context-switching of those resource descriptions.
+
+<h2>
+Memory Management
+</h2>
+
+<p>
+The primary memory management service provided by the hypervisor is
+controlling the tile's software-managed TLB, and its translation of
+virtual to physical addresses, based upon instructions received from
+the client supervisor.  These instructions take the form of in-memory
+data structures known as page tables.  In order to ease the porting of
+clients, this structure has been designed to be very similar to traditional
+two-level page tables used by many existing processors.
+One result of this compatibility is that while the TILE Architecture
+supports seven different page sizes (4KB through 16MB), the hypervisor
+only provides client supervisors with the ability to use two of these,
+which are termed large and small pages.  Currently the supported large
+page size is 16 MB, while the small page size is 64 KB.
+
+<p>
+Other than preventing the client from using physical memory which is not
+allocated to it, and detecting certain consistency violations within the
+page table, the hypervisor does not restrict how the client chooses to
+manage its virtual or physical addresses.  For instance, the client could
+choose to have an address space for its supervisor code which is separate
+from that used by application programs, or to share one address space.
+It could have a unique address space for each currently running process,
+or use one address space and assign processes to disjoint address space
+ranges, or allow every program to share the same address space.
+
+<p>
+The client installs a page table by calling the hv_install_context()
+hypervisor service.  Exactly one page table is installed at any one
+time (except during initial client startup; see below).  Page tables
+are described to the hypervisor by their client physical addresses and
+their caching parameters.  The client is free to modify the table after
+it has been installed, although some changes are not guaranteed to take
+effect until a service which flushes the old version of the mapping has
+been called.
+
+<h3>
+Page table format
+</h3>
+
+<p>
+A page table is an array of <em>page table entries (PTEs)</em>.  There
+are three types of page tables: level 0 (L0), level 1 (L1), and level 2
+(L2).  A PTE in an L0 page table describes either a VA to PA mapping for
+a jumbo page, or an L1 page table.  A PTE in an L1 page table describes
+either a VA to PA mapping for a large page, or an L2 page table.  A PTE
+in an L2 page table always describes a VA to PA mapping for a small page.
+The page table is thus a three-level fat tree, where various bits of the
+VA determine which of the branches to take, and the leaf nodes contain the
+target CPA.  A page table entry itself contains the following information:
+
+<ul>
+<li>
+<p>
+Whether the entry is valid or not.
+</li>
+
+<li>
+<p>
+Whether the entry describes a page, or another page table.
+</li>
+
+<li>
+<p>
+The CPA that a page maps to (if this describes a page), or the CPA of
+the L1 or L2 page table (if this describes a page table).
+</li>
+
+<li>
+<p>
+Whether the page is readable, writable, and/or executable.
+</li>
+
+<li>
+<p>
+Whether the page has been read or written to.
+</li>
+
+<li>
+<p>
+Whether the page can be accessed by code running at PL0, or not.
+Supervisors typically run at PL1; they may wish to protect their own
+memory from the applications they support by mapping that memory so that
+is not accessible from PL0, and then running those applications at PL0.
+</li>
+
+<li>
+<p>
+How the page is cached, including if necessary the remote tile it is
+cached on.
+</li>
+</ul>
+
+<p>
+For complete bit-level details on PTEs, see sys/hv/include/hypervisor.h.
+
+<p>
+As noted above, the VA serves as the index into the page table.  The top
+bits of the VA are the L0 page table index; for a large or small page,
+the next lower bits are the L1 page table index; and for a small page,
+the next lower bits are the L2 page table index.  Any remaining bits
+serve as an offset within the eventual physical page.  The widths of the
+page table indexes depend upon the page sizes.  With the current jumbo,
+large and small page sizes of 4 GB, 16 MB and 64 KB, an address can be
+broken down as follows:
+
+<p>
+Jumbo page:
+
+<pre>
+   41                 32 31                                                              0
+  +---------------------+----------------------------------------------------------------+
+  | L0 page table index | Offset within page                                             |
+  +---------------------+----------------------------------------------------------------+
+</pre>
+
+<p>
+Large page:
+
+<pre>
+   41                 32 31                 24 23                                        0
+  +---------------------+---------------------+------------------------------------------+
+  | L0 page table index | L1 page table index | Offset within page                       |
+  +---------------------+---------------------+------------------------------------------+
+</pre>
+
+<p>
+Small page:
+
+<pre>
+   41                 32 31                 24 23                 16 15                  0
+  +---------------------+---------------------+---------------------+--------------------+
+  | L0 page table index | L1 page table index | L2 page table index | Offset within page |
+  +---------------------+---------------------+---------------------+--------------------+
+</pre>
+
+<p>
+Note that with these page sizes, the L1 and L2 indexes are the same size,
+so an L1 and an L2 page table will have the same size (256 entries each);
+this might not be true for different page sizes.
+
+<p>
+Here is an example page table hierarchy which just shows the PTE valid bits,
+the page bit (which determines whether an L0 or L1 PTE describes a jumbo
+or large page, or an L1 or L2 page table) and the target physical page.
+The underscores within various hexadecimal values are just to make them
+easier to read.
+
+<pre>
+
+  Idx   L0 Page Table at CPA 0x0
+  0x000 Inv                                Idx  L1 Page Table A at CPA 0x22000
+  0x001 Val    CPA=0x0_0022_0000  -------> 0x00 Val Pg CPA=0x4_0700_0000
+  0x002 Val    CPA=0x0_0005_0000  ----+    0x01 Val Pg CPA=0x0_1900_0000
+  0x003 Val Pg CPA=0x1_0000_0000      |    0x02 Inv
+  0x004 Inv                           |     .
+   .                                  |     .
+   .                                  |     .
+   .                                  |    0xFF Inv
+  0x3FF Inv                           |
+                                      |
+                                      |    Idx  L1 Page Table B at CPA 0x50000
+                                      +--> 0x00 Inv
+                                           0x01 Val Pg CPA=0x8_0000_0000
+                                           0x02 Val    CPA=0x0_0008_0000 --+
+                                           0x02 Inv                        |
+                                            .                              |
+                                            .                              |
+                                            .                              |
+                                           0xFF Inv                        |
+                                                                           |
+  +------------------------------------------------------------------------+
+  |
+  |    Idx  L2 Page Table at CPA 0x80000
+  +--> 0x00 Inv
+       0x01 Val    CPA=0x0_0009_0000
+       0x02 Val    CPA=0x2_0b00_0000
+       .
+       .
+       .
+       0xFF Inv
+
+</pre>
+
+<p>
+The page table above implements the following set of virtual to physical
+mappings (all other VA's are unmapped):
+
+<table border="1" cellpadding="10" frame="border" rules="all">
+<thead>
+<tr>
+<th>VA
+<th>CPA
+<th>Page Size
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x001_0000_0000-0x001_00FF_FFFF
+<td>0x4_0700_0000-0x4_07FF_FFFF
+<td>Large
+</tr>
+<tr>
+<td>0x001_0100_0000-0x001_01FF_FFFF
+<td>0x0_1900_0000-0x0_19FF_FFFF
+<td>Large
+</tr>
+<tr>
+<td>0x002_0100_0000-0x002_01FF_FFFF
+<td>0x8_0000_0000-0x8_00FF_FFFF
+<td>Large
+</tr>
+<tr>
+<td>0x002_0201_0000-0x002_0201_FFFF
+<td>0x0_0009_0000-0x0_0009_FFFF
+<td>Small
+</tr>
+<tr>
+<td>0x002_0202_0000-0x002_0202_FFFF
+<td>0x2_0b00_0000-0x2_0b00_FFFF
+<td>Small
+</tr>
+<tr>
+<td>0x003_0000_0000-0x003_FFFF_FFFF
+<td>0x1_0000_0000-1_FFFF_FFFF
+<td>Jumbo
+</tr>
+</tbody>
+</table>
+
+<p>
+Obviously these six pages might be mapped with different protections,
+cache characteristics, etc. depending upon the full contents of the relevant
+PTEs.
+
+<h3>
+Miss handling
+</h3>
+
+<p>
+As noted above, the hypervisor uses one wired (permanent) entry in each
+of the ITLB and DTLB to map its code and data.  The remainder of each
+TLB, or 15 ITLB entries and 31 DTLB entries, are used to provide VA
+to PA mappings for the client supervisor and its applications.  Thus,
+at any one time, the client can directly access up to 60 GB, 240 MB, or
+960 KB of instructions, if the ITLB was filled exclusively with jumbo,
+large, or small pages.  Similarly, it can access up to 124 GB, 496 MB, or
+1948 KB of data , if the DTLB was filled exclusively with jumbo, large,
+or small pages.  (If the hypervisor debugger were in use, these numbers
+would be slightly lower, as it also takes one entry in each TLB.)
+
+<p>
+In order to provide the illusion of a much larger address space to the
+client, the hypervisor is responsible for dynamically changing the TLB
+contents when necessary.  At a very high level, when the client or an
+application accesses a virtual address that is not currently resident
+in the TLB, the hypervisor examines the currently-installed page table;
+determines which translation needs to be added to the TLB in order to
+allow the access to succeed; adds it to the TLB; and resumes execution
+of the client.  It turns out, however, that it is fairly time-consuming
+to find the correct page table entry, perform validation checks on it
+(like making sure that the CPA actually refers to memory that the client
+has access to), and do the translation from the page table entry to the
+format required by the hardware.
+
+<p>
+Thus, to improve performance, we keep a cache of pre-validated,
+pre-translated mappings (<em>Translation Table Entries</em>, or
+<em>TTEs</em>) in a software data structure, called the <em>Translation
+Storage Buffer (TSB)</em>.  When a TLB miss occurs, a highly optimized
+assembly-language interrupt handler attempts to find a matching translation
+in the TSB; if successful (a <em>TSB hit</em>), it's installed in the TLB
+and we return to the original instruction.  However, if the translation is
+not found in the TSB (a <em>TSB miss</em>), we execute a much more complex
+and time-consuming C language routine which walks the currently-installed
+page table, finds and validates the proper PTE, turns it into a TTE,
+stores that in both the TSB and the TLB, and returns.
+
+<p>
+Although the TILE Architecture provides separate instruction and data TLBs,
+the TSB is unified.  Each entry notes whether it is readable (and thus
+eligible to be placed in the DTLB) or executable (and thus eligible to be
+placed in the ITLB).  The TSB is actually three direct-mapped caches; one
+for jumbo pages, one for large pages, and one for small pages.  Note that
+since the TSB is entirely a software construct, its organization could
+change in the future depending upon performance requirements.  For instance,
+it would be possible to make the TSB a set-associative cache; this would
+potentially increase the number of TSB hits at the cost of making those
+hits take somewhat longer to process.
+
+<p>
+Since the TSB is direct-mapped, there is no replacement policy; any
+new entry has only one place to go, and goes there.  However, the TLBs
+are fully-associative, so there is a choice to be made when adding new
+entries.  We currently use the random replacement algorithm which is
+directly supported by the hardware; effectively this gives each of the
+N non-wired entries in a TLB a 1/N chance of being replaced on a TLB miss.
+
+<h3>
+Page fault handling
+</h3>
+
+<p>
+The previous section described what happens when a client makes a reference
+to a virtual address which is not in the TLB, but which is defined
+in the currently installed page table.  Whenever a TLB miss happens,
+there is another possibility: that the address is <em>not</em> defined
+in the page table.  This is termed a <em>page fault</em>.  This could be
+because an application program erroneously touched an invalid address,
+or because the supervisor is doing lazy allocation of memory pages (e.g.,
+zero fill on demand (ZFOD) pages).
+
+<p>
+When a page fault occurs, the supervisor is notified, and should take
+appropriate action.  For instance, if the address is erroneous, it might
+kill the offending user process, or might panic, depending upon which
+code made the access.  If the address is valid but just not allocated to
+physical memory, it might update the page table to incorporate a mapping
+for the faulting page.
+
+<p>
+We notify the supervisor by re-entering it via an appropriate interrupt
+vector address.  For instance, if the page fault is for a data access,
+we would use the DTLB_MISS vector.  We arrange for the values in the
+supervisor's EX_CONTEXT registers to be those from the original interrupt
+delivered to the hypervisor; thus, the supervisor need only iret to return
+to the originally faulting code if it wishes.  Effectively, this looks
+to the supervisor as if it had gotten an interrupt from a hardware page
+table implementation.  There is one difference; because the supervisor
+does not have access to TLB-related registers (like DTLB_BAD_ADDR),
+the hypervisor will pass information about the faulting address in one
+of the supervisor's system save registers.
+
+<h3>
+Address Space Identifiers (ASIDs)
+</h3>
+
+<p>
+The TILE Architecture supports a concept called the <em>Address Space
+Identifier (ASID)</em>, which is used to allow multiple sets of virtual
+to physical translations to coexist simultaneously in a TLB.  The processor
+has an SPR denoting the current ASID to be used for various types of
+memory accesses.
+
+<p>
+The hypervisor provides clients access to ASIDs to reduce the need for
+full TLB flushes on every context switch (see the next section for a
+discussion of the flush operation).  Clients specify ASIDs to be used
+for a particular process when they install that process's page table
+via hv_install_context().  When TLB misses happen and new entries are
+installed in the TLB, they're installed with that process's current ASID.
+Those translations will then not be visible to other processes using
+different ASIDs, even if they remain in the TLB while that other process
+is running.
+
+<h3>
+TLB flushing
+</h3>
+
+<p>
+As noted previously, page tables are stored in memory owned by the client,
+and clients are thus able to update them whenever they choose, even if
+they are currently installed.  This is by design; it allows clients to
+add new mappings efficiently, without having to involve the hypervisor
+every time a new page is allocated to a process.  However, changes which
+modify the characteristics of a page mapping, or make it invalid, cannot
+be done in this fashion.  This is because old versions of the mapping
+may be present in the hardware TLB or the software TSB.
+
+<p>
+In order to make such a change, the client must flush the old mapping
+out of the TLB and TSB.  The hypervisor provides various services which
+perform this operation locally for one page, multiple pages, or all pages
+tagged with a certain ASID.  The implementation for all of these is quite
+similar; we walk though the locations in the TSB which might contain the
+target page or pages, invalidating any we find, then we walk through each
+of the entries in the ITLB and DTLB, doing the same thing.
+
+<p>
+To ease certain types of client address space changes, the hypervisor
+also provides a service which can request that other tiles perform a set
+of TLB/TSB flushes, and cache flushes, on a set of tiles.  (This mirrors
+similar features which are provided in hardware on some traditional
+processors.)  This is implemented by sending a message via the IDN to each
+of the victim tiles, telling them the operations which need to be performed.
+
+<p>
+On the destination tiles, the TLB/TSB flushes are performed in the same
+way as the local versions.  Cache flushing is accomplished by either
+doing a displacement flush of the entire cache subsystem, or by making
+a temporary mapping to a victim page and using the finv instruction,
+depending on the request.
+
+<h3>
+Client initialization (P=V mode)
+</h3>
+
+<p>
+As noted above, it is almost always the case that there is exactly one page
+table installed on a tile.  The exception is at client supervisor startup.
+In this case, there is no page table, since the client has not yet executed.
+However, we must have some way to do virtual to physical translation,
+in order to execute the instructions of the client which will perform
+its initialization and eventually install a page table.
+
+<p> Thus, when a client is first started, we handle all of its TLB misses
+by providing a TLB entry in which the CPA is equal to the VA, with a set
+of default attributes (readable, writable, executable, cached locally).
+This is quite similar to the hardware's physical memory mode; within the
+hypervisor, this is called "fake P=V" or "fake physmem" mode.  Fake P=V
+mode automatically ends as soon as the client installs a page table.
+It may only be reenabled by invoking the hv_reexec() service.
+
+<h3>
+Client-shared memory
+</h3>
+
+<p>
+In some cases, it turns out to be useful to share a region of memory
+between hypervisor code running on a tile, and client or application code
+running on that tile.  This is used, for instance, in the implementation
+of the hypervisor system calls which provide inter-tile messaging.
+This type of memory is referred to in the hypervisor as <em>client-shared
+memory</em>.  Client-shared memory may be either read-only or read-write
+as far as the client is concerned, and may be shared with both PL0 and PL1,
+or just with PL1.
+
+<p>
+The client-shared memory implementation needs to meet a number of
+requirements:
+
+<ol>
+<li>
+<p>
+So that it may be accessed by hypervisor interrupt routines, which don't
+necessarily set up a stack, the memory must be accessible without taking
+a TLB miss (i.e., via one of the hypervisor's locked TLB entries).
+</li>
+
+<li>
+<p>
+To avoid confusion, the client supervisor should not be able to try
+to designate mapping parameters (cacheability, etc.) for this memory.
+Since the memory will already be mapped by locked TLB entries, we'd have
+to validate that whatever the supervisor chose was compatible with that
+preexisting mapping, which would require some kind of new error behavior
+if things didn't match.
+</li>
+
+<li>
+<p>
+Although one of the major uses of client-shared memory is to bypass the
+client supervisor and allow communication between a hypervisor component
+and an application, the supervisor should still be able to exercise
+control over which processes are able to access the shared memory.
+</li>
+</ol>
+
+<p>
+To satisfy these requirements, the client view of client-shared memory is
+implemented as a set of magic virtual addresses which do not appear in the
+client's page table.  These addresses (which are taken from the very end
+of the hypervisor's address range) are mapped to physical memory
+which is part of the per-tile data area; thus, the hypervisor can refer
+to that memory by its permanently wired TLB entries.
+
+<p>
+Access to client-shared memory is controlled by a permission bit which is
+specified by the supervisor as part of the hv_install_context hypervisor
+service.  When TLB misses to these pages occur, the hypervisor checks to
+see whether that bit is set.  If so, it constructs an appropriate TTE,
+installs it in the TLB and TSB, and returns.  If not, it treats the
+reference as a page fault.
+
+<p>
+Generally the hypervisor driver which allocates the client-shared memory
+is responsible for conveying its client-visible address to the client.
+To enable this, the routine which allocates such memory (drv_client_alloc)
+provides both the client address and the hypervisor address of the
+allocated block.
+
+<h3>
+Hypervisor TLB miss handling
+</h3>
+
+<p>
+Most hypervisor memory accesses are to either the hypervisor instruction
+stream (which is shared between all tiles) or to the per-tile data area.
+These items are mapped by a permanently installed ITLB and DTLB entry,
+respectively, so TLB miss processing is never required.  However, there are
+a few cases where the hypervisor can incur a TLB miss:
+
+<ul>
+<li>
+<p>
+Accesses to shared memory.  Shared memory use is fairly infrequent,
+mainly by device drivers, so it doesn't make sense to lock it into
+the DTLB.  Also, since shared memory allocations are interleaved with
+other allocations of the hypervisor's physical memory, the shared memory
+pool is not necessarily contiguous or page-aligned; thus, if it were to
+be locked it it might consume multiple DTLB entries.
+
+</li>
+
+<li>
+<p>
+Accesses to hypervisor instructions as data.  This is mainly done
+for diagnostic or debug purposes (for instance, after we take an
+illegal instruction trap, we dump out the offending instruction).
+Obviously this is very infrequent, so it doesn't make sense to lock
+the instruction page into the DTLB.
+</li>
+
+<li>
+<p>
+Accesses to client virtual addresses.  These references generally happen
+when the client calls a hypervisor service and specifies one of its
+virtual addresses as a parameter.
+
+<p>
+In order to protect the hypervisor from invalid addresses, whenever it is
+about to access a VA which came from the client, it first calls a function
+to validate the address.  This function makes sure that the address is
+actually a legal client VA, and also sets a flag saying that we're about
+to perform some client accesses.  The hypervisor then dereferences the
+client VA as required, and finally calls another routine noting that the
+client access is complete.
+
+<p>
+Any TLB misses to these client VAs while the client access flag is set
+are handled just as if they were made by the client, with one exception.
+If we incur a page fault during one of these dereferences, instead of
+delivering it to the client, we instead arrange for the original address
+validation function to return with an error code.  (This is similar to
+the C setjmp/longjmp facility in that this error return unwinds the stack
+back to the point of the original call.)  The hypervisor service will
+then typically return HV_EFAULT to the invoking client.
+</li>
+</ul>
+
+<p>
+TLB misses incurred by the hypervisor which don't fall into one of the
+categories above are indicative of a hypervisor bug (or a hardware problem,
+although that is much less likely), and cause a hypervisor panic.
+
+<h1>
+Inter-tile Messaging
+</h1>
+
+<p>
+As noted above, the hypervisor only rarely uses shared memory to exchange
+data between tiles.  When a tile needs to convey information to another
+tile, it usually sends an IDN message.  The hypervisor also provides a
+service to its client supervisors which enables them to send messages
+between tiles, by using the same hypervisor facilities.  (Since operating
+systems usually share data via memory, these messages are typically
+used when another tile must be interrupted and asked to perform a task.)
+This section describes the general operation of the IDN and then of the
+messaging layer the hypervisor implements on top of it.
+
+<p>
+Note that the longer-term direction for hypervisor communication is to
+stop using the IDN in favor of other methods (e.g., shared memory and IPI
+interrupts).  This would allow the client supervisor or user applications
+to use both the UDN and the IDN.  Customers making their own hypervisor
+modifications are thus advised to avoid depending on the IDN.
+
+<h2>
+General IDN usage
+</h2>
+
+
+<p>
+The booter uses idn0 to receive all of its messages.  This messages
+between the master boot tile and the slave boot tiles, and messages
+from the master hypervisor tile to the slave boot tiles.  All of these
+messages are received synchronously (i.e., the reader blocks on a read
+to the appropriate register).
+
+<p>
+The hypervisor uses idn0 for all post-startup inter-hypervisor messages,
+including those sent on behalf of supervisors via the hv_send_message()
+API, as well as for most acknowledgments of those messages.  These messages
+are received asynchronously (i.e., the reader gets an interrupt when data
+is available, and then reads it).
+
+<p>
+idn1 is not used in the hypervisor or the booter.  (In MDE 4.0, there is
+still some code in the hypervisor which writes to or reads from idn1,
+but it is no longer called.)
+
+
+<h2>
+Prevention of IDN deadlock
+</h2>
+
+<p>
+The IDN is a shared resource with limited buffering, and in most cases,
+tiles writing to it will block if send buffer space is unavailable.  This
+unfortunately means that there are many opportunities for an IDN deadlock.
+
+<p>
+The simplest case is two tiles trying to send to each other.  Tile A is
+blocked on an IDN send to tile B, which can't progress because no more
+buffering is available on the path between the two tiles.  Tile B is
+not consuming the message from tile A because it is blocked trying to
+send to tile A.  Other more complex topologies, involving more tiles,
+can result in the same behavior.
+
+<p>
+To prevent network deadlock, message reception on idn0 is interrupt-driven,
+and we never do anything which could make the execution or completion of
+the interrupt routine dependent upon the IDN.  Specifically:
+
+<ul>
+<li>
+<p>
+we never read or write the IDN when any IDN endpoints' interrupts are
+disabled on our tile;
+</li>
+
+<li>
+<p>
+we never write the IDN from an IDN interrupt routine;
+</li>
+
+<li>
+<p>
+we never block on reading the IDN from an IDN interrupt routine; and
+</li>
+
+<li>
+<p>
+we use
+message-level flow control and static data allocation to ensure that the
+IDN interrupt routines can always successfully dequeue any message from
+the IDN.
+</li>
+</ul>
+
+<p>
+These rules ensure that all messages to idn0 will eventually be consumed.
+(Note that message reception in the booter is not interrupt-driven,
+but the booter meets the same forward progress guarantees since it has
+nothing to do other than drain idn0.)
+
+
+<h2>
+Messaging subsystem
+</h2>
+
+<p>
+The tile-to-tile messages used by the hypervisor fall into one of five
+categories:
+
+<ul>
+<li>
+<p>
+Hypervisor initialization (configure tile, start client).
+</li>
+
+<li>
+<p>
+Console I/O (write console, read console).
+</li>
+
+<li>
+<p>
+Supervisor message.
+</li>
+
+<li>
+<p>
+Hypervisor I/O framework (open, close, pread, pwrite, poll, poll_cancel,
+preada, pwritea, msg, msg_reply).
+</li>
+
+<li>
+<p>
+Remote TLB/cache flush.
+</li>
+</ul>
+
+<p>
+
+The hypervisor implements a generic messaging framework to handle all of
+these requests.  The framework handles flow control and buffering issues,
+and makes sure that we obey the rules which prevent deadlock.
+
+<p>
+
+All messaging operations are request/reply pairs, for flow control reasons
+(this prevents overrunning recipients with too many messages which they
+might not have buffering for).  Generally, the sender blocks waiting for
+the reply, although this is not required.  The only current non-blocking
+case is the remote flush operation, where in order to increase parallelism
+the sender issues messages to a set of remote tiles before waiting for
+all of the replies.
+
+<h3>
+Message send
+</h3>
+
+<p>
+Sending a message is fairly simple.  We allocate a <em>reply channel
+number</em>, a token which will allow the eventual reply to be matched up
+with this request.  The address and length of a buffer into which the reply
+will be placed is kept in a table indexed by the reply channel number.
+(We require that no more than one message of each priority be outstanding
+to a particular remote tile at any one time; this bounds the size of the
+channels table, and allows us to directly compute the reply channel number
+at allocation time rather than keeping a free list.)  We then create a
+message header, which includes the reply channel number, and send it, along
+with any other data requested by the sender, to the recipient via the IDN.
+
+<h3>
+Message receive
+</h3>
+
+<p>
+
+Receiving a message is a more complex, two-stage process, due to our
+deadlock prevention requirements.  One stage reads the message from the
+network, and the other stage actually interprets it.
+
+<p>
+
+The first stage works as follows.  When a message word arrives on
+idn0, we take an IDN_AVAIL interrupt, which invokes msg_avail().
+In order to ensure that we always drain the IDN, this interrupt is never
+masked, except for when we're already in msg_avail().  msg_avail is
+responsible for draining the IDN.  By draining, we mean receiving all
+available data; this may or may not be a complete message, so we must
+maintain a partial message which is appended to, potentially by multiple
+invocations of msg_avail(), until it becomes complete.  Once the message
+is completely received, we take one of two actions, depending upon its type:
+
+<ul>
+<li>
+<p>
+If the message is a reply, we look its reply channel number up in the
+channels table, and get the address and length of the reply buffer.  We then
+copy the reply to that buffer and record its length in the channels table.
+Finally, we check to see whether the code which was running when the
+interrupt happened was blocked waiting for an incoming message or reply;
+if so, we arrange for that code to be woken up when we return.
+
+</li>
+<li>
+<p>
+
+If the message is a request, we place it onto a pending message queue,
+which will be processed by the second stage.  As in the reply case, we
+also perform the wakeup of a napping interruptee, this time because it
+could be waiting for the message we just received.  Finally, we arrange
+for the second stage to run, to process the message we just placed on
+the queue (and any other messages which might already be there); this
+is described in more detail below.
+
+</li>
+</ul>
+
+<p>
+The second stage, which is implemented by a routine called msg_proc(), is
+straightforward.  It reads messages from the pending message queue which
+is filled by msg_avail().  (msg_proc() must generally be interruptible
+by msg_avail, so it uses interrupt masking while it's actually removing
+messages from the pending queue, to prevent the two routines making
+incompatible updates to the queue pointers.)  It then looks at their type
+fields, and calls the relevant hypervisor routine to handle the message.
+For most message types, it then takes the return value from that handler
+routine and uses it to form the reply message to the requesting tile.
+
+<h3>
+Invocation of msg_proc()
+</h3>
+
+<p>
+msg_proc handles the processing of messages which may arrive at
+unpredictable times.  That processing may involve any part of the
+hypervisor, and may result in messages being sent to or received from
+I/O devices, hardware state being changed, hypervisor data structures
+being modified, etc.  Those changes could potentially cause problems if
+they happened while the hypervisor was performing some other operation.
+For instance, we could try to use a data structure which was being updated
+by the interrupted code, and which was thus not currently internally
+consistent.  Or, we could try to send an IDN message when the interrupted
+code was in the middle of sending one, thus corrupting both messages and
+probably hanging the IDN.
+
+<p>
+A conventional operating system might handle this situation with locking
+primitives to protect state values, along with a task model which would
+allow a thread of execution which needed to modify a state value to wait
+until another thread was done using it.  However, as noted at the beginning
+of this document, to reduce complexity, the hypervisor does not implement
+a task model, and uses locking primitives only sparingly.  Effectively,
+each explicit or implicit request for service from the application or
+supervisor is processed serially; we don't have any conflicts between
+various threads of execution because we only ever have one at a time,
+which runs to completion before another one starts.  (This is somewhat
+equivalent to a system which uses locking to protect its data structures
+but which only has one lock covering everything.)
+
+<p>
+To handle asynchronous incoming messages, but retain the run-to-completion
+model, we limit the times at which msg_proc() can run.  Essentially, we
+never allow msg_proc() to interrupt the hypervisor; we only allow it to
+interrupt the client supervisor.  If the client is running, the hypervisor
+couldn't have been in the middle of anything, so it's safe for msg_proc()
+to do anything.
+
+<p>
+In order to implement this policy, we invoke msg_proc() from msg_avail()
+in two different ways.  Since msg_avail() is an interrupt routine, it is
+passed a saved register structure containing the state of the processor
+when it was interrupted.  It can therefore tell whether the processor was
+executing in the hypervisor, or in the client.  If it was executing in
+the client, it's safe to call msg_proc() directly, and we do just that;
+when it returns, we return from the interrupt and resume execution of
+the client.
+
+<p>
+However, if we had previously been executing in the hypervisor, we cannot
+run msg_proc().  Instead, we arrange for it to be called the next time
+we transition back into the client, by using the INTCTRL_2 soft interrupt.
+This interrupt is triggered by the contents of an SPR; if the SPR is 1, the
+interrupt is asserted.  Thus, we can write that SPR, and cause an interrupt
+to happen.
+
+<p>
+All of the hypervisor interrupt vectors mask a certain set of interrupts,
+which we don't want to process in the hypervisor, before they actually
+transfer control to any of the hypervisor C code.  (These are defined by
+the HV_INTS_HANDLED_SV mask in hw_config.h.)  The process of returning
+control to the code which was running before an interrupt happened restores
+the interrupt mask which was current at that time.  Thus, those interrupts
+are unmasked as part of the process of returning from the interrupt.
+
+<p>
+This means that if INTCTRL_2 is one of these not-in-the-hv interrupts,
+we can trigger it via its SPR while we're executing in the hypervisor,
+but that interrupt won't happen until we return to the supervisor.
+This is exactly what we do.  The interrupt handler for INTCTRL_2 is then
+responsible for running msg_proc().
+
+<h3>
+Nap/Wakeup support
+</h3>
+
+<p>
+There are numerous situations where a hypervisor tile needs to wait for
+an incoming message.  The most common case is where a tile has sent a
+message, and has nothing else to do until the reply arrives.  There are
+also instances where a tile which is providing a service has nothing to
+do until another request arrives.
+
+<p>
+Since we don't have a task model, we can't give up the processor to another
+thread of execution, as one might do in a conventional OS.  One option
+would be for the tile to just spin in a tight loop, checking some location
+in memory to see whether a message had arrived.  However, this would consume
+a good deal of power.  Instead, we'd rather use the TILE Architecture's nap
+instruction, which puts the processor in a low-power state where it does not
+execute instructions.  However, the nap instruction never terminates.  Thus,
+we need a way to skip it once the condition being waited for has occurred.
+We do this by keeping track of exactly where each interrupt occurs.
+
+<p>
+When an interrupt routine (like msg_avail()) wants to wake up
+potentially-napping code which it interrupted, it checks to see whether
+the program counter in the saved register state is within a small set of
+instructions which are responsible for napping on an incoming message.
+If so, it advances the saved program counter past those instructions.
+When we return from the interrupt, we'll restore the updated version of
+the PC; instead of returning to the nap instruction, we'll return to the
+routine's caller.  The caller will check to see whether the condition
+it was waiting for has occurred; if so, it will take appropriate action,
+while if not, it will nap again.
+
+<h2>
+Prevention of message deadlock
+</h2>
+
+<p>
+The hypervisor uses a message priority scheme to prevent message deadlock;
+that is, a set of tiles all of which are awaiting a response from another
+tile in the set before they continue to execute.  (This is distinct from
+the prevention of IODN network deadlock described above.)  The scheme
+works as follows:
+
+<ol>
+<li>
+<p>
+Every intertile request has a priority associated with it.
+</li>
+
+<li>
+<p>
+At any given time, the hypervisor has a "current priority".  The current
+priority is the priority of the intertile request it is currently
+processing, or the lowest possible priority if it is not currently
+processing a request.
+</li>
+
+<li>
+<p>
+The hypervisor is only allowed to make intertile requests whose priority
+level is greater than the current priority level.
+</li>
+
+<li>
+<p>
+The hypervisor is required to process incoming intertile requests which
+are of a priority greater than its current priority, without waiting for
+responses to any outstanding requests it might have.  In other words,
+whenever the hypervisor is awaiting a response from another tile, it must
+allow itself to be interrupted by a higher-priority request.  Note that the
+priority of the interrupted hypervisor's outstanding request is immaterial.
+</li>
+</ol>
+
+<p>
+These rules are implemented in msg_avail(), msg_proc(), and the nap
+routines.  They add some complexity which we've omitted in our general
+descriptions; for instance, the "pending message queue" added to by
+msg_avail() is actually a set of queues, one for each priority, so that
+we can only retrieve messages that we're currently willing to process.
+See the source code for further details.
+
+<p>
+For a proof that the rules above prevent deadlock, see the comments in
+sys/hv/msgtag.h.
+
+<h2>
+Delivery of Supervisor Messages
+</h2>
+
+<p>
+One of the services provided to clients is the ability to send messages
+between tiles.  These messages are initiated as a result of a hypervisor
+syscall on an initiating tile, and result in an interrupt vector being
+invoked in the supervisor on the target tile.  For efficiency, messages
+are conveyed to the target supervisor via client-shared memory.
+Message delivery involves the following steps:
+
+<ul>
+<li>
+<p>
+The initiator sends an IDN message to the target, containing the supervisor
+message to be delivered.  That message causes an IDN interrupt on the
+target tile, which causes msg_avail() to run, moving it to the pending
+message queue.  Later, the target's msg_proc() runs.
+</li>
+
+<li>
+<p>
+msg_proc() calls a routine which attempts to deliver the message locally.
+This involves adding the message to a queue kept in client-shared memory,
+and, if appropriate, preparing to deliver a message interrupt to the client.
+(In order to reduce the amount of client disruption, we only interrupt
+the client when it knows the message queue is empty.)
+</li>
+
+<li>
+<p>
+We then reply to the initiator, telling it whether the message was
+successfully delivered.  Delivery can fail when the message queue was
+full; in this case the initiating supervisor is informed of the error,
+and may decide to retry the message.
+</li>
+
+<li>
+<p>
+If we decided to deliver a message interrupt on the target above, we
+set a state bit saying that such an interrupt was pending, and we also
+enabled the INTCTRL_1 soft interrupt.  When we return to the client,
+it eventually executes its INTCTRL_1 interrupt vector, and invokes the
+hv_downcall_dispatch service.  The hypervisor sees that a message interrupt
+is pending, and returns to the client's supervisor message interrupt
+vector.  Now that the client knows that a message is available, it calls
+hv_receive_message, which retrieves the message from the client-shared
+queue; it may repeat this if more than one message is present.  Finally,
+when the queue is drained, hv_receive_message automatically invokes a
+hypervisor service which reenables the message interrupt.
+</li>
+</ul>
+
+<h1>
+I/O and Drivers
+</h1>
+
+<p>
+The hypervisor supports a number of device drivers which control the
+chip's I/O shims.  This section does not explain how to write a driver
+(see the System Programmer's Guide and the driver interface documentation
+in sys/hv/drvintf.h for that).  It also does not, in general, document
+the operation of specific drivers; again, see the System Programmer's
+Guide for that.  Instead, it will discuss the services the hypervisor
+provides to those drivers, and how they are implemented.
+
+<p>
+
+Note that on TILE-Gx, hypervisor device drivers have a smaller role in the
+complete I/O flow than they did on previous TILE architecture processors.
+On previous chips, modifications to device registers required access to
+the IDN, and once that access was granted, a tile had full access to all
+I/O devices on the system.  Furthermore, DMA requests used raw physical
+memory addresses, so having the ability to control and DMA device would
+allow you to read or write any memory in the system.  Obviously, it would
+be unsafe to provide such access to a user application.  And, given our
+desire to support virtualization, as mentioned earlier in this document,
+even providing direct I/O device access to a client supervisor was not
+desirable.  The hypervisor was therefore deeply involved in most I/O
+operations, since it was the only component trusted with access to the
+IDN and to physical memory.  Also, several of the I/O shims were designed
+to depend upon software assistance at a very low level; this drove the need
+for dedicated I/O driver tiles, and things like the IPP.
+
+<p>
+
+TILE-Gx supports memory-mapped access to I/O configuration registers,
+as well as differing protection levels for those registers, which allows
+access to a desired set of registers to be safely provided even to user
+applications.  Its I/O shims support I/O MMUs, which allow DMA requests
+to be made using virtual addresses.  Finally, the I/O shims have much more
+sophisticated packet buffering and DMA subsystems, in most cases eliminating
+the need for dedicated processing resources.  Thus, on TILE-Gx, there
+is much less need for hypervisor involvement in most I/O operations.
+In most cases, hypervisor drivers are mainly responsible for initial
+configuration of the device, validating requests for initial register
+mappings, configuring I/O MMUs, and final device reset and cleanup when
+the client supervisor or user application is done.
+
+<h2>
+Driver Entry Points
+</h2>
+
+<p>
+The hypervisor is responsible for invoking a driver's entry points in
+response to various events, which we detail below.
+
+<dl>
+<dt>probe</dt>
+<dd>
+<p>
+As described above in the section on hypervisor initialization, a driver's
+probe entry point is called during the overall chip probe process.  Some
+drivers handle devices which are also directly accessed by the hypervisor
+(memory, various parts of the RShim, etc.).  These devices often use their
+probe routines to set up data structures which allow the devices to be
+accessed directly by access routines, bypassing the drivers themselves.
+</dd>
+
+<dt>init</dt>
+<dd>
+<p>
+A driver's init entry point is also called as part of the hypervisor
+initialization flow.  At this point, we know that the device should be
+included in the system configuration.
+<p>
+Before initializing a driver, we set up the configuration registers in
+the shim so that it knows which memory shim to use for each physical
+address range.  This is an exception to the normal practice of letting
+the driver initialize all of the shim registers.  Note that most registers
+only need to be initialized once, and that most drivers ensure this by
+only initializing them on a specific tile (e.g., the driver's shared tile).
+</dd>
+
+<dt>open</dt>
+<dd>
+<p>
+The open entry point is called in response to a client syscall or remote
+request.  In most drivers this routine just validates the device name
+and translates it to a handle.  A few drivers perform some minor
+device configuration as a result, but this is uncommon.  Note that the
+hypervisor itself does not maintain any state related to whether a device
+is open or not; that is the driver's responsibility.
+</dd>
+
+
+<dt>close</dt>
+<dd>
+<p>
+The close entry point is called in response to a client syscall or remote
+request.  Again, the hypervisor does not know whether devices are open
+or closed; since most drivers don't actually change any state in the open
+routine, most don't even really need a close routine.
+</dd>
+
+<dt>pread, pwrite, preada, pwritea, poll, poll_cancel</dt>
+<dd>
+<p>
+These entry points are all called in response to client syscalls or remote
+requests.  They're all pretty much equivalent as far as the hypervisor
+is concerned.
+</dd>
+
+<dt>msg</dt>
+<dd>
+<p>
+This entry point is called by msg_proc() in response to a hypervisor
+message, sent by drv_send_msg().  Unlike the standard remote operations
+(see the section below), there is no implicit reply to the message when
+this routine returns; instead, this routine must call drv_reply_msg() to
+send a reply.  This allows drivers to juggle multiple incoming messages
+and to reply to them out of order.
+</dd>
+
+<dt>service</dt>
+<dd>
+<p>
+This entry point is invoked automatically on each of a driver's dedicated
+tiles.  Several bits of a tile's state are set differently when it is a
+dedicated driver tile.  In particular, we turn off interrupts on idn1, and
+set an "is dedicated" flag which slightly modifies the operation of certain
+messaging operations (see the discussion of Message Processing below).
+</dd>
+
+</dl>
+
+<h2>
+Remote Operations
+</h2>
+
+<p>
+Some drivers use remote requests (invoked by the drv_xxx_remote() family of
+routines) to split up processing of driver operations; part of the work is
+done on an originating tile, and the remainder of it is done on a shared
+or dedicated tile.  Other drivers use state data in shared memory, and
+shared-memory locks, to enable each tile to fully process its own requests.
+
+<p>
+Remote requests are performed by sending a message to the target tile,
+containing all of the arguments for the request.  There is a dedicated
+message type for each of the driver entry points, and msg_proc() just
+extracts the arguments from the message, looks up the right driver based
+on the driver handle, calls the entry point, and then sends the return
+value from it back to the initiator as a reply.
+
+<p>
+The read and write requests are handled specially; in addition to sending
+the arguments to the read or write entry point, we also move the contents
+of the I/O buffer.  Thus, for a read request, we copy the read data from
+the target tile back to the initiator, while for a write, we copy data from
+the initiator to the target.
+
+<p>
+In many cases, a driver entry point doesn't even have to care whether
+the request it is processing is remote, or not.  However, a driver's read
+or write routine must handle some special situations in order for remote
+requests to work properly:
+
+<ul>
+<li>
+<p>
+The input buffer may be coming from the local tile (in which case it's a
+client virtual address which must be validated), or from a remote tile
+(in which case it's a hypervisor virtual address, which must not be).
+In the latter case, a flag (DRV_FLG_HVADDR) is passed to the entry point
+noting this; typically the flags are just passed uninspected to the client
+memory access routines and the right thing happens automatically.
+</li>
+
+<li>
+<p>
+The remote routines expect the return value from the read or write entry
+point to be the count of bytes processed, or a negative error code,
+so they can handle the case where the driver ends the operation before
+all of the data has been transferred.  (This is the only case in which
+the hypervisor cares about the return value of a driver entry point;
+normally this is just passed to the requesting client routine).
+</li>
+
+<li>
+<p>
+Due to limitations on the size of messages which may be sent via the IDN,
+the remote routines must break up a long read or write into multiple
+operations, modifying the file offset appropriately, and passing a flag
+(DRV_FLG_PARTIAL) so informing the receiver.  The receiving routine must
+be able to accommodate this.  Also, it's possible for a read or write
+to be terminated by the remote operation code if the buffer turns out to
+be invalid partway through; in this case, the target tile is informed of
+this problem via a request with another flag (DRV_FLG_FAULT).
+</li>
+</ul>
+
+
+<h2>
+Memory Allocation
+</h2>
+
+<p>
+The hypervisor supports a minimal memory allocator which can distribute
+the unused space in each tile's per-tile memory area.  This is used,
+among other things, to implement the drv_state_alloc() routine.
+
+<p>
+Since we don't support a free() operation, the actual allocator is very
+simple.  We keep a pointer to the beginning of the free space.  When we get
+a request, we first bump the pointer up to force it to have the alignment
+requested by the user; that becomes the returned value.  We then bump
+the pointer again, by the size requested by the user, and as long as we
+haven't gone past the end of the available space, we return that pointer.
+
+<p>
+We do one special thing in order to reduce memory fragmentation.  Each
+per-tile memory area is aligned to a particular page size (currently 1
+MB), and the area is also that size; this means that the end of the area
+is similarly aligned.  We take advantage of this by taking certain large,
+strongly aligned requests off the end of the free space, rather than at
+its beginning.  For instance, let's say we had 96 K of space left; the
+current free space pointer will be 32 K mod 64 K.  If we got a request
+for a 64 K, 64 K-aligned buffer, the basic algorithm would consume all
+of our remaining space; we'd round up the pointer to the next multiple
+of 64 K (wasting 32 K), then allocate the remaining 64 K to the caller.
+Instead, if we take the 64 K we need off the end of the free space,
+we can keep that 32 K for future use.  Note that this algorithm still
+requires only a free space pointer and a number of free bytes.
+
+<p>
+The client_alloc() operation, which allocates client-shared memory, is
+a customer of the base memory allocator.  It manages a number of pages
+which have different attributes (read-only/read-write, PL1-only/PL0
+and PL1); these pages are obtained from the base allocator when they're
+first needed.  At that time, we also set up the data structures which
+allow user TSB misses to get mappings to those pages.  We then keep the
+same type of free pointer and free length for each of these pages, and
+hand out allocations from them upon request.
+
+<h2>
+Client Memory Access
+</h2>
+
+<p>
+Some driver entry points are passed client virtual addresses.  These
+addresses must be validated, for two reasons:
+
+<ul>
+<li>
+<p>
+The addresses might be currently invalid (i.e., not present in the
+currently-installed page table); in this case we need to return an error
+code to the invoking supervisor routine.
+</li>
+
+<li>
+<p>
+The addresses might be hypervisor virtual addresses.  These will be valid,
+but we don't want to allow client code to read or write them, since that
+might allow it to circumvent separation between clients, or to corrupt
+hypervisor data leading to a system failure.
+</li>
+</ul>
+
+<p>
+From the perspective of the driver, both of these operations are
+automatically performed by the copy_to_client() and copy_from_client()
+routines.  If the address is valid, the copy is performed; if not, an error
+code is returned.  The actual implementation, however, is a bit trickier.
+At the very start of the copy routine, we call the FAULT_BEGIN() macro.
+This macro does three things:
+
+<ul>
+<li>
+<p>
+It checks to make sure the supplied virtual address is a valid client VA
+(if not, it returns an error).
+</li>
+
+<li>
+<p>
+It sets a tile-global flag which tells the hypervisor TSB miss handler
+that we're about to access a potentially invalid client VA.
+</li>
+
+<li>
+<p>
+It does a setjmp() operation which saves the current stack frame and register
+contents in a static buffer, for later use by longjmp().  It then returns
+the result of the setjmp() call, which at this point will be zero.
+</li>
+</ul>
+
+<p>
+If the FAULT_BEGIN() macro returns a nonzero value, this signifies that
+the VA is invalid, and the copy routine returns an error code.  Otherwise,
+the routine then just does a memcpy() from the source to destination VA.
+If we should take a page fault during this copy, the page fault handler
+will call longjmp(), passing it the static buffer which we used above.
+longjmp() will unwind the stack, restoring the registers to the states they
+had at the time of the setjmp().  The setjmp() will then return (again),
+but instead of returning 0, it will return 1.  We will thus back up to
+the top of the copy routine, and take the error return path.
+
+<p>
+When we've completed the code which we thought might potentially fault,
+we call the FAULT_END() macro.  This clears the tile-global flag mentioned
+above, so that subsequent unexpected faulting accesses will be handled
+correctly (generally these cause a hypervisor panic).
+
+<p>
+Some driver requests, particularly those doing a DMA operation, may accept
+client physical addresses.  These addresses must also be validated, and
+normally must be turned into a real physical address before they may be
+given to an I/O shim.  The drv_cpa2pa() routine performs the appropriate
+translation, by checking the per-memory-controller base and bounds values.
+
+<h2>
+Message Processing
+</h2>
+
+<p>
+As mentioned above, hypervisor messages are only processed by a tile when it
+is executing in the client.  This avoids the need to create an elaborate
+locking mechanism within the hypervisor to protect segments of code
+which cannot tolerate being interrupted by the message processing routine.
+
+<p>
+This policy presents a problem for dedicated I/O driver tiles.  These tiles
+are never executing in the client; they're always in the hypervisor.
+However, it's convenient for other tiles to be able to make requests of
+dedicated tiles via the drv_xxx_remote() routines.  Without some special
+handling of this situation, this would be impossible, since those requests
+would never be processed by the dedicated tile.
+
+<p>
+We solve this problem by allowing the dedicated tile to signal to the
+hypervisor that it is in a state where it can tolerate being interrupted by
+a remote request, by calling the drv_yield() routine.  Normally a driver
+calls this during its processing loop, at a point when it does not have
+any pending activity.
+
+<p>
+drv_yield() is extremely simple; all that it does is to briefly unmask
+the INTCTRL_2 interrupt, as we do when we return to executing the
+client supervisor.  This allows msg_proc() to run, if there are any
+pending messages.
+
+<p>
+In order to give the driver maximum control over its operation, dedicated
+tiles do not obey the message deadlock rules.  Those rules require that
+a tile accept incoming messages of a higher priority when it is blocked
+on a message reply from another tile.  Dedicated tiles do not do this;
+instead, they only process incoming messages when drv_yield() is called.
+Thus, dedicated tiles which can be sent any type of hypervisor message
+must call drv_yield() periodically, to prevent deadlock.
+
+<h2>
+Interrupts
+</h2>
+
+<p>
+The word "interrupt" can mean two different things in the context of I/O
+drivers, depending on whether the interrupt is delivered to the hypervisor,
+or to the client.
+
+<h3>
+Interrupts to the hypervisor
+</h3>
+
+<p>
+An I/O interrupt to the hypervisor is a report from an I/O shim that a
+request has been performed, or an exceptional condition has occurred.
+The interrupt is a result of an IPI packet.  Such a packet causes a
+particular IPI event bit to be set in a tile SPR, and, if that event is
+unmasked, can cause an IPI event handler to be executed.  Depending on how
+the interrupting I/O shim is configured, that IPI event handler could be
+in the hypervisor, in the client supervisor, or even in a user application.
+
+<p>
+Hypervisor IPIs are handled by calling a routine in the device driver.
+ipi_proc(), part of the messaging subsystem, runs when an IPI interrupt
+occurs, and walks through the set of asserted IPI events, calling the
+specific handler registered for each.
+
+<h3>
+Interrupts to the client
+</h3>
+
+<p>
+An I/O interrupt to the client is a notification that some interesting
+event has occurred; typically this signifies that an I/O request that it
+has made has completed.  Most I/O interrupts on TILE-Gx are delivered
+directly to client supervisor code or user applications by I/O shims,
+without hypervisor involvement.  However, in cases where this is not
+possible, hypervisor drivers typically generate an IPI packet themselves,
+thus making it appear to the recipient that the interrupt came directly
+from hardware.
+
+<h2>
+I/O RPC subsystem
+</h2>
+
+<p>
+
+As noted in the introduction to this section, in most cases, TILE-Gx
+hypervisor drivers are only responsible for a few aspects of device setup
+and management.  Most of the work is done either by Linux device drivers,
+or by user applications which are given direct access to I/O hardware.
+
+<p>
+
+Exporting hardware resources to the client supervisor and to applications
+does introduce some new bookkeeping requirements.  For instance, memory
+which is made available for I/O DMA must be mapped by an I/O TLB; that means
+that such memory must be locked down by the supervisor, so that it is not
+swapped or otherwise reused, as long as those I/O TLB entries are active.
+Similarly, configuring direct hardware access introduces new validation
+requirements.  If a user application registers memory, the supervisor
+must ensure that the supplied virtual addresses are valid, and turn them
+into client physical addresses.  Similarly, when that supervisor then
+supplies those client physical addresses to the hypervisor, it must in
+turn validate those before turning them into the real physical addresses
+which are required by the hardware.
+
+<p>
+
+To the extent that these sorts of activities were required on previous TILE
+architecture processors, they were implemented in a device-specific fashion.
+This meant that every I/O device had its own hypervisor driver, its own
+Linux driver, and in some cases its own user-level library support.
+There was a large amount of more-or-less functionally identical code
+in different places, particularly in the different Linux drivers.
+For TILE-Gx, this support has been generalized into a common framework,
+known as the <em>I/O RPC framework</em> or just IORPC.
+
+<h3>
+IORPC implementation
+</h3>
+
+<p>
+
+As the name suggests, the IORPC framework is modeled after traditional
+<em>remote procedure call</em> (RPC) systems.  Requests, which may move from
+user programs to the supervisor, from the supervisor to the hypervisor,
+or both, are defined by a set of files written in a simple <em>interface
+definition language</em> (IDL).  A <em>stub generator</em> then takes those
+files, and emits a variety of outputs, including:
+
+<ul>
+<li>
+<p>
+C stubs to be used by user applications.  These stubs &mdash; one for each
+IORPC request &mdash; package up their arguments into a binary structure
+which then gets sent to the supervisor's iorpc driver.  Note that this
+supervisor driver is common to all devices; it has no knowledge of the
+specific hardware being used.
+</li>
+
+<li>
+<p>
+C header files defining the user stubs.
+</li>
+
+<li>
+<p>
+C stubs to be used by kernel drivers.  Like the user stubs, these small
+routines package up their arguments into a binary structure which then
+gets sent to a hypervisor driver for a specific device.
+</li>
+
+<li>
+<p>
+C dispatch routines to be used by hypervisor drivers.  These routines take
+the binary structure from the supervisor, decode it, unpack the arguments,
+and call a driver- and request-specific processing routine.
+</li>
+
+<li>
+<p>
+C header files defining the hypervisor processing routines.
+</li>
+</ul>
+
+<p>
+
+While the supervisor iorpc driver does not have knowledge of specific
+devices, it does partially decode requests from applications in order to
+perform its functions.  Similarly, the hypervisor has common IORPC request
+code which runs on all iorpc requests as part of the dispatch process.
+The main job of this common code is to validate and translate special
+parameters which vary depending on where they are used.
+
+<p>
+
+For instance, if an IDL file says that one of the parameters to an IORPC
+request is a memory address, then this takes different forms depending
+on where the request is made.  A request from user space will contain a
+process virtual address.  When that request is sent to the supervisor, it
+will be validated and translated to a client physical address.  And when
+that request is forwarded to the hypervisor, common code will validate
+that and translate it to a real physical address before the destination
+driver's processing routine is called.
+
+<h3>
+Entry point usage for hypervisor I/O RPC drivers
+</h3>
+
+<p>
+Hypervisor drivers which use the IORPC framework use the same set of
+driver entry points as other hypervisor drivers.  The <tt>_probe</tt>
+and <tt>_init</tt> routines are typically present, as they are for all
+drivers.  The remaining entry points are fairly similar among all IORPC
+drivers, and typically perform the following functions:
+
+<ul>
+<li>
+<p>
+The <tt>_open</tt> routine is responsible for any transient device
+initialization (tasks that are done for each new user).  If the hardware
+supports multiple service domains, then the open routine allocates one,
+and initializes any associated hardware resources.  Otherwise, it may mark
+the entire device as busy, and thus not available to further open requests.
+It will then use driver services to allow the client supervisor (and, if
+the supervisor so desires, user applications) direct access to the device
+or service domain's set of MMIO registers.
+</li>
+
+<li>
+<p>
+The <tt>_pwrite</tt> routine is used to process IORPC requests.
+Typically it just does the following:
+
+<ul>
+<li>
+<p>
+Validate the service domain, if any;
+</li>
+
+<li>
+<p>
+Copy the write data from the supplied client VA to a static buffer;
+</li>
+
+<li>
+<p>
+Pass that buffer to driver's write dispatch routine (generated by the
+stub generator);
+</li>
+
+<li>
+<p>
+Return the return value of the dispatch routine.
+</li>
+</ul>
+
+</li>
+
+<li>
+<p>
+The <tt>_pread</tt> routine is used to process IORPC requests.
+Typically it just does the following:
+
+<ul>
+<li>
+<p>
+Validate the service domain, if any;
+</li>
+
+<li>
+<p>
+Pass the offset and length, along with a static buffer, to the driver's
+read dispatch routine (generated by the stub generator);
+</li>
+
+<li>
+<p>
+Copy the read data from the static buffer to the supplied client VA;
+</li>
+
+<li>
+<p>
+Return the return value of the dispatch routine.
+</li>
+</ul>
+
+</li>
+
+<li>
+<p>
+The <tt>_close</tt> routine is responsible for deconfiguring any hardware
+resources which were being used, either those associated with a particular
+service domain, or perhaps the entire shim.  For instance, it will typically
+clear any IOTLB entries which had been set up, and disable any interrupts.
+It will also prevent further access to the device or service domain's
+MMIO registers.  Once that is done, it will mark the service domain or
+device as being available for new allocations.
+
+</li>
+</ul>
+
+
+<h3>
+Example I/O RPC flow
+</h3>
+
+<p>
+To illustrate the operation of the IORPC framework, let's walk through
+a set of operations for a hypothetical device.  A user process will use
+the gxio library to open a device context, register some memory, have
+the device perform some transformations on some data, and finally will
+clean up by destroying the device context.
+
+<p>
+First, let's walk through device initialization:
+
+<ul>
+
+<li>
+<p>
+The application calls <tt>gxio_widget_init()</tt>.
+</li>
+
+<li>
+<p>
+<tt>gxio_widget_init()</tt> calls <tt>open("/dev/iorpc/widget", O_RDWR)</tt>.
+</li>
+
+<li>
+<p>
+The kernel iorpc driver's open routine, <tt>iorpc_open()</tt>, uses the device
+minor number to discover the name of the corresponding hypervisor device,
+and calls <tt>hv_dev_open("widget/0/iorpc")</tt>.
+</li>
+
+<li>
+<p>
+The hypervisor device driver's open routine, <tt>widget_open()</tt>, allocates
+a service domain, and initializes it to grant access to a set of device
+registers.  It also calls <tt>drv_permit_mmio_access()</tt> to allow the supervisor
+to memory-map the device registers.  Finally it returns a hypervisor
+device handle which includes the allocated service domain number.
+</li>
+
+<li>
+<p>
+<tt>iorpc_open()</tt> saves the returned hypervisor device handle in a private
+data structure associated with the open file.
+</li>
+
+<li>
+<p>
+<tt>iorpc_open</tt> now makes our first iorpc request.  Called
+<tt>__iorpc_get_mmio_base()</tt>, it is a generic request, supported by any
+hypervisor driver which exports mappable registers.  The stub is called,
+and passed a pointer to a page table entry (PTE), along with the saved
+hypervisor device handle.  The stub does a <tt>hv_dev_pread()</tt> call, using
+the supplied device handle, and using an offset which includes a code
+denoting the specific iorpc call.
+</li>
+
+<li>
+<p>
+<tt>widget_pread()</tt> runs.  It extracts the service domain from the
+supplied handle and makes sure it's been opened.  It then calls
+<tt>dispatch_gxio_widget_read()</tt>, passing it the pread offset as well as a
+service domain number, and a pointer to a local static data buffer.
+</li>
+
+<li>
+<p>
+<tt>dispatch_gxio_widget_read()</tt> examines the passed pread offset, extracts the
+code denoting the call, and then calls <tt>handle_gxio_widget_get_mmio_base()</tt>,
+passing it the service domain number as well as a pointer to a PTE which
+was placed in the data buffer passed to it.
+</li>
+
+<li>
+<p>
+<tt>handle_gxio_widget_get_mmio_base()</tt> computes a PTE which maps to the
+specific service domain's set of MMIO registers, writes it into the passed
+PTE pointer, and returns success.
+</li>
+
+<li>
+<p>
+<tt>dispatch_gxio_widget_read()</tt> returns success.
+</li>
+
+<li>
+<p>
+<tt>widget_pread()</tt> copies its local static data buffer (which now contains
+the desired PTE) back to client memory, and returns success.
+</li>
+
+<li>
+<p>
+<tt>__iorpc_get_mmio_base()</tt> unpacks the PTE from the returned data buffer,
+writes it into the passed PTE pointer, and returns success.
+</li>
+
+<li>
+<p>
+<tt>iorpc_open()</tt> saves the returned PTE in the private data structure associated
+with the open file, and returns success.
+</li>
+
+<li>
+<p>
+The <tt>open()</tt> call completes, returning a file descriptor.  <tt>gxio_widget_init()</tt>
+saves this as part of the <tt>widget_context_t</tt> device structure that it's
+building.
+</li>
+
+<li>
+<p>
+<tt>gxio_widget_init()</tt> now calls <tt>mmap(NULL, HV_WIDGET_MMIO_SIZE, PROT_READ |
+PROT_WRITE, MAP_SHARED, fd, 0)</tt>.
+</li>
+
+<li>
+<p>
+The kernel iorpc driver's <tt>mmap()</tt> entry point, <tt>iorpc_mmap()</tt>, is entered, and
+makes our second iorpc request.  Called <tt>__iorpc_check_mmio_offset()</tt>, it is
+also a generic request.
+The stub is called, and passed the offset and size
+from the <tt>mmap()</tt> request, along with the saved hypervisor device handle.
+The stub packages the offset and size into a structure, and then does
+a <tt>hv_dev_pwrite()</tt> call, using the supplied device handle, to pass that
+structure to the hypervisor driver.
+</li>
+
+<li>
+<p>
+<tt>widget_pwrite()</tt> runs.  It extracts the service domain from the
+supplied handle and makes sure it's been opened.  It then copies the
+parameter structure from client memory into a local buffer, and calls
+<tt>dispatch_gxio_widget_write()</tt>.
+</li>
+
+<li>
+<p>
+<tt>dispatch_gxio_widget_write()</tt> calls <tt>drv_translate_iorpc()</tt> to handle any
+special values in the iorpc parameters (in this case, there are none).
+It then examines the passed operation code, unpacks the parameters,
+and calls <tt>handle_gxio_widget_check_mmio_offset()</tt>.
+</li>
+
+<li>
+<p>
+<tt>handle_gxio_widget_check_mmio_offset()</tt> validates that the supplied offset
+and length are within the valid range for mappable registers.  They are, so
+it returns success.  This value propagates all the way back to <tt>iorpc_mmap()</tt>.
+</li>
+
+<li>
+<p>
+<tt>iorpc_mmap()</tt> now knows that the requested offset and length are valid, and
+it already had the base PTE for this device's MMIO mappings from the
+earlier <tt>get_mmio_base()</tt> iorpc call.  This allows it to install mappings
+from the user's virtual address space to the MMIO registers.  It does so,
+and returns success.
+</li>
+
+<li>
+<p>
+<tt>mmap()</tt> completes.  <tt>gxio_widget_init()</tt> saves the returned virtual address
+in the <tt>widget_context_t</tt>, and returns success to the application.
+</li>
+
+</ul>
+
+<p>
+The application now has a direct mapping to the widget device's registers,
+and could now directly manipulate them.  This would typically be done
+via calling gxio_widget_xxx() wrapper functions, which would be passed
+the widget_context_t, and which would use the saved base pointer to the
+mapped MMIO registers to read or write the correct values.  However, let's
+assume that it wants the device to be able to do DMA operations as well.
+Setting this up would require a user IORPC request, as follows:
+
+<ul>
+
+<li>
+<p>
+The application calls <tt>gxio_widget_register()</tt>, passing it the
+virtual address and length of a memory buffer it wants to use.
+</li>
+
+<li>
+<p>
+<tt>gxio_widget_register()</tt> is a stub routine.  It packs the virtual
+address and length into a structure, which also includes the code denoting
+the specific iorpc call.  Note that part of that code marks that structure
+as containing a memory buffer.  Finally it uses <tt>write()</tt> to write
+that structure to the file descriptor we got earlier from the <tt>open()</tt>.
+</li>
+
+<li>
+<p>
+<tt>iorpc_write()</tt> runs.  It copies the parameter structure from user
+space to a static kernel buffer.  It then looks at the iorpc operation code,
+and notes that it marks the structure as containing a user memory buffer.
+It extracts the virtual address and length, and checks them for validity.
+It then locks down the buffer with <tt>get_user_pages()</tt>, which returns a
+pointer to its page structure.  It uses that page structure to retrieve the
+page's client physical address, and also its cache homing characteristics
+in the form of a PTE for the page.  It next modifies the parameter structure
+to contain these new pieces of data, overwriting the old virtual address,
+and marks the structure as now containing a kernel memory buffer Finally, it
+writes that structure to the hypervisor driver via <tt>hv_dev_pwrite()</tt>.
+</li>
+
+<li>
+<p>
+<tt>widget_pwrite()</tt> runs, validates the service
+domain, copies the parameters from client memory, and calls
+<tt>dispatch_gxio_widget_write()</tt>.
+</li>
+
+<li>
+<p>
+<tt>dispatch_gxio_widget_write()</tt> calls
+<tt>drv_translate_iorpc()</tt> to handle any special values in the
+iorpc parameters.  This time, there <em>is</em> a special value: the kernel
+memory buffer.  The translation code converts the CPA to a real PA, and
+also validates and translates any tile coordinates in the PTE (for cache
+homing).  When that returns, <tt>dispatch_gxio_widget_write()</tt>
+examines the passed operation code, unpacks the parameters,
+and calls <tt>handle_gxio_widget_register()</tt>.
+</li>
+</li>
+
+<li>
+<p>
+<tt>handle_gxio_widget_register()</tt> sets up mappings for the memory
+buffer in the IOTLB corresponding to the service domain, and returns
+success, which is propagated back to <tt>iorpc_write()</tt>.
+</li>
+
+<li>
+<p>
+<tt>iorpc_write()</tt> sees that the request which contained the memory
+buffer succeeded.  Since the request was successful, it puts the page on a
+list associated with this file descriptor, so that it can be unlocked later.
+It then returns success.
+</li>
+
+<li>
+<p>
+The <tt>write()</tt> call returns, and <tt>gxio_widget_register()</tt>
+returns success.
+</li>
+</ul>
+
+<p>
+Now that the application has successfully registered memory, it can now
+perform I/O operations against that memory by communicating directly with
+the I/O shim (again, probably via small gxio wrapper functions which perform
+any needed MMIO reads or writes).  Neither the hypervisor driver nor the
+kernel iorpc driver need be involved.  When the application is finished,
+device resources will be released
+as follows:
+
+<ul>
+
+<li>
+<p>
+The application calls <tt>gxio_widget_destroy()</tt>, which calls
+<tt>close()</tt> on the iorpc file descriptor.  (Or the application
+just exits, in which case the kernel will make that <tt>close()</tt>
+call automatically.)
+</li>
+
+<li>
+<p>
+<tt>iorpc_close()</tt> calls <tt>hv_dev_close()</tt> with the corresponding
+hypervisor file handle.
+</li>
+
+<li>
+<p>
+<tt>widget_close()</tt> runs and deconfigures any device resources;
+it invalidates I/O TLB entries, disables interrupts, stops any pending
+I/O operations, etc.  It also calls <tt>drv_deny_mmio_access()</tt> to
+revoke the supervisor's permission to memory-map the device registers.
+It then returns success.
+</li>
+
+<li>
+<p>
+<tt>iorpc_close()</tt>, seeing that the close operation was successful,
+unlocks the list of locked memory pages associated with the file descriptor,
+and then returns success.
+</li>
+
+<li>
+<p>
+<tt>gxio_widget_destroy()</tt> returns success.
+</li>
+
+</ul>
+
+<!--
+TODO: Things which we might want to add to this document in future versions:
+
+Examples:
+	- hv system call
+	- normal i/o operation (including going through linux driver)
+	- fast i/o call
+	- tlb/tsb miss
+	- message send/receive
+	- make sure we have something which involves the downcall mechanism:
+	  dma tlb miss in cs, message receive, etc.
+	- client load & start
+
+Other random details:
+	- hv glue - why it's there, which interfaces are constant, which aren't
+	- description of downcall operation
+	- protection levels, which are used for what (some mention already)
+	- how register state is saved/restored after interrupt; stack pointer
+	- interrupt handling in general; which ones we do, which ones we
+	  defer to lower levels, etc.
+	- panic flow, debugging
+	- board info and how things get configured
+	- internal stdio details?  at least a mention.
+	- console output
+	- debug flags, tracing
+	- explanation of build process, specifically the gen_xxx_asm steps
+	- hvgdb stub, etc.
+	- punt codes, or at least where to find them
+-->
+
+<h1>Copyright</h1>
+
+<small>
+
+<p>
+Copyright 2014 Tilera Corporation. All Rights Reserved.
+</p>
+
+<p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p>
+
+</small>
+
+</body>
+</html>

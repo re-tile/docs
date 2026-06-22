@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <link rel=stylesheet type="text/css" href="../tilera.css" title="Tilera Style">
+   <TITLE>Choosing Which Libc to Use</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#CCFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+
+<H1 class=title>
+Choosing Which Libc to Use
+</H1>
+
+<p> This application note discusses considerations for application developers
+in choosing whether to use glibc or newlib for their application.
+
+<h1>Why to Choose a Particular Libc</h1>
+
+<p> There are two C libraries shipped with the MDE.  
+
+<ul>
+<li> <b>glibc</b> is the standard fully Linux-conforming library, that
+also includes other libraries (libcrypt, libutil, librt, libresolv)
+and full support for all Linux syscalls and library functions.  It is
+LGPL licensed, so our customers have to either link to it dynamically,
+or else provide a linkable object file with their application so their
+customers could relink to a different libc.
+
+<li> <b>newlib</b> is a much more restricted C library that has no GPL
+or LGPL components (see the <a
+href="../pdf/Tilera-MDE-License.pdf">Tilera MDE License</a> note for
+more licensing info).  However, it does not 
+currently support the full range of syscall or library functions, and
+its headers are noticeably different from standard Linux headers,
+making for more difficulty in porting Linux applications to it.
+However, customers can link with it statically and are under no obligations
+to release any source code with it.
+</ul>
+
+<p> The Tilera-specific code (e.g. our optimized memcpy and the like)
+are present in both libraries, and licensed in each case the same
+way as the containing library.
+
+<h1>How to Choose a Libc</h1>
+
+<p> By default, glibc is the library that is used by the compiler,
+and its headers are installed in tile/usr/include.  However, customers can pass
+the "-mnewlib" argument to tile-gcc to switch to using the newlib
+headers and linking against the newlib libraries instead.
+
+<h1>Copyright</h1>
+
+<small>
+
+<p>
+Copyright 2014 Tilera Corporation. All Rights Reserved.
+</p>
+
+<p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p>
+
+</small>
+
+</body>
+</html>

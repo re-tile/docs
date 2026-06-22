@@ -1,0 +1,148 @@
+/** Cascading Style Sheet for Tilera Software docs. */
+
+/* Document-wide defaults. */
+
+body {
+    color: black;
+    background: white;
+    background-image: none;
+    font-family: Times, serif;
+}
+
+/* Put the logo before. */
+
+body:before {
+  display: block;
+  content: url("TileraLogo.gif");
+}
+
+/* Don't let text elements grow beyond a legible width.  (And weird
+   hack for IE, which doesn't support max-width.  The "expression"
+   syntax is an IE extension.  We fix the width if the document is
+   wide, otherwise let it shrink as normal.  It's both cleaner and
+   avoids other IE bugs to put this property on the <body> element.
+   Note that this only works if the HTML is in standards-conforming
+   mode, with an appropriate DOCTYPE.) */
+
+body {
+    max-width: 700px;
+    width:expression(document.documentElement.clientWidth > 700 ? "700px" : "auto");
+}
+
+table {
+    border: 2pt;
+    padding: 10pt;
+}
+
+/* Paragraphs are set in a bit left and right. */
+
+p {
+    margin-top: 6pt;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 2pt;
+}
+
+/* Definition terms should be aligned with paragraphs, and should have
+   more space before than after, so they group with their definitions. */
+
+dt {
+    margin-top: 12pt;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 0pt;
+}
+
+/* Title styles. */
+
+.title {
+    font-weight: bold;
+    font-size: 250%;
+    text-align: center;
+    margin: .5em;
+    border-top: thin solid black;
+}
+
+.subtitle {
+    font-weight: bold;
+    font-size: 150%;
+    text-align: center;
+    margin: .5em;
+}
+
+.refentry {
+    border-top: thin solid black;
+    border-bottom: thin solid black;
+}
+
+/* Revision box style. */
+
+.revision {
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+/* Note paragraph style. */
+
+.note {
+    margin-left: 3em;
+    margin-right: 3em;
+    color: blue;
+}
+
+/* Heading styles. */
+
+h1, h2, h3, h4 {
+    font-weight: bold;
+    margin-left: 6pt;
+}
+
+h1 {
+    font-size: 150%;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+}
+
+h2 {
+    font-size: 125%;
+    margin-top: 12pt;
+    margin-bottom: 4pt;
+}
+
+h3 {
+    font-size: 100%;
+    margin-top: 10pt;
+    margin-bottom: 2pt;
+}
+
+h4 {
+    font-size: 90%;
+    margin-top: 8pt;
+    margin-bottom: 2pt;
+}
+
+/* An invisible paragraph, good for warnings on non-CSS browsers. */
+
+.no-css {
+    display: none;
+}
+
+/* Adjust <pre> margins down. */
+
+pre {
+    margin: 6pt;
+}
+
+/* Adjust <img> margins up. */
+
+img {
+    margin: 6pt;
+}
+
+/* Some overrides for DocBook XSL generated man pages: */
+
+p.title {
+    font-weight: bold;
+    font-size: 100%;
+    text-align: left;
+}

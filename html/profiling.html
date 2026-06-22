@@ -1,0 +1,1242 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>profiling</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="oprofile"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>profiling &#8212; Profiling applications from the command line
+with OProfile</p></div><div class="refsect1" lang="en"><a name="profile"></a><h2>Profiling applications from the command line with OProfile</h2><div class="refsect2" lang="en"><a name="id1134057"></a><h3>Introduction</h3><p>
+For profiling applications, the Tilera MDE provides a customized
+version of the <a href="http://oprofile.sourceforge.net" target="_top">OProfile
+system profiler</a>, a utility for collecting whole system
+performance information.
+Tilera's OProfile implementation is very efficient and non-intrusive;
+it uses the Tile architecture's hardware performance counters
+to collect performance data.
+</p><p>
+You can find documentation on the standard OProfile commands
+and tools at the <a href="http://oprofile.sourceforge.net" target="_top">
+OProfile website</a>. These are supported by the Tilera MDE
+versions of these commands and tools. Note that in keeping with standard
+naming conventions for cross-platform tools, the Tilera versions
+of the OProfile commands have a <span><strong class="command">tile-</strong></span> prefix.
+For example the Tilera MDE version of the <span><strong class="command">opreport</strong></span>
+command is named <span><strong class="command">tile-opreport</strong></span>.
+</p><p>
+The Tilera MDE also supports generating an XML file from the raw
+OProfile performance data and viewing this <span><strong class="command">profile.xml</strong></span>
+file in the Profile View of the Tilera IDE, <span><strong class="command">tile-eclipse</strong></span>.
+This can be more convenient than using the command-line OProfile tools,
+since the Profile View provides filtering and selection options,
+as well as providing a Tilera-centric view of the profiling data.
+</p><p>
+This document's focus is on generation and viewing of OProfile data
+from the command line. For more information on the IDE's Profile View,
+see the online documentation within <span><strong class="command">tile-eclipse</strong></span>,
+or the <em class="citetitle">MDE User's Guide</em>.
+</p></div><div class="refsect2" lang="en"><a name="id1134309"></a><h3>The OProfile Profiler</h3><p>
+OProfile captures performance information from all running applications,
+as well as from the Linux OS. Any application can be profiled as-is;
+no special rebuild or libraries are required. Profiling may be started
+and stopped at any time, allowing profiling of long-running applications
+without having to stop and restart them. OProfile takes a "global view"
+of a program's execution, and hence captured profiling data may include
+information about background or OS processes unrelated to your application.
+However it is easy to filter these processes out of the final results,
+so it is generally not worth trying to exclude them from a profiling run.
+</p><p>
+OProfile's reporting tools can report time spent in each single
+application, in each invocation of an application (that is, per-process),
+or in any given thread or set of threads of a particular process.
+It can show flat profiles in the style of <span><strong class="command">prof</strong></span>
+or call graph profiles in the style of <span><strong class="command">gprof</strong></span>.
+It can also be used to produce profile data readable by the
+Tilera MDE's implementation of <span><strong class="command">gprof</strong></span>,
+<span><strong class="command">tile-gprof</strong></span>.
+</p><p>
+OProfile can also produce source code annotated with profiling
+information, allowing the user to find out which individual source
+lines need attention. It can produce annotated assembly listings
+to provide the most low level and fine grained possible information.
+</p><p>
+NOTE: OProfile collects data via kernel- and user-space processes
+within Linux, so it has no direct visibility to the Hypervisor.
+Any performance counter events triggered while the Hypervisor is
+running will be attributed to the code that executes when the Hypervisor
+code returns. For instance a Linux system call that invokes the Hypervisor,
+or a user-level library such as NetIO that directly invokes the Hypervisor,
+or any code that was executing while a Hypervisor TLB miss handler
+was invoked by the hardware, will be attributed to the code that
+is executed when control returns from the Hypervisor.
+</p></div><div class="refsect2" lang="en"><a name="id357800"></a><h3>Hardware Events</h3><p>
+OProfile gathers its profiling data by monitoring hardware profiling events.
+The Tilera hardware supports a number of hardware event counters, each of
+which can be set to track any one of a number of event types. When an event
+counter reaches a specified profiling interval (number of events seen)
+it triggers an interrupt. This is handled by OProfile, which notes the
+current program location and optionally the calling function(s) on the
+current stack. This is known as a "sample" in OProfile parlance, and
+OProfile keeps track of the number of samples seen for each of the
+hardware events it has been set to monitor.
+</p><p>
+One event type can be specified for each event counter supported by the hardware,
+in the form <code class="option">--event=NAME:INTERVAL</code>, where <code class="option">NAME</code>
+is the name of the event (see below), and <code class="option">INTERVAL</code>
+is the sampling interval, that is, the number of times the event occurs
+before each sampling interrupt is taken.
+</p><p>
+The number of available hardware event counters depends on the chip architecture.
+For example on the Gx chip architecture a maximum of four events can be
+profiled simultaneously.
+</p><p>
+A few of the most useful profiling events are:
+</p><div class="itemizedlist"><ul type="disc"><li><code class="code">ONE</code> -- occurs once every cycle, and hence can be used to
+measure the relative amount of time spent in various areas of your code.
+</li><li><code class="code">INSTRUCTION_BUNDLE</code> -- occurs once per instruction bundle processed.
+</li><li><code class="code">LOAD_STALL</code> -- occurs whenever there is a data cache stall.
+</li><li><code class="code">INSTRUCTION_STALL</code> -- occurs whenever there is an instruction stall.
+</li></ul></div><p>
+There is also a <code class="code">ZERO</code> event, which never occurs. This can be
+used to disable an event counter that is not needed for a given profiling run.
+</p><p>
+For a list of the available hardware counter event names, you can run
+the command <span><strong class="command">tile-ophelp</strong></span>.
+</p><p>
+It's important to note that OProfile counts <span class="emphasis"><em>samples</em></span>,
+not unique events. This has a couple of important consequences:
+</p><div class="orderedlist"><ol type="1"><li>
+OProfile sampling is statistical, not exact. It does not count, for example,
+how many times a certain function has been called. Instead it counts how
+often your code happened to be in that function when a sample was taken.
+This means the sampling interval can be important to getting good
+profiling data: if the sampling interval is too high, or a function
+is invoked too rarely or too quickly, you may not see any samples taken
+in that function at all.
+</li><li>
+OProfile sampling is handled via interrupts, which can influence the timing
+and behavior of your code. In particular, if you set the sampling interval
+for an event too low (or the event type is one that normally occurs very often),
+then the large number of resulting interrupts can significantly affect the
+overall performance of your code, and can in extreme cases cause the OS to
+thrash or hang.
+</li></ol></div><p>
+In short, choosing a good sampling interval, neither too high nor too low,
+is important. In general, you'll need to experiment a little with profiling
+your code to find event intervals appropriate for the events you want to track.
+</p><p>
+The appropriate sampling interval to use will differ from event to event,
+and can also depend on your application's behavior.  For example, an
+event that ticks slowly needs a shorter interval, one that ticks close
+to every cycle needs a longer interval, and one that depends on
+application behavior (memory cache misses, etc.) may require either
+large or small values based on what the application is doing.
+</p><p>
+A reasonable starting point is an event interval that results in around
+100 samples per second, and you can adjust the interval up or down as needed.
+For example, on a Tile processor running at 1200 MHz, a ONE event interval
+of 12000000 (12 million) gives a sampling rate of 100 samples per second.
+(If your processor is running at a different rate, you may want to adjust
+the interval accordingly, but your starting point for interval will still
+be somewere in the same order of magnitude.)
+</p><p>
+Don't make the sampling interval too small, i.e. less than 10,000-100,000
+depending on the counter, or you may hang or crash the Linux OS due to
+excessive profiling interrupt calls. (The OS will attempt to detect this
+condition and disable profiling, but it's better simply to not cause it
+in the first place.)
+</p></div><div class="refsect2" lang="en"><a name="oprofile_daemon"></a><h3>The OProfile Daemon</h3><p>
+OProfile collects and processes profiling events via a profiler daemon,
+which is configured when it starts up, and retains that configuration
+until it is shut down (and/or restarted).
+</p><p>
+Hence, commands that specify OProfile properties, such as
+<span><strong class="command">profile-events</strong></span> and <span><strong class="command">profile-flags</strong></span>
+(discussed below) take effect only when the OProfile daemon is started
+(or re-started). If invoked while the daemon is running, they only take
+ effect the next time the daemon is started.
+</p><p>
+This is particularly important on "persistent" platforms such as TILEmpower,
+etc., where the OProfile daemon may already be running as a result of someone
+else doing a prior profiling run on the same platform.
+</p><p>
+You can use the command <span><strong class="command">profile-shutdown</strong></span> to completely
+shutdown the OProfile daemon, and <span><strong class="command">profile-start</strong></span> to restart it.
+</p><p>
+In general, it's best to get in the habit of using <span><strong class="command">profile-reset</strong></span>
+at the start of a profiling run, to clean out any old state, and
+<span><strong class="command">profile-shutdown</strong></span> at the end of the profiling run,
+to be sure you're starting and stopping the OProfile daemon in a way
+that allows you to easily change profiling options for each run.
+</p></div><div class="refsect2" lang="en"><a name="interactive_profiling"></a><h3>Interactive Profiling Example</h3><p>
+Here is a sample interactive profiling session for an application
+running on Tilera hardware, specifically on a device connected to the
+current host via a USB connection.
+</p><div class="orderedlist"><ol type="1"><li><p>
+First, log onto the machine, and <span><strong class="command">cd</strong></span> 
+to your application directory.
+</p></li><li><p>
+Start up <span><strong class="command">tile-monitor</strong></span> in interactive mode,
+targeting (and booting) the USB device. Wait for the
+"<code class="code">Command:</code>" prompt to appear:
+</p><pre class="programlisting">
+$ tile-monitor --usb
+Command:
+</pre></li><li><p>
+Upload the application executable(s) you want to run, as well as
+any libraries, etc. they depend on that are not already present in
+the OS. For example:
+</p><pre class="programlisting">
+Command: upload your_program             /bin/your_program
+Command: upload your_shared_lib.so.1.0.0 /lib/your_shared_lib.so.1.0.0
+... etc. ...
+</pre></li><li><p>
+<span><strong class="command">tile-monitor</strong></span> provides a number of commands for configuring
+and invoking the OProfile profiling tools. For example, you'll first want to
+upload the basic profiling support files, by typing:
+</p><pre class="programlisting">
+Command: profile-init
+</pre></li><li><p>
+Optionally, if you want more detail on the operations of the OS kernel,
+you can upload the kernel profiling support files, and request kernel profiling:
+</p><pre class="programlisting">
+Command: profile-kernel
+</pre><p>
+Note that the commands above only need to be invoked once for each
+profiling session.
+</p></li><li><p>
+If you're running in a "persistent" environment, such as a TILEmpower box,
+or a USB device or PCI card booted with the <span><strong class="command">--resume</strong></span> option,
+there may be old profiling state left around from the last profiling run.
+You can clear out any such prior profiling state on the TILE hardware with
+this command:
+</p><pre class="programlisting">
+Command: profile-reset
+</pre></li><li><p>
+You can optionally specify one or more event types to profile for, using the
+<code class="code">profile-events</code> command to specify the <code class="code">--event</code> argument(s)
+to pass to the OProfile daemon when it starts up. If you don't explicitly specify
+any events, <span><strong class="command">tile-monitor</strong></span> will default to using a selection
+of the most common and useful event names for the chip architecture.
+</p><p>
+(Note: commands that specify OProfile options take effect only when
+the OProfile daemon is started (or re-started). For more information,
+see the section above on the <a href="#oprofile_daemon">OProfile Daemon</a>.)
+</p><p>
+On TILE Gx, there are four performance counters, and the default
+<span><strong class="command">profile-events</strong></span> event/interval specification is:
+</p><pre class="programlisting">
+Command: profile-events '--event=ONE:12000000 --event=INSTRUCTION_BUNDLE:12000000 --event=LOAD_STALL:12000000 --event=INSTRUCTION_STALL:12000000'
+</pre><p>
+This finds time spent in code, instructions executed, and relative time stalled
+for data and instruction cache operations.
+</p><p>
+Note that you'll want to compare (specifically take the ratio) of a given event's sample count
+with the sample count for the ONE event, which occurs every cycle. This gives you a "per-cycle"
+value that is relatively independent of the event interval you've selected, and hence can be
+compared from run to run even where the sampling interval is different.
+</p><p>
+To only collect statistics on data cache stall time, you can specify:
+</p><pre class="programlisting">
+Command: profile-events '--event=ONE:12000000 --event=LOAD_STALL:12000000'
+</pre><p>
+And compare the LOAD_STALL sample counts with the ONE sample count.
+</p><p>
+To only collect instruction cache stall time, use:
+</p><pre class="programlisting">
+Command: profile-events "--event=ONE:12000000 --event=INSTRUCTION_STALL:12000000"
+</pre><p>
+To find estimated TLB miss time (assuming an average of 100 cycles to
+service a TLB miss), use:
+</p><pre class="programlisting">
+Command: profile-events "--event=ONE:12000000 --event=TLB_EXCEPTION:40000"
+</pre><p>
+These are only a few of the most commonly used events and their uses.
+For more information about the hardware events and their interpretation,
+see the MDE Optimization Guide.
+</p></li><li><p>
+You can optionally use the <span><strong class="command">profile-flags</strong></span> command to specify
+other OProfile configuration flags, for example, to specify the callgraph depth,
+(in other words, the number of functions to backtrace on the stack each time
+OProfile handles a sample interrupt), type:
+</p><pre class="programlisting">
+Command: profile-flags '--callgraph=20'
+</pre><p>
+(Note: commands that specify OProfile options take effect only when
+the OProfile daemon is started (or re-started). For more information,
+see the section above on the <a href="#oprofile_daemon">OProfile Daemon</a>.)
+</p><p>
+The default callgraph depth is 5, which is a reasonable compromise
+between coverage and the overhead of capturing the stack at each sampling
+interrupt. You can specify higher callgraph values to get more coverage of the
+caller/callee relationships in your program, or a lower callgraph to
+minimize the overhead if you're only interested in relative time spent
+in individual functions. Note: OProfile may lose samples if the callgraph
+depth is large and too many samples are collected in a short period of time.
+</p><p>
+If you want to disable callgraph profiling completely (and you are NOT
+intending to use the <span><strong class="command">profile-analyze</strong></span> to generate a
+profile.xml file), you can specify the following:
+</p><pre class="programlisting">
+Command: profile-flags ''
+</pre></li><li><p>
+To start the OProfile daemon and begin profiling data collection, type:
+</p><pre class="programlisting">
+Command: profile-start
+</pre><p>
+This starts the OProfile daemon, if it was not already running,
+with the currently specified events and options, and also enables
+profiling data capture.
+</p></li><li><p>
+Run any applications you want to profile, and wait for them to exit.
+For example, assuming the <span><strong class="command">upload</strong></span> command above,
+you could do:
+</p><pre class="programlisting">
+Command: run your_program [arguments...]
+</pre></li><li><p>
+Stop profiling data collection:
+</p><pre class="programlisting">
+Command: profile-stop
+</pre><p>
+NOTE: This command leaves the OProfile daemon running, in case
+you might want to use <span><strong class="command">profile-start</strong></span> to start
+data collection again.
+</p></li><li><p>
+Ensure OProfile has written all data, logs, etc.
+to its TILE-side directory:
+</p><pre class="programlisting">
+Command: profile-dump
+</pre></li><li><p>
+Now "capture" the profiling data you've collected on the Tilera platform,
+by copying it to a directory on the host that
+<span><strong class="command">tile-monitor</strong></span> is running on: 
+</p><pre class="programlisting">
+Command: profile-capture samples
+</pre><p>
+The pathname (<code class="code">samples</code>) is the pathname of a directory
+on the host, relative to the current directory in which you invoked
+<span><strong class="command">tile-monitor</strong></span>. The above command, for example, creates
+a <code class="code">samples</code> subdirectory in your application directory and
+copies the OProfile data into it.
+</p><p>
+Note: We'll refer to this host copy of the OProfile data
+as the profile "capture" directory in discussions below.
+</p></li><li><p>
+If you want to be able to view the profiling data using the
+<span><strong class="command">tile-eclipse</strong></span> IDE's Profile View, the run
+the following command on the capture directory:
+</p><pre class="programlisting">
+Command: profile-analyze samples
+</pre><p>
+This creates a <span><strong class="command">profile.xml</strong></span> file in
+the samples directory, which can then be loaded into the IDE.
+(For more information, see the <span><strong class="command">tile-eclipse</strong></span>
+IDE's online help on profiling.)
+</p><p>
+If you're doing multiple profiling runs, you can use the
+<span><strong class="command">profile-analyze</strong></span> command to process the profile
+output in one of two ways, based on the kind of profiling you're
+doing.
+</p><p>
+First, if each run is independent of the others (for example, if
+you're repeatedly profiling a program and editing the program in
+between runs), you can simply <span><strong class="command">profile-capture</strong></span> each
+profile run's data to a separate directory, and run
+<span><strong class="command">profile-analyze</strong></span> on each sample directory to
+generate a separate <code class="code">profile.xml</code> file for that run.
+</p><p>
+Alternatively, if you want to combine the output of multiple runs
+(for example, if you're profiling the same program repeatedly,
+but using different hardware profiling events for each run),
+you'll want to capture the output from each profiling run into
+a subdirectory, and then run <span><strong class="command">profile-analyze</strong></span>
+on the parent directory of all the runs. This will generate a
+single <code class="code">profile.xml</code> file covering all the runs in
+the various subdirectories.
+</p><p>
+For example:
+</p><pre class="programlisting">
+Command: profile-capture samples/run001
+  ...
+Command: profile-capture samples/run002
+  ...
+Command: profile-capture samples/run003
+  ...
+Command: profile-analyze samples
+</pre><p>
+If you want to add additional runs to the <code class="code">profile.xml</code> file,
+just capture more runs into additional subdirectories, then re-run
+the <span><strong class="command">profile-analyze</strong></span> command on the parent directory
+to add more sample data to the generated profile file:
+</p><pre class="programlisting">
+Command: profile-capture samples/run004
+  ...
+Command: profile-capture samples/run005
+  ...
+Command: profile-analyze samples
+</pre></li><li><p>
+Optional: If you want to do more profiling in the same
+<span><strong class="command">tile-monitor</strong></span>
+session, you can reset the profiling counters by typing: 
+</p><pre class="programlisting">
+Command: profile-reset
+</pre><p>
+Then repeat the profiling steps above starting with
+<span><strong class="command">profile-start</strong></span>, to perform another profiling
+session.
+</p></li><li><p>
+Finally, when you're done with profiling your application,
+shut down the OProfile daemon:
+</p><pre class="programlisting">
+Command: profile-shutdown
+</pre><p>
+(Note: commands that specify OProfile options take effect only when
+the OProfile daemon is shutdown and re-started. For more information,
+see the section above on the <a href="#oprofile_daemon">OProfile Daemon</a>.)
+</p></li><li><p>
+And quit out of <span><strong class="command">tile-monitor</strong></span>:
+</p><pre class="programlisting">
+Command: quit
+</pre><p>
+You can now create reports from the captured profiling data,
+as described below under <a href="#generating_profile_reports">Generating Profile Reports</a>.
+</p></li></ol></div></div><div class="refsect2" lang="en"><a name="batch_profiling"></a><h3>Batch Profiling Example</h3><p>
+Note that all of the profiling commands described above can be
+specified on the command line. This allows you to construct a single
+tile-monitor command that describes the entire process of configuring
+the profiler, profiling your application, and capturing/analyzing the data.
+</p><p>
+For example, all of the steps of the previous interactive example
+can be invoked from a single <span><strong class="command">tile-monitor</strong></span> command line
+as shown below:
+</p><pre class="programlisting">
+tile-monitor --dev usb/0 --resume \
+    --upload your_program /bin/your_program \
+    ... any other upload commands ...
+    --profile-init --profile-kernel \
+    --profile-reset \
+    --profile-events '--event=ONE:12000000 --event=INSTRUCTION_BUNDLE:12000000 --event=LOAD_STALL:12000000 --event=INSTRUCTION_STALL:12000000' \
+    --profile-flags '--callgraph=20' \
+    --profile-start \
+    --run -+- your_program [arguments...] -+- \
+    --profile-stop \
+    --profile-dump \
+    --profile-capture samples \
+    --profile-analyze samples \
+    --profile-shutdown \
+    --quit
+</pre><p>
+You can now create reports from the captured profiling data,
+as described below under <a href="#generating_profile_reports">Generating Profile Reports</a>.
+</p></div><div class="refsect2" lang="en"><a name="generating_profile_reports"></a><h3>Generating Profile Reports</h3><p>
+Capturing the profiling data is only half the task.
+Now you need to filter and generate a report from the captured data.
+</p><p>
+This section discusses the OProfile command-line tools for report generation:
+<span><strong class="command">tile-opreport</strong></span> and
+<span><strong class="command">tile-opannotate</strong></span>.
+</p><p>
+In the examples below, we'll assume that you've worked through the 
+<a href="#interactive_profiling">Interactive Profiling Example</a> section above, and as a result
+already have a <code class="code">samples</code> profile capture subdirectory to work with.
+Also, we assume that you're running the sample commands in the application
+directory, so the unstripped binaries for the profiled application can be
+found in the current directory.
+</p><p>
+NOTE: For many users, particularly those who just want to quickly browse
+the profile results in a Tilera-centric format, it may be quicker to just
+run the <span><strong class="command">profile-analyze</strong></span> command in <span><strong class="command">tile-monitor</strong></span>
+and generate an XML file to be viewed in the <span><strong class="command">tile-eclipse</strong></span> IDE.
+</p><div class="refsect3" lang="en"><a name="id1135309"></a><h4>Profile Summary Reports (tile-opreport)</h4><p>
+To generate a report from profiling data, you can run the <span><strong class="command">tile-opreport</strong></span>
+command on the profile capture directory you created when profiling your application.
+</p><p>
+Before we go on, it's only fair to warn you that <span><strong class="command">tile-opreport</strong></span>
+is a very powerful report generating tool, and with this power comes complexity.
+The tool can often seem unforgiving and even stubbornly cryptic to new users,
+given the number of ways one can filter profiling data, and the many ways
+filtering options can interact and even conflict with one another.
+It takes patience and some experimentation to determine the correct set of options
+to construct the report that you want, and it <span class="emphasis"><em>really</em></span> pays
+to read the OProfile documentation and understand the effect of
+<span><strong class="command">tile-opreport</strong></span>'s filtering options, rather than simply adding
+options to the command line at random to see what they do.
+</p><p>
+In particular, it can be surprisingly easy to "overspecify" filtering options,
+and thus exclude all of your sample data. You can tell you've done this
+if <span><strong class="command">tile-opreport</strong></span> prints an error message like the following:
+</p><pre class="programlisting">
+error: no sample files found: profile specification too strict ?
+</pre><p>
+This error doesn't really indicate there were no sample files to display.
+Usually it just indicates that you've specified too many filtering options,
+or have specified two options that conflict with one another, thus excluding
+all sample files from the set to display.
+</p><p>
+Often <span><strong class="command">tile-opreport</strong></span> will display an error resulting from
+an ambiguity in what you've requested; in such cases you need to "merge",
+or aggregate, the data differently to eliminate the ambiguity. For example,
+if you omit the "--merge" option altogether, often OProfile will complain about
+duplicate reporting of one or more events. Specifying "--merge=all" is a simple
+means to avoid this for reports where you don't have any special filtering requirements.
+</p><p>
+Another downside of <span><strong class="command">tile-opreport</strong></span> is that the reports it generates
+are generic and treat the Tilera hardware simply as a collection of SMP cpus.
+In particular, the processing "tiles" of the Tilera chip are referred to by
+their Linux OS cpu numbers, and there's no means of referring to them or filtering
+them by their grid coordinates.
+</p><p>
+All this is not meant to dissude you from using <span><strong class="command">tile-opreport</strong></span>
+if you prefer command-line tools. Just be aware that <span><strong class="command">tile-opreport</strong></span>
+is really a "power user" tool, and should be treated accordingly.
+</p><p>
+Below we present some quick examples of <span><strong class="command">tile-opreport</strong></span> usage,
+in particular some combinations of command-line options that generally
+produce useful reports and serve as good starting points.
+For a more detailed discussion of how to configure tile-opreport,
+see the <a href="#extended_example">Extended Example</a> section below,
+as well as the
+<a href="http://oprofile.sourceforge.net/doc/index.html" target="_top">OProfile manual</a>
+at the <a href="http://oprofile.sourceforge.net" target="_top">OProfile website</a>.
+</p><p>
+The first report-generating command you'll want to run for
+just about any sample directory is the following:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=all -x -f
+
+INSTRUCTION_BU...|INSTRUCTION_ST...|LOAD_STALL:100...|      ONE:1000000|
+  samples|      %|  samples|      %|  samples|      %|  samples|      %|
+------------------------------------------------------------------------
+      259 93.8406       215 98.1735       186 98.9362       497 95.2107 /hello_world
+       15  5.4348         2  0.9132         2  1.0638        21  4.0230 /bin/busybox
+        2  0.7246         0       0         0       0         0       0 /usr/bin/ophelp
+        0       0         2  0.9132         0       0         4  0.7663 /bin/shepherd
+</pre><p>
+This displays a high-level summary report of the profile data
+from the profile capture directory <code class="code">samples</code>,
+merging the results from all processes/threads
+on all cpus, and displaying summary statistics for each 
+of the executables invoked while your program was running.
+(For clarity, we've omitted the progress messages displayed by
+<span><strong class="command">tile-opreport</strong></span> prior to generating the report output.)
+</p><p>
+The <code class="option">-x</code> option excludes calls between executables
+and shared libraries or the Linux OS, restricting the output
+to just code within the named executables and/or libraries.
+This simplifies the output and gives you a useful "top level"
+process-based view of the profiling data.
+</p><p>
+The <code class="option">-f</code> option displays the full pathname for
+each executable as it was invoked on the remote host.
+</p><p>
+You can specify a specific event to see (and sort by) just that column:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=all -x -f event:ONE
+
+      ONE:1000000|
+  samples|      %|
+------------------
+      497 95.2107 /hello_world
+       21  4.0230 /bin/busybox
+        4  0.7663 /bin/shepherd
+</pre><p>
+This displays the executables sorted by the ONE event, and thus shows
+where the most time was spent during the profiling run.
+</p><p>
+You can narrow the list to a specific executable, such as your application:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=all -x -f event:ONE /hello_world
+
+      ONE:1000000|
+  samples|      %|
+------------------
+      497 100.000 /hello_world
+</pre><p>
+Note that here we've specified the absolute remote path of the application,
+as it was executed on the TILE processor.
+Unless you're using the <code class="option">-p</code> to supply a local search path
+for executable files, you should use the full pathname of the executable
+as shown above, or OProfile may report that it could not locate any data
+for the specified executable.
+</p><p>
+One can add per-function summaries to the results, but for this we need
+a local, unstripped copy of the executable to get symbol information from.
+Below, we use the <code class="option">-p</code> option to tell
+<span><strong class="command">tile-opreport</strong></span> to
+look in the current directory (<span><strong class="command">.</strong></span>) for application binaries.
+This allows us to use the relative path of the local, unstripped copy of
+<code class="code">your_program</code>, which can be found in the current directory.
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=all -lgw -x -f event:ONE -p . hello_world
+
+vma      samples  %        linenr info                 symbol name
+00010870 496      99.7988  /u/bswanson/dev/profile/gx/hello_world_fork/hello_world.c:9 main
+000315a0 1         0.2012  /home/scratch/bswanson/main_gx_build/tools/glibc/source/malloc/arena.c:467 ptmalloc_init
+</pre><p>
+The <code class="option">-g</code> option adds file and line number columns to the output,
+and the <code class="option">-w</code> displays the virtual memory address for each function.
+</p><p>
+You can also get per-function results without restricting the output to a single executable,
+but in this case we need to add the <span><strong class="command">${TILERA_ROOT}/tile</strong></span> directory
+to the search path so Tilera binaries and libraries can be located:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=all -l -x -f event:ONE -p .,${TILERA_ROOT}/tile
+
+samples  %        app name                 symbol name
+496      95.0192  /u/bswanson/dev/profile/gx/hello_world_fork/hello_world main
+4         0.7663  /home/scratch/bswanson/main_gx_build/mde/tilegx/tile/bin/busybox pgetc
+2         0.3831  /home/scratch/bswanson/main_gx_build/mde/tilegx/tile/bin/busybox readtoken
+2         0.3831  /home/scratch/bswanson/main_gx_build/mde/tilegx/tile/bin/busybox readtoken1
+... (rest of output omitted) ...
+</pre><p>
+If the profile data includes callgraph information (that is,
+you specified a callgraph depth with the <code class="option">--callgraph</code>
+option of <span><strong class="command">profile-flags</strong></span>), then you can use the
+<code class="option">-c</code> option to request callgraph data, as
+shown below.
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=tgid,cpu -lgw -x -c --sort=vma -f event:ONE -p . hello_world
+
+vma      samples  %        linenr info                 symbol name
+-------------------------------------------------------------------------------
+  00014308 496      100.000  /home/scratch/bswanson/main_gx_build/tools/glibc/source/csu/libc-start.c:96 __libc_start_main
+00010870 496      99.7988  /u/bswanson/dev/profile/gx/hello_world_fork/hello_world.c:9 main
+  00010870 496      99.7988  /u/bswanson/dev/profile/gx/hello_world_fork/hello_world.c:9 main [self]
+  000401e0 1         0.2012  /home/scratch/bswanson/main_gx_build/tools/glibc/source/posix/../nptl/sysdeps/unix/sysv/linux/tile/../fork.c:54 __libc_fork
+-------------------------------------------------------------------------------
+00014308 0              0  /home/scratch/bswanson/main_gx_build/tools/glibc/source/csu/libc-start.c:96 __libc_start_main
+  00010870 496      99.7988  /u/bswanson/dev/profile/gx/hello_world_fork/hello_world.c:9 main
+  000149c0 1         0.2012  /home/scratch/bswanson/main_gx_build/tools/glibc/source/csu/../csu/libc-tls.c:114 __libc_setup_tls
+  00014308 0              0  /home/scratch/bswanson/main_gx_build/tools/glibc/source/csu/libc-start.c:96 __libc_start_main [self]
+-------------------------------------------------------------------------------
+... (rest of output omitted) ...
+</pre><p>
+Each section of the callgraph data (separated by the dashed lines) displays
+sample data for one function, plus its immediate caller and callees.
+The function of interest in each section is shown outdented, with the
+caller (if any) indented above it, and the callees (if any) indented below.
+Lines marked with [self] indicate time spent within the function's own code.
+</p><p>
+Note: the <code class="option">-c</code> flag to request callgraph
+information is not compatible with <code class="option">--merge=all</code>,
+specifically with <code class="option">--merge=lib</code>.  A callgraph report
+will be generated, but it will not contain full callgraph information.
+This is why we use <code class="option">--merge=tgid,cpu</code> above.
+It's also an example of why it's never a good idea to add options to
+the <span><strong class="command">tile-opreport</strong></span> command line without fully
+understanding their effects.
+</p><p>
+To view a load-balancing report for a given executable across the cpus in use,
+merge the results only by process id (<code class="code">tgid</code>) and libraries:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=tgid,lib -f event:ONE -p . hello_world
+
+            cpu:0|            cpu:1|            cpu:2|            cpu:3|
+  samples|      %|  samples|      %|  samples|      %|  samples|      %|
+------------------------------------------------------------------------
+      126 100.000       118 100.000       125 100.000       128 100.000 /hello_world
+</pre><p>
+This produces very wide output (one column per tile/CPU), so if you're running
+on many CPUs we recommend you capture the output in a file and view it in
+a web browser or an editor that allows horizontal scrolling.
+</p><p>
+Alternatively, you can restruct the CPU columns displayed with a filter option:
+</p><pre class="programlisting">
+$ tile-opreport archive:samples --merge=tgid,lib -f event:ONE cpu:0,2 -p . hello_world
+
+            cpu:0|            cpu:2|
+  samples|      %|  samples|      %|
+------------------------------------
+      126 100.000       125 100.000 /hello_world
+</pre><p>
+There are many other combinations of configuration options possible for
+<span><strong class="command">tile-opreport</strong></span>. We'll cover them in more detail in the
+extended example below, and you can find full details of the various options
+in the <a href="http://oprofile.sourceforge.net/doc/index.html" target="_top">OProfile manual</a>
+at the <a href="http://oprofile.sourceforge.net" target="_top">OProfile website</a>.
+</p></div><div class="refsect3" lang="en"><a name="id1135310"></a><h4>Annotated Source Reports (tile-opannotate)</h4><p>
+To annotate sources with sample counts, use the
+<span><strong class="command">tile-opannotate</strong></span> command. For example:
+</p><pre class="programlisting">
+$ tile-opannotate --source archive:samples --merge=all -d . \
+                  -p . hello_world &gt; annotated.txt
+</pre><p>
+This looks for source files in the current directory (<code class="option">-d .</code>)
+and generates a single file containing all source text annotated with OProfile
+sample counts. The remaining options are the same as for 
+<span><strong class="command">tile-opreport</strong></span>. An abbreviated example of the output of
+this command is shown below:
+</p><pre class="programlisting">
+/* 
+ * Command line: tile-opannotate --source archive:samples --merge=all -d . -p . event:ONE hello_world 
+ * 
+ * Interpretation of command line:
+ * Output annotated source file with samples
+ * Output all files
+ * 
+ * CPU: TILE-GX, speed 1200 MHz (estimated)
+ * Counted ONE events (Always one - an event occurs every cycle) with a unit mask of 0x00 (No unit mask) count 1000000
+ */
+/* 
+ * Total samples for file : "/u/bswanson/dev/profile/gx/hello_world_fork/hello_world.c"
+ * 
+ *    496 99.7988
+ */
+
+... (output omitted) ...
+
+               :
+               :int main(int argc, char** argv) { /* main total:    496 99.7988 */
+               :  int status = 0;
+
+... (output omitted) ...
+
+               :  else {
+               :    printf("Child %i of %i started.\n", rank, instances);
+               :    long long z = 0;
+                                       
+   324 65.1911 :    for (long long i=0; i&lt;3000000; ++i) {
+   172 34.6076 :      z += i * 2;
+               :    }
+               :    printf("Result = %llu\n", z);
+               :    printf("Child %i of %i finished.\n", rank, instances);
+               :  }
+               :
+               :  return status;
+               :}
+
+... (output omitted) ...
+</pre></div></div><div class="refsect2" lang="en"><a name="id1134210"></a><h3>Programmatic Profiler Control</h3><p>
+Profiling can be started and stopped by programs running on the Tile chip.
+Note that this requires that profiling has been configured with
+<span><strong class="command">tile-monitor</strong></span>'s <span><strong class="command">profile-kernel</strong></span> command:
+</p><pre class="programlisting">
+  Command: profile-kernel
+</pre><p>
+A program can then invoke (e.g. via a <code class="code">system()</code> call) the
+OProfile control program, <code class="code">/var/lib/oprofile-support/bin/opcontrol-kernel</code>.
+For example, this command starts profiling (breaking out profile samples into
+kernel vs. user space, and also breaking them out via task ID):
+</p><pre class="programlisting">
+  system("opcontrol-kernel --start --separate=kernel,thread");
+</pre><p>
+The following command stops profiling:
+</p><pre class="programlisting">
+  system("opcontrol-kernel --stop");
+</pre><p>
+In fact, <span><strong class="command">opcontrol-kernel</strong></span> may be used to perform
+all the more advanced functions of <span><strong class="command">opcontrol</strong></span>.
+It merely provides the kernel profiling information as a convenience.
+</p></div><div class="refsect2" lang="en"><a name="extended_example"></a><h3>An Extended Example</h3><p>
+This section presents a more in-depth example of the usage of
+<span><strong class="command">tile-opreport</strong></span> and <span><strong class="command">tile-opannotate</strong></span>,
+using output based on a real-world example application,
+the open-source network security program Snort.
+</p><p>
+In the examples below, we'll assume the Snort application
+was built in the directory <code class="code">/home/yourusername/apps/snort</code>,
+which is the current working directory, and that the unstripped binary
+(<span><strong class="command">snort</strong></span>) can be found in that directory.
+</p><div class="orderedlist"><ol type="1"><li>
+First, you need to generate profiling data for the application.
+
+<p>
+Start <span><strong class="command">tile-monitor</strong></span>, and at the 
+<code class="code">Command:</code> prompt, type:
+</p><pre class="programlisting">
+  Command: profile-init
+  Command: profile-kernel
+  Command: profile-reset
+  Command: profile-events '--event=ONE:12000000'
+  Command: profile-start
+</pre><p>
+Note that we're restricting event collection to just processor cycles
+(the ONE event). This is mostly to simplify the output of the examples below,
+but also because for these examples we're going to focus on time spent
+in various functions.
+</p><p>
+You can omit <span><strong class="command">profile-kernel</strong></span> if you really don't
+want kernel information, but it doesn't add much overhead.
+If you don't want the kernel-level sampling data it collects you
+can simply exclude it when generating a report.
+</p><p>
+Adding <span><strong class="command">profile-reset</strong></span> ensures there is no old profiling state
+before the profiling run starts.
+</p></li><li>
+Run the application (in this example, <span><strong class="command">Snort</strong></span>).
+</li><li>
+Stop profiling, and capture the profiling data to a subdirectory
+named "samples":
+
+<pre class="programlisting">
+  Command: profile-stop
+  Command: profile-dump
+  Command: profile-capture samples
+  Command: profile-analyze samples
+  Command: profile-shutdown
+</pre><p>
+The <span><strong class="command">profile-shutdown</strong></span> command ensures that the
+OProfile daemon is fully shut down. This is particularly important
+on "persistent" platforms such as TILEmpower, and PCI cards booted
+with the <span><strong class="command">--resume</strong></span> option. If you don't shut down
+the daemon, then your next profiling run on the same platform will
+use the exact same profiling events and options.
+</p><p>
+Now you are ready to look at the profile reports.
+</p></li><li><code class="code">
+  tile-opreport archive:samples --merge=tgid,cpu -f /snort
+  </code><pre class="programlisting">
+        ONE:1200000|
+    samples|      %|
+  ------------------
+    1443822 100.000 /snort
+                ONE:1200000|
+            samples|      %|
+          ------------------
+            1437011 99.5283 /snort
+               6811  0.4717 /var/lib/oprofile-support/vmlinux
+  </pre><p>
+  This report rolls up all cpus and all processes/threads for
+  <span><strong class="command">/snort</strong></span> and shows some of the program's time
+  was spent in the Linux OS
+  (<span><strong class="command">/var/lib/oprofile-support/vmlinux</strong></span>).
+  </p><p>
+  Notice that we're referencing the /snort executable by the absolute
+  remote path (that is, the path used to invoke it on the TILE processor),
+  and using the <code class="option">-f</code> to see the full remote paths in the
+  output.  This is sufficient at this stage since we're only looking at
+  overall sample counts, not per-function or file/line debugging information.
+  </p></li><li><code class="code">
+  tile-opreport archive:samples --merge=cpu -x /snort | grep "thread ID"
+  </code><pre class="programlisting">
+  Processes with a thread ID of 717
+  Processes with a thread ID of 718
+  Processes with a thread ID of 720
+  Processes with a thread ID of 721
+  Processes with a thread ID of 723
+  Processes with a thread ID of 725
+  ...
+  </pre><p>
+  This command shows the process/thread IDs that the Snort binary
+  is running on. (We've used <code class="option">-x</code> to exclude libraries
+  and the Linux OS.)
+  There are a large number of them, because we're running the
+  application on many tiles.
+  </p><p>
+  Similarly, you can see the CPU ids that these threads are running on:
+  </p><code class="code">
+  tile-opreport archive:samples --merge=tgid -x /snort | grep "Samples on CPU"
+  </code><pre class="programlisting">
+  Samples on CPU 0
+  Samples on CPU 1
+  Samples on CPU 2
+  Samples on CPU 3
+  Samples on CPU 4
+  Samples on CPU 5
+  Samples on CPU 6
+  Samples on CPU 7
+  Samples on CPU 8
+  Samples on CPU 9
+  Samples on CPU 10
+  Samples on CPU 11
+  Samples on CPU 12
+  ...
+  </pre></li><li><p>
+  By using the <code class="option">cpu:nnn</code>, <code class="option">tgid:nnn</code>,
+  and <code class="option">tid:nnn</code> options,
+  you can filter the output by selecting the CPUs and/or
+  processes/threads to view. For example:
+  </p><code class="code">
+  tile-opreport archive:samples cpu:0 /snort
+  </code><pre class="programlisting">
+  Processes with a thread ID of 717
+  Processes with a thread ID of 718
+            tid:717|          tid:718|
+    samples|      %|  samples|      %|
+  ------------------------------------
+          9 100.000     25598 100.000 snort
+                    tid:717|          tid:718|
+            samples|      %|  samples|      %|
+          ------------------------------------
+                  7 77.7778       109  0.4258 vmlinux
+                  2 22.2222     25489 99.5742 snort
+  </pre><p>
+  This shows us two threads are running on CPU 0.
+  </p><p>
+  There's a wrinkle when we look at threads, however.
+  Processes and threads can be rescheduled between tiles,
+  so sometimes a given process or thread ID may correspond to multiple CPUs.
+  </p><p>
+  This can make it tricky to use <span><strong class="command">tile-opreport</strong></span> to
+  generate the specific results you want, because the CPU and/or tile IDs
+  you specify may overlap, which can result in
+  <span><strong class="command">tile-opreport</strong></span> 
+  complaining that you've excluded all the data files, or that some of
+  the filters you've specified (explicitly or implicitly) are in conflict.
+  For example:
+  </p><code class="code">
+  tile-opreport archive:samples tid:712 /snort
+  </code><pre class="programlisting">
+  error: no sample files found: profile specification too strict ?
+  </pre><code class="code">
+  tile-opreport archive:samples tid:717,718 /snort
+  </code><pre class="programlisting">
+  tile-opreport error: Already displaying results for parameter tid with values:
+  tid:717,tid:718,
+  which conflicts with parameter cpu.
+  Suggestion: specify tid: or --merge tid
+  </pre><p>
+  To avoid these issues, we need a way to determine which tile(s) a given
+  thread was scheduled on. When a thread is scheduled on a single tile,
+  <span><strong class="command">tile-opreport</strong></span>
+  may omit the CPU number from the regular output. With a little careful
+  grepping of the verbose output, however, we can obtain the CPU(s)
+  for any given thread:
+  </p><code class="code">
+  tile-opreport -V sfile archive:samples tid:717 /snort | egrep "^cpu:"
+  </code><pre class="programlisting">
+  cpu: 0
+  cpu: 3
+  cpu: 36
+  </pre><p>
+  This allows us to choose process/thread and CPU filters that are
+  compatible with each other:
+  </p><code class="code">
+  tile-opreport archive:samples tid:717 cpu:0,3,36 /snort
+  </code><pre class="programlisting">
+  CPU: TILE-Gx, speed 1200 MHz (estimated)
+  Counted ONE events (Always one - an event occurs every cycle) with a unit mask of 0x00 (No unit mask) count 700000
+  Samples on CPU 0
+  Samples on CPU 3
+  Samples on CPU 36
+              cpu:0|            cpu:3|           cpu:36|
+    samples|      %|  samples|      %|  samples|      %|
+  ------------------------------------------------------
+          9 100.000         4 100.000         6 100.000 snort
+                      cpu:0|            cpu:3|           cpu:36|
+            samples|      %|  samples|      %|  samples|      %|
+          ------------------------------------------------------
+                  7 77.7778         4 100.000         6 100.000 vmlinux
+                  2 22.2222         0       0         0       0 snort
+  </pre><p>
+  Or one can simply avoid the issue by merging all the CPUs for
+  a given process or thread:
+  </p><code class="code">
+  tile-opreport archive:samples --merge=cpu tid:717 /snort
+  </code><pre class="programlisting">
+  CPU: TILE-Gx, speed 1200 MHz (estimated)
+  Counted ONE events (Always one - an event occurs every cycle) with a unit mask of 0x00 (No unit mask) count 700000
+        ONE:1200000|
+    samples|      %|
+  ------------------
+         19 100.000 snort
+                ONE:1200000|
+            samples|      %|
+          ------------------
+                 17 89.4737 vmlinux
+                  2 10.5263 snort
+  </pre></li><li><p>
+  Now we can look at the per-function behavior of the threads on CPU 0:
+  </p><pre class="programlisting">
+  tile-opreport archive:samples cpu:0 tid:717,718 -l snort \
+     -p .,${TILERA_ROOT}/tile
+  </pre><p>
+    The <code class="option">-l</code> flag produces a per-function listing.
+    The <code class="option">-p</code> argument is followed by the comma-separated
+    pathnames of directories where <span><strong class="command">tile-opreport</strong></span>
+    can find the unstripped versions of the application files.
+  </p><p>
+    We've specified the thread IDs explicitly here, to show how it's done.
+    We could have omitted them, however, since these happen to be the
+    only Snort-related threads on the tile.
+  </p><p>
+  In the output below, we've omitted headers, timestamp warnings,
+  etc. to focus on the profile data:
+  </p><pre class="programlisting">
+    samples  %        samples  %        image name  symbol name
+    20967    66.2213  7253     45.6738  snort       netio_get_packet
+    3439     10.8616  3207     20.1952  snort       pcap_wait_for_packet
+    1131      3.5721  243       1.5302  snort       fa_search
+    1105      3.4900  520       3.2746  snort       fpEvalHeaderSW_noncontent
+    197       0.6222  104       0.6549  snort       pcap_live_loop
+    176       0.5559  130       0.8186  snort       Preprocess
+    167       0.5274  88        0.5542  snort       sfxhash_find_node_row
+    156       0.4927  66        0.4156  snort       memcmp
+    155       0.4895  71        0.4471  snort       IsPreprocBitSet
+    139       0.4390  75        0.4723  snort       CheckTcpFlags
+    122       0.3853  116       0.7305  snort       memset
+    120       0.3790  123       0.7746  snort       ReassembleStream4
+    100       0.3158  29        0.1826  snort       CheckAddrPort
+    93        0.2937  102       0.6423  snort       fpEvalHeaderSW
+    92        0.2906  82        0.5164  snort       fpFinalSelectEvent
+    90        0.2843  111       0.6990  snort       DecodeIP
+    81        0.2558  88        0.5542  snort       DecodeTCPOptions.cold
+    81        0.2558  26        0.1637  snort       sfghash_find_node
+    77        0.2432  48        0.3023  snort       GetSessionFromHashTable
+    ...
+  </pre><p>
+  Here there is a column for each of the threads we've specified.
+  If there had been more threads, there would have been more columns.
+  The functions are sorted by the number of samples in the first column.
+  </p></li><li><p>
+We can get more detail as to the locations of the samples by adding the options
+<code class="option">-lgd</code> to the command line.  We'll pick one of the two threads,
+merge all CPU samples for that thread, and get filenames and line numbers for
+each sample:
+</p><pre class="programlisting">
+tile-opreport archive:samples --merge=cpu tid:717 -ldg /snort \
+   -p .,${TILERA_ROOT}/tile
+</pre><pre class="programlisting">
+    0001b368 20967    66.2213  netio_receive.c:120         snort                    netio_get_packet
+      0001b368 369       1.7599  netio_receive.c:120
+      0001b370 386       1.8410  netio_receive.c:120
+      0001b378 373       1.7790  netio_receive.c:120
+      0001b380 367       1.7504  netio_receive.c:120
+      0001b388 359       1.7122  netio_receive.c:120
+      0001b390 378       1.8028  netio_receive.c:120
+      0001b398 396       1.8887  netio_receive.c:120
+      0001b3a0 363       1.7313  netio_receive.c:120
+      0001b3a8 380       1.8124  netio_receive.c:120
+      0001b3b0 350       1.6693  netio_receive.c:120
+      0001b3b8 362       1.7265  netio_receive.c:136
+      0001b3c0 360       1.7170  netio_receive.c:136
+      0001b3c8 13897    66.2803  netio_receive.c:140
+      0001b3d0 371       1.7694  netio_receive.c:140
+      0001b3d8 363       1.7313  netio_receive.c:136
+      0001b3e8 6         0.0286  netio_receive.c:140
+      0001b428 1         0.0048  netio_receive.c:145
+      0001b438 6         0.0286  netio_receive.c:145
+      0001b470 1         0.0048  netio_receive.c:157
+      0001b4b8 1         0.0048  netio_receive.c:157
+      0001b4c8 11        0.0525  netio_receive.c:159
+      0001b528 1115      5.3179  netio_receive.c:169
+      0001b530 360       1.7170  netio_receive.c:169
+      0001b538 392       1.8696  netio_receive.c:169
+    00028e98 3439     10.8616  pcap.c:1278                 snort                    pcap_wait_for_packet
+      00028ee8 1         0.0291  pcap.c:1288
+      00028f18 1146     33.3236  pcap.c:1288
+      00028f20 400      11.6313  pcap.c:1288
+      00028f28 387      11.2533  pcap.c:1288
+      00028f30 388      11.2823  pcap.c:1288
+      00028f38 342       9.9448  pcap.c:1293
+      00028f40 393      11.4277  pcap.c:1293
+      00028f48 380      11.0497  pcap.c:1293
+      00028fb0 1         0.0291  pcap.c:1308
+      00029040 1         0.0291  pcap.c:1321
+</pre></li><li><p>
+    You might have noticed that there is more than one listing for
+    netio_receive.c:120.  That's because there is more than one PC
+    corresponding to this line number.  We can see this by omitting
+    the <code class="option">-g</code>:
+  </p><pre class="programlisting">
+  tile-opreport archive:samples --merge=cpu tid:717 -ld /snort \
+     -p .,${TILERA_ROOT}/tile
+  </pre><pre class="programlisting">
+    vma      samples  %        image name               symbol name
+    0001b368 20967    66.2213  snort                    netio_get_packet
+      0001b368 369       1.7599
+      0001b370 386       1.8410
+      0001b378 373       1.7790
+      0001b380 367       1.7504
+      0001b388 359       1.7122
+      0001b390 378       1.8028
+      0001b398 396       1.8887
+      0001b3a0 363       1.7313
+      0001b3a8 380       1.8124
+      0001b3b0 350       1.6693
+      0001b3b8 362       1.7265
+      0001b3c0 360       1.7170
+      0001b3c8 13897    66.2803
+      0001b3d0 371       1.7694
+      0001b3d8 363       1.7313
+      0001b3e8 6         0.0286
+      0001b428 1         0.0048
+      0001b438 6         0.0286
+      0001b470 1         0.0048
+      0001b4b8 1         0.0048
+      0001b4c8 11        0.0525
+      0001b528 1115      5.3179
+      0001b530 360       1.7170
+      0001b538 392       1.8696
+    00028e98 3439     10.8616  snort                    pcap_wait_for_packet
+      00028ee8 1         0.0291
+      00028f18 1146     33.3236
+      00028f20 400      11.6313
+      00028f28 387      11.2533
+      00028f30 388      11.2823
+      00028f38 342       9.9448
+      00028f40 393      11.4277
+      00028f48 380      11.0497
+      00028fb0 1         0.0291
+      00029040 1         0.0291
+  </pre></li><li><p>
+    Now let's view these results using annotated source code:
+  </p><pre class="programlisting">
+  tile-opannotate --source archive:samples --merge=cpu tid:717 /snort \
+     -p .,${TILERA_ROOT}/tile &gt; snort_annotated.txt
+  </pre><p>
+  This creates an annotated version of your source showing the location
+  of samples.  Here's an extract from this (which shows 1066 samples,
+  about 6.7% of the total samples for the thread at the given line):
+  </p><pre class="programlisting">
+    /* 
+     * Command line: tile-opannotate --source archive:samples --merge=cpu tid:717 snort -p .,${TILERA_ROOT}/tile
+     * 
+     * Interpretation of command line:
+     * Output annotated source file with samples
+     * Output all files
+     * 
+     */
+     * 
+    /* Total samples for file : "/u/ken/p4/apps/lib/libnetio/netio_receive.c"
+     * 
+     *   7288 45.8942
+     */
+
+
+      1066  6.7128 :  if (queue.__user_part-&gt;__packet_receive_read ==
+                   :      queue.__system_part-&gt;__packet_receive_queue.__packet_write)
+                   :    return NETIO_NOPKT;
+    ...
+  </pre></li><li><p>
+  We can also look at call graph profiles which present application time
+  hierarchically.  This allows us to see not only which functions account
+  for the time in an application but also attribute the time to the various
+  functions' call sites.  We can also see how much time particular functions
+  spend in the functions they call versus executing directly.
+  </p><pre class="programlisting">
+  tile-opreport archive:samples --merge=cpu,tgid -c snort \
+    -p .,${TILERA_ROOT}/tile
+  </pre><p>
+  Here <code class="option">-c</code> specifies call graph profiling.
+  <code class="option">--merge=cpu,tgid</code> means to sum all the data from all
+  the separate threads (ilib processes) and CPUs.  Of course, we could
+  also omit <code class="option">--merge=tgid</code> and specify a particular
+  thread instead with <code class="option">tid:XXX</code> where
+  <code class="option">XXX</code> is the thread id of a particular process or
+  thread we want we want to profile. Similarly we could specify
+  <code class="option">CPU:XX</code> to specify a particular tile.
+  </p><p>
+  Here are the first few lines of output from the above command:
+  </p><pre class="programlisting">
+    samples  %        image name               symbol name
+    -------------------------------------------------------------------------------
+      3         0.2171  snort                    fpEvalHeaderIp
+      282      20.4052  snort                    fpEvalHeaderUdp
+      1097     79.3777  snort                    fpEvalHeaderTcp
+    710       7.8263  snort                    fpEvalHeaderSW_noncontent
+      710      51.3748  snort                    fpEvalHeaderSW_noncontent [self]
+      211      15.2677  snort                    CheckTcpFlags
+      102       7.3806  snort                    CheckBidirectional
+      73        5.2822  snort                    CheckIpOptions
+      58        4.1968  snort                    UpdateNQEvents
+      46        3.3285  snort                    CheckDsizeEq
+      40        2.8944  snort                    CheckFragBits
+      35        2.5326  snort                    ByteTest
+      28        2.0260  snort                    CheckTtlEq
+      24        1.7366  snort                    IpSameCheck
+      21        1.5195  snort                    IpProtoDetectorFunction
+      17        1.2301  snort                    CheckTcpAckEq
+      13        0.9407  snort                    OptListEnd
+      4         0.2894  snort                    CheckDstIP
+    -------------------------------------------------------------------------------
+      698      100.000  snort                    acsmSearchCodedDFA
+    369       4.0675  snort                    fa_search
+      369      52.8653  snort                    fa_search [self]
+      326      46.7049  snort                    otnx_match
+      3         0.4298  snort                    case_compare
+    -------------------------------------------------------------------------------
+      1         0.3861  snort                    flowcache_newflow
+      1         0.3861  snort                    GetNewSession
+      1         0.3861  snort                    ParsePattern
+      1         0.3861  snort                    opt_tree_node_calloc
+      2         0.7722  snort                    ps_tracker_get
+      5         1.9305  snort                    SnortHttpInspect
+      15        5.7915  snort                    Preprocess
+      40       15.4440  snort                    fpEvalHeaderSW
+      193      74.5174  snort                    DecodeEthPkt
+    259       2.8549  snort                    memset
+      259      100.000  snort                    memset [self]
+    -------------------------------------------------------------------------------
+  </pre><p>
+   What exactly does this mean?  The first entry means that 710 samples were
+   collected while executing directly in the <span><strong class="command">Snort</strong></span> function
+   fpEvalHeaderSW_noncontent.  Additionally, 672 samples were collected in
+   other functions called either directly or indirectly from
+   fpEvalHeaderSW_noncontent.  (You'll have to sum the sample counts for the
+   functions below the main entry to get this number.)
+  </p><p>
+  The functions listed below the main entry are the functions called
+  directly from fpEvalHeaderSW_noncontent.  The associated sample counts are
+  totals for these functions and all their direct and indirect
+  callees <span class="emphasis"><em>while fpEvalHeaderSW_noncontent is active (on the
+  stack.)</em></span> The percentages are relative to the total for
+  fpEvalHeaderSW_noncontent.
+  </p><p>
+  The functions listed above the main entry for fpEvalHeaderSW_noncontent
+  are the direct callers of it.  The associated sample counts are for
+  fpEvalHeaderSW_noncontent when called by each function.
+  </p><p>
+  In particular, around 79% of the time spent in fpEvalHeaderSW_noncontent
+  and its direct and indirect callees happened when it was called form
+  fpEvalHeaderTcp.  Around 51% of the time when fpEvalHeaderSW_noncontent
+  was active was spent in the function itself.  About 15% of the time was in
+  CheckTcpFlags and any functions called directly or indirectly by
+  CheckTcpFlags.
+  </p></li><li><p>
+  Those who are more comfortable with <span><strong class="command">gprof</strong></span> can also
+  see the data collected by OProfile in the standard gprof format.
+  To do this you first use <span><strong class="command">tile-opgprof</strong></span> to generate the
+  <span><strong class="command">gprof</strong></span>-formatted data:
+  </p><code class="code">
+  tile-opgprof -o gmon.out archive:samples snort -p .,${TILERA_ROOT}/tile
+  </code><p>
+  This writes gmon.out in the current directory after which you can
+  run <span><strong class="command">tile-gprof</strong></span> with the pathname of your application:
+  </p><code class="code">
+  tile-gprof snort
+  </code><p>
+  Notice that the number of "calls" reported is the same as the number
+  of samples.  OProfile does not collect call counts, so this is just
+  an arbitrary substitution for the <span class="emphasis"><em>correct</em></span>
+  information. Hence, you can ignore call counts in these reports.
+  </p></li></ol></div></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor(1)</strong></span></a>, 
+<a href="tile-gprof.html" target="_top"><span><strong class="command">tile-gprof(1)</strong></span></a>, 
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

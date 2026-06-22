@@ -1,0 +1,140 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>pka</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="pka"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>pka &#8212; <code class="filename">/dev/pka*/*</code> special files for
+hardware acceleration of vector math operations used for public key
+authentication</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><pre class="synopsis">#include &lt;asm/pka.h&gt;
+#include &lt;gxio/pka.h&gt;</pre></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+The <code class="filename">/dev/pka*/*</code> special files provide user
+application access to the PKA acceleration hardware engines on the
+MiCA shims.  There is one /dev/pkaX directory per MiCA Crypto shim,
+where X represents the shim number in the directory name.  There is
+one special file for each command queue in the /dev/pka* directory.
+</p><p>
+Vector operations for public key authentication, such as modular
+exponentiation with Chinese remainder theorem for RSA authentication,
+can be offloaded from the core to the PKA engine via these special
+files.  The ioctls described here provide a direct interface to the
+PKA engine's command queue interface. 
+</p><p>
+Operations are placed onto the queue via the
+<code class="constant">PKA_QUEUE_CMD</code> ioctl, and the results of the command
+retrieved via the <code class="constant">PKA_DEQUEUE_RES</code> ioctl.  The
+commands and the format of the operands are documented in the I/O
+Device Guide (UG404) Appendix C.  The data structures used for these
+ioctls, <code class="constant">pka_cmd_desc_t</code> for commands and
+<code class="constant">pka_res_desc_t</code> for results, are defined in
+&lt;gxio/pka.h&gt;.
+</p><div class="refsect2" lang="en"><a name="configuration"></a><h3>Configuration</h3><p>
+By default, each pka device has 4 queues with 7 elements that are 2048
+bytes each. The number of queues and the size of the element in each
+queue can be changed at module load time or at Linux boot time via the
+module parameters.  The available memory is divided equally among the
+queues, and each queue is divided into as many elements as possible
+based on the specified element size.  The elements in each queue must
+be sized so as to fit all operands for the type of command that will
+be submitted to that queue.
+</p><p>
+Queue elements should be sized such that all operands (and any
+necessary padding) for a command can fit in the space allotted to the
+element.  See Appendix C of the I/O Device Guide (UG404) for
+information on the operand format for each of the supported commands.
+</p><p>
+Each pka major device is individually configurable via an array of
+module parameters.  The array index corresponds to the shim number.
+The module parameters are: 
+</p><div class="variablelist"><dl><dt><span class="term">num_hw_queues</span></dt><dd><p>The number of queues (1 - 4) to create.
+  Available space is divided equally amongst the number of queues
+  specified here.  The default is 4.</p></dd><dt><span class="term">q0_high_priority</span></dt><dd><p>If non-zero (true), queue 0 will receive high
+  priority.  The default is 0.</p></dd><dt><span class="term">q0_elem_size</span></dt><dd><p>The number of bytes to be used for the data portion
+  of each entry for queue 0.  The default is 2048.</p></dd><dt><span class="term">q1_elem_size</span></dt><dd><p>The number of bytes to be used for the data portion
+  of each entry for queue 1.  The default is 2048.</p></dd><dt><span class="term">q2_elem_size</span></dt><dd><p>The number of bytes to be used for the data portion
+  of each entry for queue 2.  The default is 2048.</p></dd><dt><span class="term">q3_elem_size</span></dt><dd><p>The number of bytes to be used for the data portion
+  of each entry for queue 3.  The default is 2048.</p></dd></dl></div><div class="refsect3" lang="en"><a name="example%20configuration"></a><h4>Example Configuration</h4><p>
+When booting with tile-monitor, the module parameters can be passed to
+the Linux boot command line via the --hvx switch.  For example,
+
+</p><pre class="programlisting">
+<span><strong class="command">tile-monitor</strong></span> <code class="option">--hvx</code> pka.num_hw_queues=1,2 <code class="option">--hvx</code> pka.q0_elem_size=1024,512  
+</pre><p>
+
+will configure the pka engine on shim 0 to use only one queue with
+elements with 1024 bytes of space for operands, and the pka engine on
+shim 1 to use two queues (512-byte elements on queue 0 and 2048-byte
+elements on queue 1).
+</p></div></div><div class="variablelist"><a name="ioctls"></a><p class="title"><b>Ioctls</b></p><dl><dt><a name="queue"></a><span class="term">
+<code class="constant">PKA_QUEUE_CMD</code> 
+</span></dt><dd><p>
+Place a command descriptor on the PKA engine's queue.  
+</p></dd><dt><a name="dequeue"></a><span class="term">
+<code class="constant">PKA_DEQUEUE_RES</code>
+</span></dt><dd><p>
+Retrieve the result of a completed command from the PKA engine's
+queue. 
+</p></dd></dl></div></div><div class="refsect1" lang="en"><a name="usage"></a><h2>Usage</h2><p>
+The <code class="constant">PKA_QUEUE_CMD</code> ioctl is used to place a vector
+math command on the queue for processing by the PKA engine.  A pointer
+to a <code class="constant">pka_cmd_desc_t</code> is passed as the argument to
+the ioctl.
+</p><p>
+The <code class="constant">PKA_DEQUEUE_RES</code> ioctl is used to retrieve the
+result of a vector math operation from the PKA engine's result queue.
+A pointer to a <code class="constant">pka_res_desc_t</code> is passed as the
+argument to the ioctl.
+</p></div><div class="refsect1" lang="en"><a name="errors"></a><h2>Errors</h2><div class="variablelist"><a name="queue-errors"></a><p class="title"><b>PKA_QUEUE_CMD errors:</b></p><dl><dt><span class="term">EBUSY</span></dt><dd><p>
+The command queue is full.
+</p></dd><dt><span class="term">EFAULT</span></dt><dd><p>
+Error placing command on the pka engine's queue.
+</p></dd></dl></div><p>
+There are certain restrictions on the values of the operands for some
+of the commands.  They are listed in the I/O Device Guide (UG404)
+Appendix C.  If these restrictions are not met, an incorrect result
+may be returned with no indication of an error.
+</p><div class="variablelist"><a name="dequeue-errors"></a><p class="title"><b>PKA_DEQUEUE_RES errors:</b></p><dl><dt><span class="term">EAGAIN</span></dt><dd><p>
+There are no completed results on the queue.
+</p></dd><dt><span class="term">EFAULT</span></dt><dd><p>
+Error dequeuing result from queue.
+</p></dd></dl></div></div><div class="refsect1" lang="en"><a name="seealso"></a><h2>See Also</h2><p>
+See the I/O Device Guide (UG404) for more information on the PKA
+acceleration engine and commands.
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

@@ -1,0 +1,443 @@
+<html>
+<title>usb_host_mac Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>USB Host MAC (0x10000-0x30050) : </b> 
+These registers control the USB Host MAC interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>10000<TD><a href="#USB_HOST_MAC_HCCAPBASE_REG">USB_HOST_MAC_HCCAPBASE_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10004<TD><a href="#USB_HOST_MAC_HCSPARAMS_REG">USB_HOST_MAC_HCSPARAMS_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10008<TD><a href="#USB_HOST_MAC_HCCPARAMS_REG">USB_HOST_MAC_HCCPARAMS_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10010<TD><a href="#USB_HOST_MAC_USBCMD_REG">USB_HOST_MAC_USBCMD_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10014<TD><a href="#USB_HOST_MAC_USBSTS_REG">USB_HOST_MAC_USBSTS_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10018<TD><a href="#USB_HOST_MAC_USBINTR_REG">USB_HOST_MAC_USBINTR_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1001c<TD><a href="#USB_HOST_MAC_FRINDEX_REG">USB_HOST_MAC_FRINDEX_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10020<TD><a href="#USB_HOST_MAC_CTRLDSSEGMENT_REG">USB_HOST_MAC_CTRLDSSEGMENT_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10024<TD><a href="#USB_HOST_MAC_PERIODICLISTBASE_REG">USB_HOST_MAC_PERIODICLISTBASE_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10028<TD><a href="#USB_HOST_MAC_ASYNCLISTADDR_REG">USB_HOST_MAC_ASYNCLISTADDR_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10050<TD><a href="#USB_HOST_MAC_CONFIGFLAG_REG">USB_HOST_MAC_CONFIGFLAG_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10054<TD><a href="#USB_HOST_MAC_PORTSC_REG">USB_HOST_MAC_PORTSC_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10090<TD><a href="#USB_HOST_MAC_INSNREG00_REG">USB_HOST_MAC_INSNREG00_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>10094<TD><a href="#USB_HOST_MAC_INSNREG01_REG">USB_HOST_MAC_INSNREG01_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>10098<TD><a href="#USB_HOST_MAC_INSNREG02_REG">USB_HOST_MAC_INSNREG02_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>1009c<TD><a href="#USB_HOST_MAC_INSNREG03_REG">USB_HOST_MAC_INSNREG03_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>100a0<TD><a href="#USB_HOST_MAC_INSNREG04_REG">USB_HOST_MAC_INSNREG04_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>100a4<TD><a href="#USB_HOST_MAC_INSNREG05_REG">USB_HOST_MAC_INSNREG05_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30000<TD><a href="#USB_HOST_MAC_OHCD_HC_REVISION_REG">USB_HOST_MAC_OHCD_HC_REVISION_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>30004<TD><a href="#USB_HOST_MAC_OHCD_HC_CONTROL_REG">USB_HOST_MAC_OHCD_HC_CONTROL_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30008<TD><a href="#USB_HOST_MAC_OHCD_HC_COMMAND_STATUS_REG">USB_HOST_MAC_OHCD_HC_COMMAND_STATUS_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>3000c<TD><a href="#USB_HOST_MAC_OHCD_HC_INTERRUPT_STATUS_REG">USB_HOST_MAC_OHCD_HC_INTERRUPT_STATUS_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30010<TD><a href="#USB_HOST_MAC_OHCD_HC_INTERRUPT_ENABLE_REG">USB_HOST_MAC_OHCD_HC_INTERRUPT_ENABLE_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>30014<TD><a href="#USB_HOST_MAC_OHCD_HC_INTERRUPT_DISABLE_REG">USB_HOST_MAC_OHCD_HC_INTERRUPT_DISABLE_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30018<TD><a href="#USB_HOST_MAC_OHCD_HC_HCCA_REG">USB_HOST_MAC_OHCD_HC_HCCA_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>3001c<TD><a href="#USB_HOST_MAC_OHCD_HC_PERIOD_CURRENT_ED_REG">USB_HOST_MAC_OHCD_HC_PERIOD_CURRENT_ED_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30020<TD><a href="#USB_HOST_MAC_OHCD_HC_CONTROL_HEAD_ED_REG">USB_HOST_MAC_OHCD_HC_CONTROL_HEAD_ED_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>30024<TD><a href="#USB_HOST_MAC_OHCD_HC_CONTROL_CURRENT_ED_REG">USB_HOST_MAC_OHCD_HC_CONTROL_CURRENT_ED_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30028<TD><a href="#USB_HOST_MAC_OHCD_HC_BULK_HEAD_ED_REG">USB_HOST_MAC_OHCD_HC_BULK_HEAD_ED_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>3002c<TD><a href="#USB_HOST_MAC_OHCD_HC_BULK_CURRENT_ED_REG">USB_HOST_MAC_OHCD_HC_BULK_CURRENT_ED_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30030<TD><a href="#USB_HOST_MAC_OHCD_HC_DONE_HEAD_REG">USB_HOST_MAC_OHCD_HC_DONE_HEAD_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>30034<TD><a href="#USB_HOST_MAC_OHCD_HC_FM_INTERVAL_REG">USB_HOST_MAC_OHCD_HC_FM_INTERVAL_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30038<TD><a href="#USB_HOST_MAC_OHCD_HC_FM_REMAINING_REG">USB_HOST_MAC_OHCD_HC_FM_REMAINING_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>3003c<TD><a href="#USB_HOST_MAC_OHCD_HC_FM_NUMBER_REG">USB_HOST_MAC_OHCD_HC_FM_NUMBER_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30040<TD><a href="#USB_HOST_MAC_OHCD_HC_PERIODIC_START_REG">USB_HOST_MAC_OHCD_HC_PERIODIC_START_REG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>30044<TD><a href="#USB_HOST_MAC_OHCD_HC_LS_THRESHOLD_REG">USB_HOST_MAC_OHCD_HC_LS_THRESHOLD_REG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30048<TD><a href="#USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_A">USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_A</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>3004c<TD><a href="#USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_B">USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_B</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>30050<TD><a href="#USB_HOST_MAC_OHCD_HC_RH_STATUS">USB_HOST_MAC_OHCD_HC_RH_STATUS</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="USB_HOST_MAC_HCCAPBASE_REG"></a>
+<br><br><h4>HCCAPBASE_REG (USB_HOST_MAC_HCCAPBASE_REG: 0x10000)</h4>
+Capability Register
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_HCCAPBASE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCCAPBASE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Capability Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_HCSPARAMS_REG"></a>
+<br><br><h4>HCSPARAMS_REG (USB_HOST_MAC_HCSPARAMS_REG: 0x10004)</h4>
+Structural Register
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_HCSPARAMS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCSPARAMS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Structural Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_HCCPARAMS_REG"></a>
+<br><br><h4>HCCPARAMS_REG (USB_HOST_MAC_HCCPARAMS_REG: 0x10008)</h4>
+Structural Register
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_HCCPARAMS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCCPARAMS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Structural Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_USBCMD_REG"></a>
+<br><br><h4>USBCMD_REG (USB_HOST_MAC_USBCMD_REG: 0x10010)</h4>
+USB Command
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_USBCMD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBCMD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Command</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_USBSTS_REG"></a>
+<br><br><h4>USBSTS_REG (USB_HOST_MAC_USBSTS_REG: 0x10014)</h4>
+USB Status
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_USBSTS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBSTS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Status</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_USBINTR_REG"></a>
+<br><br><h4>USBINTR_REG (USB_HOST_MAC_USBINTR_REG: 0x10018)</h4>
+USB Interrupt Enable
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_USBINTR_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBINTR_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Interrupt Enable</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_FRINDEX_REG"></a>
+<br><br><h4>FRINDEX_REG (USB_HOST_MAC_FRINDEX_REG: 0x1001c)</h4>
+USB Frame Index
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_FRINDEX_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRINDEX_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Frame Index</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_CTRLDSSEGMENT_REG"></a>
+<br><br><h4>CTRLDSSEGMENT_REG (USB_HOST_MAC_CTRLDSSEGMENT_REG: 0x10020)</h4>
+4G Segment Selector
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_CTRLDSSEGMENT_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>CTRLDSSEGMENT_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>4G Segment Selector</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_PERIODICLISTBASE_REG"></a>
+<br><br><h4>PERIODICLISTBASE_REG (USB_HOST_MAC_PERIODICLISTBASE_REG: 0x10024)</h4>
+Periodic Frame List Base Address Register
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_PERIODICLISTBASE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERIODICLISTBASE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Periodic Frame List Base Address Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_ASYNCLISTADDR_REG"></a>
+<br><br><h4>ASYNCLISTADDR_REG (USB_HOST_MAC_ASYNCLISTADDR_REG: 0x10028)</h4>
+Asynchronous List Address
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_ASYNCLISTADDR_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ASYNCLISTADDR_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Asynchronous List Address</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_CONFIGFLAG_REG"></a>
+<br><br><h4>CONFIGFLAG_REG (USB_HOST_MAC_CONFIGFLAG_REG: 0x10050)</h4>
+Configured Flag Register
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_CONFIGFLAG_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>CONFIGFLAG_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Configured Flag Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_PORTSC_REG"></a>
+<br><br><h4>PORTSC_REG (USB_HOST_MAC_PORTSC_REG: 0x10054)</h4>
+Port Status/Control
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_PORTSC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PORTSC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Port Status/Control</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG00_REG"></a>
+<br><br><h4>INSNREG00_REG (USB_HOST_MAC_INSNREG00_REG: 0x10090)</h4>
+Allows you to change the microframe length value (default is microframe SOF = 125 ms) to reduce the simulation time
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG00_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG00_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Allows you to change the microframe length value (default is microframe SOF = 125 ms) to reduce the simulation time</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG01_REG"></a>
+<br><br><h4>INSNREG01_REG (USB_HOST_MAC_INSNREG01_REG: 0x10094)</h4>
+Programmable Packet Buffer OUT/IN Thresholds
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG01_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG01_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Programmable Packet Buffer OUT/IN Thresholds</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG02_REG"></a>
+<br><br><h4>INSNREG02_REG (USB_HOST_MAC_INSNREG02_REG: 0x10098)</h4>
+Used only for debug purposes
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG02_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG02_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG03_REG"></a>
+<br><br><h4>INSNREG03_REG (USB_HOST_MAC_INSNREG03_REG: 0x1009c)</h4>
+Used only for debug purposes
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG03_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG03_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG04_REG"></a>
+<br><br><h4>INSNREG04_REG (USB_HOST_MAC_INSNREG04_REG: 0x100a0)</h4>
+Used only for debug purposes
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG04_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG04_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_INSNREG05_REG"></a>
+<br><br><h4>INSNREG05_REG (USB_HOST_MAC_INSNREG05_REG: 0x100a4)</h4>
+UTMI Configuration
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_INSNREG05_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG05_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>UTMI Configuration</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_REVISION_REG"></a>
+<br><br><h4>OHCD_HC_REVISION_REG (USB_HOST_MAC_OHCD_HC_REVISION_REG: 0x30000)</h4>
+OHCI Revision
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_REVISION_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_REVISION_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI Revision</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_CONTROL_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_REG (USB_HOST_MAC_OHCD_HC_CONTROL_REG: 0x30004)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_CONTROL_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_COMMAND_STATUS_REG"></a>
+<br><br><h4>OHCD_HC_COMMAND_STATUS_REG (USB_HOST_MAC_OHCD_HC_COMMAND_STATUS_REG: 0x30008)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_COMMAND_STATUS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_COMMAND_STATUS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_INTERRUPT_STATUS_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_STATUS_REG (USB_HOST_MAC_OHCD_HC_INTERRUPT_STATUS_REG: 0x3000c)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_INTERRUPT_STATUS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_STATUS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_INTERRUPT_ENABLE_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_ENABLE_REG (USB_HOST_MAC_OHCD_HC_INTERRUPT_ENABLE_REG: 0x30010)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_INTERRUPT_ENABLE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_ENABLE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_INTERRUPT_DISABLE_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_DISABLE_REG (USB_HOST_MAC_OHCD_HC_INTERRUPT_DISABLE_REG: 0x30014)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_INTERRUPT_DISABLE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_DISABLE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_HCCA_REG"></a>
+<br><br><h4>OHCD_HC_HCCA_REG (USB_HOST_MAC_OHCD_HC_HCCA_REG: 0x30018)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_HCCA_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_HCCA_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_PERIOD_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_PERIOD_CURRENT_ED_REG (USB_HOST_MAC_OHCD_HC_PERIOD_CURRENT_ED_REG: 0x3001c)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_PERIOD_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_PERIOD_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_CONTROL_HEAD_ED_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_HEAD_ED_REG (USB_HOST_MAC_OHCD_HC_CONTROL_HEAD_ED_REG: 0x30020)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_CONTROL_HEAD_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_HEAD_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_CONTROL_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_CURRENT_ED_REG (USB_HOST_MAC_OHCD_HC_CONTROL_CURRENT_ED_REG: 0x30024)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_CONTROL_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_BULK_HEAD_ED_REG"></a>
+<br><br><h4>OHCD_HC_BULK_HEAD_ED_REG (USB_HOST_MAC_OHCD_HC_BULK_HEAD_ED_REG: 0x30028)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_BULK_HEAD_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_BULK_HEAD_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_BULK_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_BULK_CURRENT_ED_REG (USB_HOST_MAC_OHCD_HC_BULK_CURRENT_ED_REG: 0x3002c)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_BULK_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_BULK_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_DONE_HEAD_REG"></a>
+<br><br><h4>OHCD_HC_DONE_HEAD_REG (USB_HOST_MAC_OHCD_HC_DONE_HEAD_REG: 0x30030)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_DONE_HEAD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_DONE_HEAD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_FM_INTERVAL_REG"></a>
+<br><br><h4>OHCD_HC_FM_INTERVAL_REG (USB_HOST_MAC_OHCD_HC_FM_INTERVAL_REG: 0x30034)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_FM_INTERVAL_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_INTERVAL_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_FM_REMAINING_REG"></a>
+<br><br><h4>OHCD_HC_FM_REMAINING_REG (USB_HOST_MAC_OHCD_HC_FM_REMAINING_REG: 0x30038)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_FM_REMAINING_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_REMAINING_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_FM_NUMBER_REG"></a>
+<br><br><h4>OHCD_HC_FM_NUMBER_REG (USB_HOST_MAC_OHCD_HC_FM_NUMBER_REG: 0x3003c)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_FM_NUMBER_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_NUMBER_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_PERIODIC_START_REG"></a>
+<br><br><h4>OHCD_HC_PERIODIC_START_REG (USB_HOST_MAC_OHCD_HC_PERIODIC_START_REG: 0x30040)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_PERIODIC_START_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_PERIODIC_START_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_LS_THRESHOLD_REG"></a>
+<br><br><h4>OHCD_HC_LS_THRESHOLD_REG (USB_HOST_MAC_OHCD_HC_LS_THRESHOLD_REG: 0x30044)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_LS_THRESHOLD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_LS_THRESHOLD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_A"></a>
+<br><br><h4>OHCD_HC_RH_DESCRIPTOR_A (USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_A: 0x30048)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_A.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_DESCRIPTOR_A</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_B"></a>
+<br><br><h4>OHCD_HC_RH_DESCRIPTOR_B (USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_B: 0x3004c)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_RH_DESCRIPTOR_B.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_DESCRIPTOR_B</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCD_HC_RH_STATUS"></a>
+<br><br><h4>OHCD_HC_RH_STATUS (USB_HOST_MAC_OHCD_HC_RH_STATUS: 0x30050)</h4>
+see OHCI Specification
+<br><img src="usb_host_mac_pics/USB_HOST_MAC_OHCD_HC_RH_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

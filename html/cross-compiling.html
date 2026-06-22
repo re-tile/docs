@@ -1,0 +1,518 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Richard Schooler">
+   <link rel=stylesheet type="text/css" href="../tilera.css" title="Tilera Style">
+   <TITLE>Compiling for the TILE Architecture</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#CCFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+
+<H1 class=title>
+Compiling for the TILE Architecture
+</H1>
+
+<p> This application note describes the processing of building applications
+for the TILE architecture, especially open source packages using the standard
+<code>configure</code> mechanism.
+
+<h1>Overview</h1>
+
+<p>Conventional <em>native</em> compilation means building an
+application on the same platform on which it will run.  For example,
+in the usual process of building and running a program on Linux, the
+compiler and the program both run on the same Linux system:
+
+<pre>
+$ cc -o hello hello.c
+$ ./hello
+"Hello, world!"
+</pre>
+
+<p><em>Cross</em> compilation, in comparison, means building on one platform
+(called the <em>build</em> platform), and running the resulting
+program on another platform (usually called the <em>target</em>, though
+<code>configure</code> confusingly calls it the <em>host</em> platform).
+The appropriate compiler must be used: one that runs on the build
+platform and is configured to produce code for the target platform.
+And the resulting program must be transferred to the target platform
+and executed there.  For instance:
+
+<pre>
+$ tile-cc -o hello hello.c
+$ tile-monitor --pci --upload hello /tmp/hello -- /tmp/hello
+"Hello, world!"
+</pre>
+
+<p>Native compilation is the norm on "full" distributions such as a
+typical Linux workstation, while cross compilation is the norm for
+embedded systems.  The Tilera platform has elements of both, and
+supports both modes.  Some pros and cons:
+
+<ul>
+
+<li>Native compilation is typically more straightforward, and some
+packages are difficult to cross-compile, since their build systems are
+not set up for it.
+
+<li>Native compilation requires all the build tools to be ported to
+the build system, so build systems requiring non-standard build tools
+may not work out of the box.
+
+<li>Cross compilation allows running the tools on the familiar
+development host platform, with all the resources of the host,
+including more direct access to the file systems.
+
+</ul>
+
+<h1>Native Compilation</h1>
+
+<p>In general, we recommend trying native compilation first.  One
+general technique is to exploit <code>tile-monitor</code>'s ability to
+mount host filesystems or copy files to and from the TILE target, for
+two purposes:
+
+<ul>
+
+<li>To make available the extended tools (such as native compilers and
+full set of libraries) which are not part of the standard RAM-based
+distribution.  Use the <code>--root</code> command to mount the
+necessary directories from the the MDE's <code>tile</code> directory
+(<code>/usr</code>, <code>/lib</code>, etc.).
+
+<li>To make available the host working directories.  A very convenient
+technique is to start <code>tile-monitor</code> in the package build
+directory, and use the <code>--here</code> command to mount it on the
+TILE processor.  One can also use <code>--mount-same</code> to make
+other host directories available, such as explicit source and build
+directories.  Or use <code>--upload</code> to copy your source files
+to the TILE processor, and <code>--download</code> to copy important
+files from the build directory back to the host.  (The "upload"
+technique takes more time initially, but may be faster overall.)
+
+</ul>
+
+<p>With these mounts or copies in place, the build environment is
+essentially identical to building on the host, and one can run
+commands like <code>configure</code> and <code>make</code> with build
+results being written under the current working directory on the host.
+
+<p>Another general technique is to build a disk-based server,
+unpacking the "tile" tarball to create persistent disk image (see the
+Getting Started guide, UG204.)  This server can be used just like any
+general-purpose Linux server, using <code>ssh</code> to log in,
+<code>scp</code> or NFS to transfer files, etc.
+
+<h2>Example: MySQL</h2>
+
+<p>MySQL is a good example of a package that is quite difficult to
+cross compile, since its build system is not set up for it.  See the
+following sections for more information on <code>make</code> and
+<code>configure</code>.
+
+<p>For instance, assuming you have extracted the <code>mysql</code>
+package into <code>/u/user/mysql-5.0.45</code>, and wish to build
+it in place:
+
+<pre>
+$ cd /u/user/mysql-5.0.45
+$ tile-monitor --pci --root --here
+Command: run configure --prefix=/u/user/mysql-5.0.45/install --build=tilegx-unknown-linux-gnu
+Command: run make
+Command: run make install
+</pre>
+
+<p>In a host makefile or script, one could replace the interactive
+<code>tile-monitor</code> commands above with
+<code>tile-monitor</code> command-line options.  One can use
+build parallelism options such as <code>make -j <em>n</em></code> to
+speed up the build, but watch out for two caveats:
+
+<ul>
+
+<li>If the TILE system is just running with a RAM filesystem, there is
+in general no swapping support, so excess consumption of memory from
+many parallel build processes may crash the system.
+
+<li>If file systems are mounted, build performance is often gated by
+host file access, so parallel speedup may be limited.
+
+</ul>
+
+<h1>Makefiles</h1>
+
+<p>Of course in general applications are not simply built on the
+command-line; the build process is automated using the <code>make</code>
+command, with the build rules specified in one or more
+<em>makefiles</em>.  A trivial example is:
+
+<pre>
+# Sample hello Makefile
+
+hello: hello.c
+	$(CC) -o $@ hello.c
+
+clean:
+	rm hello
+</pre>
+
+<p>Note that the compiler is specified with the variable
+<code>$(CC)</code>.  By default, <code>$(CC)</code> will evaluate to the
+native compiler <code>cc</code>.  But we can override it with a
+cross-compiler as follows:
+
+<pre>
+$ make clean hello CC=tile-gcc
+rm hello
+tile-gcc -o hello hello.c
+</pre>
+
+<p>Makefiles may also invoke other tools, such as <code>$(LD)</code>
+(the linker) and <code>$(AS)</code> (the assembler) which can be
+overridden with <code>tile-ld</code> and <code>tile-as</code>,
+respectively.
+
+<p>For cross compilation, if a Makefile invokes tools such as
+<code>cc</code> or <code>gcc</code> directly, such references should
+be replaced with variables as above.
+
+<h1><code>Configure</code></h1>
+
+<p>More complex open-source packages typically use the tool
+<code>configure</code> to create a custom Makefile on a particular system.
+By default <code>configure</code> assumes native compilation, and will
+automatically probe the build system to determine the tools and
+libraries available, among other properties, in order to create the
+appropriate Makefile.
+
+<p>Run <code>configure --help</code> to see all the options.  For
+native builds, it may be necessary to specify
+<code>--build=tilegx-unknown-linux-gnu</code>.
+
+<p>For cross compilation, the most important option is
+<code>--host=HOST</code>.  The <code>HOST</code> string is looked up
+in the <code>config.sub</code> file to set some other parameters, such
+as the host operating system and machine architecture.
+
+<p>We wish to use <code>HOST=tilegx-unknown-linux-gnu</code>, but the <code>tile</code>
+architecture is not yet standard, so may not exist in the
+<code>config.sub</code> file.  If necessary, copy the customized
+<code>config.sub</code> and <code>config.guess</code> files from the
+the MDE's distribution's <code>etc/</code> directory, for instance
+with:
+
+<pre>
+    for name in config.guess config.sub; do
+        for path in `find . -name $name`; do
+            cp -f $TILERA_ROOT/etc/$name $path
+        done
+    done
+</pre>
+
+<p>Then we can run <code>./configure --host=tilegx-unknown-linux-gnu</code>.  If the MDE
+tools are in the executable search path, then <code>configure</code> will
+find <code>tile-gcc</code>, and
+incorporate it as the value for <code>$(CC)</code> in the generated
+Makefile.
+
+<p>While <code>make</code> will create the package, in general one
+wants to run <code>make install</code> to actually create a
+distribution.  By default, the generated Makefile will attempt to
+install on the build system, so use the <code>configure</code>
+<code>--prefix</code> option to specify a path prefix for the
+distribution to be built.
+
+<h2>Example 1: PCRE</h2>
+
+<p>A simple example is PCRE, version 7.4.  For simplicity, we also
+specify <code>--disable-cpp</code> to omit the C++ wrappers.  (PCRE
+comes with a good README file that explains options such as this one.)
+
+<pre>
+$ ./configure --host=tilegx-unknown-linux-gnu --disable-cpp
+$ make
+</pre>
+
+<h2>Example 2: libpcap</h2>
+
+<p>In general, the above steps are not quite sufficient.
+
+<p>For example, let's consider a fairly simple package, the packet
+sniffer library <code>libpcap</code>, version 0.9.8.  if we go through
+the above steps, <code>configure</code> will find
+<code>tile-gcc</code> and so on, and then fail with:
+
+<pre>
+configure: error: pcap type not determined when cross-compiling; use --with-pcap=...
+</pre>
+
+<p>The <code>--with-pcap</code> parameter is specific to libpcap, and
+specifies the type of network interface.  The problem is that by
+default, libpcap's <code>configure</code> will probe the build system for
+the type of network interface, but it cannot do that for
+cross-compilation, since it does not have access to the host system,
+and thus requires this parameter to be set by the user.  Let's use
+<code>linux</code> to specify using the <code>socket</code> interface:
+
+<pre>
+$ ./configure --host=tilegx-unknown-linux-gnu --with-pcap=linux
+        :
+checking Linux kernel version... unknown
+configure: error: cannot determine linux version when cross-compiling
+</pre>
+
+<p>Now what?  This is a similar problem: normally <code>configure</code>
+gets the Linux version from the build system, but with
+cross-compilation, does not have access to the host system.  Again,
+the solution is to supply the parameter explicitly.  In this case, by
+inspection of the <code>configure</code> script, we need to set a variable
+called <code>ac_cv_linux_vers</code>:
+
+<pre>
+$ ./configure --host=tilegx-unknown-linux-gnu --with-pcap=linux ac_cv_linux_vers=2.6.15
+        :
+config.status: creating Makefile
+        :
+</pre>
+
+<p>This time it worked, and we can build:
+
+<pre>
+$ make clean
+$ make
+tile-gcc -O -fPIC -I.  -DHAVE_CONFIG_H  -D_U_="__attribute__((unused))" -c ./pcap-linux.c
+        :
+tile-ranlib libpcap.a
+</pre>
+
+<h2>Example 3: openssh</h2>
+
+<p>Another complication is <code>configure</code> scripts that attempt to
+run programs on the host system as part of the build process.  With
+native compilation, this is not a problem, since the host and build
+systems are the same.  But with cross-compilation, we must run those
+programs on the host system.  
+
+<p>For instance, with <code>openssh</code>, version 4.4p1, we first need
+to have an <code>openssl</code> build (see below), and then we can run
+<code>configure</code> with say:
+
+<pre>
+./configure --host=tilegx-unknown-linux-gnu --with-ssl-dir=/u/user/openssl-0.9.8g/install --prefix=/u/user/openssh-4.4p1/install
+</pre>
+
+<p>Building, we get:
+
+<pre>
+$ make install
+        :
+/bin/sh: line 4: ./ssh-keygen: cannot execute binary file
+/bin/sh: line 9: ./ssh-keygen: cannot execute binary file
+/bin/sh: line 14: ./ssh-keygen: cannot execute binary file
+make: *** [host-key] Error 126
+</pre>
+
+<p>Examining the Makefile, particularly the <code>host-key</code>
+rule, we see it is running the built <code>ssh_host_key</code>
+program.  So we need to run this command on the host.  The rule
+immediately below, <code>host-key-force</code> is a simpler version
+that when run will conveniently print out the commands, e.g.:
+
+<pre>
+$ make host-key-force
+./ssh-keygen -t rsa1 -f /u/user/openssh-4.4p1/install/etc/ssh_host_key -N ""
+</pre>
+
+<p>We can run this on the host via <code>tile-monitor</code> as follows:
+
+<pre>
+~/p4/build/install/bin/tile-monitor --pci \
+  --upload ./ssh-keygen /tmp/ssh-keygen \
+  --when-idle --download /tmp/ssh-host-key \
+    /u/user/openssh-4.4p1/install/etc/ssh_host_key \
+  --download /tmp/ssh-host-key.pub \
+    /u/user/openssh-4.4p1/install/etc/ssh_host_key.pub \
+  -- /tmp/ssh-keygen -t rsa1 -f /tmp/ssh-host-key -N ""
+</pre>
+
+<p>This somewhat complex command will upload the executable, run it,
+and then download the two generated files to the appropriate
+destination.  The output is:
+
+<pre>
+Generating public/private rsa1 key pair.
+Your identification has been saved in /tmp/ssh-host-key.
+Your public key has been saved in /tmp/ssh-host-key.pub.
+The key fingerprint is:
+58:99:b4:5f:0a:19:ca:fa:8d:46:bd:73:ae:cc:e5:91 root@localhost
+</pre>
+
+<p>We can modify the two other commands in the
+<code>host-key-force</code> rule similarly.
+
+<p>Now <code>make install</code> will succeed, since the generated key
+files have been created.  There is one additional problem:
+
+<pre>
+$ make install
+/u/user/openssh-4.4p1/install/sbin/sshd -t -f /u/user/openssh-4.4p1/install/etc/sshd_config
+/u/user/openssh-4.4p1/install/sbin/sshd: /u/user/openssh-4.4p1/install/sbin/sshd: cannot execute binary file
+make: [check-config] Error 126 (ignored)
+</pre>
+
+<p>The <code>check_config</code> rule does not produce any files, it
+merely runs <code>sshd</code> to check the
+<code>sshd_config</code>file.  We can verify this manually by running
+another <code>tile-monitor</code> command to run <code>sshd</code> on the
+Tile host, and then comment out the <code>check_config</code> rule to
+allow the <code>make</code> to succeed.
+
+<h2>Example 4: texinfo</h2>
+
+<p>Some packages attempt to resolve the problem of building build-time
+tools by creating a parallel directory for building native build
+tools.  An example is <code>texinfo</code>, version 4.11.  Indeed it gets
+it almost right, with just one apparent bug in a Makefile.
+
+<p>A specific wrinkle with <code>texinfo</code> is that the
+<code>config.sub</code> file is not in the usual place, but rather in
+<code>build-aux/config.sub</code>; this is pointed out by running
+<code>configure</code> as usual:
+
+<pre>
+$ ./configure --host=tilegx-unknown-linux-gnu --prefix=/u/user/texinfo-4.11/install
+         :
+checking host system type... Invalid configuration `tile': machine `tile' not recognized
+configure: error: /bin/sh build-aux/config.sub tile failed
+</pre>
+
+<p>Once we edit the <code>build-aux/config.sub</code> file to add the
+<code>tile</code> block as usual, <code>configure</code> succeeds.
+
+<p>Unfortunately, building fails:
+
+<pre>
+$ make
+        :
+make[4]: *** No rule to make target `../gnulib/lib/libgnu.a', needed by `makedoc'.  Stop.
+make[4]: Leaving directory `/u/user/texinfo-4.11/tools/info'
+</pre>
+
+<p>The problem is that we need to build in the <code>tools/gnulib/lib</code>
+directory before building in the <code>tools/info</code> directory.
+<code>tools/Makefile</code> specifies:
+
+<pre>
+#SUBDIRS = $(native_tools) gnulib/lib lib info makeinfo po util doc
+SUBDIRS = lib info makeinfo util
+</pre>
+
+<p>So it seems reasonable to just reverse the commenting.  In this
+makefile, <code>$(native_tools)</code> expands to blank, and this will
+recurse into <code>gnulib/lib</code> before <code>lib</code>.  (It's
+quite possible we don't really need the additional directories such as
+<code>makeinfo</code>.) 
+
+<p>So trying again, we get a lot further, building the native tools,
+and invoking <code>tile-gcc</code> to build host tools.  Finally there is
+an error due to a dependence on the <code>curses</code> library:
+
+<pre>
+$ make
+        :
+terminal.o: In function `terminal_initialize_terminal':
+/u/user/texinfo-4.11/info/terminal.c:617: undefined reference to `tgetflag'
+make[3]: *** [ginfo] Error 2
+make[3]: Leaving directory `/u/user/texinfo-4.11/info'
+</pre>
+
+<p>The solution is to build <code>curses</code> (in this case using
+<code>ncurses-5.6</code>) and then re-configuring to pick up that
+dependence.  There do not appear to be specific options to specify
+locations for libraries, so the generic variables are used to specify
+include and link paths:
+
+<pre>
+./configure --host=tilegx-unknown-linux-gnu --prefix=/u/user/texinfo-4.11/install \
+  LDFLAGS=-L/u/user/ncurses-5.6/install/lib/ \
+  CPPFLAGS=-I/u/user/ncurses-5.6/install/include/ncurses/
+</pre>
+
+<p>At this point, the build succeeds:
+
+<pre>
+$ make
+$ make install
+</pre>
+
+<h1>Other Build Systems</h1>
+
+<p>Not all packages use <code>configure</code>, or at least the standard
+version generated by <code>Autoconf</code>.  For instance,
+<code>openssl</code> (at least version 0.9.8g) uses a script called
+<code>Configure</code> (note capital 'C') that does not use a
+<code>config.sub</code> file, but rather has a set of host
+configurations embedded in it.
+
+<p>The workflow for native builds is to use the <code>./config</code>
+script to identify the build system, and run <code>./Configure</code>
+using that as the host system.  That will not work for
+cross-compiling.
+
+<p>A simple solution is to use the generic <code>cc</code>
+configuration, and then override the compiler explicitly:
+
+<pre>
+$ ./Configure cc --prefix=/u/user/openssl-0.9.8g/install
+$ make CC=tile-gcc
+$ make CC=tile-gcc install
+</pre>
+
+<p>For this simple package, this appears to be sufficient.  In
+practice, one should probably add a <code>tile</code> platform line to
+<code>Configure</code>, specifying better optimization options and
+more specific pre-processor symbols.
+
+<h1>Copyright</h1>
+
+<small>
+
+<p>
+Copyright 2014 Tilera Corporation. All Rights Reserved.
+</p>
+
+<p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p>
+
+</small>
+
+</body>
+</html>

@@ -1,0 +1,524 @@
+<html>
+<title>gpio Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>GPIO (0x0000-0x3100) : </b> 
+These registers provide controls for the GPIO interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TH><font color="#FFFFCC"> Protection
+<TR bgcolor="#DBDDB5"><TD>0000-ffffffffff<TD><a href="#GPIO_MMIO_ADDRESS_SPACE">GPIO_MMIO_ADDRESS_SPACE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0000<TD><a href="#GPIO_DEV_INFO">GPIO_DEV_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0008<TD><a href="#GPIO_DEV_CTL">GPIO_DEV_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0010<TD><a href="#GPIO_MMIO_INFO">GPIO_MMIO_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0018<TD><a href="#GPIO_MEM_INFO">GPIO_MEM_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0020<TD><a href="#GPIO_SCRATCHPAD">GPIO_SCRATCHPAD</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0028<TD><a href="#GPIO_SEMAPHORE0">GPIO_SEMAPHORE0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0030<TD><a href="#GPIO_SEMAPHORE1">GPIO_SEMAPHORE1</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>0038<TD><a href="#GPIO_CLOCK_COUNT">GPIO_CLOCK_COUNT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0100<TD><a href="#GPIO_GCLK_MODE">GPIO_GCLK_MODE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0200<TD><a href="#GPIO_MMIO_INIT_CTL">GPIO_MMIO_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0208<TD><a href="#GPIO_MMIO_INIT_DAT">GPIO_MMIO_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0208<TD><a href="#GPIO_MMIO_INIT_DAT_0">GPIO_MMIO_INIT_DAT_0</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0208<TD><a href="#GPIO_MMIO_INIT_DAT_1">GPIO_MMIO_INIT_DAT_1</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0600<TD><a href="#GPIO_MMIO_ERROR_INFO">GPIO_MMIO_ERROR_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0700-08ff<TD><a href="#GPIO_PAD_CONTROL">GPIO_PAD_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1000<TD><a href="#GPIO_PIN_STATE">GPIO_PIN_STATE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1008<TD><a href="#GPIO_PIN_RELEASE">GPIO_PIN_RELEASE</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1010<TD><a href="#GPIO_PIN_PULSE_SET">GPIO_PIN_PULSE_SET</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1018<TD><a href="#GPIO_PIN_PULSE_CLR">GPIO_PIN_PULSE_CLR</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1020<TD><a href="#GPIO_PIN_SET">GPIO_PIN_SET</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1028<TD><a href="#GPIO_PIN_CLR">GPIO_PIN_CLR</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1040<TD><a href="#GPIO_PIN_DIR_I">GPIO_PIN_DIR_I</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>1048<TD><a href="#GPIO_PIN_DIR_O">GPIO_PIN_DIR_O</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>1050<TD><a href="#GPIO_PIN_OUTPUT_TGL">GPIO_PIN_OUTPUT_TGL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1058<TD><a href="#GPIO_PIN_OUTPUT_INV">GPIO_PIN_OUTPUT_INV</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1060<TD><a href="#GPIO_PIN_OUTPUT_MSK">GPIO_PIN_OUTPUT_MSK</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1070<TD><a href="#GPIO_PIN_INPUT_SYNC">GPIO_PIN_INPUT_SYNC</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1088<TD><a href="#GPIO_PIN_INPUT_INV">GPIO_PIN_INPUT_INV</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1090<TD><a href="#GPIO_PIN_INPUT_MSK">GPIO_PIN_INPUT_MSK</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1098<TD><a href="#GPIO_PIN_INPUT_CND">GPIO_PIN_INPUT_CND</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>3000<TD><a href="#GPIO_INT_VEC0_W1TC">GPIO_INT_VEC0_W1TC</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3008<TD><a href="#GPIO_INT_VEC0_RTC">GPIO_INT_VEC0_RTC</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>3010<TD><a href="#GPIO_INT_VEC1_W1TC">GPIO_INT_VEC1_W1TC</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3018<TD><a href="#GPIO_INT_VEC1_RTC">GPIO_INT_VEC1_RTC</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>3100<TD><a href="#GPIO_INT_BIND">GPIO_INT_BIND</a> <TD>2</TR>
+</TABLE>
+<br><br><h3>General Address Space Definitions</h3>
+<a name="GPIO_MMIO_ADDRESS_SPACE"></a>
+<br><br><h4>MMIO Address Space (GPIO_MMIO_ADDRESS_SPACE: 0x0000-0xffffffffff)</h4>
+The MMIO physical address space for the USB is described below.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="gpio_pics/GPIO_MMIO_ADDRESS_SPACE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:37</TD> <TD>SVC_DOM</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address indexes the 8 entry service domain table.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address provides an offset into the region being accessed.</TD> </TR>
+</TABLE><br><br>
+<br><br><h3>Register Definitions</h3>
+<a name="GPIO_DEV_INFO"></a>
+<br><br><h4>Device Info (GPIO_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="gpio_pics/GPIO_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>020h</TD> <TD>Encoded device Type - 32 to indicate GPIO<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="GPIO_DEV_CTL"></a>
+<br><br><h4>Device Control (GPIO_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (GPIO_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="gpio_pics/GPIO_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>8</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>3</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of channels associated with this IO port.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MEM_INFO"></a>
+<br><br><h4>Memory Info (GPIO_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="gpio_pics/GPIO_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (GPIO_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="gpio_pics/GPIO_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (GPIO_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="gpio_pics/GPIO_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (GPIO_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><br><I>This register is protected at level 1</I>
+<br><img src="gpio_pics/GPIO_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (GPIO_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="gpio_pics/GPIO_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_GCLK_MODE"></a>
+<br><br><h4>GPIO Clock Mode (GPIO_GCLK_MODE: 0x0100)</h4>
+GPIO Clock Mode
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_GCLK_MODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:12</TD> <TD>DIVIDE</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of extra gclk cycles per IO drive/sample cycle.  0 indicates drive/sample every cycle.  1 indicates 1 extra cycle so 2 gclks per drive/sample etc.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>TRANS_PEND</TD> <TD>RO</TD> <TD>0</TD> <TD>clock mux transition pending</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CMODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Clock source for the GPIO interface.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>REF_CLOCK</TD><TD>Core Reference Clock</TD></TR>
+   <TR><TD>1</TD><TD>HALF_CORE_CLOCK_FREQ</TD><TD>Half Core Clock Frequency</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_INIT_CTL"></a>
+<br><br><h4>MMIO Service Domain Configuration (GPIO_MMIO_INIT_CTL: 0x0200)</h4>
+Initialization control for the MMIO service domain table
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_MMIO_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into service domain table.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_INIT_DAT"></a>
+<br><br><h4>MMIO service domain table data (GPIO_MMIO_INIT_DAT: 0x0208)</h4>
+Read/Write data for the service domain table.  Each time this register is read or written, MMIO_INIT_CTL.IDX is incremented.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_MMIO_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Service domain table data.  Contents may be either MMIO_INIT_DAT_0 or MMIO_INIT_DAT_1, depending on the IDX value in MMIO_INIT_CTL.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_INIT_DAT_0"></a>
+<br><br><h4>MMIO service domain table data - low word (GPIO_MMIO_INIT_DAT_0: 0x0208)</h4>
+Read/Write data for the service domain table.  Each time this register is read or written, MMIO_INIT_CTL.IDX is incremented.  Each entry consists of two words, addressed by MMIO_INIT_CTL.IDX[0].  Each bit in an entry corresponds to a service or set of services.  A set bit allows access to that service for MMIO accesses that address this service domain table entry.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_MMIO_INIT_DAT_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PIN_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>A set bit allows access to the corresponding GPIO pin. If access is disabled, the pin will read as 0 and no transitions will be detected. All output or drive enable to a disabled pin will be ignored.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_INIT_DAT_1"></a>
+<br><br><h4>MMIO service domain table data - high word (GPIO_MMIO_INIT_DAT_1: 0x0208)</h4>
+Read/Write data for the service domain table.  Each time this register is read or written, MMIO_INIT_CTL.IDX is incremented.  Each entry consists of two words, addressed by MMIO_INIT_CTL.IDX[0].  Each bit in an entry corresponds to a service or set of services.  A set bit allows access to that service for MMIO accesses that address this service domain table entry.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_MMIO_INIT_DAT_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>CFG_PROT_LEVEL</TD> <TD>RW</TD> <TD>3</TD> <TD>This field indicates the maximum protection level allowed for configuration access.  2/3 allows access to all registers.  1 blocks access to level 2.  0 blocks access to levels 1 and 2.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_MMIO_ERROR_INFO"></a>
+<br><br><h4>MMIO Error Information (GPIO_MMIO_ERROR_INFO: 0x0600)</h4>
+Provides diagnostics information when an MMIO error occurs.  Captured whenever the MMIO_ERR interrupt condition occurs
+<br><img src="gpio_pics/GPIO_MMIO_ERROR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>58:54</TD> <TD>OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Opcode of request.  MMIO supports only MMIO_READ (0x0e) and MMIO_WRITE (0x0f).  All others are reserved and will only occur on a misconfigured TLB.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>53:12</TD> <TD>PA</TD> <TD>RO</TD> <TD>0</TD> <TD>Full PA from request.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Encoded request size.  0=1B, 1=2B, 2=4B, 3=8B, 4=16B, 5=32B, 6=48B, 7=64B.  MMIO operations to GPIO must always be 8 bytes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>SRC</TD> <TD>RO</TD> <TD>0</TD> <TD>Source Tile in {x[3:0],y[3:0]} format.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PAD_CONTROL"></a>
+<br><br><h4>Pad Electrical Controls (GPIO_PAD_CONTROL: 0x0700-0x08ff)</h4>
+Pad Electrical Controls
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_PAD_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>SCHM</TD> <TD>RW</TD> <TD>0</TD> <TD>Schmitt trigger select<br>
+0: no Schmitt trigger<br>
+1: Schmitt trigger</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>PD</TD> <TD>RW</TD> <TD>0</TD> <TD>1: enable pull-down resistor</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>PU</TD> <TD>RW</TD> <TD>0</TD> <TD>1: enable pull-up resistor</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>SL</TD> <TD>RW</TD> <TD>0</TD> <TD>Slew rate control<br>
+00 = slowest<br>
+11 = fastest</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SUS</TD> <TD>RW</TD> <TD>0</TD> <TD>1: Enable sustain (keeper), requires about 100 uA to flip the state <br>
+0: no keeper <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>STRENGTH</TD> <TD>RW</TD> <TD>3</TD> <TD>Drive strength. <br>
+0 = tristate<br>
+1 = 2 ma<br>
+2 = 4 ma<br>
+3 = 6 ma<br>
+4 = 8 ma<br>
+5 = 10 ma<br>
+6 = 12 ma<br>
+7 = RESERVED</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_STATE"></a>
+<br><br><h4>Pin State (GPIO_PIN_STATE: 0x1000)</h4>
+Pin State
+<br><img src="gpio_pics/GPIO_PIN_STATE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, returns the pin state after conditional inversion controlled by PIN_INPUT_INV for all enabled pins and 0 for all disabled pins. Pins are enabled for read if the bit is set in SVC_DOM PIN_ENABLE field and clear in the PIN_INPUT_MSK. When written, the value will be modified by PIN_OUTPUT_INV and will be driven on the enabled output pins. Pins are enabled for output if the SVC_DOM PIN_ENABLE field is set, PIN_DIR_O is set, and the PIN_OUTPUT_MSK is clear.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_RELEASE"></a>
+<br><br><h4>Pin Release (GPIO_PIN_RELEASE: 0x1008)</h4>
+Pin Release
+<br><img src="gpio_pics/GPIO_PIN_RELEASE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>REL</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing a 1 to a bit will disable the output driver for enabled pins.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_PULSE_SET"></a>
+<br><br><h4>Pin Pulse Set (GPIO_PIN_PULSE_SET: 0x1010)</h4>
+Pin Pulse Set
+<br><img src="gpio_pics/GPIO_PIN_PULSE_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PULSE_SET</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing a 1 to a bit will assert the output pin for a single time slice.  Pins configured as outputs will return to the previous output drive state and drive value after 1 time slice.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_PULSE_CLR"></a>
+<br><br><h4>Pin Pulse Clear (GPIO_PIN_PULSE_CLR: 0x1018)</h4>
+Pin Pulse Clear
+<br><img src="gpio_pics/GPIO_PIN_PULSE_CLR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PULSE_CLR</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing a 1 to a bit will deassert the output pin for a single time slice.  Pins configured as outputs will return to the previous output drive state and drive value after 1 time slice.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_SET"></a>
+<br><br><h4>Pin Set (GPIO_PIN_SET: 0x1020)</h4>
+Pin Set
+<br><img src="gpio_pics/GPIO_PIN_SET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SET</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing a 1 to a bit will assert the output pin.  Pin will remain asserted until a new value is supplied or RELEASE.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_CLR"></a>
+<br><br><h4>Pin Clr (GPIO_PIN_CLR: 0x1028)</h4>
+Pin Clr
+<br><img src="gpio_pics/GPIO_PIN_CLR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CLR</TD> <TD>WO</TD> <TD>0</TD> <TD>Writing a 1 to a bit will deassert the output pin.  Pin will remain deasserted until a new value is supplied or RELEASE.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_DIR_I"></a>
+<br><br><h4>Pin Direction Input (GPIO_PIN_DIR_I: 0x1040)</h4>
+Pin Direction Input
+<br><br><I>This register is protected at level 1</I>
+<br><img src="gpio_pics/GPIO_PIN_DIR_I.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>I</TD> <TD>RW</TD> <TD>0</TD> <TD>Pin n direction is controlled by PIN_DIR_O[n] and PIN_DIR_I[n], encoded as: <br>
+00b=Disabled<br>
+01b=Input mode. Disable the output driver<br>
+10b=Output mode.  Drive pin to logic level specified by data assertion state and output inversion. When the pin is released, then the output will be tristated<br>
+11b=Open-drain mode.  Drive low on pin when state is asserted, and disable driver when state is deasserted<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_DIR_O"></a>
+<br><br><h4>Pin Direction Output (GPIO_PIN_DIR_O: 0x1048)</h4>
+Pin Direction Output
+<br><br><I>This register is protected at level 1</I>
+<br><img src="gpio_pics/GPIO_PIN_DIR_O.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>O</TD> <TD>RW</TD> <TD>0</TD> <TD>Pin n direction is controlled by PIN_DIR_O[n] and PIN_DIR_I[0], encoded as:<br>
+00b=Disabled<br>
+01b=Input mode. Disable the output driver<br>
+10b=Output mode.  Drive pin to logic level specified by data assertion state and output inversion. When the pin is released, then the output will be tristated<br>
+11b=Open-drain mode.  Drive low on pin when state is asserted, and disable driver when state is deasserted<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_OUTPUT_TGL"></a>
+<br><br><h4>Output Toggle (GPIO_PIN_OUTPUT_TGL: 0x1050)</h4>
+Output Toggle
+<br><img src="gpio_pics/GPIO_PIN_OUTPUT_TGL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>TGL</TD> <TD>WO</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin. When the bit is written with 0 the pin output data will be unchanged. When the bit is written with 1, the pin output data will toggled. TGL changes the assertion state of the data, which is then modified by INV to determine pin logic levels.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_OUTPUT_INV"></a>
+<br><br><h4>Output Inversion Mode (GPIO_PIN_OUTPUT_INV: 0x1058)</h4>
+Output Inversion Mode
+<br><img src="gpio_pics/GPIO_PIN_OUTPUT_INV.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INV</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin.  When 0 an asserted pin will correspond to a high logic level, and when 1 an asserted pin will correspond to a low logic level. This bit affects only the output inversion; input inversion is specified by PIN_INPUT_INV.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_OUTPUT_MSK"></a>
+<br><br><h4>Output Mask (GPIO_PIN_OUTPUT_MSK: 0x1060)</h4>
+Output Mask
+<br><img src="gpio_pics/GPIO_PIN_OUTPUT_MSK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>MSK</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin. When the bit is 0 then writes to PIN_STATE register for this bit will be processed normally. When the bit is 1, writes to the PIN_STATE register for this bit will be ignored and the drive level will not be modified.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_INPUT_SYNC"></a>
+<br><br><h4>Input Sync Mode (GPIO_PIN_INPUT_SYNC: 0x1070)</h4>
+Input Sync Mode
+<br><img src="gpio_pics/GPIO_PIN_INPUT_SYNC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SYNC</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin.  When 0, the input pin value is sampled directly.  When 1, the input pin is synchronized through a double-rank synchronizer to prevent metastable data.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_INPUT_INV"></a>
+<br><br><h4>Input Inversion Mode (GPIO_PIN_INPUT_INV: 0x1088)</h4>
+Input Inversion Mode
+<br><img src="gpio_pics/GPIO_PIN_INPUT_INV.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INV</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin.  When 0, the input value read is 1 when the pin logic level is high.  When 1, the input value read is 1 when the pin logic level is low. The interrupt detection logic also receives the conditionally inverted input value.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_INPUT_MSK"></a>
+<br><br><h4>Input Mask (GPIO_PIN_INPUT_MSK: 0x1090)</h4>
+Input Mask
+<br><img src="gpio_pics/GPIO_PIN_INPUT_MSK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>MSK</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin.  When 0, reads of the PIN_STATE will return the input data for this pin.  When 1, reads of the PIN_STATE register will return 0.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_PIN_INPUT_CND"></a>
+<br><br><h4>Input Mask Condition (GPIO_PIN_INPUT_CND: 0x1098)</h4>
+Input Mask Condition
+<br><img src="gpio_pics/GPIO_PIN_INPUT_CND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CND</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit corresponds to a GPIO pin.  When 0, the GPIO value is sampled even when being driven as an output.  When 1, the GPIO value is only sampled if the pin is configured as an input or an open-drain that is not currently being driven. This filter applies to interrupts as well.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_INT_VEC0_W1TC"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (GPIO_INT_VEC0_W1TC: 0x3000)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  This vector contains the interrupts associated with the 64 pin assertion interrupts.  Writing a 1 clears the status bit. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the written bit will be ignored.
+<br><img src="gpio_pics/GPIO_INT_VEC0_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC0_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  This vector contains the interrupts associated with the 64 pin assertion interrupts.  Writing a 1 clears the status bit. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the written bit will be ignored.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_INT_VEC0_RTC"></a>
+<br><br><h4>Interrupt vector-0, read-to-clear (GPIO_INT_VEC0_RTC: 0x3008)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  This vector contains the interrupts associated with the 64 pin assertion interrupts.  Reading this register clears all of the associated interrupts. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the interrupt status will not be modified.
+<br><img src="gpio_pics/GPIO_INT_VEC0_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC0_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  This vector contains the interrupts associated with the 64 pin assertion interrupts.  Reading this register clears all of the associated interrupts. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the interrupt status will not be modified.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_INT_VEC1_W1TC"></a>
+<br><br><h4>Interrupt vector-1, write-one-to-clear (GPIO_INT_VEC1_W1TC: 0x3010)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  This vector contains the interrupts associated with the 64 pin deassertion interrupts.  Writing a 1 clears the status bit. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the written bit will be ignored.
+<br><img src="gpio_pics/GPIO_INT_VEC1_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC1_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  This vector contains the interrupts associated with the 64 pin deassertion interrupts.  Writing a 1 clears the status bit. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the written bit will be ignored.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_INT_VEC1_RTC"></a>
+<br><br><h4>Interrupt vector-1, read-to-clear (GPIO_INT_VEC1_RTC: 0x3018)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  This vector contains the interrupts associated with the 64 pin deassertion interrupts.  Reading this register clears all of the associated interrupts. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the interrupt status will not be modified.
+<br><img src="gpio_pics/GPIO_INT_VEC1_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC1_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  This vector contains the interrupts associated with the 64 pin deassertion interrupts.  Reading this register clears all of the associated interrupts. Accesses to this register are masked by the SVC_DOM PIN ENABLE field. If the PIN ENABLE bit is 0, the read bit will be zero and the interrupt status will not be modified.</TD> </TR>
+</TABLE><br><br>
+<a name="GPIO_INT_BIND"></a>
+<br><br><h4>Bindings for interrupt vectors (GPIO_INT_BIND: 0x3100)</h4>
+This register provides read/write access to all of the interrupt bindings for the GPIO controller.  The VEC_SEL field is used to select the vector being configured and the BIND_SEL selects the interrupt within the vector.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="gpio_pics/GPIO_INT_BIND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>NW</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the interrupt binding data will not be modified.  Set this when writing the VEC_SEL and BIND_SEL fields in preparation for a read.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>45:40</TD> <TD>BIND_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects binding within the vector selected by VEC_SEL.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>VEC_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects vector whose bindings are to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>PIN_ASSERTION_INTS</TD><TD>Interrupt bindings associated with the assertion of the PINs.</TD></TR>
+   <TR><TD>1</TD><TD>PIN_DEASSERTION_INTS</TD><TD>Interrupt bindings associated with the deassertion of the PINs.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>17:12</TD> <TD>EVT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Event number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:10</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Interrupt number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:2</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>HW <TD>Tile targeted for this interrupt in {x[3:0],y[3:0]} format.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, interrupt will be dispatched each time it occurs.  When 0, the interrupt is only sent if the status bit is clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the interrupt.  When 0, the interrupt won't be dispatched, however the STATUS bit will continue to be updated.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

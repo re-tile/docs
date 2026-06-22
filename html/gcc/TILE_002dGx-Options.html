@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>TILE-Gx Options - Using the GNU Compiler Collection (GCC)</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Using the GNU Compiler Collection (GCC)">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Submodel-Options.html#Submodel-Options" title="Submodel Options">
+<link rel="prev" href="System-V-Options.html#System-V-Options" title="System V Options">
+<link rel="next" href="TILEPro-Options.html#TILEPro-Options" title="TILEPro Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+2008 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Funding Free Software'', the Front-Cover
+Texts being (a) (see below), and with the Back-Cover Texts being (b)
+(see below).  A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="TILE-Gx-Options"></a>
+<a name="TILE_002dGx-Options"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="TILEPro-Options.html#TILEPro-Options">TILEPro Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="System-V-Options.html#System-V-Options">System V Options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Submodel-Options.html#Submodel-Options">Submodel Options</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.17.36 TILE-Gx Options</h4>
+
+<p><a name="index-TILE_002dGx-options-1927"></a>
+These &lsquo;<samp><span class="samp">-m</span></samp>&rsquo; options are supported on the TILE-Gx:
+
+     <dl>
+<dt><code>-m32</code><dt><code>-m64</code><dd><a name="index-m32-1928"></a><a name="index-m64-1929"></a>Generate code for a 32-bit or 64-bit environment.  The 32-bit
+environment sets int, long, and pointer to 32 bits.  The 64-bit
+environment sets int to 32 bits and long and pointer to 64 bits.
+
+     <br><dt><code>-mbig-endian</code><dd><a name="index-mbig_002dendian-1930"></a>Compile code for the processor in big endian mode.
+
+     <br><dt><code>-mbme</code><dd><a name="index-mbme-1931"></a>Compile using the headers and libraries for Bare Metal Environment
+(BME).
+
+     <br><dt><code>-mcmodel=small</code><dd><a name="index-mcmodel_003dsmall-1932"></a>Generate code for the small model.  Distance for direct calls is
+limited to 500M in either direction.  PC-relative addresses are 32
+bits.  Absolute addresses support the full address range.
+
+     <br><dt><code>-mcmodel=large</code><dd><a name="index-mcmodel_003dlarge-1933"></a>Generate code for the large model.  There is no limiation on call
+distance, pc-relative addresses, or absolute addresses.
+
+     <br><dt><code>-mcpu=</code><var>name</var><dd><a name="index-mcpu-1934"></a>Selects the type of CPU to be targeted.  Currently the only supported
+type is &lsquo;<samp><span class="samp">tilegx</span></samp>&rsquo;.
+
+     <br><dt><code>-mexpand-asm</code><dd><a name="index-mexpand_002dasm-1935"></a>Expand certain inline assembly into rtl patterns that the compiler can
+better optimize.  It's on by default and is used to support post
+incrementing memory intrinsics.
+
+     <br><dt><code>-mlittle-endian</code><dd><a name="index-mlittle_002dendian-1936"></a>Compile code for the processor in little endian mode.
+
+     <br><dt><code>-mnewlib</code><dd><a name="index-mnewlib-1937"></a>Compile using the newlib headers and libraries.
+
+     <br><dt><code>-march=</code><var>name</var><br><dt><code>-momit-leaf-frame-pointer</code><br><dt><code>-mtune=</code><var>name</var><dd>These flags are ignored, and are here for x86 compatibility.
+
+     <br><dt><code>-Wunmatched-loop-pragmas</code><dd><a name="index-Wunmatched_002dloop_002dpragmas-1938"></a>Warn about loop pragmas that do not have matching loops. 
+</dl>
+
+ </body></html>
+

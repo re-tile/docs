@@ -1,0 +1,478 @@
+<html>
+<title>mica_crypto Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>MiCA (0x0000-0x3000000) : </b> 
+These registers provide global controls for the MiCA front-end.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000-3ffffff<TD><a href="#MICA_CRYPTO_ADDRESS_SPACE">MICA_CRYPTO_ADDRESS_SPACE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0000-3fff<TD><a href="#MICA_CRYPTO_ADDRESS_SPACE_GLOBAL">MICA_CRYPTO_ADDRESS_SPACE_GLOBAL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>1000000-1ffffff<TD><a href="#MICA_CRYPTO_ADDRESS_SPACE_ENGINE">MICA_CRYPTO_ADDRESS_SPACE_ENGINE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>2000000-2ffffff<TD><a href="#MICA_CRYPTO_ADDRESS_SPACE_CTX_USER">MICA_CRYPTO_ADDRESS_SPACE_CTX_USER</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>3000000-3ffffff<TD><a href="#MICA_CRYPTO_ADDRESS_SPACE_CTX_SYS">MICA_CRYPTO_ADDRESS_SPACE_CTX_SYS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0000<TD><a href="#MICA_CRYPTO_DEV_INFO">MICA_CRYPTO_DEV_INFO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0008<TD><a href="#MICA_CRYPTO_DEV_CTL">MICA_CRYPTO_DEV_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0010<TD><a href="#MICA_CRYPTO_MMIO_INFO">MICA_CRYPTO_MMIO_INFO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0018<TD><a href="#MICA_CRYPTO_MEM_INFO">MICA_CRYPTO_MEM_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0020<TD><a href="#MICA_CRYPTO_SCRATCHPAD">MICA_CRYPTO_SCRATCHPAD</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0028<TD><a href="#MICA_CRYPTO_SEMAPHORE0">MICA_CRYPTO_SEMAPHORE0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0030<TD><a href="#MICA_CRYPTO_SEMAPHORE1">MICA_CRYPTO_SEMAPHORE1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0038<TD><a href="#MICA_CRYPTO_CLOCK_COUNT">MICA_CRYPTO_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0040<TD><a href="#MICA_CRYPTO_ENGINE_DISABLE">MICA_CRYPTO_ENGINE_DISABLE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0048<TD><a href="#MICA_CRYPTO_ENGINE_RESET">MICA_CRYPTO_ENGINE_RESET</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0050<TD><a href="#MICA_CRYPTO_HFH_INIT_CTL">MICA_CRYPTO_HFH_INIT_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0058<TD><a href="#MICA_CRYPTO_HFH_INIT_DAT">MICA_CRYPTO_HFH_INIT_DAT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0080<TD><a href="#MICA_CRYPTO_IN_USE_CONTEXTS_0">MICA_CRYPTO_IN_USE_CONTEXTS_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0088<TD><a href="#MICA_CRYPTO_IN_USE_CONTEXTS_1">MICA_CRYPTO_IN_USE_CONTEXTS_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0090<TD><a href="#MICA_CRYPTO_IN_USE_CONTEXTS_2">MICA_CRYPTO_IN_USE_CONTEXTS_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0098<TD><a href="#MICA_CRYPTO_IN_USE_CONTEXTS_3">MICA_CRYPTO_IN_USE_CONTEXTS_3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0180<TD><a href="#MICA_CRYPTO_SCHED_0_CTL">MICA_CRYPTO_SCHED_0_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0188<TD><a href="#MICA_CRYPTO_SCHED_1_CTL">MICA_CRYPTO_SCHED_1_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0190<TD><a href="#MICA_CRYPTO_SCHED_2_CTL">MICA_CRYPTO_SCHED_2_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0198<TD><a href="#MICA_CRYPTO_SCHED_3_CTL">MICA_CRYPTO_SCHED_3_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01a0<TD><a href="#MICA_CRYPTO_SCHED_4_CTL">MICA_CRYPTO_SCHED_4_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01a8<TD><a href="#MICA_CRYPTO_SCHED_5_CTL">MICA_CRYPTO_SCHED_5_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>01b0<TD><a href="#MICA_CRYPTO_SCHED_6_CTL">MICA_CRYPTO_SCHED_6_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>01b8<TD><a href="#MICA_CRYPTO_SCHED_7_CTL">MICA_CRYPTO_SCHED_7_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>04f8<TD><a href="#MICA_CRYPTO_CLOCK_CONTROL">MICA_CRYPTO_CLOCK_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0500<TD><a href="#MICA_CRYPTO_EGRESS_CREDIT">MICA_CRYPTO_EGRESS_CREDIT</a> </TR>
+</TABLE>
+<br><br><h3>General Address Space Definitions</h3>
+<a name="MICA_CRYPTO_ADDRESS_SPACE"></a>
+<br><br><h4>MiCA Address Space (MICA_CRYPTO_ADDRESS_SPACE: 0x0000-0x3ffffff)</h4>
+The MMIO physical address space for MiCA configuration registers is described below.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ADDRESS_SPACE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>PARTITION</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects Global Registers, Context User Registers, or Context System Registers.  Note that the partitions are spaced 16 MB apart.  If all of user partition is mapped into a 16 MB page, that page will not also include system partition.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>DM_GLOBAL</TD><TD>Global configuration registers specific to MiCA.</TD></TR>
+   <TR><TD>1</TD><TD>ENGINE_GLOBAL</TD><TD>Global configuration registers for each Engine.  Address [23:18] access the specific Engine and address [17:3] the register within the engine.</TD></TR>
+   <TR><TD>2</TD><TD>CONTEXT_USER</TD><TD>Context User configuration registers.</TD></TR>
+   <TR><TD>3</TD><TD>CONTEXT_SYSTEM</TD><TD>Context System configuration registers.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>23:0</TD> <TD>OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>Interpreted based on PARTITION.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ADDRESS_SPACE_GLOBAL"></a>
+<br><br><h4>MiCA Address Space DM Global (MICA_CRYPTO_ADDRESS_SPACE_GLOBAL: 0x0000-0x3fff)</h4>
+This register defines the DM_GLOBAL address space.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ADDRESS_SPACE_GLOBAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>PARTITION</TD> <TD>RW</TD> <TD>0</TD> <TD>DM_GLOBAL<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>DM_GLOBAL</TD><TD>Global configuration registers specific to MiCA.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>13:3</TD> <TD>REGISTER_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the specific global register.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ADDRESS_SPACE_ENGINE"></a>
+<br><br><h4>MiCA Address Space Engine Global (MICA_CRYPTO_ADDRESS_SPACE_ENGINE: 0x1000000-0x1ffffff)</h4>
+This register defines the ENGINE_GLOBAL address space.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ADDRESS_SPACE_ENGINE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>PARTITION</TD> <TD>RW</TD> <TD>1</TD> <TD>ENGINE_GLOBAL<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>ENGINE_GLOBAL</TD><TD>Global configuration registers for each Engine.  Address [23:18] access the specific Engine and address [17:3] the register within the engine.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>23:18</TD> <TD>ENGINE</TD> <TD>RW</TD> <TD>0</TD> <TD>Engine select.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:3</TD> <TD>REGISTER_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the specific engine register.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ADDRESS_SPACE_CTX_USER"></a>
+<br><br><h4>MiCA Address Space Context User (MICA_CRYPTO_ADDRESS_SPACE_CTX_USER: 0x2000000-0x2ffffff)</h4>
+This register defines the CONTEXT_USER address space.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ADDRESS_SPACE_CTX_USER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>PARTITION</TD> <TD>RW</TD> <TD>2</TD> <TD>CONTEXT_USER<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>2</TD><TD>CONTEXT_USER</TD><TD>Context User configuration registers.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>CONTEXT</TD> <TD>RW</TD> <TD>0</TD> <TD>Context select.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:3</TD> <TD>REGISTER_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the specific user context register.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ADDRESS_SPACE_CTX_SYS"></a>
+<br><br><h4>MiCA Address Space Context System (MICA_CRYPTO_ADDRESS_SPACE_CTX_SYS: 0x3000000-0x3ffffff)</h4>
+This register defines the CONTEXT_SYSTEM address space.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ADDRESS_SPACE_CTX_SYS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>PARTITION</TD> <TD>RW</TD> <TD>3</TD> <TD>CONTEXT_SYSTEM<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>3</TD><TD>CONTEXT_SYSTEM</TD><TD>Context System configuration registers.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>CONTEXT</TD> <TD>RW</TD> <TD>0</TD> <TD>Context select.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:3</TD> <TD>REGISTER_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the specific system context register.</TD> </TR>
+</TABLE><br><br>
+<br><br><h3>Register Definitions</h3>
+<a name="MICA_CRYPTO_DEV_INFO"></a>
+<br><br><h4>Device Info (MICA_CRYPTO_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>016h</TD> <TD>Encoded device Type - 16 to indicate crypto accelerator<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_DEV_CTL"></a>
+<br><br><h4>Device Control (MICA_CRYPTO_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (MICA_CRYPTO_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of channels associated with this IO port.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_MEM_INFO"></a>
+<br><br><h4>Memory Info (MICA_CRYPTO_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>16</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>40</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (MICA_CRYPTO_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (MICA_CRYPTO_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (MICA_CRYPTO_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (MICA_CRYPTO_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="mica_crypto_pics/MICA_CRYPTO_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ENGINE_DISABLE"></a>
+<br><br><h4>Engine Disable (MICA_CRYPTO_ENGINE_DISABLE: 0x0040)</h4>
+This Global register is used to disable engines, for debug and performance analysis.  If all engines of a given type are disabled then no new operations for that type of function can be scheduled.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ENGINE_DISABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>DISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit disables the corresponding Engine.  When the Engine is disabled, any operations already assigned to the Engine will complete, and no new operations will be scheduled to that engine.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_ENGINE_RESET"></a>
+<br><br><h4>Engine Reset (MICA_CRYPTO_ENGINE_RESET: 0x0048)</h4>
+This Global register is used to reset engines.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_ENGINE_RESET.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>RESET</TD> <TD>RW</TD> <TD>0</TD> <TD>Each bit resets the corresponding Engine, and is for use if the Engine gets into a corrupted state (which normally won't happen).  An engine should only be reset in one of two conditions - 1) it is not assigned to a Context, 2) if it is assigned to a Context, first reset the Context and then wait for it to go to the RESET_WAIT state.  This bit also prevents scheduling new operations onto the engine, the same as if the ENGINE_DISABLE bit is set.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_HFH_INIT_CTL"></a>
+<br><br><h4>MMIO HFH Table Init Control (MICA_CRYPTO_HFH_INIT_CTL: 0x0050)</h4>
+Initialization control for the hash-for-home table.  This register is in global space because the HFH table is shared by all Contexts.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_HFH_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into the HFH table.  Increments automatically on write or read to HFH_INIT_DAT.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_HFH_INIT_DAT"></a>
+<br><br><h4>HFH Table Data (MICA_CRYPTO_HFH_INIT_DAT: 0x0058)</h4>
+Read/Write data for hash-for-home table
+<br><img src="mica_crypto_pics/MICA_CRYPTO_HFH_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>22:15</TD> <TD>TILEA</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is greater than or equal to FRACT</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:7</TD> <TD>TILEB</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is less than FRACT</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>FRACT</TD> <TD>RW</TD> <TD>HW <TD>Fraction field of HFH table.  Determines what portion of the address space maps to TileA vs TileB.  This register is in global space because the HFH table is shared by all Contexts.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_IN_USE_CONTEXTS_0"></a>
+<br><br><h4>In Use Contexts (MICA_CRYPTO_IN_USE_CONTEXTS_0: 0x0080)</h4>
+These Global registers are used to provide the status of all Contexts.  They can be used for monitoring and debug.  There are 4 registers to cover 256 contexts, fewer contexts may be implemented in a given MiCA implementation, and those bits will read as 0.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_IN_USE_CONTEXTS_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CTX_MASK</TD> <TD>RO</TD> <TD>0</TD> <TD>Each bit indicates that the corresponding Context is not in IDLE state (see Status Register).  This register covers contexts 0 to 63.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_IN_USE_CONTEXTS_1"></a>
+<br><br><h4>In Use Contexts (MICA_CRYPTO_IN_USE_CONTEXTS_1: 0x0088)</h4>
+These Global registers are used to provide the status of all Contexts.  They can be used for monitoring and debug.  There are 4 registers to cover 256 contexts, fewer contexts may be implemented in a given MiCA implementation, and those bits will read as 0.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_IN_USE_CONTEXTS_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CTX_MASK</TD> <TD>RO</TD> <TD>0</TD> <TD>Each bit indicates that the corresponding Context is not in IDLE state (see Status Register).  This register covers contexts 64 to 127.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_IN_USE_CONTEXTS_2"></a>
+<br><br><h4>In Use Contexts (MICA_CRYPTO_IN_USE_CONTEXTS_2: 0x0090)</h4>
+These Global registers are used to provide the status of all Contexts.  They can be used for monitoring and debug.  There are 4 registers to cover 256 contexts, fewer contexts may be implemented in a given MiCA implementation, and those bits will read as 0.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_IN_USE_CONTEXTS_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CTX_MASK</TD> <TD>RO</TD> <TD>0</TD> <TD>Each bit indicates that the corresponding Context is not in IDLE state (see Status Register).  This register covers contexts 128 to 191.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_IN_USE_CONTEXTS_3"></a>
+<br><br><h4>In Use Contexts (MICA_CRYPTO_IN_USE_CONTEXTS_3: 0x0098)</h4>
+These Global registers are used to provide the status of all Contexts.  They can be used for monitoring and debug.  There are 4 registers to cover 256 contexts, fewer contexts may be implemented in a given MiCA implementation, and those bits will read as 0.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_IN_USE_CONTEXTS_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>CTX_MASK</TD> <TD>RO</TD> <TD>0</TD> <TD>Each bit indicates that the corresponding Context is not in IDLE state (see Status Register).  This register covers contexts 192 to 255.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_0_CTL"></a>
+<br><br><h4>Scheduler 0 Control (MICA_CRYPTO_SCHED_0_CTL: 0x0180)</h4>
+For Crypto, this register controls memory-to-memory copy operations; for Zip it controls deflate engine operations.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_0_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_0_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>For Crypto, this register controls memory-to-memory copy operations; for Zip it controls deflate engine operations.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_1_CTL"></a>
+<br><br><h4>Scheduler 1 Control (MICA_CRYPTO_SCHED_1_CTL: 0x0188)</h4>
+For Crypto, this register controls Kasumi and Snow operations; for Zip it controls inflate engine operations.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_1_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_1_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>For Crypto, this register controls Kasumi and Snow operations; for Zip it controls inflate engine operations.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_2_CTL"></a>
+<br><br><h4>Scheduler 2 Control (MICA_CRYPTO_SCHED_2_CTL: 0x0190)</h4>
+For Crypto, this register controls Packet Processor operations; Zip only has 2 schedulers so this register is reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_2_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_2_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>For Crypto, this register controls Packet Processor operations; Zip only has 2 schedulers so this register is reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_3_CTL"></a>
+<br><br><h4>Scheduler 3 Control (MICA_CRYPTO_SCHED_3_CTL: 0x0198)</h4>
+Reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_3_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_3_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_4_CTL"></a>
+<br><br><h4>Scheduler 4 Control (MICA_CRYPTO_SCHED_4_CTL: 0x01a0)</h4>
+Reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_4_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_4_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_5_CTL"></a>
+<br><br><h4>Scheduler 5 Control (MICA_CRYPTO_SCHED_5_CTL: 0x01a8)</h4>
+Reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_5_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_5_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_6_CTL"></a>
+<br><br><h4>Scheduler 6 Control (MICA_CRYPTO_SCHED_6_CTL: 0x01b0)</h4>
+Reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_6_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_6_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_SCHED_7_CTL"></a>
+<br><br><h4>Scheduler 7 Control (MICA_CRYPTO_SCHED_7_CTL: 0x01b8)</h4>
+Reserved.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_SCHED_7_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCHED_7_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>Reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CLOCK_CONTROL"></a>
+<br><br><h4>Clock Control (MICA_CRYPTO_CLOCK_CONTROL: 0x04f8)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides control over core PLL.  This register is in global space.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_CLOCK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>CLOCK_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that PLL has been enabled and clock is now running off of the PLL output.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20:13</TD> <TD>PLL_M</TD> <TD>RW</TD> <TD>0</TD> <TD>Feedback divider value.  The resulting clock frequency is calculated as ((REF / (PLL_N+1)) * 2 * (PLL_M + 1)) / (2^Q).  The VCO frequency is (REF / (PLL_N+1)) * 2 * (PLL_M + 1)) and must be in the range of 2133 MHz to 4266 MHz.  <br>
+<br>
+For example, to create a 1 GHz clock from a 125 MHz refclk, Q would be set to 2 so that the VCO would be 1 GHz*2^2 = 4000 MHz.  2*(PLL_M+1)/(PLL_N+1) = 32.  PLL_N=0 and PLL_M=15 would keep the post divide frequency within the legal range since 125/(0+1) is 125.  PLL_RANGE would be set to R104_166.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12:7</TD> <TD>PLL_N</TD> <TD>RW</TD> <TD>0</TD> <TD>Reference divider value.  Input refclk is divided by (PLL_N+1).  The post-divided clock must be in the range of 14 MHz to 200 MHz.  The low 5 bits of this field are used.  The MSB is reserved.  The minimum value of PLL_N that keeps the post-divided clock within the legal range will provide the best jitter performance.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:4</TD> <TD>PLL_Q</TD> <TD>RW</TD> <TD>0</TD> <TD>Output divider.  The VCO clock is divided by 2^PLL_Q to create the final output clock.  This should be set such that 2133 MHz<(output_frequency * 2^PLL_Q)<4266 MHz.  The maximum supported value of PLL_Q is 6 (divide by 64).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>PLL_RANGE</TD> <TD>RW</TD> <TD>0</TD> <TD>This value should be set based on the post divider frequency, REF/(PLL_N+1).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>BYP</TD><TD>Bypass mode.  Not typically used by software-controlled settings.</TD></TR>
+   <TR><TD>1</TD><TD>R14_16</TD><TD>14-16 MHz</TD></TR>
+   <TR><TD>2</TD><TD>R16_26</TD><TD>16-26 MHz</TD></TR>
+   <TR><TD>3</TD><TD>R26_42</TD><TD>26-42 MHz</TD></TR>
+   <TR><TD>4</TD><TD>R42_65</TD><TD>42-65 MHz</TD></TR>
+   <TR><TD>5</TD><TD>R65_104</TD><TD>65-104 MHz</TD></TR>
+   <TR><TD>6</TD><TD>R104_166</TD><TD>104-166 MHz</TD></TR>
+   <TR><TD>7</TD><TD>R166_200</TD><TD>166-200 MHz</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the PLL will be configured with the settings in PLL_RANGE/Q/N/M.  When written with a zero, the PLL will be bypassed.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_EGRESS_CREDIT"></a>
+<br><br><h4>Egress Credit (MICA_CRYPTO_EGRESS_CREDIT: 0x0500)</h4>
+This Global register can be used to change the number of egress credits for each engine.  There are enough fields for 8 engines in this register, the number actually used depends on the DataMover implementation.
+<br><img src="mica_crypto_pics/MICA_CRYPTO_EGRESS_CREDIT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:56</TD> <TD>ENGINE_7</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 7.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:48</TD> <TD>ENGINE_6</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 6.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47:40</TD> <TD>ENGINE_5</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 5.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>39:32</TD> <TD>ENGINE_4</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>ENGINE_3</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 3.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>ENGINE_2</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>ENGINE_1</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>ENGINE_0</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of credits for Channel 0.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

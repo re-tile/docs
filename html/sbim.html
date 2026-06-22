@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>sbim</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="sbim"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>sbim, tile-sbim &#8212; SPI ROM Boot Image Management</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] [
+    <code class="option">-o</code>  |   <code class="option">--info</code>  
+]</p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-i</code>  |   <code class="option">--install</code> }  <em class="replaceable"><code>input-image-file</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-e</code>  |   <code class="option">--extract</code> }  <em class="replaceable"><code>output-image-file</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-n</code>  |   <code class="option">--invalidate</code> }   <em class="replaceable"><code>image-location</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-p</code>  |   <code class="option">--promote</code> }  <em class="replaceable"><code>image-location</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-L</code>  |   <code class="option">--lock</code> }  <em class="replaceable"><code>image-location</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-U</code>  |   <code class="option">--unlock</code> }  <em class="replaceable"><code>image-location</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+] { <code class="option">-d</code>  |   <code class="option">--dump</code> }</p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+]  <code class="option">--install-booter</code>   <em class="replaceable"><code>input-booter-file</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+]  <code class="option">--install-prebooter</code>   <em class="replaceable"><code>input-prebooter-file</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+]  <code class="option">--extract-booter</code>   <em class="replaceable"><code>output-booter-file</code></em> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+]  <code class="option">--invalidate-booter</code> </p></div><div class="cmdsynopsis"><p><code class="command">sbim</code>  [
+  <i><a href="#options.frag">(1)</a> options</i>
+]  <code class="option">--sanitize</code> </p></div><div class="cmdsynopsis"><p><p><a name="options.frag">(1)</a> [
+      { <code class="option">-f</code>  |   <code class="option">--file</code> }
+        <em class="replaceable"><code>srom-file</code></em> 
+    ] [
+      { <code class="option">-c</code>  |   <code class="option">--comment</code> }
+        <em class="replaceable"><code>comment-string</code></em> 
+    ] [
+      { <code class="option">-l</code>  |   <code class="option">--location</code> }
+        <em class="replaceable"><code>image-location</code></em> 
+    ] [
+      { <code class="option">-m</code>  |   <code class="option">--num-images</code> }
+        <em class="replaceable"><code>num-images</code></em> 
+    ]<br> [
+      { <code class="option">-g</code>  |   <code class="option">--page-size</code> }
+        <em class="replaceable"><code>page-size</code></em> 
+    ] [
+      { <code class="option">-s</code>  |   <code class="option">--sector-size</code> }
+        <em class="replaceable"><code>sector-size</code></em> 
+    ] [
+      { <code class="option">-Z</code>  |   <code class="option">--num-sectors</code> }
+        <em class="replaceable"><code>num-sectors</code></em> 
+    ] [
+      { <code class="option">-z</code>  |   <code class="option">--srom-size</code> }
+        <em class="replaceable"><code>srom-size</code></em> 
+    ] [
+       <code class="option">--pcie0-bar1-size</code> 
+        <em class="replaceable"><code>bar-size</code></em> 
+    ] [
+       <code class="option">--pcie1-bar1-size</code> 
+        <em class="replaceable"><code>bar-size</code></em> 
+    ] [
+        <code class="option">-v</code>  |   <code class="option">--verify</code>  
+    ] [
+        <code class="option">-V</code>  |   <code class="option">--verbose</code>  
+    ] [
+        <code class="option">--old-format</code>  
+    ] [
+       <code class="option">--yes</code> 
+    ] [
+       <code class="option">--oldest</code> 
+    ] [
+       <code class="option">--pattern</code> 
+        <em class="replaceable"><code>sanitize-pattern</code></em> 
+    ]</p></p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+
+<span><strong class="command">sbim</strong></span> manages the contents of a bootable SPI ROM (SROM).
+It allows installation and management of multiple bootable images within
+one ROM.  The bootable images may be the Tilera standalone boot loader,
+<code class="filename">mboot</code>; one of the standard Linux images distributed by
+Tilera; or a custom bootable image constructed to meet specific customer
+requirements.
+
+</p><p>
+
+Once an appropriate bootable image has been installed in an SROM, a
+Tile Processor may then be booted from it.  (Systems must generally be
+reconfigured via DIP switch settings to boot from their SPI ROMs; for
+instance see the
+<a href="../pdf/UG300-TILExpress-64-Card-Users-Guide.pdf" target="_top"> <em class="citetitle">TILExpress-64 Card User's Guide</em> </a>
+for details.)
+
+</p><p>
+
+Generally Tilera recommends using <span><strong class="command">sbim</strong></span> on
+the target Tile Processor.  This provides the most reliable
+operation since <span><strong class="command">sbim</strong></span> can automatically sense
+SROM characteristics, and can modify only the necessary areas of
+the SROM for each operation.  However, this is not always possible.
+For instance, you might want to prepare a simulated SROM to use with
+<a href="tile-sim.html" target="_top"><span><strong class="command">tile-sim(1)</strong></span></a>, or
+you might need to prepare a prototype image which would be transferred
+to many target SROMs as part of a manufacturing process.  In this case,
+the <span><strong class="command">tile-sbim</strong></span> command, which runs on the host system,
+can be used.
+
+</p><div class="refsect2" lang="en"><a name="actions"></a><h3>Actions</h3><div class="variablelist"><dl><dt><a name="info"></a><span class="term">
+<code class="option">-o</code>
+, </span><span class="term">
+<code class="option">--info</code>
+</span></dt><dd><p>
+The <code class="option">--info</code> action prints information on the currently
+installed SROM booter and bootable images within an SROM.
+This action is the default if no other action is specified.
+The output produced varies with configuration, but will look something
+like this:
+
+</p><pre class="screen">
+SROM booter: Present, 4528 bytes.
+   Time installed: Fri May 16 05:46:26 2008
+Image in slot 0: Present, generation 20, 3472152 bytes.
+   Time installed: Fri May 16 06:04:01 2008
+   Comment: Latest software version
+Image in slot 1: Present, generation 19, 3472148 bytes.
+   Time installed: Fri May 16 06:03:18 2008
+   Comment: Backup image
+</pre><p>
+
+</p></dd><dt><a name="install"></a><span class="term">
+<code class="option">-i</code>
+, </span><span class="term">
+<code class="option">--install <em class="replaceable"><code>input-image-file</code></em></code>
+</span></dt><dd><p> The <code class="option">--install</code> action
+installs a bootable image within the SROM, potentially
+replacing a preexisting image.  An image is built with the <a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot(1)</strong></span></a> command,
+and customarily has the extension <code class="filename">.bootrom</code>.  Since space
+within the ROM is normally at a premium, it is advisable to give the
+<code class="option">--compress</code> option to <span><strong class="command">tile-mkboot</strong></span>.
+
+</p><p>
+
+Unless the <code class="option">--oldest</code> option is specified, the newly added image
+will be given a generation number larger
+than those assigned to any existing image.  In most cases this will mean
+that the new image will be the one which will be loaded at the next boot
+(see <a href="#policy" title="Boot Policy">Boot Policy</a>).  If any image slots
+are empty, one of them will be overwritten with the new image.  Otherwise,
+by default, the existing unlocked image with the lowest generation number
+will be overwritten.  The image to be overwritten may be explicitly specified
+with the <code class="option">--location</code> option; this image must be unlocked.
+
+</p><p>
+
+The time required to install a bootable image varies with the size of
+the image and the previous contents of the SROM, but is generally less
+than a minute.
+
+</p></dd><dt><a name="extract"></a><span class="term">
+<code class="option">-e</code>
+, </span><span class="term">
+<code class="option">--extract <em class="replaceable"><code>output-image-file</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--extract</code> action reads an image which is currently
+installed within the SROM, and writes it to an output file.  Assuming no
+corruption has occurred in the SROM, the output file will be identical to
+the input file originally used with the <code class="option">--install</code> option.
+By default, the exiting image with the highest generation number will
+be extracted.  The image to be extracted may be explicitly specified with
+the <code class="option">--location</code> option.
+
+</p></dd><dt><a name="invalidate"></a><span class="term">
+<code class="option">-n</code>
+, </span><span class="term">
+<code class="option">--invalidate <em class="replaceable"><code>image-location</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--invalidate</code> action marks a specified image as invalid.
+Once an image has been invalidated, it cannot be loaded at boot, and it may
+no longer be extracted.  The invalidation operation is not reversible by
+<span><strong class="command">sbim</strong></span>.  Note, however, that the image is not completely
+erased, merely marked as invalid, so invalidation is not an absolute
+protection against later retrieval of image data.
+See <a href="#locations" title="Locations">Locations</a> for the format
+of <em class="replaceable"><code>image-location</code></em>.
+The image to be invalidated must be unlocked.
+
+</p><p>
+
+If there are no valid images, the system will not be bootable from the SROM.
+Because of this, if an attempt is made to invalidate the last valid image
+within an SROM, <span><strong class="command">sbim</strong></span> will first issue a warning on
+standard output, and prompt for confirmation.  This prompt may be avoided
+by specifying the <code class="option">--yes</code> option.
+
+</p></dd><dt><a name="promote"></a><span class="term">
+<code class="option">-p</code>
+, </span><span class="term">
+<code class="option">--promote <em class="replaceable"><code>image-location</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--promote</code> action marks a specified image as being the
+most recently added image (the one with the highest generation number).
+This will in most cases make it the image which will be loaded at the
+next boot.  See <a href="#locations" title="Locations">Locations</a>
+for the format of <em class="replaceable"><code>image-location</code></em>.
+
+</p></dd><dt><a name="lock"></a><span class="term">
+<code class="option">-L</code>
+, </span><span class="term">
+<code class="option">--lock <em class="replaceable"><code>image-location</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--lock</code> action marks a specified image as being
+locked.  Locked images cannot be invalidated, and a new image cannot
+be installed in a locked image's slot.  Images are initially unlocked.
+See <a href="#locations" title="Locations">Locations</a> for the format
+of <em class="replaceable"><code>image-location</code></em>.
+
+</p></dd><dt><a name="unlock"></a><span class="term">
+<code class="option">-U</code>
+, </span><span class="term">
+<code class="option">--unlock <em class="replaceable"><code>image-location</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--unlock</code> action marks a specified image as
+being unlocked.  Once unlocked, an image can be invalidated,
+and a new image can be installed in its slot.  See <a href="#locations" title="Locations">Locations</a> for the format of
+<em class="replaceable"><code>image-location</code></em>.
+
+</p></dd><dt><a name="dump"></a><span class="term">
+<code class="option">-d</code>
+, </span><span class="term">
+<code class="option">--dump</code>
+</span></dt><dd><p>
+
+The <code class="option">--dump</code> action dumps out a list of key-value pairs which
+describe the SROM, as well as the currently installed SROM booter and
+bootable images. This may be useful for certain post-processing operations.
+The output produced varies with configuration, but will look something
+like this:
+
+</p><pre class="screen">
+srom_valid: 1
+srom_RomHeader: 0
+srom_RomSegmentHeader: 0x30020
+srom_sector_size: 65536
+srom_page_size: 256
+srom_srom_size: 7995392
+srom_num_images: 2
+srom_offset: 132
+srom_booter_words: 1140
+srom_booter_crc: 0x866445f3
+srom_comment: This is the booter.
+srom_timestamp: Fri May 16 15:33:21 2008
+srom_header_crc: 0x4e3785be
+image0_valid: 0
+image1_valid: 1
+image1_generation: 1
+image1_offset: 120
+image1_l0_boot_words: 691
+image1_l0_boot_crc: 0x6f3efe9c
+image1_total_words: 345687
+image1_total_crc: 0x63372645
+image1_comment: howdy
+image1_timestamp: Fri May 16 15:33:21 2008
+image1_header_crc: 0x80cfb8be
+</pre><p>
+
+</p></dd><dt><a name="install-booter"></a><span class="term">
+<code class="option">--install-booter <em class="replaceable"><code>input-booter-file</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--install-booter</code> action installs an SROM header and
+SROM booter within the SROM, replacing any preexisting booter or prebooter.
+Typically the <em class="replaceable"><code>input-booter-file</code></em>
+specified is the standard SROM booter in
+<code class="filename"><code class="varname">${TILERA_ROOT}</code>/tile/boot/sromboot.bin</code>,
+whose behavior is described in this manual page.  In the future there
+may be additional booters which provide different behaviors.
+
+</p><p>
+
+Since there is no redundancy for the SROM booter, a power failure
+or other system fault during its installation could result in a
+system which was not bootable from the SROM.  Because of this, when
+<code class="option">--install-booter</code> is used on an SROM which already
+contains an SROM booter or prebooter, <span><strong class="command">sbim</strong></span> will
+first issue a warning on standard output, and prompt for confirmation.
+This prompt may be avoided by specifying the <code class="option">--yes</code> option.
+
+</p></dd><dt><a name="install-prebooter"></a><span class="term">
+<code class="option">--install-prebooter <em class="replaceable"><code>input-prebooter-file</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--install-prebooter</code> action installs an SROM header
+and prebooter within the SROM, replacing any preexisting booter or prebooter.
+One example of a prebooter is the PCIe prebooter, supplied in
+<code class="filename"><code class="varname">${TILERA_ROOT}</code>/tile/boot/pci_preboot.bin</code>.
+This file enables more robust PCIe link initialization in some system
+configurations, and is not necessary for most users.
+
+</p><p>
+
+Since there is no redundancy for the SROM booter, a power failure
+or other system fault during its installation could result in a
+system which was not bootable from the SROM.  Because of this, when
+<code class="option">--install-prebooter</code> is used on an SROM which already
+contains an SROM booter or prebooter, <span><strong class="command">sbim</strong></span> will
+first issue a warning on standard output, and prompt for confirmation.
+This prompt may be avoided by specifying the <code class="option">--yes</code> option.
+
+</p></dd><dt><a name="extract-booter"></a><span class="term">
+<code class="option">--extract-booter <em class="replaceable"><code>output-booter-file</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--extract-booter</code> action reads the SROM booter
+or prebooter currently installed within the SROM, and writes it to
+an output file.  Assuming no corruption has occurred in the SROM, the
+output file will be identical to the input file originally used with the
+<code class="option">--install-booter</code> or <code class="option">--install-prebooter</code>
+option.
+
+</p></dd><dt><a name="invalidate-booter"></a><span class="term">
+<code class="option">--invalidate-booter</code>
+</span></dt><dd><p>
+
+The <code class="option">--invalidate--booter</code> action marks the SROM booter
+or prebooter as invalid.  Once the booter has been invalidated, it may
+no longer be extracted.  The invalidation operation is not reversible
+by <span><strong class="command">sbim</strong></span>.  Note, however, that the booter is not
+completely erased, merely marked as invalid, so invalidation is not an
+absolute protection against later retrieval of booter data.
+
+</p><p>
+
+Since there is no redundancy for the SROM booter, invalidating it will
+result in a system which was not bootable from the SROM.  Because of this,
+when <code class="option">--invalidate-booter</code> is used, <span><strong class="command">sbim</strong></span>
+will first issue a warning on standard output, and prompt for confirmation.
+This prompt may be avoided by specifying the <code class="option">--yes</code> option.
+
+</p></dd><dt><a name="sanitize"></a><span class="term">
+<code class="option">--sanitize</code>
+</span></dt><dd><p>
+
+The <code class="option">--sanitize</code> action writes a constant data pattern
+to the SROM, destroying any data previously written there.  This may
+be useful if sensitive data has been written to a system which must
+be used for a different purpose, or returned for repair.  In addition
+to erasing <code class="filename">/dev/srom/bootimage</code>, which is used
+to store the SROM booter and any bootable images, this action also
+erases <code class="filename">/dev/srom/bootparam</code>, which is used by
+the Tilera standalone boot loader, <code class="filename">mboot</code>, and
+<code class="filename">/dev/srom/userparam</code>, which is made available for
+use by applications programs.  Note that these file names may not be
+modified; the <code class="option">--file</code> option may not be specified with
+the <code class="option">--sanitize</code> action.
+
+</p><p>
+
+After the sanitize operation has completed, the target system
+will no longer be bootable from the SROM.  Because of this, when
+<code class="option">--sanitize</code> is used, <span><strong class="command">sbim</strong></span> will
+first issue a warning on standard output, and prompt for confirmation.
+This prompt may be avoided by specifying the <code class="option">--yes</code> option.
+
+</p></dd></dl></div></div><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="comment"></a><span class="term">
+<code class="option">-c</code>
+, </span><span class="term">
+<code class="option">--comment <em class="replaceable"><code>comment-string</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--comment</code> option may be specified with the
+<code class="option">--install</code>, <code class="option">--install-booter</code>, and
+<code class="option">--install-prebooter</code> actions.  The specified string is
+saved in the SROM with the booter, or the corresponding image, and may
+be retrieved via the <code class="option">--info</code> action.  The comment is
+truncated to no more than 80 bytes in length.
+
+</p></dd><dt><a name="file"></a><span class="term">
+<code class="option">-f</code>
+, </span><span class="term">
+<code class="option">--file <em class="replaceable"><code>srom-file</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--file</code> option specifies the SROM file which will be acted
+upon by <span><strong class="command">sbim</strong></span>.  If this option is not specified,
+<span><strong class="command">sbim</strong></span> uses <code class="filename">/dev/srom/bootimage</code> as
+the default; this is the recommended mode of operation, since in that case
+the SROM parameters are automatically determined based on the actual SROM
+chip in the system.  <span><strong class="command">tile-sbim</strong></span> does not have a default
+value for this option, so when running on the host, the SROM file must
+always be specified explicitly.
+</p><p>
+Note that <span><strong class="command">tile-sbim</strong></span> will not automatically
+expand a file specified with the <code class="option">--file</code> option.
+When creating a new image in a regular file, you may wish to use the
+<span><strong class="command">dd</strong></span> and <span><strong class="command">tr</strong></span> commands in conjuction
+with <code class="filename">/dev/zero</code> to create a file with the proper
+length and with all of its bits set to 1.  (Initializing to all 1's avoids
+unnecessary page write operations if the file is then written to a blank
+SROM.) For instance, to create an empty 8 megabyte SROM image:
+</p><pre class="screen">
+$ <strong class="userinput"><code>dd if=/dev/zero bs=1M count=8 | tr '\0' '\377' &gt;my.srom</code></strong>
+</pre><p>
+
+</p></dd><dt><a name="location"></a><span class="term">
+<code class="option">-l</code>
+, </span><span class="term">
+<code class="option">--location <em class="replaceable"><code>image-location</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--location</code> option is used with the
+<code class="option">--install</code> and <code class="option">--extract</code> actions
+to specify a target image other than the default.  See <a href="#locations" title="Locations">Locations</a> for the format of
+<em class="replaceable"><code>image-location</code></em>.
+
+</p></dd><dt><a name="num-images"></a><span class="term">
+<code class="option">-m</code>
+, </span><span class="term">
+<code class="option">--num-images <em class="replaceable"><code>num-images</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--num-images</code> option is used with the
+<code class="option">--install-booter</code> action to modify the number of images
+supported
+by the SROM.  By default, 2 images are supported.  Once the number of images
+has been set, it cannot be changed without invalidating and re-installing
+the SROM booter.  The available SROM space is split more-or-less evenly
+among the supported images, so specifying fewer images will allow larger
+images to be contained within the SROM, potentially at the cost of
+decreased robustness.
+</p><p>
+It is legal to specify <code class="option">--num-images 0</code>; in this case,
+all of the available SROM space may be used by the SROM booter, which may
+be a <code class="filename">.bootrom</code> file.  This configuration sacrifices
+the robustness benefits normally achieved by using a separate SROM
+booter and boot images, and is not recommended in most cases.  When
+<code class="option">--install-prebooter</code> is used, the number of images is
+always set to zero; in this case, the boot image is assumed to be coming
+from another interface, such as PCIe.
+</p></dd><dt><a name="page-size"></a><span class="term">
+<code class="option">-g</code>
+, </span><span class="term">
+<code class="option">--page-size <em class="replaceable"><code>page-size</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--page-size</code> option is used with the
+<code class="option">--install-booter</code> action to set the page size supported
+by the SROM, in bytes.  This option is normally only used on the host with
+<span><strong class="command">tile-sbim</strong></span>, since in that case the page size cannot be
+automatically determined.  Once the page size has been set, it cannot be
+changed without invalidating and re-installing the SROM booter.
+
+</p></dd><dt><a name="sector-size"></a><span class="term">
+<code class="option">-s</code>
+, </span><span class="term">
+<code class="option">--sector-size <em class="replaceable"><code>sector-size</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--sector-size</code> option is used with the
+<code class="option">--install-booter</code> action to set the sector size supported
+by the SROM, in bytes.  This option is normally only used on the host with
+<span><strong class="command">tile-sbim</strong></span>, since in that case the sector size cannot
+be automatically determined.  Once the sector size has been set, it cannot
+be changed without invalidating and re-installing the SROM booter.
+
+</p></dd><dt><a name="sectors"></a><span class="term">
+<code class="option">-Z</code>
+, </span><span class="term">
+<code class="option">--sectors <em class="replaceable"><code>num-sectors</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--num-sectors</code> option is used with
+the <code class="option">--install-booter</code> action to set the number of sectors
+supported by the SROM.  If not specified, the number of sectors is set
+automatically based on the size of the SROM file and its sector size.
+Once the number of sectors has been set, it cannot be changed without
+invalidating and re-installing the SROM booter.  You cannot specify both
+the <code class="option">--num-sectors</code> and <code class="option">--srom-size</code> options.
+
+</p><p>
+
+It is legal to specify a number of sectors that is smaller, but not
+larger, than the actual number of sectors present in the SROM; this may
+be necessary when creating a boot image within a fully-sized SROM file on
+a host (see <a href="#sizes" title="SROM Boot Image Region Size">SROM Boot Image Region Size</a> for details).
+Using a smaller number of sectors may also be useful to verify that a
+particular set of images will fit in a smaller SROM.
+
+</p></dd><dt><a name="srom-size"></a><span class="term">
+<code class="option">-z</code>
+, </span><span class="term">
+<code class="option">--srom-size <em class="replaceable"><code>srom-size</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--srom-size</code> option is used with the
+<code class="option">--install-booter</code> action to set the total size of the SROM, in
+bytes.  If not specified, the size is set automatically based on the size
+of the SROM file.  Once the SROM size has been set, it cannot be changed
+without invalidating and re-installing the SROM booter.  You cannot specify
+both the <code class="option">--num-sectors</code> and <code class="option">--srom-size</code>
+options.
+
+</p><p>
+It is legal to specify a size that is smaller, but not larger, than
+the actual size of the SROM; this may be necessary when creating a boot
+image within a fully-sized SROM file on a host (see <a href="#sizes" title="SROM Boot Image Region Size">SROM Boot Image Region Size</a> for details).  Using a smaller size may also be
+useful to verify that a particular set of images will fit in a smaller SROM.
+
+</p></dd><dt><a name="pcie-bar1-size"></a><span class="term">
+<code class="option">--pcie0-bar1-size <em class="replaceable"><code>bar-size</code></em></code>
+, </span><span class="term">
+<code class="option">--pcie1-bar1-size <em class="replaceable"><code>bar-size</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--pcie0-bar1-size</code> and
+<code class="option">--pcie1-bar1-size</code> options may be specified with the
+<code class="option">--install-booter</code> and <code class="option">--install-prebooter</code>
+actions, on TILEPro processors only.  When used, data is added to the SROM
+which modifies registers in the specified PCI Express shim.  The register
+settings configure the base address register for memory region number 1
+to request the specified amount of address space.
+
+</p></dd><dt><a name="verbose"></a><span class="term">
+<code class="option">-V</code>
+, </span><span class="term">
+<code class="option">--verbose</code>
+</span></dt><dd><p>
+
+The <code class="option">--verbose</code> option causes some actions to display
+additional output.
+
+</p></dd><dt><a name="verify"></a><span class="term">
+<code class="option">-v</code>
+, </span><span class="term">
+<code class="option">--verify</code>
+</span></dt><dd><p>
+
+The <code class="option">--verify</code> option may be used with the
+<code class="option">--info</code>, <code class="option">--install</code>, and
+<code class="option">--install-booter</code> actions.  When used with
+<code class="option">--info</code>, it causes the checksums of the installed
+images to be verified; the result of the verification is displayed
+along with the normal <code class="option">--info</code> output.  When used with
+<code class="option">--install</code> or <code class="option">--install-booter</code>, it causes
+the data written to the SROM to be read back and compared against the
+source; if errors are detected, they are reported.
+
+</p></dd><dt><a name="old-format"></a><span class="term">
+<code class="option">--old-format</code>
+</span></dt><dd><p>
+
+Boot images and SROM booters built by MDE 2.0 and later contain additional
+embedded error-checking information which allows <span><strong class="command">sbim</strong></span>
+to verify that such files have not been corrupted.  Attempting to install
+a file built with a previous MDE version via <code class="option">--install</code>
+or <code class="option">--install-booter</code> will result in an error message.
+The <code class="option">--old-format</code> option suppresses this message and allows
+such files to be installed.  This option is only available on TILEPro
+processors.
+
+</p></dd><dt><a name="yes"></a><span class="term">
+<code class="option">--yes</code>
+</span></dt><dd><p>
+
+The <code class="option">--yes</code> option suppresses confirmation
+requests which might be made by the <code class="option">--invalidate</code>,
+<code class="option">--install-booter</code>, <code class="option">--invalidate-booter</code>,
+and <code class="option">--sanitize</code> actions.
+
+</p></dd><dt><a name="oldest"></a><span class="term">
+<code class="option">--oldest</code>
+</span></dt><dd><p>
+
+When used with the <code class="option">--install</code> action, the
+<code class="option">--oldest</code> option causes the newly installed image to be given
+a generation number smaller than those assigned to any existing image.
+Generation numbers are non-negative, so an installation action with this
+option will fail if an image with generation number zero exists and is
+not being replaced.
+
+</p></dd><dt><a name="pattern"></a><span class="term">
+<code class="option">--pattern <em class="replaceable"><code>sanitize-pattern</code></em></code>
+</span></dt><dd><p>
+
+The <code class="option">--pattern</code> option may be specified with the
+<code class="option">--sanitize</code> action.  The argument is a 64-bit hexadecimal
+value, which will be used as the data pattern written to the SROM during
+the sanitization operation.  If this option is omitted, a 64-bit word of
+all 1's will be used.
+
+</p></dd></dl></div></div><div class="refsect2" lang="en"><a name="numeric"></a><h3>Numeric Values</h3><p>
+
+The numeric arguments supplied to the <code class="option">--sector-size</code>,
+<code class="option">--page-size</code>, <code class="option">--srom-size</code>,
+<code class="option">--sectors</code>, and <code class="option">--num-images</code> options may
+be given in kilo- (1024) or mega- (1048576) units by appending a 'k' or
+'m', respectively, to the value.
+
+</p></div><div class="refsect2" lang="en"><a name="sizes"></a><h3>SROM Boot Image Region Size</h3><p>
+
+While the SROM is primarily used to hold boot images, some parts of it are
+dedicated to other uses (for example, booter parameters and application
+parameters).  Currently the hypervisor reserves 6 sectors at the end of the
+SROM for these other uses.  Thus, <code class="filename">/dev/srom/bootimage</code>,
+which is the region of the SROM used by <span><strong class="command">sbim</strong></span>, will be
+6 sectors shorter than the entire SROM.
+
+</p><p>
+
+When using <span><strong class="command">sbim</strong></span> on a Tile Processor, this is not a
+concern; the size of the boot image region is automatically taken into
+account when initializing it and installing mages.  However, when using
+<span><strong class="command">tile-sbim</strong></span> on a host system, this is not true.  In that
+case, you need to do one of two things:
+</p><div class="orderedlist"><ol type="1"><li><p>
+Set the size of the disk file containing the SROM image to the size of
+the boot image region on the target Tile Processor, rather than the size
+of the entire SROM.
+</p></li><li><p>
+Use the <code class="option">--num-sectors</code> or <code class="option">--srom-size</code>
+options to set the proper size of the boot image region within a larger
+disk file.
+</p></li></ol></div><p>
+The best way to ascertain the size of the boot image partition on 
+a particular host is to look at the SROM device properties there:
+</p><pre class="screen">
+$ <strong class="userinput"><code>cat /sys/devices/platform/srom/0/total_size</code></strong>
+15204352
+</pre><p>
+However, if this is not possible, using a value of 6 reserved sectors is
+a reasonable approach.  Failure to set the proper size for the boot image
+region when creating an SROM image on the host may lead to later failures
+when using <span><strong class="command">sbim</strong></span> to update images on the Tile Processor,
+or may even lead to image corruption.
+
+</p></div><div class="refsect2" lang="en"><a name="locations"></a><h3>Locations</h3><p>
+
+Once a booter has been installed in an SROM, it consists of a number of
+image slots, each of which can hold one bootable image.  Image slots
+are numbered from zero to one less than the total number of images.
+Commands which act on a particular image slot have a location as a required
+or optional argument; a location specifies a slot number, either directly,
+or indirectly.  The valid formats for a location are as follows:
+
+</p><div class="variablelist"><dl><dt><a name="loc-direct"></a><span class="term">
+<code class="option">@<em class="replaceable"><code>n</code></em></code>
+</span></dt><dd><p>
+
+A location argument of the format
+<code class="option">@<em class="replaceable"><code>n</code></em></code> specifies an absolute
+image slot number.
+
+</p></dd><dt><a name="loc-last"></a><span class="term">
+<code class="option">0</code>
+</span></dt><dd><p>
+
+A location argument of the format <code class="option">0</code> specifies the image
+with the largest generation number.
+
+</p></dd><dt><a name="loc-prev"></a><span class="term">
+<code class="option">-<em class="replaceable"><code>n</code></em></code>
+</span></dt><dd><p>
+
+A location argument of the format
+<code class="option">-<em class="replaceable"><code>n</code></em></code>
+specifies the <em class="replaceable"><code>n</code></em>th most recently installed image.
+Thus, <code class="option">-1</code> specifies the image installed just before the
+most recently installed one; <code class="option">-2</code> specifies the image
+installed just before that; and so on.
+
+</p></dd></dl></div></div><div class="refsect2" lang="en"><a name="policy"></a><h3>Boot Policy</h3><p>
+When a TILExpress card is booted from its SROM, the first code executed is
+the SROM booter.  The SROM booter is responsible for verifying the remaining
+content of the SROM, choosing one of the set of valid bootable images,
+and then actually loading that image into the processor to complete the
+boot process.
+
+</p><p>
+
+The policy used by the default SROM booter provided with the MDE is to pick
+the image within the SROM which was most recently installed or promoted.
+This determination is done by examining each image's generation number;
+the image with the largest number is the most recent.  An image with a
+lower generation number may be used if the one with the largest number
+is found to be corrupt.
+
+</p></div></div><div class="refsect1" lang="en"><a name="example"></a><h2>Examples</h2><div class="refsect2" lang="en"><a name="example_on"></a><h3>Online Example</h3><p>
+
+In order to create a new boot image <code class="filename">my.bootrom</code>
+using a customized hypervisor configuration file
+<code class="filename">my.hvc</code>, and then install it in a
+previously-unused SROM on a TILExpress card, one could proceed as follows.
+(Note that the image is installed twice; for robustness, it is recommended
+that you have at least two valid bootable images in your SROM whenever
+possible.)
+
+</p><pre class="screen">
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-mkboot \
+  --compress --output my.bootrom --hvc my.hvc \
+  vmlinux=<code class="varname">${TILERA_ROOT}</code>/tile/boot/vmlinux</code></strong>
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-monitor --pci \
+  --upload-tile /boot/sromboot.bin --upload my.bootrom /my.bootrom</code></strong>
+Command: <strong class="userinput"><code>run /usr/sbin/sbim --install-booter /boot/sromboot.bin --yes</code></strong>
+Command: <strong class="userinput"><code>run /usr/sbin/sbim --install /my.bootrom --comment "First bootrom"</code></strong>
+Command: <strong class="userinput"><code>run /usr/sbin/sbim --install /my.bootrom</code></strong>
+Command: <strong class="userinput"><code>run /usr/sbin/sbim --info</code></strong>
+SROM booter: Present, 4544 bytes.
+   Time installed: Wed May 21 16:26:30 2008
+Image in slot 0: Present, generation 2, 3472872 bytes.
+   Time installed: Wed May 21 16:26:46 2008
+Image in slot 1: Present, generation 1, 3472872 bytes.
+   Time installed: Wed May 21 16:26:39 2008
+   Comment: First bootrom
+</pre></div><div class="refsect2" lang="en"><a name="example_off"></a><h3>Offline Example</h3><p>
+
+In some cases, it may not be possible to run <span><strong class="command">sbim</strong></span> on
+the system you want to configure; for instance, you may need to create
+a master SROM image to be used as part of a manufacturing process.
+The following example demonstrates how that might be done with
+<span><strong class="command">tile-sbim</strong></span>.  We assume we already have a boot image
+in <code class="filename">my.bootrom</code>, prepared as in the example above.
+In this example, the SROM is 8 megabytes in size, its page size is 256
+bytes, and its sector size is 65536 bytes; these values are normally taken
+from the hardware data sheet for the particular SROM chip being used.
+To get the correct size of the /bootimage partition, we reduce the number
+of sectors from the default 128 as described in <a href="#sizes" title="SROM Boot Image Region Size">SROM Boot Image Region Size</a>.
+
+</p><pre class="screen">
+$ <strong class="userinput"><code>dd if=/dev/zero bs=1M count=8 | tr '\0' '\377' &gt;my.srom</code></strong>
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-sbim --file my.srom \
+  --page-size 256 --sector-size 64k --num-sectors 122 --yes \
+  --install-booter <code class="varname">${TILERA_ROOT}</code>/tile/boot/sromboot.bin</code></strong>
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-sbim --file my.srom \
+  --install my.bootrom</code></strong>
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-sbim --file my.srom \
+  --install my.bootrom</code></strong>
+$ <strong class="userinput"><code><code class="varname">${TILERA_ROOT}</code>/bin/tile-sbim --file my.srom \
+  --info</code></strong>
+SROM booter: Present, 4544 bytes.
+   Time installed: Wed May 21 16:26:30 2008
+Image in slot 0: Present, generation 2, 3472872 bytes.
+   Time installed: Wed May 21 16:26:46 2008
+Image in slot 1: Present, generation 1, 3472872 bytes.
+   Time installed: Wed May 21 16:26:39 2008
+</pre><p>
+At this point, the file <code class="filename">my.srom</code> can be used to
+initialize an SROM chip which, once connected to a Tile Processor,
+will enable it to boot.
+</p></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot(1)</strong></span></a>,
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor(1)</strong></span></a>.
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

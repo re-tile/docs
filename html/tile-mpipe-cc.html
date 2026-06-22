@@ -1,0 +1,492 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-mpipe-cc</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-mpipe-cc"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-mpipe-cc &#8212; C Compiler for TILE-Gx Classifier Processor</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-mpipe-cc</code>  [<code class="option">--help</code>] [<code class="option">-S</code>] [<code class="option">-E</code>] [<code class="option">-s</code>] [<code class="option">-I<em class="replaceable"><code>dir</code></em></code>...] [<code class="option">-D<em class="replaceable"><code>macro</code></em>[<span class="optional">=<em class="replaceable"><code>defn</code></em></span>]</code>...] [<code class="option">-U<em class="replaceable"><code>macro</code></em></code>...]  <code class="option">-o <em class="replaceable"><code>outfile</code></em></code>   <em class="replaceable"><code>input_file</code></em> </p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-mpipe-cc</strong></span> compiles programs written
+in a small subset of the C language to run on the classifier hardware.
+</p></div><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="help"></a><span class="term">
+<code class="option">--help</code>
+</span></dt><dd><p>
+Print usage message and exit.
+</p></dd><dt><span class="term">
+<code class="option">-o <em class="replaceable"><code>output_file</code></em></code>
+</span></dt><dd><p>
+<em class="replaceable"><code>output_file</code></em> is required.
+It is the filename of the output
+written by <span><strong class="command">tile-mpipe-cc</strong></span>.
+</p></dd><dt><a name="input_file"></a><span class="term">
+<code class="option"><em class="replaceable"><code>input_file</code></em></code>
+</span></dt><dd><p>
+<em class="replaceable"><code>input_file</code></em> is required.
+It is the filename of the classifier program source.
+</p></dd><dt><span class="term">
+<code class="option">-E</code>
+</span></dt><dd><p>
+Pass <em class="replaceable"><code>input_file</code></em> through the C preprocessor
+and exit without compiling.
+</p></dd><dt><span class="term">
+<code class="option">-S</code>
+</span></dt><dd><p>
+Compile <em class="replaceable"><code>input_file</code></em> into assembler source code
+but exit without invoking <span><strong class="command">tile-mpipe-as</strong></span>.
+</p></dd><dt><span class="term">
+<code class="option">-I<em class="replaceable"><code>dir</code></em> </code>
+</span></dt><dd><p>
+Add the directory <em class="replaceable"><code>dir</code></em> to the list of
+directories to be searched for header files.
+</p></dd><dt><span class="term">
+<code class="option">-D<em class="replaceable"><code>macro=definition</code></em> </code>
+</span></dt><dd><p>
+The contents of <em class="replaceable"><code>definition</code></em> are
+processed as if they appeared in a #define directive.
+</p></dd><dt><span class="term">
+<code class="option">-U<em class="replaceable"><code>macro</code></em> </code>
+</span></dt><dd><p>
+Cancel any previous definition of <em class="replaceable"><code>name</code></em>,
+either built in or provided with a <code class="option">-D</code> option.
+</p></dd><dt><span class="term">
+<code class="option">-s</code>
+</span></dt><dd><p>
+
+Enable "small switch" mode.  This mode implements switch statements by
+iterating through a table in table memory.  This saves instruction
+memory at the expensive of speed and data memory.  Use this if you are
+running out of instruction memory but have cycles to burn.
+
+</p></dd></dl></div></div><div class="refsect1" lang="en"><a name="id1274935"></a><h2>Writing Classifier Programs</h2><p>
+The classifier program reads from an input
+stream of bytes providing the packet's header, analyzes that header,
+and writes a "packet descriptor" to an output stream.  The packet
+descriptor controls how later hardware stages process the packet.
+</p><p>
+[ Note:  for complete details of the Classifier, please see the Tile
+ Processor I/O Device Guide for the TILE-Gx Family of Processors. ]
+</p><p>
+<span><strong class="command">tile-mpipe-cc supports:</strong></span>
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+C preprocessor (#define, #if, #include, // and /**/ comments, etc.)
+</p></li><li><p>
+Standard C control flow: while, for, do/while, if, else, switch,
+break, continue, and return.
+</p></li><li><p>
+Local scalar variables.  They must be of type uint8_t, int16_t or
+uint16_t.  All arithmetic operations are 16 bit.
+</p></li><li><p>
+C99-style declarations.  Variables can be declared anywhere in
+a program block, not just at the beginning.  They can also be
+declared inside "for" loop initializers.
+</p></li><li><p>
+Numeric constants.  Constants can be written in decimal, or in
+hexadecimal with a leading "0x".  An optional "U" suffix indicates
+that the value should be uint16_t, not int16_t.
+</p></li><li><p>
+Casting.  You can cast to any of int16_t, uint16_t, or void.
+</p></li><li><p>
+Arithmetic.  All of the standard C operators are supported,
+except division and remainder.
+</p></li><li><p>
+Comparison.
+</p></li><li><p>
+Short-circuiting logical operators.
+</p></li><li><p>
+gcc-style "statement expressions", such as ({ int x = 3; x + 2; })
+</p></li><li><p>
+Assorted intrinsics for accessing hardware resources (see below).
+</p></li><li><p>
+Globals arrays of integer types.  Since there is no writable
+memory, all arrays are implicitly 'const'; however, global
+variable values, including array elements, can be externally
+supplied when the program is loaded, by a link-like step.
+</p></li><li><p>
+
+Labels and goto.
+</p></li><li><p>
+
+likely() / unlikely() hints for optimizing if statements.
+</p></li><li><p>
+
+Exception handling (described below).
+</p></li></ul></div><p>
+<span><strong class="command">tile-mpipe-cc does not support:</strong></span>
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+Subroutines.  You can write only one function, which is invoked
+    for each incoming packet.  The hardware provides no writable
+    memory, so without a stack, true subroutines are difficult to
+    implement.
+    You can, however, use gcc-style ({...}) statement expressions to
+    create macros that are nearly as powerful as inline functions.
+</p></li><li><p>
+
+Division or remainder.  Not supported by the hardware.  Would be too
+slow to implement in software.
+</p></li><li><p>
+
+Fast multiplication.  Not supported by hardware, so multiplies
+are implemented as a sequence of shift-and-add operations.
+If you multiply by a constant it can be relatively efficient,
+depending on the
+constant. Multiplying two arbitrary variables together can consume a
+large fraction of the packet processing budget.
+</p></li><li><p>
+
+Non-scalar datatypes other than global arrays.  There are no
+structs, unions, etc., and no pointer variables.
+</p></li><li><p>
+
+Enums.  There are no enums, although you can use #defines instead.
+</p></li><li><p>
+
+Static variables.  The hardware runs multiple independent instances
+    of each classifier program.  The instances cannot communicate, and
+    are stateless.  There are therefore no static local variables.
+    Global variables can be "static", which means the compiler assumes
+    they are not modified by any link-time tools.  All globals are
+    implicitly "const".
+</p></li><li><p>
+
+typedef, const, and volatile are not supported.
+</p></li><li><p>
+
+floating point.  Only 16-bit integer operations are supported.
+</p></li><li><p>
+
+Inline assembly is not supported.  However most hardware resources
+are accessible through intrinsics. (See below.)
+</p></li><li><p>
+
+String or character constants.  Except that the magic "printf"
+intrinsic does accept a string constant for the format string.
+</p></li><li><p>
+
+The "?:" operator.
+</p></li></ul></div><p>
+<span><strong class="command">Intrinsics:</strong></span>
+</p><p>
+[ Note:  for details on all these intrinsics, please see the Tile
+ Processor I/O Device Guide for the TILE-Gx Family of Processors. ]
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+uint16_t below_hwm(void);
+</p><p>
+  Returns 1 if the classifier header queue is below its high water 
+  mark, which generally means the classifiers are keeping up with
+  incoming packets.  Otherwise this returns 0.  When this flag is 0
+  the system is falling behind and will start dropping packets that
+  exceed their processing cycle count budget.
+  See the CLASSIFIER_BUDGET special-purpose register.
+</p></li><li><p>
+uint16_t byteswap(uint16_t n);
+</p><p>
+  Exchanges the high and low bytes of n.
+</p></li><li><p>
+
+uint16_t checksum(uint16_t a, uint16_t b);
+
+</p><p>
+  Computes a 16-bit checksum of a and b.
+</p></li><li><p>
+uint16_t ctz(uint16_t n);
+</p><p>
+  "Count trailing zeroes".  Returns the index of the lowest 1 bit,
+  starting from 0, or 16 if n == 0.
+</p></li><li><p>
+uint16_t cycles_remaining(void);
+</p><p>
+  Returns the number of cycles remaining in the processing budget.
+  If this hits zero, and below_hwm() returns false (meaning the
+  system is falling behind), the packet will be forcibly dropped.
+  As long as below_hwm() returns true, the system tolerates slow
+  classifiers.  See the CLASSIFIER_BUDGET special-purpose register.
+</p></li><li><p>
+
+uint16_t get2(void);
+
+</p><p>
+  Returns the next 16 bits from the packet header input buffer,
+  advancing the buffer pointer.  There is no get1().
+</p></li><li><p>
+uint8_t mem1(void);
+</p><p>
+uint16_t mem2(void);
+</p><p>
+Returns the next byte/word from table memory addressed by the
+tPtr (mempos) register.  tPtr will be post-incremented by 1 or 2, appropriately.
+Note that if you mix mem1 / mem2 / mseek with C-style table memory
+access (e.g., "n = table[3]"), tile-mpipe-cc will assume you are
+smarter than it is and bypass some of its usual optimization attempts.
+</p></li><li><p>
+void mseek(&amp;global_table_entry);
+</p><p>
+Sets the tPtr (mempos) register to the location of the specified global
+table entry for subsequent mem1() or mem2() reads.  Note that
+the "&amp;" sign is optional -- mseek(&amp;table[3]) and mseek(table[3])
+are equivalent.
+</p></li><li><p>
+
+uint16_t peek2(void);
+
+</p><p>
+  Like get2, but does not advance the buffer pointer.
+</p></li><li><p>
+
+void put1(uint16_t n);
+
+</p><p>
+  Writes a single byte to the output buffer, advancing the output
+  buffer pointer by 1.
+</p></li><li><p>
+
+void put2(uint16_t n);
+</p><p>
+
+  Writes two bytes to the output buffer, advancing the output
+  buffer pointer by 2.
+</p></li><li><p>
+
+void iseek(uint16_t n);
+
+</p><p>
+  Seeks the input buffer pointer to the designated index, so that
+  future get2 and peek2 calls return values from the given index.
+</p></li><li><p>
+
+void initial_iseek(uint16_t index);
+
+</p><p>
+  Sets the initial input buffer pointer register to the designated index,
+  so that the first get2 or peek2 calls return values from the given location.
+  Note that index must be a constant.
+</p></li><li><p>
+
+uint16_t itell(void);
+
+</p><p>
+  Returns the current position of the input buffer pointer.
+</p></li><li><p>
+
+void oseek(uint16_t n);
+
+</p><p>
+  Seeks the output buffer to the designated index, so that future
+  put1 and put2 calls start writing at the given location.
+  There is no 'otell'.
+</p></li><li><p>
+
+void initial_oseek(uint16_t index);
+
+</p><p>
+  Sets the initial output buffer pointer register to the designated index,
+  so that the first put1 or put2 calls start writing at the given location.
+  Note that index must be a constant.
+</p></li><li><p>
+
+uint16_t hash0_lo(void);
+</p><p>
+  uint16_t hash0_hi(void);
+</p><p>
+  uint16_t hash1_lo(void);
+</p><p>
+  uint16_t hash1_hi(void);
+
+</p><p>
+  Returns the low or high 16 bits of the hash0 or hash1 register.
+</p></li><li><p>
+  void set_hash0_lo(uint16_t val);
+</p><p>
+  void set_hash0_hi(uint16_t val);
+</p><p>
+  void set_hash1_lo(uint16_t val);
+</p><p>
+  void set_hash1_hi(uint16_t val);
+</p><p>
+  Sets the low or high 16 bits of the hash0 or hash1 register.
+</p></li><li><p>
+void hash0_seed1(uint16_t n);
+</p><p>
+  void hash0_seed2(uint16_t n);
+</p><p>
+  void hash1_seed1(uint16_t n);
+</p><p>
+  void hash1_seed2(uint16_t n);
+</p><p>
+  Seeds the initial contents of the hash0 or hash1 register to
+  the hash of the given 1 or 2 byte input value.  The _seed1 functions
+  ignore the high byte of their input.
+</p></li><li><p>
+void hash0_acc1(uint16_t n);
+</p><p>
+  void hash0_acc2(uint16_t n);
+</p><p>
+  void hash1_acc1(uint16_t n);
+</p><p>
+  void hash1_acc2(uint16_t n);
+</p><p>
+  Accumulates 1 or 2 bytes of data into the 32-bit hash0 or hash1
+  registers.  The _acc1 functions ignore the high byte of their input.
+</p></li><li><p>
+uint16_t checksum_and_hash0_acc1(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash0_acc2(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash1_acc1(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash1_acc2(uint16_t a, uint16_t b);
+</p><p>
+Computes checksum and accumulates 1 or 2 bytes of data into the 32-bit
+hash0 or hash1 registers.  The _acc1 functions ignore the high byte of
+their input.
+</p></li><li><p>
+uint16_t checksum_and_hash0_seed1(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash0_seed2(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash1_seed1(uint16_t a, uint16_t b);
+</p><p>
+  uint16_t checksum_and_hash1_seed2(uint16_t a, uint16_t b);
+</p><p>
+Computes checksum of two words and CRC of one of the words
+into the accumulator.
+</p></li><li><p>
+
+uint16_t random(void);
+
+</p><p>
+  Produces a pseudorandom 16-bit value, based on a free-running
+  LFSR.  Not cryptographically secure.
+</p></li><li><p>
+
+void set_random(uint16_t n);
+
+</p><p>
+Sets the low 16 bits of the CLASSIFIER_RAND register.  The upper 6 bits
+are set to zero.  Setting to zero stops the LFSR from changing.
+</p></li><li><p>
+
+void set_ctl(uint16_t n);
+
+</p><p>
+Sets the CLASSIFIER_CTL register.  Bit 0 (the low bit) freezes the
+classifier when set.  Bit 1 will send an interrupt to the tile when
+written with a 1.
+</p></li><li><p>
+void set_pass(uint16_t n);
+</p><p>
+Sets the CLASSIFIER_PASS register.  
+Used in an implementation specific way for communication between
+the simulator and the classifier.  It shares storage with the
+CLASSIFIER_FAIL and CLASSIFIER_DONE registers, which have no
+separate intrinsics.  This data is also visible to the Tile software.
+</p></li><li><p>
+
+uint16_t packet_is_cut_through(void);
+</p><p>
+  uint16_t packet_has_error(void);
+</p><p>
+  uint16_t packet_has_mac_error(void);
+</p><p>
+  uint16_t packet_has_crc_error(void);
+</p><p>
+  uint16_t packet_is_truncated(void);
+</p><p>
+  uint16_t packet_channel(void);
+</p><p>
+  Provides access to assorted packet flags.
+</p></li><li><p>
+
+uint16_t packet_size(void);
+
+</p><p>
+  Returns the size of the packet in bytes.
+</p></li><li><p>
+
+printf(format, ...);
+
+</p><p>
+  In the simulator this acts like the normal C printf, but it does nothing
+  on hardware.  Under simulation this intrinsic is handled magically
+  and is very efficient, using 0 or 1 cycles.  Of course, computing
+  the values being printed may consume more cycles.
+</p><p>
+  The format string must be a string literal.  Because the other
+  parameters are necessarily integers, only the various integer format
+  strings like "%d" and "%04x" are allowed.
+</p></li></ul></div><p>
+<span><strong class="command">Exception handling:</strong></span>
+</p><p>
+  tile-mpipe-cc allows creation of an optional exception handling routine.
+  Control will be transferred to this routine when the classifier attempts
+  to access data beyond the end of the iHdr buffer or beyond the L2 size
+  of the packet.  For example:
+
+</p><pre class="programlisting">
+    shared uint16_t foo;
+    void classify()
+    {
+      // main classifier code ...
+      foo = 42;
+    }
+
+    void ex()
+    { 
+      // exception handling code ...
+      if (foo == 42)
+        return; 
+    }
+</pre><p>
+  Things to note:
+  
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+  The second routine defined (by  position in the code) will be the
+     exception handler.  Its address will be automatically set in the
+     appropriate register. 
+</p></li><li><p>
+  Variables defined by the "shared" keyword (before the main classifier
+     routine) will be visible to both routines.  The current value of a
+     shared variable is preserved when control is transferred to the
+     exception handler.
+</p></li><li><p>
+  Shared variables each reserve an internal register.  As such, they
+     are a limited resource and should be used sparingly.  Furthermore,
+     their use is not optimized as well as normal variables; they are
+     less efficient and should not be used for general computation.
+</p></li></ul></div><p>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

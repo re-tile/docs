@@ -1,0 +1,176 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mcstat</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="mcstat"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mcstat &#8212; Monitor Memory Controller Usage</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mcstat</code>   <code class="option">--help</code>
+ </p></div><div class="cmdsynopsis"><p><code class="command">mcstat</code>   <code class="option">-t</code>
+<em class="replaceable"><code>seconds</code></em>
+ </p></div><div class="cmdsynopsis"><p><code class="command">mcstat</code>   <code class="option">-i</code>
+<em class="replaceable"><code>seconds</code></em>
+ </p></div><div class="cmdsynopsis"><p><code class="command">mcstat</code>   <code class="option">-w</code>
+<em class="replaceable"><code>seconds</code></em>
+ </p></div><div class="cmdsynopsis"><p><code class="command">mcstat</code>   <code class="option">-c</code>
+<em class="replaceable"><code>command</code></em>
+  [<em class="replaceable"><code>arg...</code></em>]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">mcstat</strong></span> is a convenient way to monitor memory activity.
+Tile memory is accessed via up to 4 memory controllers.  <span><strong class="command">mcstat</strong></span>
+reports statistics for each memory controller over some period.  The duration
+of this period is controlled by command line options.
+With <code class="option">-c</code> the duration is the time it takes to run the given
+command.  With the <code class="option">-i</code>, <code class="option">-w</code>, or
+<code class="option">-t</code> options the duration is the given number of
+seconds.
+With <code class="option">-i</code> or <code class="option">-w</code>
+<span><strong class="command">mcstat</strong></span> repeatedly monitors intervals of the given
+number of seconds.  With <code class="option">-t</code> <span><strong class="command">mcstat</strong></span>
+measures just one such interval.  </p><p>
+If an application's performance scales well and then flattens out,
+this is often reason to suspect that it has saturated one or more
+memory controllers.  <span><strong class="command">mcstat</strong></span> is useful for detecting
+situations where application performance is limited by memory bandwidth.
+On systems which are not configured to use memory striping, it's also useful
+for checking that memory controller usage is roughly evenly balanced.
+In the latter case, homing application data structures differently,
+or using different sets of tiles, may provide better performance; see
+<span><strong class="command">numactl</strong></span> and <span><strong class="command">taskset</strong></span>.
+</p><p>
+<span><strong class="command">mcstat</strong></span> has two different output formats, depending on the
+command line options.  With <code class="option">-i</code> or <code class="option">-w</code>
+it uses a condensed report format which allows it to fit all the
+information from a single interval onto a single line.  In the other
+two modes, it uses a line per memory controller to make the output
+easier on the eyes.
+</p><p>
+Here is an example of the line-per-controller output format:
+</p><pre class="programlisting">
+    memory                               % read   % write
+controller      % peak      % read         miss      miss    latency
+--------------------------------------------------------------------
+         0           3          66           36        78        115
+         1           1          62            5        56        112
+         2           2          18           22        81        115
+         3           0          17           30        41         97
+</pre><p>
+</p><p>
+The meaning of the columns is:
+</p><div class="variablelist"><dl><dt><span class="term">memory controller</span></dt><dd><p>Index of the memory controller</p></dd><dt><span class="term">% peak</span></dt><dd><p>
+      Number of memory operations performed by the controller as a percentage
+      of the <span class="emphasis"><em>theoretical</em></span> peak.  This theoretical peak is
+      nearly impossible to achieve in practice.  Even under the best
+      conditions, the memory controller starts to be saturated (and thus a
+      potential performance bottleneck) at 50%.  Even with much lower numbers
+      there may still be a memory bottleneck, depending on the pattern of
+      references (see the descriptions of misses below.)
+</p></dd><dt><span class="term">% read</span></dt><dd><p>
+      Percentage of memory operations which are reads (as opposed to writes.)
+</p></dd><dt><span class="term">% read miss</span></dt><dd><p>
+      Percentage of read operations which page-missed in the controller as a
+      percentage of all read operations.  High miss rates result from memory
+      reference patterns with low locality.  The penalty for read misses is
+      decreased memory bandwidth, but even with 100% miss rates, this will be
+      about 80% of bandwidth with no misses at all.  Often there is little
+      one can do to improve miss rates.
+</p></dd><dt><span class="term">% write miss</span></dt><dd><p>
+      Percentage of write operations which page-missed in the controller as a
+      percentage of all write operations.  All the same considerations given
+      above for read misses also apply to write misses, but the penalty is
+      considerably higher.
+  </p></dd><dt><span class="term">latency</span></dt><dd><p>
+      The average latency in core clock cycles of a load instruction
+      that travels to the memory controller, as measured by the
+      memprof driver.  This measurement includes cycles spent traveling
+      across the Tile Processor's mesh networks to and from the memory
+      controller.  As a result, controllers that are farther from the memprof
+      dedicated or shared tile will have higher latency measurements,
+      particularly in heavily loaded systems where memory network congestion
+      can increase routing latency. Note that latency will appear more variable
+      when using the shared tile configuration of the memprof driver because
+      fewer samples are taken per measurement interval.
+</p></dd></dl></div><p>
+The condensed format used with the <code class="option">-i</code> option looks like this:
+</p><pre class="programlisting">
+     mc 0      |     mc 1      |     mc 2      |      mc 3     |
+ sat read  lat | sat read  lat | sat read  lat | sat read  lat |
+   0   94  103 |   0   95  102 |   0   96   87 |   0   93   93 |
+   0   98  105 |   0  100  105 |   0  100   87 |   0   97   88 |
+   0   95  105 |   0   97  106 |   0   97   87 |   0   94   88 |
+   0   98  105 |   0  100  105 |   0  100   87 |   0   97   88 |
+   0   98  105 |   0  100  105 |   0  100   87 |   0   97   88 |
+</pre><p>
+The semi-condensed format used with the <code class="option">-w</code> option looks like this:
+</p><pre class="programlisting">
+         mc 0          |         mc 1          |         mc 2          |          mc 3         |
+ sat read  rm  wm  lat | sat read  rm  wm  lat | sat read  rm  wm  lat | sat read  rm  wm  lat |
+   0   97   9  71  103 |   0   99   1  47  112 |   0   93   1  85   88 |   0  100   0   0   97 |
+   0   96   9  77  103 |   0   99   1  58  112 |   0   94   1  85   88 |   0  100   0   7   96 |
+   0   97   9  75  103 |   0   99   1  13  111 |   0   98   1  64   88 |   0  100   0  13   96 |
+   0   98   6  68  103 |   0  100   0   6  112 |   0   99   1  37   88 |   0  100   0   0   96 |
+   0   97  11  72  103 |   0   99   1  26  112 |   0   97   1  40   88 |   0  100   0   0   96 |
+</pre><p>
+In these formats there are up to 5 columns for each controller, and
+the correspondence to the less-compressed format is as follows:
+
+</p><div class="variablelist"><dl><dt><span class="term">
+<code class="code">sat</code>
+</span></dt><dd>
+% peak (percent of theoretical peak throughput)
+</dd><dt><span class="term">
+<code class="code">read</code>
+</span></dt><dd>
+% read (percent of read operations, as opposed to write operations)
+</dd><dt><span class="term">
+<code class="code">rm</code>
+</span></dt><dd>
+% read miss (percent of read operations that miss an open bank)
+</dd><dt><span class="term">
+<code class="code">wm</code>
+</span></dt><dd>
+% write miss (percent of write operations that miss an open bank)
+</dd><dt><span class="term">
+<code class="code">lat</code>
+</span></dt><dd>
+latency (average load instruction latency)
+</dd></dl></div><p>
+
+</p></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="memprof.html" target="_top"><span><strong class="command">memprof(4)</strong></span></a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

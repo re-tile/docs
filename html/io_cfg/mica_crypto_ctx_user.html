@@ -1,0 +1,190 @@
+<html>
+<title>mica_crypto_ctx_user Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>MICA_USER (0x0000-0x0058) : </b> 
+These registers define the MiCA USER_CONTEXT interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#MICA_CRYPTO_CTX_USER_SRC_DATA">MICA_CRYPTO_CTX_USER_SRC_DATA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#MICA_CRYPTO_CTX_USER_DEST_DATA">MICA_CRYPTO_CTX_USER_DEST_DATA</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#MICA_CRYPTO_CTX_USER_EXTRA_DATA_PTR">MICA_CRYPTO_CTX_USER_EXTRA_DATA_PTR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#MICA_CRYPTO_CTX_USER_OPCODE">MICA_CRYPTO_CTX_USER_OPCODE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#MICA_CRYPTO_CTX_USER_IN_USE">MICA_CRYPTO_CTX_USER_IN_USE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#MICA_CRYPTO_CTX_USER_CONTEXT_STATUS">MICA_CRYPTO_CTX_USER_CONTEXT_STATUS</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="MICA_CRYPTO_CTX_USER_SRC_DATA"></a>
+<br><br><h4>Source Data (MICA_CRYPTO_CTX_USER_SRC_DATA: 0x0000)</h4>
+This Context User register specifies where source data is located.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_SRC_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:62</TD> <TD>CHAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>Chain</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>61:59</TD> <TD>SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Size</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:7</TD> <TD>VA</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Address</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>OFF</TD> <TD>RW</TD> <TD>0</TD> <TD>Offset</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_USER_DEST_DATA"></a>
+<br><br><h4>Destination Data (MICA_CRYPTO_CTX_USER_DEST_DATA: 0x0008)</h4>
+This Context User register specifies where destination data is located.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_DEST_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:62</TD> <TD>CHAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>Chain</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>61:59</TD> <TD>SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Size</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:7</TD> <TD>VA</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Address</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>OFF</TD> <TD>RW</TD> <TD>0</TD> <TD>Offset</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_USER_EXTRA_DATA_PTR"></a>
+<br><br><h4>Extra Data Pointer (MICA_CRYPTO_CTX_USER_EXTRA_DATA_PTR: 0x0010)</h4>
+This Context User register contains the Virtual Address pointer to Extra Data, if any, associated with the operation.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_EXTRA_DATA_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>41:0</TD> <TD>VA</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Address of the Extra Data.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_USER_OPCODE"></a>
+<br><br><h4>Opcode (MICA_CRYPTO_CTX_USER_OPCODE: 0x0018)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+This Context User register specifies the operation to be performed.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_OPCODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:53</TD> <TD>DM_SPECIFIC</TD> <TD>RW</TD> <TD>0</TD> <TD>The use of these bits is specific to each MiCA type.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>52:49</TD> <TD>DST_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>This field specifies how much extra size is allowed for destination data, relative to source size.  For compression/decompression the value is a multiplier of source size with value 0 being 1x, and values 1 through 9 being 1/4, 1/2, 2, 4, 8, 16, 64, 256, and 2048.  For crypto the value indicates number of bytes added to source size, with values 0 through 11 being 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, and 1024.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>48:43</TD> <TD>EXTRA_DATA_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Number of 8-byte words of Extra Data.  The usage of Extra Data is specific to each MiCA type.  A value of 0 means no Extra Data.  If the amount of Extra Data is not an integral number of 8 bytes, the unused bytes at the end must be set to 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>42:38</TD> <TD>NUM_DEST_BD</TD> <TD>RW</TD> <TD>0</TD> <TD>The number of destination Buffer Descriptors (only used when DEST_MODE is BUFF_DESC_LIST).  The value is the number of descriptors, except a value 0 means 32 descriptors.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>37:36</TD> <TD>DEST_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls the usage of the DEST_DATA User Context register.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SINGLE_BUFF_DESC</TD><TD>DEST_DATA contains a single Buffer Descriptor, can be either unchained, or chained; if chained the first buffer must be large enough to hold all the destination data; specifying a chain of buffers is illegal.</TD></TR>
+   <TR><TD>1</TD><TD>OVERWRITE_SRC</TD><TD>DEST_DATA is not used.  The source data is overwritten by destination data.</TD></TR>
+   <TR><TD>2</TD><TD>BUFF_DESC_LIST</TD><TD>DEST_DATA contains the VA of a list of Buffer Descriptors (from 1 to 32 descriptors, defined in NUM_DEST_BD field).  The VA must be aligned so that the list does not cross a page boundary.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>35</TD> <TD>SRC_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Control the usage of tde SRC_DATA User Context register.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SINGLE_BUFF_DESC</TD><TD>SRC_DATA contains a single Buffer Descriptor, which can be either unchained or the first buffer in a chain.  Note that the Opcode Register Size field specifies the total source data length.</TD></TR>
+   <TR><TD>1</TD><TD>EDMA_DESC_LIST</TD><TD>SRC_DATA contains the VA of a list of eDMA Descriptors (from 1 to 4 descriptors).  The VA must be cacheline aligned.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>34:32</TD> <TD>ENGINE_TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Defines which type of Engine in the MiCA should do the operation.  Type 0 and 1 are common for all MiCAs, Type 2 through 7 are defined for each MiCA type.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>MEM_CPY</TD><TD>Copy the data from source to destination.  SIZE field must not be 0 for this operation.</TD></TR>
+   <TR><TD>1</TD><TD>MEM_CPY_INVERT</TD><TD>Copy the inverted data from source to destination.  Inverted means unary inversion (0-1, 1-0).  SIZE field must not be 0 for this operation.</TD></TR>
+   <TR><TD>2</TD><TD>PP</TD><TD>Packet Processor operation.</TD></TR>
+   <TR><TD>4</TD><TD>KASUMI</TD><TD>Kasumi encryption or decryption operation.</TD></TR>
+   <TR><TD>5</TD><TD>SNOW3G</TD><TD>SNOW-3G encryption or decryption operation.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>31:30</TD> <TD>PRIORITY</TD> <TD>RW</TD> <TD>0</TD> <TD>This field selects the priority level for the operation.  0 is highest priority, 3 is lowest.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Size of the operation source data, in bytes. Note that the size of the destination data is a function of the size of the source data and the operation performed.</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_USER_IN_USE"></a>
+<br><br><h4>Context In Use (MICA_CRYPTO_CTX_USER_IN_USE: 0x0020)</h4>
+This Context User register is used to provide the status of a Context.  It can be used for polling for completion.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_IN_USE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>IN_USE</TD> <TD>RO</TD> <TD>0</TD> <TD>Reads as '1' when the Context is not in IDLE state (see Status Register).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>DONE</TD> <TD>RO</TD> <TD>0</TD> <TD>Reads as '1' when the Context has completed an operation (see Status Register).</TD> </TR>
+</TABLE><br><br>
+<a name="MICA_CRYPTO_CTX_USER_CONTEXT_STATUS"></a>
+<br><br><h4>Context Status (MICA_CRYPTO_CTX_USER_CONTEXT_STATUS: 0x0028)</h4>
+This Context User register specifies status about an operation.  It is written by HW when the operation completes or has an error.  Specific engines (e.g. crypto, inflate, deflate) may provide additional customization of this register.
+<br><img src="mica_crypto_ctx_user_pics/MICA_CRYPTO_CTX_USER_CONTEXT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63</TD> <TD>RESET_PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD>The RESET bit in the CONTROL register was written to 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>62</TD> <TD>DST_OVF</TD> <TD>RO</TD> <TD>0</TD> <TD>Destination overflow.  The operation needed to write more data than the space provided.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>61</TD> <TD>BAD_ED_LIST</TD> <TD>RO</TD> <TD>0</TD> <TD>The source eDMA list address was not properly aligned (bits [6:0] were not 0) or an eDMA entry had a size of zero.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>60</TD> <TD>BAD_BD_LIST</TD> <TD>RO</TD> <TD>0</TD> <TD>The destination buffer descriptor list address was not properly aligned (bits [6:0] were not 0).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>59</TD> <TD>BAD_SRC_BD</TD> <TD>RO</TD> <TD>0</TD> <TD>The source buffer descriptor either was chain with an offset less than 8, or had an invalid type code.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>58</TD> <TD>BAD_DST_BD</TD> <TD>RO</TD> <TD>0</TD> <TD>The destination buffer descriptor either was chain with an offset less than 8, or had an invalid type code.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bytes of destination data written to memory by the operation.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

@@ -1,0 +1,144 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-dev</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-dev"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p><span><strong class="command">tile-dev</strong></span> &#8212; Utility that determines TILE device to use,
+based on a specified device name or label, or the default
+device if no name/label is specified.
+</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-dev</code>  [<em class="replaceable"><code>options</code></em>...] [<em class="replaceable"><code>device-name</code></em>]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><div class="refsect2" lang="en"><a name="usage"></a><h3>Usage</h3><p>
+The <span><strong class="command">tile-dev</strong></span> command is used by MDE commands
+such as <span><strong class="command">tile-monitor</strong></span> and <span><strong class="command">tile-console</strong></span>
+to determine the actual TILE device to use, based on arguments
+provided by the user, such as the <span><strong class="command">--dev</strong></span> option.
+</p><p>
+The <span><strong class="command">tile-dev</strong></span> command can also be invoked by the user
+to check that the configuration and defaulting of TILE device(s)
+is correct. (Note that this is purely informational: you do NOT need to
+invoke <span><strong class="command">tile-dev</strong></span> yourself to use commands such as
+<span><strong class="command">tile-monitor</strong></span> and <span><strong class="command">tile-console</strong></span>.)
+</p><p>
+For example, to determine the device name for a TILE device connected to USB port 0:
+</p><div class="informalexample"><pre class="programlisting">
+  $ tile-dev usb0
+  /usb0
+</pre></div><p>
+To determine the device name for a PCI card installed in the current host:
+</p><div class="informalexample"><pre class="programlisting">
+  $ tile-dev gxpci0   (for Gx cards)
+  /gxpci0
+
+  $ tile-dev pci0     (for TilePro cards)
+  /pci0
+</pre></div><p>
+To determine the device name for the TILE device with the
+administrator-assigned label <span><strong class="command">tile0</strong></span>:
+</p><div class="informalexample"><pre class="programlisting">
+  $ tile-dev tile0
+  /usb-tile0
+</pre></div></div><div class="refsect2" lang="en"><a name="operation"></a><h3>Operation</h3><p>
+The <span><strong class="command">tile-dev</strong></span> command derives its information from
+two main sources: actual device names (e.g. <span><strong class="command">/dev/tileusb0</strong></span>),
+and configuration files (e.g. <span><strong class="command">/etc/tileXYZ.conf</strong></span>)
+created during the installation of drivers for TILE hardware.
+</p><p>
+The <span><strong class="command">.conf</strong></span> configuration files provide additional
+optional information about a TILE device as a set of key/value pairs.
+In particular, the <span><strong class="command">label</strong></span> key allows the administrator
+to define one or more convenient "label" aliases for a device.
+</p><p>
+For example, a TILE device connected via a usb port
+might be given a label like <span><strong class="command">tile0</strong></span>, allowing the
+device to be accessed by <span><strong class="command">tile-monitor --dev tile0</strong></span>
+instead of <span><strong class="command">tile-monitor --dev usb0</strong></span>.
+</p><p>
+Note: for USB-based devices, the admin command <span><strong class="command">config-tileusb</strong></span>
+includes options for setting/renaming the label key for a device.
+For other device types, the administrator needs to edit the configuration
+file manually to add/change labels.
+</p><p>
+The <span><strong class="command">tile-dev</strong></span> command looks at both the actual
+device names and any labels defined in configuration files in determining
+the device the corresponds to the provided arguments. It also recognizes
+when a given name is the hostname or IP address of a network-accessible device.
+</p><p>
+If a <em class="replaceable"><code>device-name</code></em> argument is specified,
+<span><strong class="command">tile-dev</strong></span> searches for a TILE device corresponding
+to that name or a device whose configuration has a <span><strong class="command">label</strong></span>
+entry matching that name.
+</p><p>
+If no <em class="replaceable"><code>device-name</code></em> argument is specified,
+but the environment variable <span><strong class="command">TILERA_DEV</strong></span> is set,
+the value of <span><strong class="command">TILERA_DEV</strong></span> is used as the name of
+the device to search for, as described above.
+</p><p>
+If no <em class="replaceable"><code>device-name</code></em> is specified,
+and <span><strong class="command">TILERA_DEV</strong></span> is not set,
+<span><strong class="command">tile-dev</strong></span> determines whether there is an
+obvious "default" TILE device for the current host.
+If there is a single TILE configuration file, or exactly one
+configuration file that matches any specified filter arguments
+such as <span><strong class="command">--arch tilegx</strong></span>, this is the default
+device for the current host.
+</p><p>
+If there are no configuration files on the current host,
+or there is more than one configuration file, or more than one
+configuration file matching the specified filters,
+then there is no default device, and <span><strong class="command">tile-dev</strong></span> exits
+with a non-zero exit status.
+</p><p>
+If a device matching the provided arguments is found,
+<span><strong class="command">tile-dev</strong></span> returns a zero exit status.
+</p></div></div><div class="refsect1" lang="en"><a name="options"></a><h2>Command-Line Options</h2><div class="variablelist"><a name="basic-options"></a><dl><dt><a name="help"></a><span class="term"><code class="option">--help</code></span></dt><dd><p>
+    Optional. Displays usage information and list of command options, then exits.
+    </p></dd><dt><a name="quiet"></a><span class="term"><code class="option">--quiet</code></span></dt><dd><p>
+    Optional. Does not display error messages, just sets exit status.
+    </p></dd><dt><a name="arch"></a><span class="term"><code class="option">--arch</code></span></dt><dd><p>
+    Optional. Filters out configuration files that have an
+    <span><strong class="command">arch</strong></span> key that does not match the specified
+    TILE architecture name (e.g. <span><strong class="command">--arch tilegx</strong></span>).
+    </p></dd><dt><a name="key"></a><span class="term"><code class="option">--key|--optional-key</code></span></dt><dd><p>
+    Optional. Reports the specified key from the configuration
+    file for the selected device, rather than the device name.
+    (Example: <span><strong class="command">tile-dev --key serial</strong></span>
+     reports the console serial device, if any, configured for
+     the default TILE device.)
+    </p></dd></dl></div></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

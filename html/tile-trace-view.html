@@ -1,0 +1,226 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-trace-view</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-trace-view"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-trace-view &#8212; View Tile Processor traces</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-trace-view</code>  [
+  <code class="option"><em class="replaceable"><code>file</code></em></code>
+...]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-trace-view</strong></span> is a graphical viewer for traces produced by
+<span><strong class="command">tile-sim</strong></span>.
+</p><div class="refsect2" lang="en"><a name="generating"></a><h3>Generating Trace Information</h3><p>
+To generate traces, add the <code class="option">--trace-tile-view
+<em class="replaceable"><code>prefix</code></em></code> to
+<span><strong class="command">tile-sim</strong></span>.  This will produce output files with the
+following names:
+</p><div class="variablelist"><a name="files"></a><p class="title"><b>File Types</b></p><dl><dt><span class="term">
+<em class="replaceable"><code>prefix</code></em>.xml
+</span></dt><dd><p>
+The aggregated statistics file.
+</p></dd><dt><span class="term">
+<em class="replaceable"><code>prefix</code></em>.tile*.router
+</span></dt><dd><p>
+The network trace files.
+</p></dd><dt><span class="term">
+<em class="replaceable"><code>prefix</code></em>.tile*.mainproc
+</span></dt><dd><p>
+The tile processor trace files.
+</p></dd></dl></div><p>
+One can also generate "interval profile" files using
+<span><strong class="command">tile-sim</strong></span>'s <code class="option">--profile-interval
+<em class="replaceable"><code>interval</code></em></code> option along with the
+<code class="option">--xml-stats</code> or <code class="option">--xml-profile</code>
+options.  In this way, a separate XML profile file is generated per
+interval, which enables much longer runs to be traced (at a coarser
+granularity).  Interval profiles can be displayed in the Trace Chart
+by loading the
+<em class="replaceable"><code>prefix</code></em>.<em class="replaceable"><code>number</code></em>.xml
+files.
+</p></div><div class="refsect2" lang="en"><a name="running"></a><h3>Running <span><strong class="command">tile-trace-view</strong></span></h3><p>
+<span><strong class="command">tile-trace-view</strong></span> is a Java program, and so will run
+on both Linux and 
+Windows.
+</p><p>
+In the Linux distribution, a launcher script named
+<code class="computeroutput">tile-trace-view</code> is available in the "bin" directory.
+</p><p>
+On Windows, you should create an empty directory and unzip
+<code class="computeroutput">etc/tile-trace-view-win32.zip</code> into
+it; this will create a launcher batch file named
+<code class="computeroutput">tile-trace-view.bat</code>.
+</p><p>
+When you run <span><strong class="command">tile-trace-view</strong></span>, you can pass as
+arguments the list of trace files you want the program to process and
+summarize. So, for example:
+</p><pre class="programlisting">
+tile-monitor --simulator ... --sim-args -+- --trace-tile-view ttv -+- ...
+
+tile-trace-view ttv.*
+</pre><p>
+You can also select the list of trace files from within the trace
+viewer:
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+Run <span><strong class="command">tile-trace-view</strong></span> without arguments.
+</p></li><li><p>
+Click "File" in the menu bar, then "Open".
+</p></li><li><p>
+Use the file-browser to navigate to the directory containing the
+trace files.
+</p></li><li><p>
+Multi-select (e.g. click the first and SHIFT-click the last) the set
+of trace files (<code class="computeroutput">*.xml</code>,
+<code class="computeroutput">*.router</code>, and
+<code class="computeroutput">*.mainproc</code>).
+</p></li><li><p>
+Click "OK".
+</p></li></ul></div></div><div class="refsect2" lang="en"><a name="using"></a><h3>Using the Trace Viewer</h3><p>
+Three views or visualizations are provided, as follows:
+</p><div class="refsect3" lang="en"><a name="id1122527"></a><h4>Trace Chart</h4><p>
+The graph's horizontal axis is time, in cycles; the vertical axis is
+the tile number.  For each tile, events are displayed in horizontal
+"bands", a broad one on top for the processor, and a narrower one on
+bottom for the selected network.
+</p><p>
+Each band is a stacked bar-chart, with colors corresponding to time
+spent in various "events" (for instance processor execution, stalls of
+various types, and network traffic destinations). The events are
+color-coded according to the legend on the right.
+</p><p>
+Events displayed in the legend are selectable: one can turn on and off
+individual events (for instance to de-clutter the display or pick out
+the contribution of specific events), and one can change the color of
+an event type by clicking its button in the legend.
+</p><p>
+To get more information about an event, hover the cursor over it.  To
+make it easier to select a specific event, zoom in.
+</p><p>
+The two ways to zoom in are to use the X and Y Zoom controls, or to
+"rubber band".  To do the latter, select Zoom In in the Mouse Drag
+box, left-click in the graph, and then
+while holding the left mouse button down, drag the corner of the
+bounding box.  Release to zoom.  The Zoom Stack acts like browser
+backwards and forwards buttons, so one can revert to a previous zoom
+state, and then return back and so on.
+</p><p>
+When zoomed in, one can scroll in the X and Y dimensions, either by
+using the scroll bars, or selecting the Scroll option in the Mouse
+Drag box.  The latter acts as a "grab scroll", moving the chart view
+along with the mouse.  Grab scroll is also available via
+control-left-click regardless of the Mouse Drag selection.
+</p><p>
+Note: if you accidentally zoom in too far, i.e. by clicking on the
+graph and selecting a very small region, just click the left arrow
+in the Zoom Stack controls to return to the previous zoom size.
+</p><p>A number of different views are provided.  (Note that views can
+only display data which is available, depending on the trace or
+profile files loaded, and the data available in them.)
+</p><div class="variablelist"><dl><dt><span class="term">
+Summary Activities
+</span></dt><dd><p>
+In the default view, detailed events are summarized into higher-level
+categories.
+</p></dd><dt><span class="term">
+Detailed Activities
+</span></dt><dd><p>
+Detailed events are broken out individually.
+</p></dd><dt><span class="term">
+Function Calls
+</span></dt><dd><p>
+Time slices are colored according to their location in the program,
+rather than the event type.
+</p></dd><dt><span class="term">
+Application Events
+</span></dt><dd><p>
+Application-level events are charted, as derived from BEGIN/END macros
+placed in the application source.  (In this view, the Network View
+options below are not available.)
+</p></dd><dt><span class="term">
+Message Traffic
+</span></dt><dd><p>
+Show network traffic events, namely words being sent from a network port.
+</p></dd><dt><span class="term">
+Input Queue Lengths
+</span></dt><dd><p>
+Show the length of the network input queues, with a separate histogram
+per source (the tile processor and the four cardinal
+directions North, East, West, and South).
+</p></dd></dl></div></div><div class="refsect3" lang="en"><a name="id1122714"></a><h4>Scatter Plot</h4><p>
+As its name suggests, this visualization shows events distributed over
+time (cycles on the horizontal or X axis) and location (instruction or
+data addresses on the vertical or Y axis).  One main processor trace
+at a time is selected in the right-hand-side legend.
+</p><p>
+Five variants are provided: all instruction or data addresses, and
+three special modes focused on cache effects in the level-two unified
+cache or level-one instruction or data caches.  In the cache
+variants, the coloring is done according to the virtual address modulo
+the cache associativity set size rather than the event type.  This makes
+it easier to pick out potential cache conflicts, which typically look
+like alternating cache misses at close-by vertical positions with
+different colors, which implies objects at different addresses mapping
+to the same cache lines.
+</p><p>
+Zooming, scrolling, etc. work as in the Trace Chart.
+</p></div><div class="refsect3" lang="en"><a name="id1122815"></a><h4>Network Animation</h4><p>
+This visualization shows the state of the entire chip over time.  In
+each tile, the central square represents the processor, and is
+colored according to event (executing instructions, stalls, etc.)
+The lower-right-hand area represents the router for the selected
+network, with five input queues for each of the cardinal directions
+and the processor itself.
+Network packets are indicated by arrows colored according to the
+destination tile.
+Hovering the mouse over a tile gives more detailed information on
+what's going on in the current cycle.
+</p><p>
+To scroll, use the controls on the bottom edge.  On the left, use the
+buttons to scroll backwards and forwards a single cycle at a time.  On
+the right, use the scrollbar for more global motion.  (Tip: the
+scrollbar buttons will auto-repeat, giving a quick-and-dirty movie.)
+</p></div><div class="refsect3" lang="en"><a name="id1122664"></a><h4>Navigation between views</h4><p>
+A mouse right-click will display a context menu, including Zoom
+choices and a Select View dialog, which can be used to navigate
+between views.  The dialog is initially populated with a cycle and
+trace derived from the right-click location.  These can be edited, and
+used to select a different view focused on the chosen cycle and trace.
+</p></div></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-sim.html" target="_top"><span><strong class="command">tile-sim(1)</strong></span></a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

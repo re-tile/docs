@@ -1,0 +1,1872 @@
+<html>
+<title>trio Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>TRIO Config (0x0000-0x1000000038) : </b> 
+The transaction IO (TRIO) interface provides DMA and other data movement services for "read/write" protocols such as PCIe, SRIO, and streaming IO.  The associated MACs have their own register descriptions defined elsewhere.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TH><font color="#FFFFCC"> Protection
+<TR bgcolor="#DBDDB5"><TD>0000-3ffffffffff<TD><a href="#TRIO_MMIO_ADDRESS_SPACE">TRIO_MMIO_ADDRESS_SPACE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0000-ffff<TD><a href="#TRIO_CFG_REGION_VAL">TRIO_CFG_REGION_VAL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0000-ffff<TD><a href="#TRIO_CFG_REGION_ADDR">TRIO_CFG_REGION_ADDR</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>100000000-1ffffffff<TD><a href="#TRIO_PUSH_DMA_REGION_VAL">TRIO_PUSH_DMA_REGION_VAL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>100000000-1ffffffff<TD><a href="#TRIO_PUSH_DMA_REGION_ADDR">TRIO_PUSH_DMA_REGION_ADDR</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>200000000-2ffffffff<TD><a href="#TRIO_PULL_DMA_REGION_VAL">TRIO_PULL_DMA_REGION_VAL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>200000000-2ffffffff<TD><a href="#TRIO_PULL_DMA_REGION_ADDR">TRIO_PULL_DMA_REGION_ADDR</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>300000000-affffffff<TD><a href="#TRIO_MAP_SQ_REGION_WRITE_VAL">TRIO_MAP_SQ_REGION_WRITE_VAL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>300000000-affffffff<TD><a href="#TRIO_MAP_SQ_REGION_READ_VAL">TRIO_MAP_SQ_REGION_READ_VAL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>300000000<TD><a href="#TRIO_MAP_SQ_REGION_ADDR">TRIO_MAP_SQ_REGION_ADDR</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>800000000-fffffffff<TD><a href="#TRIO_PIO_REGIONS_VAL">TRIO_PIO_REGIONS_VAL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>800000000-fffffffff<TD><a href="#TRIO_PIO_REGIONS_ADDR">TRIO_PIO_REGIONS_ADDR</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1000000000-17ffffffff<TD><a href="#TRIO_MAP_MEM_REGION_VAL">TRIO_MAP_MEM_REGION_VAL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1000000000<TD><a href="#TRIO_MAP_MEM_REG_INT0">TRIO_MAP_MEM_REG_INT0</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1000000000<TD><a href="#TRIO_MAP_MEM_REGION_ADDR">TRIO_MAP_MEM_REGION_ADDR</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1000000008<TD><a href="#TRIO_MAP_MEM_REG_INT1">TRIO_MAP_MEM_REG_INT1</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1000000010<TD><a href="#TRIO_MAP_MEM_REG_INT2">TRIO_MAP_MEM_REG_INT2</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1000000018<TD><a href="#TRIO_MAP_MEM_REG_INT3">TRIO_MAP_MEM_REG_INT3</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1000000020<TD><a href="#TRIO_MAP_MEM_REG_INT4">TRIO_MAP_MEM_REG_INT4</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1000000028<TD><a href="#TRIO_MAP_MEM_REG_INT5">TRIO_MAP_MEM_REG_INT5</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1000000030<TD><a href="#TRIO_MAP_MEM_REG_INT6">TRIO_MAP_MEM_REG_INT6</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1000000038<TD><a href="#TRIO_MAP_MEM_REG_INT7">TRIO_MAP_MEM_REG_INT7</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#TRIO_DEV_INFO">TRIO_DEV_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#TRIO_DEV_CTL">TRIO_DEV_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#TRIO_MMIO_INFO">TRIO_MMIO_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#TRIO_MEM_INFO">TRIO_MEM_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#TRIO_SCRATCHPAD">TRIO_SCRATCHPAD</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#TRIO_SEMAPHORE0">TRIO_SEMAPHORE0</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#TRIO_SEMAPHORE1">TRIO_SEMAPHORE1</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#TRIO_CLOCK_COUNT">TRIO_CLOCK_COUNT</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0050<TD><a href="#TRIO_HFH_INIT_CTL">TRIO_HFH_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0058<TD><a href="#TRIO_HFH_INIT_DAT">TRIO_HFH_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0300<TD><a href="#TRIO_MESH_INTFC_CTL">TRIO_MESH_INTFC_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0400<TD><a href="#TRIO_CLOCK_CONTROL">TRIO_CLOCK_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0600<TD><a href="#TRIO_ERROR_STATUS">TRIO_ERROR_STATUS</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0608<TD><a href="#TRIO_MMIO_ERROR_INFO">TRIO_MMIO_ERROR_INFO</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0610<TD><a href="#TRIO_PANIC_MODE_CTL">TRIO_PANIC_MODE_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0700-071f<TD><a href="#TRIO_MAC_CONFIG">TRIO_MAC_CONFIG</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0800<TD><a href="#TRIO_MAP_RSH_SETUP">TRIO_MAP_RSH_SETUP</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0808<TD><a href="#TRIO_MAP_RSH_BASE">TRIO_MAP_RSH_BASE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0808<TD><a href="#TRIO_MAP_RSH_ADDR_FMT">TRIO_MAP_RSH_ADDR_FMT</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0810<TD><a href="#TRIO_MAP_ERR_STS">TRIO_MAP_ERR_STS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>09e8<TD><a href="#TRIO_TILE_PIO_TIMEOUT_STS">TRIO_TILE_PIO_TIMEOUT_STS</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>09f0<TD><a href="#TRIO_TILE_PIO_CPL_ERR_STS">TRIO_TILE_PIO_CPL_ERR_STS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>09f8<TD><a href="#TRIO_TILE_PIO_CTL">TRIO_TILE_PIO_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1000-103f<TD><a href="#TRIO_TILE_PIO_REGION_SETUP">TRIO_TILE_PIO_REGION_SETUP</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1000<TD><a href="#TRIO_TILE_PIO_REGION_SETUP_CFG_ADDR">TRIO_TILE_PIO_REGION_SETUP_CFG_ADDR</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1800<TD><a href="#TRIO_INT_VEC0_W1TC">TRIO_INT_VEC0_W1TC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1800<TD><a href="#TRIO_INT_VEC0">TRIO_INT_VEC0</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1808<TD><a href="#TRIO_INT_VEC1_W1TC">TRIO_INT_VEC1_W1TC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1810<TD><a href="#TRIO_INT_VEC2_W1TC">TRIO_INT_VEC2_W1TC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1818<TD><a href="#TRIO_INT_VEC3_W1TC">TRIO_INT_VEC3_W1TC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1820<TD><a href="#TRIO_INT_VEC4_W1TC">TRIO_INT_VEC4_W1TC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1880<TD><a href="#TRIO_INT_VEC0_RTC">TRIO_INT_VEC0_RTC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1888<TD><a href="#TRIO_INT_VEC1_RTC">TRIO_INT_VEC1_RTC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1890<TD><a href="#TRIO_INT_VEC2_RTC">TRIO_INT_VEC2_RTC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1898<TD><a href="#TRIO_INT_VEC3_RTC">TRIO_INT_VEC3_RTC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>18a0<TD><a href="#TRIO_INT_VEC4_RTC">TRIO_INT_VEC4_RTC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>1900<TD><a href="#TRIO_INT_BIND">TRIO_INT_BIND</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2400<TD><a href="#TRIO_PUSH_DMA_DM_INIT_CTL">TRIO_PUSH_DMA_DM_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2408<TD><a href="#TRIO_PUSH_DMA_DM_INIT_DAT">TRIO_PUSH_DMA_DM_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2408<TD><a href="#TRIO_PUSH_DMA_DM_INIT_DAT_SETUP">TRIO_PUSH_DMA_DM_INIT_DAT_SETUP</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2408<TD><a href="#TRIO_PUSH_DMA_DM_INIT_DAT_HEAD">TRIO_PUSH_DMA_DM_INIT_DAT_HEAD</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2408<TD><a href="#TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE0">TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE0</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2408<TD><a href="#TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE1">TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE1</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2410<TD><a href="#TRIO_PUSH_DMA_RG_INIT_CTL">TRIO_PUSH_DMA_RG_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2418<TD><a href="#TRIO_PUSH_DMA_RG_INIT_DAT">TRIO_PUSH_DMA_RG_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2418<TD><a href="#TRIO_PUSH_DMA_RG_INIT_DAT_ASID">TRIO_PUSH_DMA_RG_INIT_DAT_ASID</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2418<TD><a href="#TRIO_PUSH_DMA_RG_INIT_DAT_THRESH">TRIO_PUSH_DMA_RG_INIT_DAT_THRESH</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2418<TD><a href="#TRIO_PUSH_DMA_RG_INIT_DAT_MAP">TRIO_PUSH_DMA_RG_INIT_DAT_MAP</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2420<TD><a href="#TRIO_PUSH_DMA_CTL">TRIO_PUSH_DMA_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2428<TD><a href="#TRIO_PUSH_DMA_STS">TRIO_PUSH_DMA_STS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2430<TD><a href="#TRIO_PULL_DMA_DM_INIT_CTL">TRIO_PULL_DMA_DM_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2438<TD><a href="#TRIO_PULL_DMA_DM_INIT_DAT">TRIO_PULL_DMA_DM_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2438<TD><a href="#TRIO_PULL_DMA_DM_INIT_DAT_SETUP">TRIO_PULL_DMA_DM_INIT_DAT_SETUP</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2438<TD><a href="#TRIO_PULL_DMA_DM_INIT_DAT_HEAD">TRIO_PULL_DMA_DM_INIT_DAT_HEAD</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2438<TD><a href="#TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE0">TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE0</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2438<TD><a href="#TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE1">TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE1</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2440<TD><a href="#TRIO_PULL_DMA_RG_INIT_CTL">TRIO_PULL_DMA_RG_INIT_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2448<TD><a href="#TRIO_PULL_DMA_RG_INIT_DAT">TRIO_PULL_DMA_RG_INIT_DAT</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2450<TD><a href="#TRIO_PULL_DMA_CTL">TRIO_PULL_DMA_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2458<TD><a href="#TRIO_PULL_DMA_STS">TRIO_PULL_DMA_STS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2460<TD><a href="#TRIO_PULL_DMA_TIMEOUT_STS">TRIO_PULL_DMA_TIMEOUT_STS</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2468<TD><a href="#TRIO_PULL_DMA_CPL_ERR_STS">TRIO_PULL_DMA_CPL_ERR_STS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2470<TD><a href="#TRIO_PULL_DMA_CPL_ERR_INFO">TRIO_PULL_DMA_CPL_ERR_INFO</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2478<TD><a href="#TRIO_PULL_DMA_TAG_FREE">TRIO_PULL_DMA_TAG_FREE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2480<TD><a href="#TRIO_PULL_DMA_SHORT_TMR">TRIO_PULL_DMA_SHORT_TMR</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2488<TD><a href="#TRIO_MAP_MEM_CTL">TRIO_MAP_MEM_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2490<TD><a href="#TRIO_MAP_MEM_FLUSH_MODE">TRIO_MAP_MEM_FLUSH_MODE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2500<TD><a href="#TRIO_PUSH_DMA_DIAG_CTL">TRIO_PUSH_DMA_DIAG_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2508<TD><a href="#TRIO_PUSH_DMA_STAT_CTR">TRIO_PUSH_DMA_STAT_CTR</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>2510<TD><a href="#TRIO_PUSH_DMA_DIAG_STS">TRIO_PUSH_DMA_DIAG_STS</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2518<TD><a href="#TRIO_PUSH_DMA_DATA_LAT">TRIO_PUSH_DMA_DATA_LAT</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>2520<TD><a href="#TRIO_PUSH_DMA_DESC_LAT">TRIO_PUSH_DMA_DESC_LAT</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2528<TD><a href="#TRIO_PULL_DMA_DIAG_CTL">TRIO_PULL_DMA_DIAG_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2530<TD><a href="#TRIO_PULL_DMA_STAT_CTR">TRIO_PULL_DMA_STAT_CTR</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2538<TD><a href="#TRIO_PULL_DMA_DIAG_STS">TRIO_PULL_DMA_DIAG_STS</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>2540<TD><a href="#TRIO_PULL_DMA_DATA_LAT">TRIO_PULL_DMA_DATA_LAT</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2548<TD><a href="#TRIO_PULL_DMA_DESC_LAT">TRIO_PULL_DMA_DESC_LAT</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>2550<TD><a href="#TRIO_PULL_DMA_WRITE_LAT">TRIO_PULL_DMA_WRITE_LAT</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2560<TD><a href="#TRIO_MAP_STAT_CTR">TRIO_MAP_STAT_CTR</a> <TD>1</TR>
+<TR bgcolor="#C8CB8F"><TD>2568<TD><a href="#TRIO_MAP_LAT">TRIO_MAP_LAT</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2570<TD><a href="#TRIO_PUSH_DMA_DIAG_FSM_STATE">TRIO_PUSH_DMA_DIAG_FSM_STATE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2578<TD><a href="#TRIO_PULL_DMA_DIAG_FSM_STATE">TRIO_PULL_DMA_DIAG_FSM_STATE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>2580<TD><a href="#TRIO_MAP_DIAG_FSM_STATE">TRIO_MAP_DIAG_FSM_STATE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>2588<TD><a href="#TRIO_TILE_PIO_DIAG_STS">TRIO_TILE_PIO_DIAG_STS</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>2590<TD><a href="#TRIO_MI_DIAG_STS">TRIO_MI_DIAG_STS</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3000-33e7<TD><a href="#TRIO_MAP_MEM_SETUP">TRIO_MAP_MEM_SETUP</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3008-33ef<TD><a href="#TRIO_MAP_MEM_BASE">TRIO_MAP_MEM_BASE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3010-33f7<TD><a href="#TRIO_MAP_MEM_LIM">TRIO_MAP_MEM_LIM</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3400<TD><a href="#TRIO_MAP_SQ_CTL">TRIO_MAP_SQ_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3400<TD><a href="#TRIO_MAP_SQ_DOORBELL_FMT">TRIO_MAP_SQ_DOORBELL_FMT</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3408-34ef<TD><a href="#TRIO_MAP_SQ_SETUP">TRIO_MAP_SQ_SETUP</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3410-34f7<TD><a href="#TRIO_MAP_SQ_BASE">TRIO_MAP_SQ_BASE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3418-34ff<TD><a href="#TRIO_MAP_SQ_LIM">TRIO_MAP_SQ_LIM</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3e00<TD><a href="#TRIO_MMU_TABLE">TRIO_MMU_TABLE</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3e08<TD><a href="#TRIO_MMU_CTL">TRIO_MMU_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3f00<TD><a href="#TRIO_TLB_MAP_RD_EXC">TRIO_TLB_MAP_RD_EXC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3f08<TD><a href="#TRIO_TLB_MAP_WR_EXC">TRIO_TLB_MAP_WR_EXC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3f10<TD><a href="#TRIO_TLB_PULL_DMA_EXC">TRIO_TLB_PULL_DMA_EXC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>3f18<TD><a href="#TRIO_TLB_PUSH_DMA_EXC">TRIO_TLB_PUSH_DMA_EXC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>3ff8<TD><a href="#TRIO_TLB_CTL">TRIO_TLB_CTL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>4000-5fff<TD><a href="#TRIO_TLB_TABLE">TRIO_TLB_TABLE</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>4000-5ff7<TD><a href="#TRIO_TLB_ENTRY_ADDR">TRIO_TLB_ENTRY_ADDR</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>4008-5fff<TD><a href="#TRIO_TLB_ENTRY_ATTR">TRIO_TLB_ENTRY_ATTR</a> <TD>2</TR>
+</TABLE>
+<br><br><h3>General Address Space Definitions</h3>
+<a name="TRIO_MMIO_ADDRESS_SPACE"></a>
+<br><br><h4>MMIO Address Space (TRIO_MMIO_ADDRESS_SPACE: 0x0000-0x3ffffffffff)</h4>
+The MMIO physical address space for the TRIO is described below.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="trio_pics/TRIO_MMIO_ADDRESS_SPACE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address selects the region to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>CFG</TD><TD>Access to Configuration space.</TD></TR>
+   <TR><TD>0x1</TD><TD>PUSH_DMA</TD><TD>Access to push DMA descriptor rings.</TD></TR>
+   <TR><TD>0x2</TD><TD>PULL_DMA</TD><TD>Access to pull DMA descriptor rings.</TD></TR>
+   <TR><TD>0x3</TD><TD>MAP_SQ</TD><TD>Access to MAP scatter descriptor FIFOs.</TD></TR>
+   <TR><TD>0x8</TD><TD>PIO0</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0x9</TD><TD>PIO1</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xa</TD><TD>PIO2</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xb</TD><TD>PIO3</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xc</TD><TD>PIO4</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xd</TD><TD>PIO5</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xe</TD><TD>PIO6</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0xf</TD><TD>PIO7</TD><TD>Access to the associated PIO interface.</TD></TR>
+   <TR><TD>0x10</TD><TD>MAP_MEM</TD><TD>Access to MAP MEM interrupt registers.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address provides an offset into the region being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_CFG_REGION_VAL"></a>
+<br><br><h4>MMIO Region - Configuration Space Data Description (TRIO_CFG_REGION_VAL: 0x0000-0xffff)</h4>
+Provides access to config registers.  See CFG_REGION_ADDR for address definition.
+<br><img src="trio_pics/TRIO_CFG_REGION_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Configuration read/write data</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_CFG_REGION_ADDR"></a>
+<br><br><h4>Configuration Space Address Definition (TRIO_CFG_REGION_ADDR: 0x0000-0xffff)</h4>
+This is a general description of the MMIO space as opposed to a register description.
+<br><img src="trio_pics/TRIO_CFG_REGION_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects CFG_SPACE</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:20</TD> <TD>PROT</TD> <TD>RW</TD> <TD>0</TD> <TD>Protection level.  Setting to 0 or 1 allows access to all registers.  Setting to 2 denies access to registers at level 2.  Setting to 3 denies access to registers at levels 1 and 2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19:18</TD> <TD>MAC_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects the MAC being accessed when INTFC is not TRIO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17:16</TD> <TD>INTFC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interface being accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>TRIO</TD><TD>Access to centralized TRIO registers.  8-byte oriented registers.</TD></TR>
+   <TR><TD>1</TD><TD>MAC_INTERFACE</TD><TD>Access to per-MAC interface control registers (interrupts, SERDES control etc.).  8-byte oriented registers.</TD></TR>
+   <TR><TD>2</TD><TD>MAC_STANDARD</TD><TD>Access to per-MAC registers (PCIe config space etc.).  4-byte oriented registers.  Also supports 1 and 2 byte operations.  The upper 4-bytes of an 8-byte store will be discarded.  The upper 4-bytes of an 8-byte load will be zeroed.</TD></TR>
+   <TR><TD>3</TD><TD>MAC_PROTECTED</TD><TD>This interface allows writing of BAR MASK registers for resizing, but does NOT allow access to the BAR registers themselves nor does it allow programming of MAC registers listed as writable via MAC_STANDARD.  Registers within this space are 4-byte oriented.  Also supports 1 and 2 byte operations.  The upper 4-bytes of an 8-byte store will be discarded.  The upper 4-bytes of an 8-byte load will be zeroed.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Configuration register to be accessed.  Note that TRIO and MAC_INTERFACE registers are always aligned on 8-byte boundaries and access is always 8-bytes at a time.  MAC registers are 4-byte oriented.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_REGION_VAL"></a>
+<br><br><h4>MMIO Region - Push DMA Post/Head Data Description (TRIO_PUSH_DMA_REGION_VAL: 0x100000000-0x1ffffffff)</h4>
+Used to post descriptor locations to the push DMA descriptor engine and read the current ring's head pointer.  The address format for this address space is defined in PUSH_DMA_REGION_ADDR.
+<br><img src="trio_pics/TRIO_PUSH_DMA_REGION_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>GEN</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies the generation number of the tail being posted. Note that if tail+cnt wraps to the beginning of the ring, the push_dma hardware assumes that the descriptors posted at the beginning of the ring are also valid so it is okay to post around the wrap point. <br>
+<br>
+For reads, this is the current generation number.  Valid descriptors will have the inverse of this generation number.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:16</TD> <TD>COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies number of contiguous descriptors that are being posted.  Software may post up to RingSize descriptors with a single MMIO store.  <br>
+<br>
+For reads, this field provides a rolling count of the number of descriptors that have been completely processed.  This may be used by software to determine when buffers associated with a descriptor may be returned or reused and when flags may be posted to the MAC via PIO or other mechanisms.  This count, and the associated PUSH_DMA interrupt, update when the final packet for a descriptor has reached the ordering point for TRIO.  Thus subsequent PIOs, MAP-mem completions, pull and push DMA transactions will be sent to the MAC interface after the final packet is sent to the MAC.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>RING_IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies the current ring tail pointer prior to any post.  For example, to post 1 or more descriptors starting at location 23, this would contain 23 (not 24).  On writes, this index must be masked based on the ring size.  The new tail pointer after this post is COUNT+RING_IDX (masked by the ring size).   <br>
+<br>
+For reads, this provides the hardware descriptor fetcher's head pointer.  The descriptors prior to the head pointer, however, may not yet have been processed so this indicator is only used to determine how full the ring is and if software may post more descriptors.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_REGION_ADDR"></a>
+<br><br><h4>MMIO Region - Push DMA Post/Head Address Description (TRIO_PUSH_DMA_REGION_ADDR: 0x100000000-0x1ffffffff)</h4>
+Address format for the PUSH_DMA_REGION.  This is an address definition as opposed to a register description.
+<br><img src="trio_pics/TRIO_PUSH_DMA_REGION_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>1</TD> <TD>Selects PUSH_DMA</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:16</TD> <TD>RING_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Push DMA ring being accessed</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_REGION_VAL"></a>
+<br><br><h4>MMIO Region - Pull DMA Post/Head Data Description (TRIO_PULL_DMA_REGION_VAL: 0x200000000-0x2ffffffff)</h4>
+Used to post descriptor locations to the pull DMA descriptor engine and read the current ring's head pointer.  The address format for this address space is defined in PUSH_DMA_REGION_ADDR.
+<br><img src="trio_pics/TRIO_PULL_DMA_REGION_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>GEN</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies the generation number of the tail being posted. Note that if tail+cnt wraps to the beginning of the ring, the pull_dma hardware assumes that the descriptors posted at the beginning of the ring are also valid so it is okay to post around the wrap point. <br>
+<br>
+For reads, this is the current generation number.  Valid descriptors will have the inverse of this generation number.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:16</TD> <TD>COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies number of contiguous descriptors that are being posted.  Software may post up to RingSize descriptors with a single MMIO store.  <br>
+<br>
+For reads, this field provides a rolling count of the number of descriptors that have been completely processed.  This may be used by software to determine when the PULL_DMA data associated with the descriptor is visible in Tile memory space.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>RING_IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>For writes, this specifies the current ring tail pointer prior to any post.  For example, to post 1 or more descriptors starting at location 23, this would contain 23 (not 24).  On writes, this index must be masked based on the ring size.  The new tail pointer after this post is COUNT+RING_IDX (masked by the ring size).   <br>
+<br>
+For reads, this provides the hardware descriptor fetcher's head pointer.  The descriptors prior to the head pointer, however, may not yet have been processed so this indicator is only used to determine how full the ring is and if software may post more descriptors.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_REGION_ADDR"></a>
+<br><br><h4>MMIO Region - Pull DMA Post/Head Address Description (TRIO_PULL_DMA_REGION_ADDR: 0x200000000-0x2ffffffff)</h4>
+Address format for the PULL_DMA_REGION.  This is an address definition as opposed to a register description.
+<br><img src="trio_pics/TRIO_PULL_DMA_REGION_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>2</TD> <TD>Selects PULL_DMA</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:16</TD> <TD>RING_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Pull DMA ring being accessed</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_REGION_WRITE_VAL"></a>
+<br><br><h4>MMIO Region - Map SQ Region Write Data Description (TRIO_MAP_SQ_REGION_WRITE_VAL: 0x300000000-0xaffffffff)</h4>
+Provides descriptor-write access.  Reads to this register are described by MAP_SQ_REGION_READ_VAL.  Each SQ provides storage for up to 64 descriptors.  Software is responsible for not overflowing the descriptor FIFO.  The INT bit may be used to indicate when space has become available in the descriptor FIFO.
+<br><img src="trio_pics/TRIO_MAP_SQ_REGION_WRITE_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63</TD> <TD>INT_ENA</TD> <TD>WO</TD> <TD>0</TD> <TD>Indicates that an interrupt is requested when this descriptor is dequeued.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:12</TD> <TD>VA</TD> <TD>WO</TD> <TD>0</TD> <TD>4 kB-aligned VA to be used on incoming MAP_SQ writes.  The VA for an incoming write will be IO_ADDRESS - MAP_SQ_BASE + VA.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_REGION_READ_VAL"></a>
+<br><br><h4>MMIO Region - Map SQ Region Read Data Description (TRIO_MAP_SQ_REGION_READ_VAL: 0x300000000-0xaffffffff)</h4>
+Provides descriptor FIFO status on read.  Writes to this register are described by MAP_SQ_REGION_WRITE_VAL.
+<br><img src="trio_pics/TRIO_MAP_SQ_REGION_READ_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>COMPLETE_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Rolling count of the number of descriptors that have been completely processed and are coherent.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>CURR_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of descriptors currently in the FIFO.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_REGION_ADDR"></a>
+<br><br><h4>MMIO Region - SQ Region Address Description (TRIO_MAP_SQ_REGION_ADDR: 0x300000000)</h4>
+This is not a register, but rather a description of how the MMIO address is interpreted for accesses to the MAP_SQ_REGION.
+<br><img src="trio_pics/TRIO_MAP_SQ_REGION_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>3</TD> <TD>MMIO Region Select (3)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:16</TD> <TD>SQ_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Scatter Queue Select.  Selects which of the 8 map SQ region is being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PIO_REGIONS_VAL"></a>
+<br><br><h4>MMIO Region - Tile PIO Data Description (TRIO_PIO_REGIONS_VAL: 0x800000000-0xfffffffff)</h4>
+Used to map Tile MMIO space into MAC IO address space.  The address of the MMIO operation is added to the base address from the associated TILE_PIO_REGION_SETUP register.
+<br><img src="trio_pics/TRIO_PIO_REGIONS_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PIO_REGIONS_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Used to map Tile MMIO space into MAC IO address space.  The address of the MMIO operation is added to the base address from the associated TILE_PIO_REGION_SETUP register.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PIO_REGIONS_ADDR"></a>
+<br><br><h4>MMIO Region - Tile PIO Address Description (TRIO_PIO_REGIONS_ADDR: 0x800000000-0xfffffffff)</h4>
+Address format for the PIO_REGIONS.  This is an address definition as opposed to a register description.
+<br><img src="trio_pics/TRIO_PIO_REGIONS_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>8</TD> <TD>Selects one of the PIO_REGIONS.  8 selects region-0.  15 selects region-8.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>The address of the MMIO operation is added to the base address from the associated TILE_PIO_REGION_SETUP register to form the IO address.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REGION_VAL"></a>
+<br><br><h4>MMIO Region - Map Mem Region Data Description (TRIO_MAP_MEM_REGION_VAL: 0x1000000000-0x17ffffffff)</h4>
+Provides access to the map mem interrupt registers.  The individual register formats are described in the MAP_MEM_REG_INT* registers.
+<br><img src="trio_pics/TRIO_MAP_MEM_REGION_VAL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Data is interpreted based on the individual register being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT0"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int0 (TRIO_MAP_MEM_REG_INT0: 0x1000000000)</h4>
+Provides read/write access to the map mem interrupt vector
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  Writes update all bits to match write data.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REGION_ADDR"></a>
+<br><br><h4>MMIO Region - Map Mem Region Address Description (TRIO_MAP_MEM_REGION_ADDR: 0x1000000000)</h4>
+This is not a register, but rather a description of how the MMIO address is interpreted for accesses to the MAP_MEM_REGION.
+<br><img src="trio_pics/TRIO_MAP_MEM_REGION_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>36:32</TD> <TD>REGION</TD> <TD>RW</TD> <TD>10h</TD> <TD>MMIO Region Select (16)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20:16</TD> <TD>MAP_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Map Mem Select.  Selects which of the map regions is being accessed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5:3</TD> <TD>REG_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Register select.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT1"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int1 (TRIO_MAP_MEM_REG_INT1: 0x1000000008)</h4>
+Provides read-clear/write-one-to-clear access to the map mem interrupt vector
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read then clears all bits.  On a write, a write-value of 1 clears the associated bit.  A write-value of 0 leaves the current bit intact.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT2"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int2 (TRIO_MAP_MEM_REG_INT2: 0x1000000010)</h4>
+Provides read/write-one-to-set access to the map mem interrupt vector
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  On a write, a write-value of 1 sets the associated bit.  A write-value of 0 leaves the current bit intact.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT3"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int3 (TRIO_MAP_MEM_REG_INT3: 0x1000000018)</h4>
+Provides read/set-bit access to the map mem interrupt vector
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  On a write, the bit indexed by INT[3:0] will be set and other bits will be left intact.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT4"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int0 (TRIO_MAP_MEM_REG_INT4: 0x1000000020)</h4>
+Provides read/write access to the map mem interrupt vector (does not generate Tile interrupts that are in one of the "edge" modes.)
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  Writes update all bits to match write data. (does not generate Tile interrupts that are in one of the "edge" modes.)</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT5"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int1 (TRIO_MAP_MEM_REG_INT5: 0x1000000028)</h4>
+Provides read-clear/write-one-to-clear access to the map mem interrupt vector (does not generate Tile interrupts that are in one of the "edge" modes.)
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read then clears all bits.  On a write, a write-value of 1 clears the associated bit.  A write-value of 0 leaves the current bit intact. (does not generate Tile interrupts that are in one of the "edge" modes.)</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT6"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int2 (TRIO_MAP_MEM_REG_INT6: 0x1000000030)</h4>
+Provides read/write-one-to-set access to the map mem interrupt vector (does not generate Tile interrupts that are in one of the "edge" modes.)
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  On a write, a write-value of 1 sets the associated bit.  A write-value of 0 leaves the current bit intact. (does not generate Tile interrupts that are in one of the "edge" modes.)</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_REG_INT7"></a>
+<br><br><h4>MMIO Region - Map Mem Register Int3 (TRIO_MAP_MEM_REG_INT7: 0x1000000038)</h4>
+Provides read/set-bit access to the map mem interrupt vector (does not generate Tile interrupts that are in one of the "edge" modes.)
+<br><img src="trio_pics/TRIO_MAP_MEM_REG_INT7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt state.  Returns current value on read.  On a write, the bit indexed by INT[3:0] will be set and other bits will be left intact. (does not generate Tile interrupts that are in one of the "edge" modes.)</TD> </TR>
+</TABLE><br><br>
+<br><br><h3>Register Definitions</h3>
+<a name="TRIO_DEV_INFO"></a>
+<br><br><h4>Device Info (TRIO_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="trio_pics/TRIO_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>014h</TD> <TD>Encoded device Type - 0x14 to indicate TRIO<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="TRIO_DEV_CTL"></a>
+<br><br><h4>Device Control (TRIO_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (TRIO_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="trio_pics/TRIO_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>5</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>32</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>1</TD> <TD>Each configuration channel is mapped to a packet device (MAC) having its own config registers.  Mapping TBD</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MEM_INFO"></a>
+<br><br><h4>Memory Info (TRIO_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="trio_pics/TRIO_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>16</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>32</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>3</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (TRIO_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="trio_pics/TRIO_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (TRIO_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="trio_pics/TRIO_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (TRIO_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (TRIO_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="trio_pics/TRIO_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_HFH_INIT_CTL"></a>
+<br><br><h4>MMIO HFH Table Init Control (TRIO_HFH_INIT_CTL: 0x0050)</h4>
+Initialization control for the hash-for-home tables.  During initialization, all tables may be written simultaneously by setting STRUCT_SEL to ALL.  If access to the tables is required after traffic is active on any of the interfaces, the tables must be accessed individually.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_HFH_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>18:16</TD> <TD>STRUCT_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>HFH table to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>ALL</TD><TD>Provide simultaneous write access to ALL HFH tables.   Must only be used at initialization time prior to any transactions being inflight for any of the interfaces.</TD></TR>
+   <TR><TD>1</TD><TD>PUSH_DMA</TD><TD>HFH Table used for Push DMA descriptor and data read transactions</TD></TR>
+   <TR><TD>2</TD><TD>PULL_DMA</TD><TD>HFH Table used for Pull DMA descriptor read transactions</TD></TR>
+   <TR><TD>3</TD><TD>REGION</TD><TD>HFH Table used for region-based transactions</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into the HFH table to be accessed.  Increments automatically on write or read to HFH_INIT_DAT.  Typically, all HFH tables will be programmed identically.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_HFH_INIT_DAT"></a>
+<br><br><h4>HFH Table Data (TRIO_HFH_INIT_DAT: 0x0058)</h4>
+Read/Write data for hash-for-home table
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_HFH_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>22:15</TD> <TD>TILEA</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is greater than or equal to FRACT</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:7</TD> <TD>TILEB</TD> <TD>RW</TD> <TD>HW <TD>Tile that is selected when the result of the hash_f function is less than FRACT</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>FRACT</TD> <TD>RW</TD> <TD>HW <TD>Fraction field of HFH table.  Determines what portion of the address space maps to TileA vs TileB</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MESH_INTFC_CTL"></a>
+<br><br><h4>iMesh Interface Controls (TRIO_MESH_INTFC_CTL: 0x0300)</h4>
+Thresholds for packet interfaces to iMesh
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MESH_INTFC_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>SDN_THRESH</TD> <TD>RW</TD> <TD>5</TD> <TD>Number of packet flits required in SDN synchronization FIFOs before packet is sent.  Smaller values optimize latency but could introduce bandwidth-wasting bubbles on the network.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_CLOCK_CONTROL"></a>
+<br><br><h4>Clock Control (TRIO_CLOCK_CONTROL: 0x0400)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides control over tclk PLL.  NOTE: tclk must be set to at least 500 MHz based on the default settings in <a href="trio_pcie_intfc.html#TRIO_PCIE_INTFC_TX_FIFO_CTL">TRIO_PCIE_INTFC_TX_FIFO_CTL.TXn_DATA_AE_LVL</a>.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_CLOCK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>CLOCK_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that PLL has been enabled and clock is now running off of the PLL output.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20:13</TD> <TD>PLL_M</TD> <TD>RW</TD> <TD>0</TD> <TD>Feedback divider value.  The resulting clock frequency is calculated as ((REF / (PLL_N+1)) * 2 * (PLL_M + 1)) / (2^Q).  The VCO frequency is (REF / (PLL_N+1)) * 2 * (PLL_M + 1)) and must be in the range of 2133 MHz to 4266 MHz.  <br>
+<br>
+For example, to create a 1 GHz clock from a 125 MHz refclk, Q would be set to 2 so that the VCO would be 1 GHz*2^2 = 4000 MHz.  2*(PLL_M+1)/(PLL_N+1) = 32.  PLL_N=0 and PLL_M=15 would keep the post divide frequency within the legal range since 125/(0+1) is 125.  PLL_RANGE would be set to R104_166.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12:7</TD> <TD>PLL_N</TD> <TD>RW</TD> <TD>0</TD> <TD>Reference divider value.  Input refclk is divided by (PLL_N+1).  The post-divided clock must be in the range of 14 MHz to 200 MHz.  The low 5 bits of this field are used.  The MSB is reserved.  The minimum value of PLL_N that keeps the post-divided clock within the legal range will provide the best jitter performance.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:4</TD> <TD>PLL_Q</TD> <TD>RW</TD> <TD>0</TD> <TD>Output divider.  The VCO clock is divided by 2^PLL_Q to create the final output clock.  This should be set such that 2133 MHz<(output_frequency * 2^PLL_Q)<4266 MHz.  The maximum supported value of PLL_Q is 6 (divide by 64).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>PLL_RANGE</TD> <TD>RW</TD> <TD>0</TD> <TD>This value should be set based on the post divider frequency, REF/(PLL_N+1).<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>BYP</TD><TD>Bypass mode.  Not typically used by software-controlled settings.</TD></TR>
+   <TR><TD>1</TD><TD>R14_16</TD><TD>14-16 MHz</TD></TR>
+   <TR><TD>2</TD><TD>R16_26</TD><TD>16-26 MHz</TD></TR>
+   <TR><TD>3</TD><TD>R26_42</TD><TD>26-42 MHz</TD></TR>
+   <TR><TD>4</TD><TD>R42_65</TD><TD>42-65 MHz</TD></TR>
+   <TR><TD>5</TD><TD>R65_104</TD><TD>65-104 MHz</TD></TR>
+   <TR><TD>6</TD><TD>R104_166</TD><TD>104-166 MHz</TD></TR>
+   <TR><TD>7</TD><TD>R166_200</TD><TD>166-200 MHz</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the PLL will be configured with the settings in PLL_RANGE/Q/N/M.  When written with a zero, the PLL will be bypassed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_ERROR_STATUS"></a>
+<br><br><h4>Error Status (TRIO_ERROR_STATUS: 0x0600)</h4>
+Indicators for various fatal and non-fatal TRIO error conditions
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MMIO_ILL_OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Illegal opcode received on MMIO interface</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MMIO_ERROR_INFO"></a>
+<br><br><h4>MMIO Error Information (TRIO_MMIO_ERROR_INFO: 0x0608)</h4>
+Provides diagnostics information when an MMIO error occurs.  Captured whenever the MMIO_ERR interrupt condition which is typically due to a size error.  This does not update on a CFG_PROT interrupt.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MMIO_ERROR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>56:52</TD> <TD>OPC</TD> <TD>RO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Opcode of request.  MMIO supports only MMIO_READ (0x0e) and MMIO_WRITE (0x0f).  All others are reserved and will only occur on a misconfigured TLB.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>51:12</TD> <TD>PA</TD> <TD>RO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Full PA from request.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Request size.  0=1B, 1=2B, 2=4B, 3=8B, 4=16B, 5=32B, 6=48B, 7=64B.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>SRC</TD> <TD>RO</TD> <TD>0</TD> <TD><I>NOTE: This field only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>Source Tile in {x[3:0],y[3:0]} format.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PANIC_MODE_CTL"></a>
+<br><br><h4>Panic Mode Control (TRIO_PANIC_MODE_CTL: 0x0610)</h4>
+Controls for panic mode which is used to force transactions to complete in a timely manner when Tile-side software has become unresponsive.  This mode is typically triggered when Tile side software is no longer providing valid IO TLB translations for MAP-MEM/SQ read and write requests.  The PANIC_PA is also used for ingress transactions that do not match any of the MAP regions.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PANIC_MODE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63</TD> <TD>PANIC_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Hardware sets this bit when a panic occurs.  It may be cleared by software.  From the PCIe interface, it may be cleared by accessing MMIO space via the rshim's SGP mechanism.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:48</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>0</TD> <TD>Homing information for the PANIC_PA.  Home Tile when HFH=0, or {mask,offset} when HFH=1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>47</TD> <TD>HFH</TD> <TD>RW</TD> <TD>0</TD> <TD>Homing information for the PANIC_PA.  If HFH is 0, TileID is the home Tile.  If HFH is 1, TileID[7:4] is the HFH table mask and TileID[3:0] is the HFH table offset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:6</TD> <TD>PANIC_PA</TD> <TD>RW</TD> <TD>0</TD> <TD>When a panic occurs, reads will be directed to PANIC_PA and writes will be directed to PANIC_PA+64.  The PANIC_PA is always cacheline aligned, hence this field represents the upper 36 bits of the PA and the low 6 bits of the PA are assumed to be zero.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>SHORT_TIMER</TD> <TD>RW</TD> <TD>0</TD> <TD>Used for software testing.  When set to 1, the panic timer will be set to 1024 cycles.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>PANIC_TIMER</TD> <TD>RW</TD> <TD>8</TD> <TD>Indicates the timeout value for incoming requests.  If an incoming PCIe request has not made progress within this time, TRIO will enter PANIC_MODE and requests will be directed to the PANIC_PA to allow forward progress.   The timeout value is 2^(CPL_TIMER+12) cycles.  Thus if trio is operating at 950MHz, a value of 0 corresponds to approximately 4.0us.  And a value of 8 corresponds to approximately 1103.0us.  Setting to all 1's disables the panic timer thus the max timer value at 950MHz is 70.6ms.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAC_CONFIG"></a>
+<br><br><h4>MAC Configuration (TRIO_MAC_CONFIG: 0x0700-0x071f)</h4>
+Configuration parameters for each MAC.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAC_CONFIG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>56</TD> <TD>PULL_DMA_TOK_SZ</TD> <TD>RW</TD> <TD>1</TD> <TD>Determines the maximum token count.  Setting this to one caps the maximum number of bandwidth tokens at 511.  This reduces hysteresis and allows less burstiness in the system.  When 0, the TOK_CNT has a max value of 1023.  Setting to zero is more useful in systems that tend to favor bursty reads.  Most systems will find better performance with this set to 0, though the impact is minor.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>55:46</TD> <TD>PULL_DMA_TOK_CNT</TD> <TD>RW</TD> <TD>6</TD> <TD>Number of tokens to add for pull DMA reads each PULL_DMA_TOK_CYC.  N+1 tokens will be added at each TOK_CYC count.  Values of 0-0x3fe are valid.  0x3ff is RESERVED.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>45:36</TD> <TD>PULL_DMA_TOK_CYC</TD> <TD>RW</TD> <TD>2fh</TD> <TD>Number of cycles between adding each additional set PULL_DMA_TOK_CNT of tokens on reads.  Each pull DMA read packet that is sent consumes bytes/16 tokens.  The read bandwidth allocated for the associated MAC is 128*TCLK_MHZ*(TOK_CNT+1)/(TOK_CYC+1) Mbps.  The TOK_CYC/TOK_CNT fields should be set based on the achievable read/read-completion bandwidth on the link.  Setting the TOK_CNT/TOK_CYC ratio too large will result in reduced PUSH DMA write performance, and read/completion congestion in the system.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>33:24</TD> <TD>MAX_CPL_DAT</TD> <TD>RW</TD> <TD>3fch</TD> <TD>Maximum number of 16-byte completion data credits allocated for outgoing PIO/PULL DMA read requests.  This must not exceed the capability of the associated MAC (e.g. the reset value).  Must be at least large enough to hold 1 outstanding max-request size plus four extra.  MAX_CPL_DAT must be at least (MRS/16)+4.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>MAX_CPL_HDRS</TD> <TD>RW</TD> <TD>ffh</TD> <TD>Maximum number of completion headers allocated for outgoing PIO/PULL DMA read requests.  This must not exceed the capability of the associated MAC (e.g. the reset value).  Must be at least large enough to hold 1 outstanding max-request size plus one extra.  A request can be partitioned into 64-byte completions, so MAX_CPL_HDRS must be at least (MRS/64)+1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>MRS</TD> <TD>RW</TD> <TD>6</TD> <TD>Maximum request size for the associated MAC.  Must not exceed the capabilities or configuration of the MAC. 0=64, 1=128, ..., 6=4096.  Encodings larger than 6 are reserved.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>MPS</TD> <TD>RW</TD> <TD>1</TD> <TD>Maximum packet size for the associated MAC.  Must not exceed the capabilities or configuration of the MAC. 0=64, 1=128, ..., 4=1024.  Encodings larger than 4 are reserved.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_RSH_SETUP"></a>
+<br><br><h4>Map Rshim Region Setup (TRIO_MAP_RSH_SETUP: 0x0800)</h4>
+Configuration of the rshim region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_RSH_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>RSH_ENA</TD> <TD>RW</TD> <TD>15</TD> <TD>Enable the rshim region.  When 0, accesses from the associated MAC will not be mapped to the rshim region.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_RSH_BASE"></a>
+<br><br><h4>Rshim Region Base Address (TRIO_MAP_RSH_BASE: 0x0808)</h4>
+Base address of the associated memory region.  The rshim region consumes 1024kB of address space.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_RSH_BASE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Base page address.  An IO address must be greater than or equal to this address and less than this address plus 0x100000 to be accepted into the region.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_RSH_ADDR_FMT"></a>
+<br><br><h4>Rshim Region Address Format (TRIO_MAP_RSH_ADDR_FMT: 0x0808)</h4>
+This register describes the address format for requests that target the rshim region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_RSH_ADDR_FMT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:16</TD> <TD>CH</TD> <TD>RO</TD> <TD>0</TD> <TD>Rshim channel specifier</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Full byte address within rshim register space</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_ERR_STS"></a>
+<br><br><h4>Map Error Status (TRIO_MAP_ERR_STS: 0x0810)</h4>
+Captured information from packet with mapping error.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_ERR_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>IO_ADDR</TD> <TD>RO</TD> <TD>0</TD> <TD>IO Address of packet that was not handled by any mapping region.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>WRITE</TD> <TD>RO</TD> <TD>0</TD> <TD>When 1, request was a write.  When 0, request was a read</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>SRC_MAC</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC from which the request arrived.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_TIMEOUT_STS"></a>
+<br><br><h4>Tile PIO Timeout Status (TRIO_TILE_PIO_TIMEOUT_STS: 0x09e8)</h4>
+Contains information for the most recent Tile PIO timeout.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_TIMEOUT_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>27:24</TD> <TD>MAC_DROP_MODE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>For each set bit, the MAC is in drop mode due to a timeout and all subsequent PIOs for that MAC will also be dropped.  Writing with a 1 will clear drop mode.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:16</TD> <TD>REGION</TD> <TD>RO</TD> <TD>0</TD> <TD>Region that timed out.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>REGION_DISABLED</TD> <TD>RO</TD> <TD>0</TD> <TD>When 1, a PIO request was discarded due to the region being disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>CPL_TIMEOUT</TD> <TD>RO</TD> <TD>0</TD> <TD>When 1, the timeout was due to waiting for a read (or config/IO) completion.  When 0, the timeout occurred due to waiting for the MAC to consume the original request and a MAC_DROP_MODE bit will be set.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>SRC_TILE</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the TileID for the request that timed out.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_CPL_ERR_STS"></a>
+<br><br><h4>Tile PIO Completion Error Status (TRIO_TILE_PIO_CPL_ERR_STS: 0x09f0)</h4>
+Contains information for the most recent Tile PIO completion error (response from MAC flagged an error).
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_CPL_ERR_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>ERR_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates error type that was received.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>UR</TD><TD>Unsupported Request</TD></TR>
+   <TR><TD>2</TD><TD>RETRY</TD><TD>Retry (device not ready)</TD></TR>
+   <TR><TD>3</TD><TD>ABORT</TD><TD>Completer Abort</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>18:16</TD> <TD>REGION</TD> <TD>RO</TD> <TD>0</TD> <TD>Region that encountered an error.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>SRC_TILE</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the TileID for the request that encountered an error.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_CTL"></a>
+<br><br><h4>Tile PIO Controls (TRIO_TILE_PIO_CTL: 0x09f8)</h4>
+Controls for Tile PIO Transactions
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10:8</TD> <TD>TAG_SIZE</TD> <TD>RW</TD> <TD>2</TD> <TD>This setting controls the number of tags available for PIO reads and configuration requests.  This must not exceed the capability of any of the attached MACs.  Remaining tag space may be used by pull DMA requests.  If this value is decreased, at least one PIO read or configuration request must be sent before the change will take effect.  If this value is increased, the associated TAGs must be removed from pull DMA by accessing the PULL_DMA_FREE_TAG register.  The maximum supported value is 5.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SIZE0</TD><TD>Maximum of 1 PIO request outstanding.</TD></TR>
+   <TR><TD>1</TD><TD>SIZE1</TD><TD>Maximum of 2 PIO requests outstanding.</TD></TR>
+   <TR><TD>2</TD><TD>SIZE2</TD><TD>Maximum of 4 PIO requests outstanding.</TD></TR>
+   <TR><TD>3</TD><TD>SIZE3</TD><TD>Maximum of 8 PIO requests outstanding.</TD></TR>
+   <TR><TD>4</TD><TD>SIZE4</TD><TD>Maximum of 16 PIO requests outstanding.</TD></TR>
+   <TR><TD>5</TD><TD>SIZE5</TD><TD>Maximum of 32 PIO requests outstanding.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>SHORT_TIMER</TD> <TD>RW</TD> <TD>0</TD> <TD>Used for software testing.  When set to 1, the PIO completion timer will be set to 1024 cycles.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>CPL_TIMER</TD> <TD>RW</TD> <TD>6</TD> <TD>Indicates the timeout value for PIO requests (both loads and stores).  After this time expires, the request is assumed to be lost and an MMIO error will be signaled back to the requesting Tile and a PIO completion timeout interrupt will be signaled.  The timeout value is 2^(CPL_TIMER+18) cycles.  Thus if trio is operating at 950MHz, a value of 0 corresponds to approximately 0.3ms.  And a value of 6 corresponds to approximately 17.7ms.  Setting to all 1's disables the completion timer thus the max timer value at 950MHz is 4521.0ms.  The timer is accurate within +0/-6.6%.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_REGION_SETUP"></a>
+<br><br><h4>Tile PIO Region Configuration (TRIO_TILE_PIO_REGION_SETUP: 0x1000-0x103f)</h4>
+Configuration of the associated PIO region.  There is one register for each region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_REGION_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:32</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>When an MMIO load or store targets the associated PIO region, the ADDR gets appended as MSBs to the MMIO offset field to form the transaction's IO address.  For CFG regions, this field must be set to zero.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:12</TD> <TD>VFUNC</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual function associated with this region.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>VFUNC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, use the virtual function selected by VFUNC for requests.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the TC to be used with this PIO region.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>MAC</TD> <TD>RW</TD> <TD>0</TD> <TD>This field specifies the MAC associated with the PIO region.  For config transactions, this must match the MAC specifier in the MMIO transaction address (e.g. TILE_PIO_REGION_SETUP_CFG_ADDR.MAC).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>ORD</TD> <TD>RW</TD> <TD>0</TD> <TD>Strict-order mode.  When 1, writes and reads to the region will wait until previous reads have completed.  This prevents writes and reads from being reordered in the IO system.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Region type<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>MEM</TD><TD>Memory region.  The MMIO address is added to the associated TILE_PIO_REGION_ADDR to form the IO address.</TD></TR>
+   <TR><TD>1</TD><TD>CFG</TD><TD>Config region.  The MMIO address is converted to a config address and is used to perform 1,2, or 4 byte configuration accesses.  The address format is described in TILE_PIO_REGION_SETUP_CFG_ADDR.  Note that the MAC select comes from the MMIO address to allow one region to be used for configuring multiple MAC ports.</TD></TR>
+   <TR><TD>2</TD><TD>IO</TD><TD>IO region.  The low 32 bits of the MMIO address is converted to an IO address.  A 1,2, or 4 byte IO access is sent to the MAC selected in the MAC field.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the region.  When 0, accesses to the associated PIO region will cause an MMIO error.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_REGION_SETUP_CFG_ADDR"></a>
+<br><br><h4>Tile PIO Region Configuration - CFG Address Format (TRIO_TILE_PIO_REGION_SETUP_CFG_ADDR: 0x1000)</h4>
+This register describes the address format for PIO accesses when the associated region is setup with TYPE=CFG.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_REGION_SETUP_CFG_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:30</TD> <TD>MAC</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC select.  This must match the configuration in TILE_PIO_REGION_SETUP.MAC.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>0</TD> <TD>Config Type: 0 for access to directly-attached device.  1 otherwise.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27:20</TD> <TD>BUS</TD> <TD>RO</TD> <TD>0</TD> <TD>BUS Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:15</TD> <TD>DEV</TD> <TD>RO</TD> <TD>0</TD> <TD>Device Number</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14:12</TD> <TD>FN</TD> <TD>RO</TD> <TD>0</TD> <TD>Function Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>REG_ADDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Register Address (full byte address).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC0_W1TC"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (TRIO_INT_VEC0_W1TC: 0x1800)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  Writing a 1 clears the status bit.  Bit definitions are provided in the INT_VEC0 register description.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC0_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INT_VEC0_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  Writing a 1 clears the status bit.  Bit definitions are provided in the INT_VEC0 register description.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC0"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (TRIO_INT_VEC0: 0x1800)</h4>
+This describes the interrupt status vector that is accessible through INT_VEC0_W1TC and INT_VEC0_RTC.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>MAP_SQ_EMPTY</TD> <TD>RW</TD> <TD>0</TD> <TD>An incoming transaction targeted an SQ, but there was no descriptor available.  Info captured in MAP_SQ_CTL.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>PIO_DISABLED</TD> <TD>RW</TD> <TD>0</TD> <TD>Access to disabled PIO region.  Error info captured in TILE_PIO_TIMEOUT_STS</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>MAP_EVT_CTR</TD> <TD>RW</TD> <TD>0</TD> <TD>The MAP_EVT_CTR wrapped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>PULL_DMA_EVT_CTR</TD> <TD>RW</TD> <TD>0</TD> <TD>The PULL_DMA_EVT_CTR wrapped</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>PUSH_DMA_EVT_CTR</TD> <TD>RW</TD> <TD>0</TD> <TD>The PUSH_DMA_EVT_CTR wrapped</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>PULL_CPL_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>A PULL DMA transaction received an error completion from the MAC.  The associated region is stored in PULL_DMA_CPL_ERR_STS/INFO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>MMIO_PROT_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>An MMIO request violated the config register protection level.  The MMIO_ERR will also fire when this interrupt is triggered.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>PIO_CPL_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>A PIO transaction received an error completion from the MAC.  The associated region is stored in TILE_PIO_CPL_ERR_STS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>MMU_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD>A MAP_MEM request used an invalid MMU entry.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>PIO_TIMEOUT</TD> <TD>RW</TD> <TD>0</TD> <TD>A PIO transaction has timed out.  The associated region is stored in TILE_PIO_TIMEOUT_STS.  This interrupt occurs when a request times out trying to go to the MAC (due to credit starvation for example).  It also occurs when a read completion times out.  Thus a PIO read that is not making progress can generate two interrupts: once for the stalled request and once for the lack of completion.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>PANIC</TD> <TD>RW</TD> <TD>0</TD> <TD>The panic timer has expired causing MAP-MEM/SQ reads and writes to be directed to the PANIC_PA.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>PULL_TIMEOUT</TD> <TD>RW</TD> <TD>0</TD> <TD>A pull DMA request timed out.  Timed-out rings are indicated in PULL_DMA_TIMEOUT_STS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>PULL_DATA_DISC</TD> <TD>RW</TD> <TD>0</TD> <TD>Pull DMA data was discarded due to TLB miss.  The faulting ring is captured in PULL_DMA_STS.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>PUSH_DESC_DISC</TD> <TD>RW</TD> <TD>0</TD> <TD>A push DMA descriptor was discarded.  The faulting ring is captured in PUSH_DMA_STS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>RSH_SIZE_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD>A request targeting the rshim violated the maximum read request size.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>MAP_UNCLAIMED</TD> <TD>RW</TD> <TD>0</TD> <TD>An ingress packet was not claimed by any map region.  The info for the request is captured in MAP_ERR_STS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>PULL_DMA_INVALID_POST</TD> <TD>RW</TD> <TD>0</TD> <TD>Software posted a descriptor, but the fetcher did not find a valid descriptor.  The faulting ring is captured in PULL_DMA_STS.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>PUSH_DMA_INVALID_POST</TD> <TD>RW</TD> <TD>0</TD> <TD>Software posted a descriptor, but the fetcher did not find a valid descriptor.  The faulting ring is captured in PUSH_DMA_STS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MMIO_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>An MMIO request encountered an error.  Error info captured in MMIO_ERROR_INFO.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MAP_SQ_OVFL</TD> <TD>RW</TD> <TD>0</TD> <TD>One of the MAP SQ FIFOs overflowed on an MMIO write (descriptor discarded).  Info captured in MAP_SQ_CTL</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>MAP_RD_TLB_MISS</TD> <TD>RW</TD> <TD>0</TD> <TD>TLB miss occurred on an ingress map read transaction.  Exception information contained in TLB_MAP_RD_EXC_ADDR</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>MAP_WR_TLB_MISS</TD> <TD>RW</TD> <TD>0</TD> <TD>TLB miss occurred on an ingress map write transaction.  Exception information contained in TLB_MAP_WR_EXC_ADDR</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>PULL_DMA_TLB_MISS</TD> <TD>RW</TD> <TD>0</TD> <TD>TLB miss occurred on a push DMA transaction.  Exception information contained in TLB_PULL_DMA_EXC_ADDR</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>PUSH_DMA_TLB_MISS</TD> <TD>RW</TD> <TD>0</TD> <TD>TLB miss occurred on a push DMA transaction.  Exception information contained in TLB_PUSH_DMA_EXC_ADDR</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC1_W1TC"></a>
+<br><br><h4>Interrupt vector-1, write-one-to-clear (TRIO_INT_VEC1_W1TC: 0x1808)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  This vector contains the interrupts associated with the 64 push DMA rings.  Writing a 1 clears the status bit.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC1_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC1_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  This vector contains the interrupts associated with the 64 push DMA rings.  Writing a 1 clears the status bit.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC2_W1TC"></a>
+<br><br><h4>Interrupt vector-2, write-one-to-clear (TRIO_INT_VEC2_W1TC: 0x1810)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC2_RTC.  This vector contains the interrupts associated with the 64 pull DMA rings.  Writing a 1 clears the status bit.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC2_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC2_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC2_RTC.  This vector contains the interrupts associated with the 64 pull DMA rings.  Writing a 1 clears the status bit.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC3_W1TC"></a>
+<br><br><h4>Interrupt vector 3, write-one-to-clear (TRIO_INT_VEC3_W1TC: 0x1818)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC3_RTC.  This vector contains the interrupts associated with the 8 map SQ regions.  Writing a 1 clears the status bit.  The low 8 bits are the associated region's doorbell interrupt.  The next 8 bits are the associated region's descriptor-dequeue interrupt.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC3_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC3_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC3_RTC.  This vector contains the interrupts associated with the 8 map SQ regions.  Writing a 1 clears the status bit.  The low 8 bits are the associated region's doorbell interrupt.  The next 8 bits are the associated region's descriptor-dequeue interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC4_W1TC"></a>
+<br><br><h4>Interrupt vector 4, write-one-to-clear (TRIO_INT_VEC4_W1TC: 0x1820)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC4_RTC.  This vector contains the interrupts associated with the MAP-MEM interrupts.  Writing a 1 clears the status bit.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC4_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INT_VEC4_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC4_RTC.  This vector contains the interrupts associated with the MAP-MEM interrupts.  Writing a 1 clears the status bit.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC0_RTC"></a>
+<br><br><h4>Interrupt vector-0, read-to-clear (TRIO_INT_VEC0_RTC: 0x1880)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  Reading this register clears all of the associated interrupts.  Bit definitions are provided in the INT_VEC0 register description.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC0_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INT_VEC0_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  Reading this register clears all of the associated interrupts.  Bit definitions are provided in the INT_VEC0 register description.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC1_RTC"></a>
+<br><br><h4>Interrupt vector-1, read-to-clear (TRIO_INT_VEC1_RTC: 0x1888)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  This vector contains the interrupts associated with the 64 push DMA rings.  Reading this register clears all of the associated interrupts.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC1_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC1_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  This vector contains the interrupts associated with the 64 push DMA rings.  Reading this register clears all of the associated interrupts.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC2_RTC"></a>
+<br><br><h4>Interrupt vector-2, read-to-clear (TRIO_INT_VEC2_RTC: 0x1890)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC2_W1TC.  This vector contains the interrupts associated with the 64 pull DMA rings.  Reading this register clears all of the associated interrupts.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC2_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>INT_VEC2_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC2_W1TC.  This vector contains the interrupts associated with the 64 pull DMA rings.  Reading this register clears all of the associated interrupts.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC3_RTC"></a>
+<br><br><h4>Interrupt vector 3, read-to-clear (TRIO_INT_VEC3_RTC: 0x1898)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC3_W1TC.  This vector contains the interrupts associated with the 8 map SQ regions.  Reading this register clears all of the associated interrupts.  The low 8 bits are the associated region's doorbell interrupt.  The next 8 bits are the associated region's descriptor-dequeue interrupt.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC3_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>INT_VEC3_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC3_W1TC.  This vector contains the interrupts associated with the 8 map SQ regions.  Reading this register clears all of the associated interrupts.  The low 8 bits are the associated region's doorbell interrupt.  The next 8 bits are the associated region's descriptor-dequeue interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_VEC4_RTC"></a>
+<br><br><h4>Interrupt vector 4, read-to-clear (TRIO_INT_VEC4_RTC: 0x18a0)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC4_W1TC.  This vector contains the interrupts associated with the MAP MEM interrupts.  Writing a 1 clears the status bit.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_VEC4_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INT_VEC4_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC4_W1TC.  This vector contains the interrupts associated with the MAP MEM interrupts.  Writing a 1 clears the status bit.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_INT_BIND"></a>
+<br><br><h4>Bindings for interrupt vectors (TRIO_INT_BIND: 0x1900)</h4>
+This register provides read/write access to all of the interrupt bindings for TRIO.  The VEC_SEL field is used to select the vector being configured and the BIND_SEL selects the interrupt within the vector.  To read a binding, first write the VEC_SEL and BIND_SEL fields along with a 1 in the NW field.  Then read back the register.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_INT_BIND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>NW</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the interrupt binding data will not be modified.  Set this when writing the VEC_SEL and BIND_SEL fields in preparation for a read.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:40</TD> <TD>BIND_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects binding within the vector selected by VEC_SEL.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>34:32</TD> <TD>VEC_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects vector whose bindings are to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>GENERAL_INTS</TD><TD>Interrupt bindings associated with the following BIND_SEL values:<br>
+<br>
+0: PUSH_DMA_TLB_MISS     - TLB miss occurred on a push DMA transaction.  Exception information contained in TLB_PUSH_DMA_EXC_ADDR<br>
+<br>
+1: PULL_DMA_TLB_MISS     - TLB miss occurred on a push DMA transaction.  Exception information contained in TLB_PULL_DMA_EXC_ADDR<br>
+<br>
+2: MAP_WR_TLB_MISS       - TLB miss occurred on an ingress map write transaction.  Exception information contained in TLB_MAP_WR_EXC_ADDR<br>
+<br>
+3: MAP_RD_TLB_MISS       - TLB miss occurred on an ingress map read transaction.  Exception information contained in TLB_MAP_RD_EXC_ADDR<br>
+<br>
+4: MAP_SQ_OVFL           - One of the MAP SQ FIFOs overflowed on an MMIO write (descriptor discarded).  Info captured in MAP_SQ_CTL<br>
+<br>
+5: MMIO_ERR              - An MMIO request encountered an error.  Error info captured in MMIO_ERROR_INFO.<br>
+<br>
+6: PUSH_DMA_INVALID_POST - Software posted a descriptor, but the fetcher did not find a valid descriptor.  The faulting ring is captured in PUSH_DMA_STS.<br>
+<br>
+7: PULL_DMA_INVALID_POST - Software posted a descriptor, but the fetcher did not find a valid descriptor.  The faulting ring is captured in PULL_DMA_STS.<br>
+<br>
+8: MAP_UNCLAIMED         - An ingress packet was not claimed by any map region.  The info for the request is captured in MAP_ERR_STS.<br>
+<br>
+9: RSH_SIZE_ERROR        - A request targeting the rshim violated the maximum read request size.<br>
+<br>
+10: PUSH_DESC_DISC       - A push DMA descriptor was discarded.  The faulting ring is captured in PUSH_DMA_STS.<br>
+<br>
+11: PULL_DATA_DISC       - Pull DMA data was discarded due to TLB miss.  The faulting ring is captured in PULL_DMA_STS.<br>
+<br>
+12: PULL_TIMEOUT         - A pull DMA request timed out.  Timed-out rings are indicated in PULL_DMA_TIMEOUT_STS.<br>
+<br>
+13: PANIC                - The panic timer has expired causing MAP-MEM/SQ reads and writes to be directed to the PANIC_PA.<br>
+<br>
+14: PIO_TIMEOUT          - A PIO transaction has timed out.  The associated region is stored in TILE_PIO_TIMEOUT_STS.<br>
+<br>
+15: MMU_ERROR            - A MAP_MEM request used an invalid MMU entry.<br>
+<br>
+16: PIO_CPL_ERR          - A PIO transaction received an error completion from the MAC.  The associated region is stored in TILE_PIO_CPL_ERR_STS.<br>
+<br>
+17: MMIO_PROT_ERR        - An MMIO request violated the config register protection level.<br>
+<br>
+18: PULL_CPL_ERR         - A PULL DMA transaction received an error completion from the MAC.  The associated region is stored in PULL_DMA_CPL_ERR_STS/INFO.<br>
+<br>
+19: PUSH_DMA_EVT_CTR     - The PUSH_DMA_EVT_CTR wrapped<br>
+<br>
+20: PULL_DMA_EVT_CTR     - The PULL_DMA_EVT_CTR wrapped<br>
+<br>
+21: MAP_EVT_CTR          - The MAP_EVT_CTR wrapped<br>
+<br>
+22: PIO_DISABLED         - Access to disabled PIO region.  Error info captured in TILE_PIO_TIMEOUT_STS<br>
+<br>
+23: MAP_SQ_EMPTY         - An incoming transaction targeted an SQ, but there was no descriptor available.  Info captured in MAP_SQ_CTL.<br>
+<br>
+24: REM_MMIO_ERR         - Remote buffer return encountered MMIO error (not applicable to all devices).</TD></TR>
+   <TR><TD>1</TD><TD>PUSH_DMA</TD><TD>Interrupt bindings associated with the push DMA rings.</TD></TR>
+   <TR><TD>2</TD><TD>PULL_DMA</TD><TD>Interrupt bindings associated with the pull DMA rings</TD></TR>
+   <TR><TD>3</TD><TD>MAP_SQ</TD><TD>Interrupt bindings associated with the Map SQ regions.</TD></TR>
+   <TR><TD>4</TD><TD>MAP_MEM</TD><TD>Interrupt bindings associated with the Map MEM regions.  There is one binding per MAP-MEM region.  Each MAP-MEM region's MAP_MEM_SETUP.INT_ENA register setting determines whether the associated region's interrupt vector is enabled.</TD></TR>
+   <TR><TD>5</TD><TD>MAC</TD><TD>MAC Interrupts.  There are 32 interrupts for each MAC.  MAC0 is the 1st 32 bindings, MAC1 is the 2nd 32 bindings, etc.   Note that interrupt status and write-1-to-clear registers are located in each MAC's configuration space.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>17:12</TD> <TD>EVT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Event number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:10</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Interrupt number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:2</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>HW <TD>Tile targeted for this interrupt in {x[3:0],y[3:0]} format.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, interrupt will be dispatched each time it occurs.  When 0, the interrupt is only sent if the status bit is clear.  This field is not used for MAC interrupts (ISR needs to clear MAC interrupt status on each occurrence).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the interrupt.  When 0, the interrupt won't be dispatched, however the STATUS bit will continue to be updated.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_CTL"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Control (TRIO_PUSH_DMA_DM_INIT_CTL: 0x2400)</h4>
+Initialization control for the push_dma descriptor manager data structures
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>STRUCT_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Structure to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SETUP</TD><TD>Descriptor Manager Setup</TD></TR>
+   <TR><TD>1</TD><TD>HEAD</TD><TD>Current Head/GNUM</TD></TR>
+   <TR><TD>2</TD><TD>DESC_STATE0</TD><TD>Current descriptor state</TD></TR>
+   <TR><TD>3</TD><TD>DESC_STATE1</TD><TD>Current descriptor state</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>5:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>push_dma Ring to be accessed.  Increments automatically on write or read to PUSH_DMA_DM_INIT_DAT</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_DAT"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Data (TRIO_PUSH_DMA_DM_INIT_DAT: 0x2408)</h4>
+Read/Write data for push_dma descriptor manager setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Write/Read data for the structure configured in PUSH_DMA_DM_INIT_CTL.  PUSH_DMA_DM_INIT_CTL.IDX selects the push DMA ring being accessed and increments automatically on each write or read.  The format for this data depends on the structure being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_DAT_SETUP"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Data when PUSH_DMA_DM_INIT_CTL.STRUCT_SEL=SETUP (TRIO_PUSH_DMA_DM_INIT_DAT_SETUP: 0x2408)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Read/Write data for push_dma descriptor manager setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_DAT_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>46</TD> <TD>STALL</TD> <TD>RW</TD> <TD>0</TD> <TD>Ring stall.  When asserted, no descriptors in the descriptor-fetch buffer will be processed.  Hardware will set this bit automatically if a descriptor error is encountered on the associated ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>45</TD> <TD>FLUSH</TD> <TD>RW</TD> <TD>0</TD> <TD>Flush mode.  When set, the descriptor buffer will be cleared.  Typically used along with PUSH_DMA_CTL.FENCE to drain a ring after an application crashes or the ring needs to be reassigned.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>44</TD> <TD>HUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Hunt Mode.  When 1, the descriptor fetcher will periodically check for valid descriptors on the ring even if the descriptor has not been posted.  This allows software to write descriptors without posting or to post without an MF between the descriptor write and the post.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>43</TD> <TD>FREEZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Ring Freeze.  The ring will not fetch new descriptors when this is asserted.  Descriptors that have already been fetched will continue to be processed.  Hardware will set this bit automatically if a descriptor error is encountered on the associated ring.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>42:41</TD> <TD>RING_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Encoded Ring Size.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SZ_512</TD><TD>512 descriptors</TD></TR>
+   <TR><TD>1</TD><TD>SZ_2K</TD><TD>2048 descriptors</TD></TR>
+   <TR><TD>2</TD><TD>SZ_8K</TD><TD>8192 descriptors</TD></TR>
+   <TR><TD>3</TD><TD>SZ_64K</TD><TD>65536 descriptors</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>40:33</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>0</TD> <TD>Home Tile when HFH=0, or {mask,offset} when HFH=1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30</TD> <TD>HFH</TD> <TD>RW</TD> <TD>0</TD> <TD> If HFH is 0, TileID is the home Tile.  If HFH is 1, TileID[7:4] is the HFH table mask and TileID[3:0] is the HFH table offset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:0</TD> <TD>BASE_PA</TD> <TD>RW</TD> <TD>0</TD> <TD>PA[39:10] of base of push_dma descriptor ring.  Rings must be naturally aligned in PA space based on the ring size.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_DAT_HEAD"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Data when PUSH_DMA_DM_INIT_CTL.STRUCT_SEL=HEAD (TRIO_PUSH_DMA_DM_INIT_DAT_HEAD: 0x2408)</h4>
+Read/Write data for push_dma descriptor manager setup.  These fields must be written to zero when restarting a ring.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_DAT_HEAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>GNUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Current gnum (valid descriptor will have inverted gnum)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>HEAD</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE0"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Data when PUSH_DMA_DM_INIT_CTL.STRUCT_SEL=DESC_STATE0 (TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE0: 0x2408)</h4>
+Read/Write data for push_dma descriptor manager setup.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>Current descriptor state.  There are 64 2-bit entries.  Entries 0-31 are in DESC_STATE0 and entries 32-63 are in DESC_STATE1.  When a ring is being restarted, this register must be written to 1.  Each 2-bit entry represents the hardware state of the descriptor being monitored at the associated location.  Bits[1:0] represent the state of the descriptor at the HEAD.  Bits[3:2] represent the state at HEAD+1 etc.  The states are encoded as:<br>
+...0 = UNKNOWN - descriptor state is not known by hardware and will need to be fetched from Tile memory<br>
+...1 = KNOWN_INVALID - descriptor state is known to be invalid and does not need to be fetched from Tile memory (this is the reset state for the first 64 descriptors)<br>
+...2 = KNOWN_VALID - descriptor is known to be valid based on software descriptor posts.  A Tile memory fetch will eventually be launched to retrieve the descriptor.<br>
+...3 = DONE - valid descriptor has been fetched and is in the process of being enqueued for processing</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE1"></a>
+<br><br><h4>Push DMA Descriptor Manager Init Data when PUSH_DMA_DM_INIT_CTL.STRUCT_SEL=DESC_STATE1 (TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE1: 0x2408)</h4>
+Read/Write data for push DMA descriptor manager setup.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DM_INIT_DAT_DESC_STATE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>See PUSH_DMA_DM_INIT_DAT_DESC_STATE0.  When a ring is being restarted, this register must be written to 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_RG_INIT_CTL"></a>
+<br><br><h4>Push DMA Request Generator Init Control (TRIO_PUSH_DMA_RG_INIT_CTL: 0x2410)</h4>
+Initialization control for the push_dma request generator data structures
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_RG_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>STRUCT_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Structure to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>ASID</TD><TD>IDX selects the ring whose ASID is to be accessed.</TD></TR>
+   <TR><TD>1</TD><TD>THRESH</TD><TD>ebuf Thresholds.  The PUSH DMA data buffer is shared between push DMA rings and map-region read completions.  The index field selects between the rings (for push DMA) and MACs (for map-read-completions).  The first 64 IDX values are for rings.  The remaining IDX values (up to 4 MACs) are the values for each MAC for completions from map-read-region reads.</TD></TR>
+   <TR><TD>2</TD><TD>MAP</TD><TD>Egress ring-to-MAC mapping and configuration.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into structure to be accessed.  Increments automatically on write or read to PUSH_DMA_RG_INIT_DAT</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_RG_INIT_DAT"></a>
+<br><br><h4>Push DMA Request Generator Init Data (TRIO_PUSH_DMA_RG_INIT_DAT: 0x2418)</h4>
+Read/Write data for push_dma descriptor manager setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_RG_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Write/Read data for the structure configured in PUSH_DMA_RG_INIT_CTL.  PUSH_DMA_RG_INIT_CTL.IDX indexes into the structure being accessed and increments automatically on each write or read.  The format for this data depends on the structure being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_RG_INIT_DAT_ASID"></a>
+<br><br><h4>Push DMA Request Generator Init Data for ASIDs (TRIO_PUSH_DMA_RG_INIT_DAT_ASID: 0x2418)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Read/Write data for push_dma descriptor manager setup when PUSH_DMA_RG_INIT_CTL.STRUCT_SEL=ASID
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_RG_INIT_DAT_ASID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>FLUSH_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, a TLB fault will result in the descriptor being dropped when a TLB fault occurs.  When 0, the descriptor will retry until the TLB miss is satisfied.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>ASID: specifies the ASID associated with this ring. PUSH_DMA_RG_INIT_CTL.IDX selects the ring being configured.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_RG_INIT_DAT_THRESH"></a>
+<br><br><h4>Push DMA Request Generator Init Data for thresholds (TRIO_PUSH_DMA_RG_INIT_DAT_THRESH: 0x2418)</h4>
+Read/Write data for push_dma descriptor manager setup when PUSH_DMA_RG_INIT_CTL.STRUCT_SEL=THRESH
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_RG_INIT_DAT_THRESH.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>DB</TD> <TD>RW</TD> <TD>1</TD> <TD>Specifies that this ring (or MAC for MAP-read-completions) may consume dynamic (undifferentiated) ebuf blocks.  When 0, the flow may only consume from the reserved block pool.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:0</TD> <TD>MAX_BLKS</TD> <TD>RW</TD> <TD>14</TD> <TD>Specifies how many 256-byte blocks this ring (or MAC for MAP-read-completions) is allowed to consume.  If the number of active rings+MACs times the MAX_BLKS+2 in each ring exceeds PUSH_DMA_STS.NUM_EBUF_BLOCKS,  the rings could block each other if a ring is stalled on egress.  The "+2" accounts for extra blocks that can skid into the buffer as it fills.  PUSH_DMA_RG_INIT_CTL.IDX selects the ring being configured.  Each MAC must have MAX_BLKS set to at least ((MPS/256)+1) to guarantee that ingress reads make forward progress.   Thus a minimum setting of 5 will work for all supported MPS values.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_RG_INIT_DAT_MAP"></a>
+<br><br><h4>Push DMA Request Generator Init Data for MAC mapping and configuration. (TRIO_PUSH_DMA_RG_INIT_DAT_MAP: 0x2418)</h4>
+Read/Write data for push_dma descriptor manager setup when PUSH_DMA_RG_INIT_CTL.STRUCT_SEL=MAP
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_RG_INIT_DAT_MAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:12</TD> <TD>VFUNC</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual function associated with this ring. This field is used for type0 descriptors.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>VFUNC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, use the virtual function selected by VFUNC for requests. This field is used for type0 descriptors.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:6</TD> <TD>TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the traffic class to be used with this ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1:0</TD> <TD>MAC</TD> <TD>RW</TD> <TD>HW <TD>Specifies the MAC associated with this ring.  PUSH_DMA_RG_INIT_CTL.IDX selects the ring being configured.  HW resets this field to RING mod 2.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_CTL"></a>
+<br><br><h4>Push DMA Control (TRIO_PUSH_DMA_CTL: 0x2420)</h4>
+Configuration for push_dma services
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:60</TD> <TD>READ_PACE_BW</TD> <TD>RW</TD> <TD>3</TD> <TD>Controls the read pace bandwidth.  Larger numbers result in lower bandwidth provisioned for Tile memory reads.  Utilization is approximately 5/(5+N) so Setting to 3 corresponds to approximately 63% utilization.  Setting to 4 corresponds to approximately 55% utilization.  This can typically be left at 3 unless the system simultaneously has high bandwidth ingress map reads in which case 9 is typically a more appropriate setting.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>59</TD> <TD>FLUSH_PND_RT</TD> <TD>RO</TD> <TD>0</TD> <TD>Flush is pending due to a request needing to complete and data in buffer needing to be flushed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>58</TD> <TD>FLUSH_PND_DF</TD> <TD>RO</TD> <TD>0</TD> <TD>Flush is pending due to a descriptor fetch.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>57</TD> <TD>FLUSH_PND</TD> <TD>RO</TD> <TD>0</TD> <TD>Set by hardware when a push DMA ring in FLUSH mode still has descriptor fetches or data buffer blocks remaining.  This bit must be clear prior to restarting the ring.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>56</TD> <TD>FENCE</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, a coherence fence is initiated.  Hardware will clear the bit once all older push DMA data reads and MAP-SQ/MEM data reads have completed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:32</TD> <TD>UD_BLOCKS</TD> <TD>RW</TD> <TD>7fh</TD> <TD>Number of ebuf blocks in the undifferentiated pool.  As long as the sum of the MAX_BLKS thresholds is less than NUM_PUSH_EBUF_BLOCKS-UD_BLOCKS, the push_dma engine guarantees that head of line blocking will not occur.  Note that these blocks are shared with ingress reads.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19:8</TD> <TD>HUNT_CYCLES</TD> <TD>RW</TD> <TD>3e8h</TD> <TD>Controls how often "hunt" prefetches are sent.  Hunt prefetches are periodically sent for rings that have hunt enabled in order to find valid descriptors.  Setting this to a lower value will improve the response time in systems where descriptors posts are not being sent to push_dma.  But smaller numbers will also consume additional request bandwidth, especially when multiple rings are operating in hunt mode.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>DESC_READ_PACE</TD> <TD>RW</TD> <TD>1</TD> <TD>When asserted, the push DMA descriptor engine will pace its read requests to avoid oversubscribing the response network bandwidth.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>DATA_READ_PACE</TD> <TD>RW</TD> <TD>1</TD> <TD>When asserted, the push DMA engine will pace its read requests to avoid oversubscribing the response network bandwidth.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1:0</TD> <TD>MAX_DM_REQ</TD> <TD>RW</TD> <TD>3</TD> <TD>Maximum number of push DMA descriptor ring read requests the descriptor manager hardware will allow outstanding to a single ring.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_STS"></a>
+<br><br><h4>Push DMA Status (TRIO_PUSH_DMA_STS: 0x2428)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+push_dma status
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>37:32</TD> <TD>LAST_DISC_RING</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring number corresponding to a the last descriptor that was discarded due to TLB fault or size error.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>CURR_BLOCK_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of blocks currently store in the push DMA buffer.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>NUM_PUSH_EBUF_BLOCKS</TD> <TD>RO</TD> <TD>3ffh</TD> <TD>Indicates the total number of 256-byte blocks provided in the ebuf buffer.  Note that these blocks are shared between PUSH_DMA and ingress reads.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:0</TD> <TD>LAST_INVALID_POST</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring number corresponding to a PUSH_DMA_POST_ERR interrupt.  Updates each time an invalid-post event is detected.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_CTL"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Control (TRIO_PULL_DMA_DM_INIT_CTL: 0x2430)</h4>
+Initialization control for the pull_dma descriptor manager data structures
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>STRUCT_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Structure to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SETUP</TD><TD>Descriptor Manager Setup</TD></TR>
+   <TR><TD>1</TD><TD>HEAD</TD><TD>Current Head/GNUM</TD></TR>
+   <TR><TD>2</TD><TD>DESC_STATE0</TD><TD>Current descriptor state</TD></TR>
+   <TR><TD>3</TD><TD>DESC_STATE1</TD><TD>Current descriptor state</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>5:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>pull_dma Ring to be accessed.  Increments automatically on write or read to PULL_DMA_DM_INIT_DAT</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_DAT"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Data (TRIO_PULL_DMA_DM_INIT_DAT: 0x2438)</h4>
+Read/Write data for pull_dma descriptor manager setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Write/Read data for the structure configured in PULL_DMA_DM_INIT_CTL.  PULL_DMA_DM_INIT_CTL.IDX selects the pull DMA ring being accessed and increments automatically on each write or read.  The format for this data depends on the structure being accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_DAT_SETUP"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Data when PULL_DMA_DM_INIT_CTL.STRUCT_SEL=SETUP (TRIO_PULL_DMA_DM_INIT_DAT_SETUP: 0x2438)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Read/Write data for pull_dma descriptor manager setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_DAT_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>46</TD> <TD>STALL</TD> <TD>RW</TD> <TD>0</TD> <TD>Ring stall.  When asserted, no descriptors in the descriptor-fetch buffer will be processed.  Hardware will set this bit automatically if a descriptor error is encountered on the associated ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>45</TD> <TD>FLUSH</TD> <TD>RW</TD> <TD>0</TD> <TD>Flush mode.  When set, the descriptor buffer will be cleared.  Typically used to drain a ring after an application crashes or the ring needs to be reassigned.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>44</TD> <TD>HUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Hunt Mode.  When 1, the descriptor fetcher will periodically check for valid descriptors on the ring even if the descriptor has not been posted.  This allows software to write descriptors without posting or to post without an MF between the descriptor write and the post.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>43</TD> <TD>FREEZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Ring Freeze (ring will not fetch new descriptors when this is asserted - resets to 1)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>42:41</TD> <TD>RING_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Encoded Ring Size.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>SZ_512</TD><TD>512 descriptors</TD></TR>
+   <TR><TD>1</TD><TD>SZ_2K</TD><TD>2048 descriptors</TD></TR>
+   <TR><TD>2</TD><TD>SZ_8K</TD><TD>8192 descriptors</TD></TR>
+   <TR><TD>3</TD><TD>SZ_64K</TD><TD>65536 descriptors</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>40:33</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>0</TD> <TD>Home Tile when HFH=0, or {mask,offset} when HFH=1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30</TD> <TD>HFH</TD> <TD>RW</TD> <TD>0</TD> <TD> If HFH is 0, TileID is the home Tile.  If HFH is 1, TileID[7:4] is the HFH table mask and TileID[3:0] is the HFH table offset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:0</TD> <TD>BASE_PA</TD> <TD>RW</TD> <TD>0</TD> <TD>PA[39:10] of base of pull_dma descriptor ring.  Rings must be naturally aligned in PA space based on the ring size.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_DAT_HEAD"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Data when PULL_DMA_DM_INIT_CTL.STRUCT_SEL=HEAD (TRIO_PULL_DMA_DM_INIT_DAT_HEAD: 0x2438)</h4>
+Read/Write data for pull_dma descriptor manager setup.  These fields must be written to zero when restarting a ring.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_DAT_HEAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>GNUM</TD> <TD>RW</TD> <TD>0</TD> <TD>Current gnum (valid descriptor will have inverted gnum)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>HEAD</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE0"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Data when PULL_DMA_DM_INIT_CTL.STRUCT_SEL=DESC_STATE0 (TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE0: 0x2438)</h4>
+Read/Write data for pull_dma descriptor manager setup.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>Current descriptor state (for diagnostics).  There are 64 2-bit entries.  Entries 0-31 are in DESC_STATE0 and entries 32-63 are in DESC_STATE1.  When a ring is being restarted, this register must be written to 1.  Each 2-bit entry represents the hardware state of the descriptor being monitored at the associated location.  Bits[1:0] represent the state of the descriptor at the HEAD.  Bits[3:2] represent the state at HEAD+1 etc.  The states are encoded as:<br>
+...0 = UNKNOWN - descriptor state is not known by hardware and will need to be fetched from Tile memory<br>
+...1 = KNOWN_INVALID - descriptor state is known to be invalid and does not need to be fetched from Tile memory (this is the reset state for the first 64 descriptors)<br>
+...2 = KNOWN_VALID - descriptor is known to be valid based on software descriptor posts.  A Tile memory fetch will eventually be launched to retrieve the descriptor.<br>
+...3 = DONE - valid descriptor has been fetched and is in the process of being enqueued for processing</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE1"></a>
+<br><br><h4>Pull DMA Descriptor Manager Init Data when PULL_DMA_DM_INIT_CTL.STRUCT_SEL=DESC_STATE1 (TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE1: 0x2438)</h4>
+Read/Write data for pull DMA descriptor manager setup.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DM_INIT_DAT_DESC_STATE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>See PULL_DMA_DM_INIT_DAT_DESC_STATE0.  When a ring is being restarted, this register must be written to 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_RG_INIT_CTL"></a>
+<br><br><h4>Pull DMA Request Generator Init Control (TRIO_PULL_DMA_RG_INIT_CTL: 0x2440)</h4>
+Initialization control for the pull_dma request generator data structures
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_RG_INIT_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:0</TD> <TD>IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into ring to be accessed.  Increments automatically on write or read to PULL_DMA_RG_INIT_DAT</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_RG_INIT_DAT"></a>
+<br><br><h4>Pull DMA Request Generator Init Data (TRIO_PULL_DMA_RG_INIT_DAT: 0x2448)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Read/Write data for Pull DMA Ring Setup
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_RG_INIT_DAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>VFUNC</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual function associated with this ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>VFUNC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, use the virtual function selected by VFUNC for requests.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12:10</TD> <TD>TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the traffic class to be used with this ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>FLUSH_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, a TLB fault will result in pull DMA data being dropped when a TLB fault occurs.  When 0, the data write will retry until the TLB miss is satisfied.  Note that when FLUSH_MODE is 0, software must handle the fault within a reasonable time frame (10's of microseconds) to prevent stalls in other functions including other PULL DMA rings, Tile PIO, and ingress transactions.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:6</TD> <TD>MRS</TD> <TD>RW</TD> <TD>6</TD> <TD>Specifies the maximum request size for this ring.  0=64, 1=128, ..., 6=4096.  Encodings larger than 6 are reserved.  If this setting exceeds the value in the MAC_CONFIG register, that value will be used instead.  This setting is typically left at 6 to generate the maximum possible request size for the MAC.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>MAC</TD> <TD>RW</TD> <TD>HW <TD>Specifies the MAC associated with this ring.  HW resets this field to RING mod constants.TRIO_LOG2_NUM_MACS.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the ASID associated with this ring.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_CTL"></a>
+<br><br><h4>Pull DMA Control (TRIO_PULL_DMA_CTL: 0x2450)</h4>
+Configuration for pull_dma services
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>59</TD> <TD>FLUSH_PND_RT</TD> <TD>RO</TD> <TD>0</TD> <TD>Flush is pending due to a request needing to complete (including response from MAC and writes to Tile memory).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>58</TD> <TD>FLUSH_PND_DF</TD> <TD>RO</TD> <TD>0</TD> <TD>Flush is pending due to a descriptor fetch.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>57</TD> <TD>FLUSH_PND</TD> <TD>RO</TD> <TD>0</TD> <TD>Set by hardware when a pull DMA ring in FLUSH mode still has descriptor fetches or data requests inflight.  This bit must be clear prior to restarting the ring.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:46</TD> <TD>MAC_TAG_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides MAC select when accessing the PULL_DMA_TAG_FREE.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>45</TD> <TD>REQ_STALL</TD> <TD>RW</TD> <TD>0</TD> <TD>Stall request generator.   Typically used when increasing or decreasing tag space.   When set to 1, no read requests will be sent to MAC.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>44</TD> <TD>NO_PAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Disable pad-to-cacheline writes.  This may reduce performance and is only intended for diagnostics purposes.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>43:32</TD> <TD>WB_CYCLES</TD> <TD>RW</TD> <TD>3e8h</TD> <TD>Number of cycles to wait before flushing the write-combining buffer that's used by pull DMA read completions.  A smaller number will reduce the jitter in DMA completion time at the expense of increased Tile-side bandwidth.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>SHORT_TIMER</TD> <TD>RW</TD> <TD>0</TD> <TD>Typically used for software testing.  When set to 1, the read completion timer will be set to 20,000 cycles for all DMA rings.  The PULL_DMA_SHORT_TMR register can be used to shorten the timer only on specific rings.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:20</TD> <TD>CPL_TIMER</TD> <TD>RW</TD> <TD>6</TD> <TD>Indicates the timeout value for PULL DMA read requests.  After this time expires, the request is assumed to be lost.  The associated Tile memory data bytes will not be written but the request will continue processing.  A PULL-DMA timeout interrupt will be triggered and the associated ring's timeout bit will be set in the PULL_DMA_ERR_STS register.  <br>
+<br>
+The  timeout value is 2^(CPL_TIMER+18) cycles.  Thus if trio is operating at 950MHz, a value of 0 corresponds to approximately 0.3ms.  And a value of 6 corresponds to approximately 17.7ms.  <br>
+<br>
+The timer is run sequentially on each pending request, hence it may take multiple timeout periods for a descriptor to be forced to complete.  <br>
+<br>
+Setting to all 1's disables the completion timer thus the max timer value at 950MHz is 4521.0ms.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:8</TD> <TD>HUNT_CYCLES</TD> <TD>RW</TD> <TD>3e8h</TD> <TD>Controls how often "hunt" prefetches are sent.  Hunt prefetches are periodically sent for rings that have hunt enabled in order to find valid descriptors.  Setting this to a lower value will improve the response time in systems where descriptors posts are not being sent to pull_dma.  But smaller numbers will also consume additional request bandwidth, especially when multiple rings are operating in hunt mode.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>DESC_READ_PACE</TD> <TD>RW</TD> <TD>1</TD> <TD>When asserted, the pull DMA descriptor engine will pace its read requests to avoid oversubscribing the response network bandwidth.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1:0</TD> <TD>MAX_DM_REQ</TD> <TD>RW</TD> <TD>3</TD> <TD>Maximum number of pull_dma descriptor ring read requests the descriptor manager hardware will allow outstanding to a single ring.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_STS"></a>
+<br><br><h4>Pull DMA Status (TRIO_PULL_DMA_STS: 0x2458)</h4>
+Pull DMA status
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13:8</TD> <TD>DATA_DISC_RING</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring number corresponding to a PULL_DATA_DISC interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:0</TD> <TD>LAST_INVALID_POST</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring number corresponding to a PULL_DMA_POST_ERR interrupt.  Updates each time an invalid-post event is detected.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_TIMEOUT_STS"></a>
+<br><br><h4>Pull DMA Timeout Status (TRIO_PULL_DMA_TIMEOUT_STS: 0x2460)</h4>
+Indicates which ring(s) have experienced a request timeout.  Bits are cleared by writing a 1.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_TIMEOUT_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PULL_DMA_TIMEOUT_STS</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates which ring(s) have experienced a request timeout.  Bits are cleared by writing a 1.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_CPL_ERR_STS"></a>
+<br><br><h4>Pull DMA Completion Error Status (TRIO_PULL_DMA_CPL_ERR_STS: 0x2468)</h4>
+Indicates which ring(s) have experienced a completion error.  Bits are cleared by writing a 1.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_CPL_ERR_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>PULL_DMA_CPL_ERR_STS</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates which ring(s) have experienced a completion error.  Bits are cleared by writing a 1.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_CPL_ERR_INFO"></a>
+<br><br><h4>Pull DMA Completion Error Info (TRIO_PULL_DMA_CPL_ERR_INFO: 0x2470)</h4>
+Contains information for the most recent pull DMA completion error (response from MAC flagged an error).
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_CPL_ERR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>ERR_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates error type that was received.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>UR</TD><TD>Unsupported Request</TD></TR>
+   <TR><TD>2</TD><TD>RETRY</TD><TD>Retry (device not ready)</TD></TR>
+   <TR><TD>3</TD><TD>ABORT</TD><TD>Completer Abort</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>5:0</TD> <TD>RING</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring that encountered the error.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_TAG_FREE"></a>
+<br><br><h4>Pull DMA Tag Free (TRIO_PULL_DMA_TAG_FREE: 0x2478)</h4>
+Provides access to per-MAC pull DMA tag freelist.  The MAC is selected by PULL_DMA_CTL.MAG_TAG_SEL.  This register is typically used add or remove tags from pull DMA when changing the system's extended tag capability.  On a write, the TAG will be added to the freelist.  On a read, the freelist is dequeued.  Software is responsible for preventing duplicate entries or overrun of the freelist.  Software must allow any active pull DMA descriptors to complete prior to reading or writing this register.  The maximum number of tags that a given MAC can track is system dependent.  However, the TRIO hardware limits the total tag space for pull DMA to 223.  The max tag value supported is 222.  Any tags used by Tile PIO cannot be used by Pull DMA.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_TAG_FREE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>TAG_VLD</TD> <TD>RO</TD> <TD>0</TD> <TD>When 1, the TAG field is valid.  When 0, the freelist is empty.  Ignored on write.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>TAG</TD> <TD>RW</TD> <TD>0</TD> <TD>Tag to be queued or dequeued to/from freelist.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_SHORT_TMR"></a>
+<br><br><h4>Pull DMA Short Timer (TRIO_PULL_DMA_SHORT_TMR: 0x2480)</h4>
+Shorten the DMA timer on specific rings
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_SHORT_TMR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SHORT_TIMER</TD> <TD>RW</TD> <TD>0</TD> <TD>When set to 1, the read completion timer will be set to 8 cycles per request for the associated DMA ring.  This can be used to force all requests for a given ring to time out quickly when a request on a ring has encountered a timeout and all subsequent requests are expected to likewise timeout.  This should only be used when the remaining requests are not expected to complete.  Software must first freeze the associated DMA ring before enabling this bit.  Then, after setting this bit, software may use a PULL_DMA_CTL.FLUSH operation to clear out the ring.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_CTL"></a>
+<br><br><h4>Map Memory Region Controls (TRIO_MAP_MEM_CTL: 0x2488)</h4>
+Global controls for map-memory regions.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_MEM_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>18:16</TD> <TD>EVT_CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates which map event counter should be selected (one counter is shared amongst all MAP_MEM_CTL.EVT_CTR_SEL events).  The counter is MAP_STAT_CTR<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>PKTS</TD><TD>Counts number of packets received from the MACs</TD></TR>
+   <TR><TD>1</TD><TD>SDN_STALL</TD><TD>Counts number of cycles in which writes or reads are stalled trying to go to the Tile memory system</TD></TR>
+   <TR><TD>2</TD><TD>WR_COH_STALL</TD><TD>Counts number of cycles in which writes are stalled waiting for coherence</TD></TR>
+   <TR><TD>3</TD><TD>RD_COH_STALL</TD><TD>Counts number of cycles in which reads are stalled waiting for coherence</TD></TR>
+   <TR><TD>4</TD><TD>SQ_PKTS</TD><TD>Counts number of SQ packets received</TD></TR>
+   <TR><TD>5</TD><TD>RSH_PKTS</TD><TD>Counts number of rshim packets received</TD></TR>
+   <TR><TD>6</TD><TD>SQ_DESC</TD><TD>Counts number of SQ descriptors consumed by incoming transactions.  Does not count descriptors consumed by config access to the SQ descriptor FIFOs.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>FENCE</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, a coherence fence is initiated.  Hardware will clear the bit once all older MAP-MEM/SQ writes are visible to Tile software.  To also insure that reads have completed, software must use the PUSH_DMA_CTL.FENCE after the MAP_MEM_CTL.FENCE has completed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:1</TD> <TD>READ_PACE_BW</TD> <TD>RW</TD> <TD>3</TD> <TD>Controls the read pace bandwidth.  Larger numbers result in lower bandwidth provisioned for Tile memory reads.  Utilization is approximately 5/(5+N) so Setting to 3 corresponds to approximately 63% utilization.  Setting to 4 corresponds to approximately 55% utilization.  This can typically be left at 3 unless the system simultaneously has high bandwidth push DMA in which case 9 is typically a more appropriate setting.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>READ_PACE</TD> <TD>RW</TD> <TD>1</TD> <TD>When asserted, the reads will pace their Tile memory read requests to avoid oversubscribing the response network bandwidth.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_FLUSH_MODE"></a>
+<br><br><h4>Map Memory Region Flush Mode Control (TRIO_MAP_MEM_FLUSH_MODE: 0x2490)</h4>
+Provides TLB fault handling control over individual ASIDs.  This applies both to MAP_MEM and MAP_SQ regions.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_MEM_FLUSH_MODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FLUSH</TD> <TD>RW</TD> <TD>0</TD> <TD>When a TLB fault occurs on a map region write or read, if the associated ASID's FLUSH bit is a set the access will be directed to the PANIC_PA effectively flushing the transaction.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DIAG_CTL"></a>
+<br><br><h4>Push DMA Diag Control (TRIO_PUSH_DMA_DIAG_CTL: 0x2500)</h4>
+Configuration for Push DMA diagnostics functions
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DIAG_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:32</TD> <TD>REQ_HWM_REDUCE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls the maximum number of outstanding SDN reads.  This register is for diagnostics only.  Setting to other than the default value has unpredictable results.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:16</TD> <TD>EVT_CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates which Push DMA performance counter should be selected (one counter is shared amongst all PUSH_DMA_DIAG_CTL.EVT_CTR_SEL events).  The counter is PUSH_DMA_STAT_CTR<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>PKTS</TD><TD>Counts number of push DMA packets sent to MAC(s).</TD></TR>
+   <TR><TD>1</TD><TD>DESC</TD><TD>Counts number of descriptors processed.</TD></TR>
+   <TR><TD>2</TD><TD>REQ</TD><TD>Counts number of data requests sent to the Tile memory system.</TD></TR>
+   <TR><TD>3</TD><TD>RT_AF</TD><TD>Counts number of cycles the request engine is stalled due to data request tracker full.</TD></TR>
+   <TR><TD>4</TD><TD>SDN_AF</TD><TD>Counts number of cycles the request engine is stalled due to SDN being full.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>9:3</TD> <TD>DIAG_CTR_IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into counter type being accessed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>DIAG_CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Select set of internal counters to be read.  The current value of the counter will be reflected in PUSH_DMA_DIAG_STS.DIAG_CTR_VAL<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>PKT</TD><TD>Count of number of packets in the PKT buffer for the associated ring</TD></TR>
+   <TR><TD>2</TD><TD>RSVD</TD><TD>Count of number of reserved blocks in the PKT buffer for the associated ring (includes outstanding Push DMA requests)</TD></TR>
+   <TR><TD>3</TD><TD>BLK</TD><TD>Count of number of actual blocks in the PKT buffer for the associated ring</TD></TR>
+   <TR><TD>4</TD><TD>FL</TD><TD>Number of free PKT blocks (IDX is ignored)</TD></TR>
+   <TR><TD>5</TD><TD>DESC</TD><TD>Number of descriptors buffered for the associated ring awaiting Push DMA.</TD></TR>
+   <TR><TD>6</TD><TD>BYTES</TD><TD>Total number of bytes that have been sent via push DMA (rolling 40-bit count) on all rings.  Note that the counter only operates when BYTES is selected and will take on the last value of DIAG_CTR_VAL when changed to BYTES.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_STAT_CTR"></a>
+<br><br><h4>Push DMA Stats Counter (TRIO_PUSH_DMA_STAT_CTR: 0x2508)</h4>
+Provides count of event selected by PUSH_DMA_DIAG_CTL.EVT_CTR_SEL with read-to-clear functionality.
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_STAT_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Contains the value of the counter being accessed by PUSH_DMA_DIAG_CTL.EVT_CTR_SEL.  PUSH_DMA_EVT_CTR Interrupt is asserted when value wraps.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DIAG_STS"></a>
+<br><br><h4>Push DMA Diag Status (TRIO_PUSH_DMA_DIAG_STS: 0x2510)</h4>
+Push DMA diagnostics status
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DIAG_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:0</TD> <TD>DIAG_CTR_VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the value of the counter being accessed by PUSH_DMA_CTL.DIAG_CTR_SEL/IDX.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DATA_LAT"></a>
+<br><br><h4>Push DMA Data Latency (TRIO_PUSH_DMA_DATA_LAT: 0x2518)</h4>
+Provides random sample and record Push DMA data read latency
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DATA_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DESC_LAT"></a>
+<br><br><h4>Push DMA Data Latency (TRIO_PUSH_DMA_DESC_LAT: 0x2520)</h4>
+Provides random sample and record Push DMA descriptor read latency
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DESC_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DIAG_CTL"></a>
+<br><br><h4>Pull DMA Diag Control (TRIO_PULL_DMA_DIAG_CTL: 0x2528)</h4>
+Configuration for Pull DMA diagnostics functions
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DIAG_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>18:16</TD> <TD>EVT_CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates which Pull DMA performance counter should be selected (one counter is shared amongst all PULL_DMA_DIAG_CTL.EVT_CTR_SEL events).  The counter is PULL_DMA_STAT_CTR<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>REQ_PKTS</TD><TD>Counts number of pull DMA requests sent to MAC(s).</TD></TR>
+   <TR><TD>1</TD><TD>RSP_PKTS</TD><TD>Counts number of pull DMA responses received from the MAC(s).</TD></TR>
+   <TR><TD>2</TD><TD>DESC</TD><TD>Counts number of descriptors processed.</TD></TR>
+   <TR><TD>3</TD><TD>DATA_WR_REQ</TD><TD>Counts number of data write requests sent to the Tile memory system.</TD></TR>
+   <TR><TD>4</TD><TD>RT_AF</TD><TD>Counts number of cycles the request engine is stalled due to data request tracker full.</TD></TR>
+   <TR><TD>5</TD><TD>SDN_AF</TD><TD>Counts number of cycles the data write engine is stalled due to SDN being full.</TD></TR>
+   <TR><TD>6</TD><TD>MAC_STALL</TD><TD>Counts number of cycles the request is stalled trying to go to the MAC.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>8:3</TD> <TD>DIAG_CTR_IDX</TD> <TD>RW</TD> <TD>0</TD> <TD>Index into counter type being accessed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>DIAG_CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Select set of internal counters to be read.  The current value of the counter will be reflected in PULL_DMA_DIAG_STS.DIAG_CTR_VAL<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>COHERENT</TD><TD>Provides is-coherent indicator for each pull DMA ring.  When 0, requests are still pending.  DIAG_CTR_IDX is not used for this DIAG_CTR_SEL.</TD></TR>
+   <TR><TD>2</TD><TD>NUM_TAGS</TD><TD>Provides number of tags available for the MAC selected by DIAG_CTR_IDX.</TD></TR>
+   <TR><TD>3</TD><TD>DESC</TD><TD>Number of descriptors buffered for the associated ring awaiting Pull DMA.</TD></TR>
+   <TR><TD>4</TD><TD>BYTES</TD><TD>Total number of bytes that have been requested via pull DMA (rolling 40-bit count).  Note that the counter only operates when BYTES is selected and will take on the last value of DIAG_CTR_VAL when changed to BYTES.  DIAG_CTR_IDX is not used for this DIAG_CTR_SEL.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_STAT_CTR"></a>
+<br><br><h4>Pull DMA Stats Counter (TRIO_PULL_DMA_STAT_CTR: 0x2530)</h4>
+Provides count of event selected by PULL_DMA_DIAG_CTL.EVT_CTR_SEL with read-to-clear functionality.
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_STAT_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Contains the value of the counter being accessed by PULL_DMA_DIAG_CTL.EVT_CTR_SEL.  PULL_DMA_EVT_CTR Interrupt is asserted when value wraps.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DIAG_STS"></a>
+<br><br><h4>Pull DMA Diag Status (TRIO_PULL_DMA_DIAG_STS: 0x2538)</h4>
+Pull DMA diagnostics status
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DIAG_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DIAG_CTR_VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the value of the counter being accessed by PULL_DMA_CTL.DIAG_CTR_SEL/IDX.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DATA_LAT"></a>
+<br><br><h4>Pull DMA Data Latency (TRIO_PULL_DMA_DATA_LAT: 0x2540)</h4>
+Provides random sample and record Pull DMA MAC data read latency
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DATA_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DESC_LAT"></a>
+<br><br><h4>Pull DMA Data Latency (TRIO_PULL_DMA_DESC_LAT: 0x2548)</h4>
+Provides random sample and record Pull DMA descriptor read latency
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DESC_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_WRITE_LAT"></a>
+<br><br><h4>PULL DMA Write Latency (TRIO_PULL_DMA_WRITE_LAT: 0x2550)</h4>
+Provides random sample and record of PULL DMA SDN write latency.
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_WRITE_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_STAT_CTR"></a>
+<br><br><h4>MAP Stats Counter (TRIO_MAP_STAT_CTR: 0x2560)</h4>
+Provides count of event selected by MAP_MEM_CTL.EVT_CTR_SEL with read-to-clear functionality.
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_MAP_STAT_CTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Contains the value of the counter being accessed by MAP_MEM_CTL.EVT_CTR_SEL.  The MAP_EVT_CTR Interrupt is asserted when value wraps.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_LAT"></a>
+<br><br><h4>MAP SDN Latency (TRIO_MAP_LAT: 0x2568)</h4>
+Provides random sample and record of map write latency.
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_MAP_LAT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, sets MAX_LAT to zero and MIN_LAT to all 1's.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>46:32</TD> <TD>CURR_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains latency of the most recently sampled transaction.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>30:16</TD> <TD>MAX_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains maximum latency since last clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:0</TD> <TD>MIN_LAT</TD> <TD>RO</TD> <TD>7fffh</TD> <TD>Contains minimum latency since last clear.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PUSH_DMA_DIAG_FSM_STATE"></a>
+<br><br><h4>Push DMA Diag State (TRIO_PUSH_DMA_DIAG_FSM_STATE: 0x2570)</h4>
+Push DMA diagnostics state
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PUSH_DMA_DIAG_FSM_STATE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13:11</TD> <TD>RG</TD> <TD>RO</TD> <TD>0</TD> <TD>Request generator state</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>DESC_MGR</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor manager state.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>DESC_RSP</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor response state.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:2</TD> <TD>DESC_POST</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor post state.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>DESC_FETCH</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor fetch state.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PULL_DMA_DIAG_FSM_STATE"></a>
+<br><br><h4>Pull DMA Diag State (TRIO_PULL_DMA_DIAG_FSM_STATE: 0x2578)</h4>
+Pull DMA diagnostics state
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_PULL_DMA_DIAG_FSM_STATE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12:11</TD> <TD>RG</TD> <TD>RO</TD> <TD>0</TD> <TD>Request generator state</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>DESC_MGR</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor manager state.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:5</TD> <TD>DESC_RSP</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor response state.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:2</TD> <TD>DESC_POST</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor post state.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>DESC_FETCH</TD> <TD>RO</TD> <TD>0</TD> <TD>Descriptor fetch state.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_DIAG_FSM_STATE"></a>
+<br><br><h4>MAP Diag State (TRIO_MAP_DIAG_FSM_STATE: 0x2580)</h4>
+MAP diagnostics state
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_DIAG_FSM_STATE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10:7</TD> <TD>RSH</TD> <TD>RO</TD> <TD>0</TD> <TD>RSHIM interface state.  Zero when idle.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:3</TD> <TD>RDQ</TD> <TD>RO</TD> <TD>0</TD> <TD>Read queue state.  Zero when idle.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>WRQ</TD> <TD>RO</TD> <TD>0</TD> <TD>Write queue state.  Zero when idle.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TILE_PIO_DIAG_STS"></a>
+<br><br><h4>Tile PIO status (diagnostics) (TRIO_TILE_PIO_DIAG_STS: 0x2588)</h4>
+Diagnostics information for Tile PIO
+<br><br><I>This register is protected at level 1</I>
+<br><img src="trio_pics/TRIO_TILE_PIO_DIAG_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>47:32</TD> <TD>PKT_CNT</TD> <TD>RW</TD> <TD>0</TD> <TD>Contains a count of the packets sent for the region selected by CTR_SEL.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30:28</TD> <TD>CTR_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects the PIO region for the CTR_VAL field and the PKT_CNT field.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27:23</TD> <TD>CTR_VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the counter value for the FIFO selected by CTR_SEL.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:16</TD> <TD>PIO_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the state of the PIO dispatch engines.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MI_DIAG_STS"></a>
+<br><br><h4>MAC Interface Diag Status (TRIO_MI_DIAG_STS: 0x2590)</h4>
+MI diagnostics status
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MI_DIAG_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>50</TD> <TD>RX_RDY_COMP</TD> <TD>RO</TD> <TD>0</TD> <TD>TRIO ready for a completion</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>49</TD> <TD>RX_RDY_WR</TD> <TD>RO</TD> <TD>0</TD> <TD>TRIO ready for a write</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>RX_RDY_RD</TD> <TD>RO</TD> <TD>0</TD> <TD>TRIO ready for a read</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>43:40</TD> <TD>RX_WC_AVAIL</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC has a write or completion available</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>RX_RD_AVAIL</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC has a read available</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>TX_WR_STALL</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC is stalling writes</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19:16</TD> <TD>TX_RD_STALL</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC is stalling reads</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>TX1_RDY</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC is ready for a completion</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>TX0_RDY</TD> <TD>RO</TD> <TD>0</TD> <TD>Associated MAC is ready for a request</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_SETUP"></a>
+<br><br><h4>Map Memory Region Setup (TRIO_MAP_MEM_SETUP: 0x3000-0x33e7 stride: 32)</h4>
+Configuration of the associated memory region.  There is one set of SETUP/BASE/LIM registers for each of the map regions with each register set consuming 32-bytes of register space (the 4th location in each block of 4 registers is unused).
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_MEM_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>57:56</TD> <TD>INT_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt mode.  When INT_ENA is 1, this controls the behavior of the associated interrupt vector.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>LEVEL</TD><TD>The interrupt is continuously triggered when any of the 16 is asserted.  When using this mode, the associated binding should be set to MODE=0 to prevent a flood of interrupts to the Tile.</TD></TR>
+   <TR><TD>1</TD><TD>EDGE</TD><TD>The interrupt is triggered when an operation occurs that has the potential to set or clear a bit.  For example, if a W1TS occurs and one of the associated bits is already set, the interrupt will still be triggered.</TD></TR>
+   <TR><TD>2</TD><TD>ASSERT</TD><TD>The interrupt is triggered when an operation occurs that has the potential to set a bit.</TD></TR>
+   <TR><TD>3</TD><TD>DEASSERT</TD><TD>The interrupt is triggered when an operation occurs that has the potential to clear a bit.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>52:48</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>ASID associated with this region.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:12</TD> <TD>VA</TD> <TD>RW</TD> <TD>0</TD> <TD>Base VA associated with this region.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>USE_MMU</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the MMU table will be used for IO address to Tile physical address translation rather than using the TLB.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>INT_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt enable.  When 1, the interrupt vector is enabled for the region and reads/writes to the first 64-bytes will be directed to the MAP_MEM_INT* registers.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:8</TD> <TD>ORDER_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Ordering type for this region.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>UNORDERED</TD><TD>Writes to different cachelines are not ordered with respect to each other.  Reads will never complete until all older writes in all mapping regions have become visible to Tile software.</TD></TR>
+   <TR><TD>1</TD><TD>STRICT</TD><TD>Writes and reads are strictly ordered, even to different cachelines and across different mapping regions.  This mode may result in decreased write performance.</TD></TR>
+   <TR><TD>2</TD><TD>REL_ORD</TD><TD>Write ordering is enforced if the incoming packet's relaxed-ordering attribute is clear.  Otherwise, the writes are unordered.  Reads will never complete until all older writes in all mapping regions have become visible to Tile software.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MAC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the region.  When 0, accesses from the associated MAC will not be mapped to the associated region.  Multiple MACs may be assigned to the same region if they share a common global IO address space.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_BASE"></a>
+<br><br><h4>Map Memory Base Address (TRIO_MAP_MEM_BASE: 0x3008-0x33ef stride: 32)</h4>
+Base address of the associated memory region.  There is one register for each region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_MEM_BASE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Base page address.  An IO address must be greater than or equal to this address to be accepted in the region.  The Tile-side virtual address is computed as (MAP_MEM_SETUP.VA + IO_ADDRESS - MAP_MEM_BASE.ADDR).</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_MEM_LIM"></a>
+<br><br><h4>Map Memory Limit Address (TRIO_MAP_MEM_LIM: 0x3010-0x33f7 stride: 32)</h4>
+Limit address of the associated memory region.  There is one register for each region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_MEM_LIM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Limit page address.  An IO address must be less than or equal to this address to be accepted in the region.  The low 12 bits of the IO address are ignored for the limit check (i.e. the low 12 bits of MAP_MEM_LIM.ADDR are treated as 1's.)</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_CTL"></a>
+<br><br><h4>Map SQ Control (TRIO_MAP_SQ_CTL: 0x3400)</h4>
+Provides direct control over MAP SQ FIFOs
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_SQ_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>26:24</TD> <TD>SQ_EMPTY_ERR_SEL</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the most recent SQ FIFO that had no descriptor when an incoming read or write matched the region.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>POP</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the FIFO selected by SQ_SEL will be dequeued.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:8</TD> <TD>SQ_FULL_ERR_SEL</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the most recent SQ FIFO that was overflowed when the SQ_FULL_ERR is triggered.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>SQ_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Select SQ to be accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_DOORBELL_FMT"></a>
+<br><br><h4>Map SQ Doorbell Format (TRIO_MAP_SQ_DOORBELL_FMT: 0x3400)</h4>
+This describes the format of the write-only doorbell register that exists in the last 8-bytes of the MAP_SQ_BASE/LIM range.  This register is only writable from PCIe space.  Writes to this register will not be written to Tile memory space and thus no IO VA translation is required if the last page of the BASE/LIM range is not otherwise written.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_SQ_DOORBELL_FMT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>POP</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the descriptor at the head of the associated MAP_SQ's FIFO will be dequeued.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>DOORBELL</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the associated MAP_SQ region's doorbell interrupt will be triggered once all previous writes are visible to Tile software.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_SETUP"></a>
+<br><br><h4>Map SQ Region Setup (TRIO_MAP_SQ_SETUP: 0x3408-0x34ef stride: 32)</h4>
+Configuration of the associated sq region.  There is one set of SETUP/BASE/LIM registers for each of the 8 map regions with each register set consuming 32-bytes of register space
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_SQ_SETUP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>52:48</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>ASID associated with this region.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:8</TD> <TD>ORDER_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Ordering type for this region.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>UNORDERED</TD><TD>Writes to different cachelines are not ordered with respect to each other.  Reads will never complete until all older writes in all mapping regions have become visible to Tile software.</TD></TR>
+   <TR><TD>1</TD><TD>STRICT</TD><TD>Writes and reads are strictly ordered, even to different cachelines and across different mapping regions.  This mode may result in decreased write performance.</TD></TR>
+   <TR><TD>2</TD><TD>REL_ORD</TD><TD>Write ordering is enforced if the incoming packet's relaxed-ordering attribute is clear.  Otherwise, the writes are unordered.  Reads will never complete until all older writes in all mapping regions have become visible to Tile software.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MAC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the region.  When 0, accesses from the associated MAC will not be mapped to the associated region.  Multiple MACs may be assigned to the same region if they share a common global IO address space.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_BASE"></a>
+<br><br><h4>Map SQ Base Address (TRIO_MAP_SQ_BASE: 0x3410-0x34f7 stride: 32)</h4>
+Base address of the associated sq region.  There is one register for each region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_SQ_BASE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Base page address.  An IO address must be greater than or equal to this address to be accepted in the region.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MAP_SQ_LIM"></a>
+<br><br><h4>Map SQ Limit Address (TRIO_MAP_SQ_LIM: 0x3418-0x34ff stride: 32)</h4>
+Limit address of the associated memory region.  There is one register for each region.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MAP_SQ_LIM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:12</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Limit page address.  An IO address must be less than or equal to this address to be accepted in the region.  The low 12 bits of the IO address are ignored for the limit check (i.e. the low 12 bits of MAP_SQ_LIM.ADDR are treated as 1's.)</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MMU_TABLE"></a>
+<br><br><h4>MMU Table (TRIO_MMU_TABLE: 0x3e00)</h4>
+Provides read/write access to the MMU table that provides IO address to Tile PA translations for MAP_MEM regions that have their USE_MMU bit set.  Reads are performed by first setting up the ENTRY_SEL field with NW set to 1.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MMU_TABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63</TD> <TD>NW</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the MMU entry will not be modified.  Set this when writing the ENTRY_SEL field in preperation for a read.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>59:48</TD> <TD>ENTRY_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects entry to be accessed for writes and reads.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:12</TD> <TD>PFN</TD> <TD>RW</TD> <TD>0</TD> <TD>Physical Frame Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>LOC_X_OR_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>X-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT mask when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>LOC_Y_OR_OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>Y-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT offset when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>NT_HINT</TD> <TD>RW</TD> <TD>0</TD> <TD>NonTemporal Hint.  Device services may use this hint as a performance optimization to inform the Tile memory system that the associated data is unlikely to be accessed within a relatively short period of time. Read interfaces may use this hint to invalidate cache data after reading.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>PIN</TD> <TD>RW</TD> <TD>0</TD> <TD>When asserted, only the IO pinned ways in the home cache will be used.  This attribute only applies to writes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>HOME_MAPPING</TD> <TD>RW</TD> <TD>0</TD> <TD>When 0, physical addresses are hashed to find the home Tile.  When 1, an explicit home is stored in LOC_X,LOC_Y.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VLD</TD> <TD>RW</TD> <TD>0</TD> <TD>Entry valid bit.  When 0, an address that requires this translation will be rejected resulting in an MMU_ERROR interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_MMU_CTL"></a>
+<br><br><h4>MMU Control (TRIO_MMU_CTL: 0x3e08)</h4>
+Global settings for MMU Table.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_MMU_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>PS</TD> <TD>RW</TD> <TD>4</TD> <TD>Page size for all entries in the MMU table.  Size is 2^(PS+12) so  0=4 kB, 1=8 kB, 2=16 kB ... 30=4096 GB.  The max supported page size is 30.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_MAP_RD_EXC"></a>
+<br><br><h4>TLB MAP Read Exception (TRIO_TLB_MAP_RD_EXC: 0x3f00)</h4>
+Captures exception information on MAP MEM or SQ Read TLB misses.  Software must provide a valid translation to allow forward progress of the transaction.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_MAP_RD_EXC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>52:48</TD> <TD>ASID</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ASID for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:12</TD> <TD>VA</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the virtual address for the last miss.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the suggested replacement pointer for filling a new TLB entry.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_MAP_WR_EXC"></a>
+<br><br><h4>TLB MAP Write Exception (TRIO_TLB_MAP_WR_EXC: 0x3f08)</h4>
+Captures exception information on MAP MEM or SQ Write TLB misses.  Software must provide a valid translation to allow forward progress of the transaction.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_MAP_WR_EXC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>52:48</TD> <TD>ASID</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ASID for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:12</TD> <TD>VA</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the virtual address for the last miss.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the suggested replacement pointer for filling a new TLB entry.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_PULL_DMA_EXC"></a>
+<br><br><h4>TLB PULL DMA Exception (TRIO_TLB_PULL_DMA_EXC: 0x3f10)</h4>
+Captures exception information on PULL DMA TLB misses.  Software must provide a valid translation to allow forward progress of the transaction.  Other rings may become blocked while the TLB miss is being handled.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_PULL_DMA_EXC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>61:56</TD> <TD>RING</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>52:48</TD> <TD>ASID</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ASID for the last miss.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:12</TD> <TD>VA</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the virtual address for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the suggested replacement pointer for filling a new TLB entry.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_PUSH_DMA_EXC"></a>
+<br><br><h4>TLB PUSH DMA Exception (TRIO_TLB_PUSH_DMA_EXC: 0x3f18)</h4>
+Captures exception information on PUSH DMA TLB misses.  Software must provide a valid translation to allow forward progress of the ring.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_PUSH_DMA_EXC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>61:56</TD> <TD>RING</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ring for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>52:48</TD> <TD>ASID</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the ASID for the last miss.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>41:12</TD> <TD>VA</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the virtual address for the last miss.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the suggested replacement pointer for filling a new TLB entry.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_CTL"></a>
+<br><br><h4>TLB Control (TRIO_TLB_CTL: 0x3ff8)</h4>
+TLB Controls.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MTLB_FLUSH</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a one, the micro TLBs will be flushed.  This is used, for example, when a mapping has been changed so any cached TLB entries need to be flushed.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_TABLE"></a>
+<br><br><h4>TLB Table (TRIO_TLB_TABLE: 0x4000-0x5fff)</h4>
+TLB table.  This table consists of 512 TLB entries.  Each entry is two registers: TLB_ENTRY_ADDR and TLB_ENTRY_ATTR.  This register definition is a description of the address as opposed to the registers themselves.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_TABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12:8</TD> <TD>ASID</TD> <TD>RW</TD> <TD>0</TD> <TD>Address space identifier (IOTLB number).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:4</TD> <TD>ENTRY</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects which TLB entry is accessed.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>IS_ATTR</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects TLB_ENTRY_ADDR vs TLB_ENTRY_ATTR.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_ENTRY_ADDR"></a>
+<br><br><h4>TLB Entry VPN and PFN Data (TRIO_TLB_ENTRY_ADDR: 0x4000-0x5ff7 stride: 16)</h4>
+Read/Write data for the TLB entry's VPN and PFN.  When written, the associated entry's VLD bit will be cleared.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_ENTRY_ADDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>61:32</TD> <TD>VPN</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Page Number</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:0</TD> <TD>PFN</TD> <TD>RW</TD> <TD>0</TD> <TD>Physical Frame Number</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_TLB_ENTRY_ATTR"></a>
+<br><br><h4>TLB Entry Attributes (TRIO_TLB_ENTRY_ATTR: 0x4008-0x5fff stride: 16)</h4>
+Read/Write data for the TLB entry's ATTR bits.  When written, the TLB entry will be updated.  TLB_ENTRY_ADDR must always be written before this register.  Writing to this register without first writing the TLB_ENTRY_ADDR register causes unpredictable behavior including memory corruption.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="trio_pics/TRIO_TLB_ENTRY_ATTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>51:48</TD> <TD>LRU</TD> <TD>RO</TD> <TD>0</TD> <TD>On reads, provides the LRU pointer for the associated ASID.  Ignored on writes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>40:37</TD> <TD>LOC_X_OR_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>X-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT mask when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:26</TD> <TD>LOC_Y_OR_OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>Y-coordinate of home Tile when page is explicitly homed (HOME_MAPPING = 1).  AMT offset when HOME_MAPPING = 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>NT_HINT</TD> <TD>RW</TD> <TD>0</TD> <TD>NonTemporal Hint.  Device services may use this hint as a performance optimization to inform the Tile memory system that the associated data is unlikely to be accessed within a relatively short period of time. Read interfaces may use this hint to invalidate cache data after reading.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>PIN</TD> <TD>RW</TD> <TD>0</TD> <TD>When asserted, only the IO pinned ways in the home cache will be used.  This attribute only applies to writes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>HOME_MAPPING</TD> <TD>RW</TD> <TD>1</TD> <TD>When 0, physical addresses are hashed to find the home Tile.  When 1, an explicit home is stored in LOC_X,LOC_Y.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:3</TD> <TD>PS</TD> <TD>RW</TD> <TD>1eh</TD> <TD>Page size.  Size is 2^(PS+12) so  0=4 kB, 1=8 kB, 2=16 kB ... 30=4096 GB.  The max supported page size is 30.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>VLD</TD> <TD>RW</TD> <TD>HW <TD>Entry valid bit.  Resets to 1 for the first entry in each ASID.  Resets to 0 for all other entries.   Clears whenever the associated entry's TLB_ENTRY_ADDR register is written.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

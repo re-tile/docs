@@ -1,0 +1,502 @@
+<html>
+<title>i2cm Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>I2C Master (0x0100-0x0208) : </b> 
+These registers provide control for the I2C master.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#I2CM_DEV_INFO">I2CM_DEV_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#I2CM_DEV_CTL">I2CM_DEV_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#I2CM_MMIO_INFO">I2CM_MMIO_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#I2CM_MEM_INFO">I2CM_MEM_INFO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#I2CM_SCRATCHPAD">I2CM_SCRATCHPAD</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#I2CM_SEMAPHORE0">I2CM_SEMAPHORE0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#I2CM_SEMAPHORE1">I2CM_SEMAPHORE1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#I2CM_CLOCK_COUNT">I2CM_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0100<TD><a href="#I2CM_BASELINE_CTL">I2CM_BASELINE_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0108<TD><a href="#I2CM_FLAG">I2CM_FLAG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0110<TD><a href="#I2CM_FIFO_COUNT">I2CM_FIFO_COUNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0118<TD><a href="#I2CM_ELECTRICAL_CONTROL">I2CM_ELECTRICAL_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0120<TD><a href="#I2CM_BOOT_REVISION_ID">I2CM_BOOT_REVISION_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0130<TD><a href="#I2CM_WRITE_DATA">I2CM_WRITE_DATA</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0138<TD><a href="#I2CM_READ_DATA">I2CM_READ_DATA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0140<TD><a href="#I2CM_ADDRESS">I2CM_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0148<TD><a href="#I2CM_BYTE">I2CM_BYTE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0150<TD><a href="#I2CM_INSTRUCTION">I2CM_INSTRUCTION</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0158<TD><a href="#I2CM_SLAVE_ADDRESS">I2CM_SLAVE_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0160<TD><a href="#I2CM_PAGE_SIZE">I2CM_PAGE_SIZE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0170<TD><a href="#I2CM_ADDR_SEL">I2CM_ADDR_SEL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0178<TD><a href="#I2CM_PRESCALER">I2CM_PRESCALER</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0180<TD><a href="#I2CM_GLITCH_MASK">I2CM_GLITCH_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0188<TD><a href="#I2CM_WRITE_CYCLE">I2CM_WRITE_CYCLE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0190<TD><a href="#I2CM_NO_STOP">I2CM_NO_STOP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0200<TD><a href="#I2CM_INT_VEC_W1TC">I2CM_INT_VEC_W1TC</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0208<TD><a href="#I2CM_INT_VEC_MASK">I2CM_INT_VEC_MASK</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="I2CM_DEV_INFO"></a>
+<br><br><h4>Device Info (I2CM_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="i2cm_pics/I2CM_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>025h</TD> <TD>Encoded device Type - 37 to indicate Two-Wire Master Interface<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="I2CM_DEV_CTL"></a>
+<br><br><h4>Device Control (I2CM_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><img src="i2cm_pics/I2CM_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (I2CM_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="i2cm_pics/I2CM_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>16</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>9</TD> <TD>Each configuration channel is mapped to a device having its own config registers.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>4</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_MEM_INFO"></a>
+<br><br><h4>Memory Info (I2CM_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="i2cm_pics/I2CM_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (I2CM_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="i2cm_pics/I2CM_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (I2CM_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="i2cm_pics/I2CM_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (I2CM_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><img src="i2cm_pics/I2CM_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (I2CM_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="i2cm_pics/I2CM_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_BASELINE_CTL"></a>
+<br><br><h4>Baseline Control (I2CM_BASELINE_CTL: 0x0100)</h4>
+Baseline Control
+<br><img src="i2cm_pics/I2CM_BASELINE_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>1</TD> <TD>Interface Enable.<br>
+1: to enable the interface<br>
+0: to reset the interface (such as FIFOs and state machines).<br>
+   The I2C master will send a start/stop condition to resynchronize the I2C bus when ENABLE is de-asserted.<br>
+ENABLE can be asserted after 120 micro-seconds (100 KHz I2C) or 30 micro-seconds (400 KHz I2C). <br>
+         </TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_FLAG"></a>
+<br><br><h4>FLAG (I2CM_FLAG: 0x0108)</h4>
+FLAG
+<br><img src="i2cm_pics/I2CM_FLAG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>BFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: BFIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>WFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: WFIFO is full.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>RFIFO_FULL</TD> <TD>RO</TD> <TD>0</TD> <TD>1: RFIFO is full.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>BFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: BFIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>WFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: WFIFO is empty.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RFIFO_EMPTY</TD> <TD>RO</TD> <TD>1</TD> <TD>1: RFIFO is empty.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>BOOT_BUSY</TD> <TD>RO</TD> <TD>0</TD> <TD>1: in the middle of EEPROM boot sequence.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>BUSY</TD> <TD>RO</TD> <TD>0</TD> <TD>1: I2C controller is busy.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_FIFO_COUNT"></a>
+<br><br><h4>FIFO Count (I2CM_FIFO_COUNT: 0x0110)</h4>
+FIFO Count
+<br><img src="i2cm_pics/I2CM_FIFO_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>BFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the boot FIFO (max is 2**1). Each entry has 64 bits + controls.<br>
+0: no active entry in the boot FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>WFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the write FIFO (max is 2**3). Each entry has 64 bits.<br>
+0: no active entry in the write FIFO (that is empty).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>RFIFO_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>n: n active entries in the read FIFO (max is 2**3). Ech entry has 64 bits.<br>
+0: no active entry in the read FIFO (that is empty).</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_ELECTRICAL_CONTROL"></a>
+<br><br><h4>Electrical Control (I2CM_ELECTRICAL_CONTROL: 0x0118)</h4>
+Electrical Control
+<br><img src="i2cm_pics/I2CM_ELECTRICAL_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:8</TD> <TD>ELEC_SCHM</TD> <TD>RW</TD> <TD>0</TD> <TD>Schmitt control<br>
+0: no schmitt </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>ELEC_PULLDOWN</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pulldown in IO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>ELEC_PULLUP</TD> <TD>RW</TD> <TD>0</TD> <TD>0: No pullup in IO (use external pull-up resister)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:4</TD> <TD>ELEC_SLEW</TD> <TD>RW</TD> <TD>3</TD> <TD>Slew rate control<br>
+00 = slowest<br>
+11 = fastest</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>ELEC_SUSTAIN</TD> <TD>RW</TD> <TD>0</TD> <TD>1: Enable sustain (keeper), about 100 uA to flip the state <br>
+0: no keeper <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>ELEC_STRENGTH</TD> <TD>RW</TD> <TD>1</TD> <TD> Drive strength.<br>
+0 = tristate<br>
+1 = 2 ma (default)<br>
+2 = 4 ma<br>
+3 = 6 ma<br>
+4 = 8 ma<br>
+5 = 10 ma<br>
+6 = 12 ma<br>
+7 = RESERVED</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_BOOT_REVISION_ID"></a>
+<br><br><h4>Boot Revision ID (I2CM_BOOT_REVISION_ID: 0x0120)</h4>
+Boot Revision ID
+<br><img src="i2cm_pics/I2CM_BOOT_REVISION_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>REV_ID</TD> <TD>RO</TD> <TD>0</TD> <TD>I2C Boot ROM Revision ID.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_WRITE_DATA"></a>
+<br><br><h4>I2C Write Data (I2CM_WRITE_DATA: 0x0130)</h4>
+I2C Write Data
+<br><img src="i2cm_pics/I2CM_WRITE_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>WDAT</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the write data. Used by WRITE instruction. <br>
+ADDR_SEL.ADDR_DIS=0: (with address)<br>
+[7:0] contains data in byte address 0, [63:56] contains data in byte address 7. If the starting byte address (ADDRESS register) is not 8-byte aligned, steered data should be put into the WDAT register. <br>
+<br>
+ADDR_SEL.ADDR_DIS=1: (without address)<br>
+[7:0] contains the first 8-bit of data to be written, [63:56] contains the last 8-bit of data to be written.<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_READ_DATA"></a>
+<br><br><h4>I2C Read Data (I2CM_READ_DATA: 0x0138)</h4>
+I2C Read Data
+<br><img src="i2cm_pics/I2CM_READ_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>RDAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Contains the read data. Used by READ instruction.<br>
+ADDR_SEL.ADDR_DIS=0: (with address)<br>
+[7:0] contains data in byte address 0, [63:56] contains data in byte address 7.<br>
+<br>
+ADDR_SEL.ADDR_DIS=1: (without address)<br>
+[7:0] contains the first 8-bit of returned read data, [63:56] contains the last 8-bit of returned read data.<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_ADDRESS"></a>
+<br><br><h4>I2C Address (I2CM_ADDRESS: 0x0140)</h4>
+I2C Address
+<br><img src="i2cm_pics/I2CM_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the starting byte address in the I2CMS for the next instruction. Used by READ, WRITE instructions.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_BYTE"></a>
+<br><br><h4>I2C Byte (I2CM_BYTE: 0x0148)</h4>
+I2C Byte
+<br><img src="i2cm_pics/I2CM_BYTE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:0</TD> <TD>BYTE</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the transfer size (in bytes) of the next instruction. Used by READ and WRITE instructions. <br>
+<br>
+1: 1 byte.<br>
+N: n bytes<br>
+<br>
+Note: If the ADDR[2:0] are 3'b0, then no restriction on transfer size. <br>
+If the ADDR[2:0] are not 3'b0, then the transfer size can not across the 8 bytes boundary.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_INSTRUCTION"></a>
+<br><br><h4>I2C Instruction (I2CM_INSTRUCTION: 0x0150)</h4>
+I2C Instruction
+<br><img src="i2cm_pics/I2CM_INSTRUCTION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>INST</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies the I2C instruction to be executed.<br>
+Note: For READ and WRITE instructions, ADDR and BYTE must be programmed before the INST. Otherwise, previously programmed ADDR and BYTE will be reused.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>READ</TD><TD>Read data from I2C.</TD></TR>
+   <TR><TD>1</TD><TD>WRITE</TD><TD>Write data to I2C.</TD></TR>
+   <TR><TD>2</TD><TD>BOOT</TD><TD>Read boot stream from I2C.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="I2CM_SLAVE_ADDRESS"></a>
+<br><br><h4>I2C Slave Address (I2CM_SLAVE_ADDRESS: 0x0158)</h4>
+I2C 8-bit Slave Address
+<br><img src="i2cm_pics/I2CM_SLAVE_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:1</TD> <TD>DEVICE_ADDR</TD> <TD>RW</TD> <TD>50h</TD> <TD>Specifies the top 7 bits I2C slave address of the external I2C slave for the read/write access. The default value reflects that serial EEPROM is to be accessed.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_PAGE_SIZE"></a>
+<br><br><h4>I2C Page Size (I2CM_PAGE_SIZE: 0x0160)</h4>
+I2C Page Size
+<br><img src="i2cm_pics/I2CM_PAGE_SIZE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>PAGE_SIZE</TD> <TD>RW</TD> <TD>1</TD> <TD>Page size determines the maximum size of a burst write can perform. <br>
+0: 4B<br>
+1: 8B<br>
+2: 16B<br>
+3: 32B<br>
+4: 64B<br>
+5-7: 4B</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_ADDR_SEL"></a>
+<br><br><h4>I2C Address Selection (I2CM_ADDR_SEL: 0x0170)</h4>
+I2C Address Selection
+<br><img src="i2cm_pics/I2CM_ADDR_SEL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>ADDR_DIS</TD> <TD>RW</TD> <TD>0</TD> <TD>Address disable<br>
+0: enable transmission of WORD ADDRESS/COMMAND to the slave device after the device address field. <br>
+1: disable transmission of WORD ADDRESS/COMMAND to the slave device after the device address field. The ADDRESS register is not used. This mode should be used if the WORD ADDRESS/COMMAND is not one byte or two bytes. <br>
+<br>
+   A typical I2C write sequence with disabled address:<br>
+       write ADDR_SEL.ADDR_DIS = 1<br>
+       write BYTE = num_bytes (num_bytes should be no more than the PAGE_SIZE with disabled address)<br>
+       write INST = WRITE<br>
+       write WDAT for all payloads (except the 7-bit I2C address and the R/W bit)<br>
+<br>
+   A typical I2C read sequence with disabled address:<br>
+       write ADDR_SEL.ADDR_DIS = 1<br>
+       write BYTE = num_bytes<br>
+       write INST = READ<br>
+       read RDAT for all payloads (except the 7-bit I2C address and the R/W bit)<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ADDR_16_BIT</TD> <TD>RW</TD> <TD>1</TD> <TD>1 selects 16-bit i2c address (that is to support EEPROM 32 kb-1 Mb) <br>
+0 selects 8-bit i2c address (that is to support EEPROM 1 kb -  16 kb)</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_PRESCALER"></a>
+<br><br><h4>I2C Prescaler (I2CM_PRESCALER: 0x0178)</h4>
+I2C Prescaler
+<br><img src="i2cm_pics/I2CM_PRESCALER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>PRESCALER</TD> <TD>RW</TD> <TD>26ch</TD> <TD>Prescaler to select the I2C frequency. SCL frequency can be calculated by <br>
+Freq(SCL) = Freq(REF_CLK) / (2* PRESCALE + 9). <br>
+Note:<br>
+<br>
+If REF_CLK = 125 MHz, the default I2C frequency = Freq(SCL) = 125M / (2*620 + 9) = 100 KHz.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_GLITCH_MASK"></a>
+<br><br><h4>Glitch Mask (I2CM_GLITCH_MASK: 0x0180)</h4>
+Glitch Mask
+<br><img src="i2cm_pics/I2CM_GLITCH_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:0</TD> <TD>CYCLE</TD> <TD>RW</TD> <TD>0</TD> <TD>This 6-bit value is used to mask input glitches on SCL and SDA. Any glitches with pulse width (in number of REF_CLK cycles) that is smaller than CYCLE+1 will be removed. For example, with CYCLE=0, any glitches with pulse width of 1 clock cycles or smaller will be removed. Glitches in SCL signal will lock up the I2C controller.</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_WRITE_CYCLE"></a>
+<br><br><h4>I2C Write Cycle (I2CM_WRITE_CYCLE: 0x0188)</h4>
+I2C Write Cycle
+<br><img src="i2cm_pics/I2CM_WRITE_CYCLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>WC</TD> <TD>RW</TD> <TD>5</TD> <TD>I2C EEPROM Write Cycle. Certain I2C EEPROMs require a long write cycle time (tWR). The I2C ROM write cycle applies to a byte write, or a page write. If the master chooses to write one byte at a time, a write cycle has to be applied for each byte. If the master chooses to write a batch of bytes, then the hardware controller tries to honor the page boundary, and does the segmentation. At each page boundary, a write cycle has to be applied. Basically, the write cycle of the shim register is same as the write cycle parameter in the ROM data sheet (e.g. tWR).<br>
+0: 10 REF_CLK cycles.<br>
+1: 1 ms.<br>
+n: n ms (where n = 1 to 8, if REF_CLK = 125 MHz).<br>
+9-15: 8.4 ms. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_NO_STOP"></a>
+<br><br><h4>I2C No Stop (I2CM_NO_STOP: 0x0190)</h4>
+I2C No Stop control
+<br><img src="i2cm_pics/I2CM_NO_STOP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>This controls whether the master generates a STOP or a repeated START condition at the end of a write/read request. This does not apply to a dummy write (the master always generate a repeated START condition at the end of a dummy write). <br>
+1: repeated START condition (no STOP)<br>
+0: STOP condition<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_INT_VEC_W1TC"></a>
+<br><br><h4>Interrupt vector, write-one-to-clear (I2CM_INT_VEC_W1TC: 0x0200)</h4>
+Each bit in this register corresponds to a specific interrupt. Hardware sets the bit when the associated condition has occurred. Writing a 1 clears the status bit.
+<br><img src="i2cm_pics/I2CM_INT_VEC_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>WFE_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD><br>
+                       <br>
+         Reserved<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>RFF_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD><br>
+                      <br>
+         Reserved<br>
+         </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>INST_EXEC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An instruction finished execution</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>WFIFO_READ</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An WFIFO entry was read from the write FIFO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>RFIFO_WRITE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An RFIFO entry was written to the read FIFO</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>WACK_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The external device failed to acknowledge a write</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RACK_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The external device failed to acknowledge a read</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>INST_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The instruction register was written when the controller was busy</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>WDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The write FIFO was written but it was full</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RDAT_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>The read FIFO was read but there was no data available</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>INST_UNKNOWN_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>An unknown instruction was executed by the controller</TD> </TR>
+</TABLE><br><br>
+<a name="I2CM_INT_VEC_MASK"></a>
+<br><br><h4>Interrupt Vector Mask (I2CM_INT_VEC_MASK: 0x0208)</h4>
+Each bit in this register corresponds to a specific interrupt. When set, the associated interrupt will not be dispatched.
+<br><img src="i2cm_pics/I2CM_INT_VEC_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>WFE_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD><br>
+         Reserved<br>
+         </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>RFF_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD><br>
+         Reserved<br>
+         </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>INST_EXEC</TD> <TD>RW</TD> <TD>1</TD> <TD>An instruction finished execution</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>WFIFO_READ</TD> <TD>RW</TD> <TD>1</TD> <TD>A value was read from the write FIFO</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>RFIFO_WRITE</TD> <TD>RW</TD> <TD>1</TD> <TD>A value was written to the read FIFO</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>WACK_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>The external device failed to acknowledge a write</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RACK_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>The external device failed to acknowledge a read</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>INST_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>The instruction register was written when the controller was busy</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>WDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>The write FIFO was written but it was full</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RDAT_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>The read FIFO was read but there was no data available</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>INST_UNKNOWN_ERR</TD> <TD>RW</TD> <TD>1</TD> <TD>An unknown instruction was executed by the controller</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

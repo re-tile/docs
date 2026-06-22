@@ -1,0 +1,150 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>trio-stat</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="trio-stat"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>trio-stat &#8212; TILE-Gx TRIO I/O Statistics</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">trio-stat</code>  [
+	{ <code class="option">-i</code>  |   <code class="option">--interval</code> }
+		<em class="replaceable"><code>interval</code></em>
+] [
+	  <code class="option">-r</code>  |   <code class="option">--rates</code>  
+] [
+	  <code class="option">-s</code>  |   <code class="option">--size</code>  
+] [
+	  <code class="option">-h</code>  |   <code class="option">--human-readable</code>  
+]  
+	<em class="replaceable"><code>link</code></em>1
+  [
+	  <em class="replaceable"><code>link</code></em>2  |   ...  |   <em class="replaceable"><code>link</code></em>N  
+]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">trio-stat</strong></span> prints TRIO (PCIe) I/O statistics, such as
+bytes and packets sent and received.  Note
+that it is a native tool, and must be run on the Tile Processor
+itself.
+</p><p>
+The <em class="replaceable"><code>link</code></em> must be one or multiple on-chip TRIO
+interfaces: <code class="code">trio0_mac0</code>, <code class="code">trio0_mac1</code>,
+<code class="code">trio0_mac2</code>, or <code class="code">trio1_mac0</code> etc. If no link
+is specified, <code class="code">trio0_mac0</code> is assumed.
+</p><p>
+For example:
+</p><pre class="programlisting">
+# /usr/sbin/trio-stat trio0_mac0
+LINK       Tx Pkt       Tx bits    Rx pkt       Rx bits    Host reads Host bits
+-------------------------------------------------------------------------------
+trio0_mac0 635788      19934271     88832       9938956       0         0
+trio1_mac0 243578       1683427      4423         68837       0         0
+</pre><p>
+The LINK column shows the link names. The Tx Pkt column shows the
+total number of packets DMA'd from the tile to the host. The Tx bits
+column shows the total number of bits DMA'd to the host.
+The Rx pkt column shows the total number of ingress packets, DMA'd from
+the host.
+The Rx bits column shows the total number of ingress bits, assuming a fixed
+size DMA is transferred each time. The default size is 4096 bytes, which can
+be changed with the --size command line argument.
+The Host Reads column shows the number of PCIe reads from the host.
+The Host bits is the number of bits transfers for host reads.
+</p><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="interval"></a><span class="term">
+<code class="option">-i | --interval <em class="replaceable"><code>interval</code></em></code>
+</span></dt><dd><p>
+By default, <span><strong class="command">trio-stat</strong></span> prints out statistics once.
+If you set an interval, <span><strong class="command">trio-stat</strong></span> repeats the statistics
+every specified number of seconds.
+</p></dd><dt><a name="rates"></a><span class="term">
+<code class="option">-r | --rates</code>
+</span></dt><dd><p>
+Print statistics per second instead of counts. Note that the
+<code class="option">--rates</code> option requires that you set an interval using
+the <a href="#interval"><code class="option">--interval</code></a>
+option.   For example:
+</p><pre class="programlisting">
+# /usr/sbin/trio-stat trio0_mac0 --interval 10 --rates
+
+LINK       Tx pkt/s        Tx bits/s Rx pkt/s        Rx bits/s Host Reads/s      Host bits/s
+--------------------------------------------------------------------------------------------
+trio0_mac0        0                0        0                0        0              480
+trio0_mac0    35788          1934271    18832           938956        0                0
+trio0_mac0    43578           163427     4423             6837        0                0
+trio0_mac0    37781          1734712    17321           949568        0                0
+trio0_mac0    45783           144277     4532             6773        0                0
+...
+</pre></dd><dt><a name="size"></a><span class="term">
+<code class="option">-s | --size <em class="replaceable"><code>bytes</code></em></code>
+</span></dt><dd><p>
+Specify the size of the DMA transfers from host to Tile. The number of bytes sent from host
+to Tile is host recorded by the hardware counters, so a bits transferred is computed using
+a fixed number of bytes per transfer. The default value is 4096 bytes.
+</p></dd><dt><a name="human-readable"></a><span class="term">
+<code class="option">-h | --human-readable</code>
+</span></dt><dd><p>
+Print statistics numbers as human readable format.
+i.e. K: Kilo (1000), M: Mega (10^6), G: Giga (10^9), T: Tera (10^12)
+and P: Peta (10^15).
+</p><pre class="programlisting">
+# /usr/sbin/trio-stat trio0_mac0 trio1_mac0 --interval 10 --rates --human-readable
+
+LINK       Tx pkt/s        Tx bits/s Rx pkt/s        Rx bits/s Host Reads/s      Host bits/s
+--------------------------------------------------------------------------------------------
+trio0_mac0   35.78K            1.93M   18.83K          938.95K        0                0
+trio1_mac0   43.57K          163.42K    4.42K            6.83K        0                0   
+...
+</pre></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="notes"></a><h2>Notes</h2><p>
+
+The rates statistics are calculated based on the time measured by
+the system's core reference clock, which is unlikely to be completely
+accurate; typical oscillators used for this purpose might vary by as much
+as 300 parts per million (0.03%).
+For instance, a 28.8 Gbps interface that was in fact completely saturated
+might be reported to be running at anywhere from 28.791 Gbps to 28.809 Gbps.
+
+</p><p>
+
+When using <a href="#interval"><code class="option">--interval</code></a>, or when running
+<span><strong class="command">trio-stat</strong></span> several times in succession, you may notice
+that some values seem to reset from zero, while others do not.
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+the values are incremental; each time they're displayed, you see the
+count of events since the last time the value was displayed. This is
+because these values are maintained by hardware in clear-on-read
+registers; whenever <span><strong class="command">trio-stat</strong></span> reads them, they're reset to zero.
+</p></li></ul></div></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

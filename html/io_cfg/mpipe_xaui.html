@@ -1,0 +1,1149 @@
+<html>
+<title>mpipe_xaui Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>XAUI Interface (0x0000-0x0080) : </b> 
+These registers control the associated XAUI Interface (SERDES control, PCS etc.)<br><br>
+<li><b>MAC (0x8000-0x8330) : </b> 
+These registers control the associated XAUI MAC<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#MPIPE_XAUI_MAC_INFO">MPIPE_XAUI_MAC_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#MPIPE_XAUI_MAC_INTFC_CTL">MPIPE_XAUI_MAC_INTFC_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#MPIPE_XAUI_MAC_INTFC_TX_CTL">MPIPE_XAUI_MAC_INTFC_TX_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#MPIPE_XAUI_SERDES_CONFIG">MPIPE_XAUI_SERDES_CONFIG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#MPIPE_XAUI_PCS_CTL">MPIPE_XAUI_PCS_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0028<TD><a href="#MPIPE_XAUI_PCS_CTL1">MPIPE_XAUI_PCS_CTL1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#MPIPE_XAUI_PCS_STS">MPIPE_XAUI_PCS_STS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0038<TD><a href="#MPIPE_XAUI_INTERRUPT_MASK">MPIPE_XAUI_INTERRUPT_MASK</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0040<TD><a href="#MPIPE_XAUI_INTERRUPT_STATUS">MPIPE_XAUI_INTERRUPT_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0048<TD><a href="#MPIPE_XAUI_CLOCK_COUNT">MPIPE_XAUI_CLOCK_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0050<TD><a href="#MPIPE_XAUI_CALIB_CTL">MPIPE_XAUI_CALIB_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0058<TD><a href="#MPIPE_XAUI_CALIB_STS">MPIPE_XAUI_CALIB_STS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0060<TD><a href="#MPIPE_XAUI_TX_1588">MPIPE_XAUI_TX_1588</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0068<TD><a href="#MPIPE_XAUI_RX_1588">MPIPE_XAUI_RX_1588</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0070<TD><a href="#MPIPE_XAUI_TS_COUNT">MPIPE_XAUI_TS_COUNT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0078<TD><a href="#MPIPE_XAUI_MAC_INTFC_FIFO_CTL">MPIPE_XAUI_MAC_INTFC_FIFO_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8000<TD><a href="#MPIPE_XAUI_TRANSMIT_CONTROL">MPIPE_XAUI_TRANSMIT_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8008<TD><a href="#MPIPE_XAUI_TRANSMIT_CONFIGURATION">MPIPE_XAUI_TRANSMIT_CONFIGURATION</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8010<TD><a href="#MPIPE_XAUI_TRANSMIT_PAUSE_QUANTA">MPIPE_XAUI_TRANSMIT_PAUSE_QUANTA</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8018<TD><a href="#MPIPE_XAUI_RECEIVE_CONTROL">MPIPE_XAUI_RECEIVE_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8020<TD><a href="#MPIPE_XAUI_RECEIVE_CONFIGURATION">MPIPE_XAUI_RECEIVE_CONFIGURATION</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8028<TD><a href="#MPIPE_XAUI_RX_HASH_BOTTOM">MPIPE_XAUI_RX_HASH_BOTTOM</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8030<TD><a href="#MPIPE_XAUI_RX_HASH_TOP">MPIPE_XAUI_RX_HASH_TOP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8038<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_0">MPIPE_XAUI_EXACT_MATCH_BOTTOM_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8040<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_0">MPIPE_XAUI_EXACT_MATCH_TOP_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8048<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_1">MPIPE_XAUI_EXACT_MATCH_BOTTOM_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8050<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_1">MPIPE_XAUI_EXACT_MATCH_TOP_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8058<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_2">MPIPE_XAUI_EXACT_MATCH_BOTTOM_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8060<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_2">MPIPE_XAUI_EXACT_MATCH_TOP_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8068<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_3">MPIPE_XAUI_EXACT_MATCH_BOTTOM_3</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8070<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_3">MPIPE_XAUI_EXACT_MATCH_TOP_3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8078<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_4">MPIPE_XAUI_EXACT_MATCH_BOTTOM_4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8080<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_4">MPIPE_XAUI_EXACT_MATCH_TOP_4</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8088<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_5">MPIPE_XAUI_EXACT_MATCH_BOTTOM_5</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8090<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_5">MPIPE_XAUI_EXACT_MATCH_TOP_5</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8098<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_6">MPIPE_XAUI_EXACT_MATCH_BOTTOM_6</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80a0<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_6">MPIPE_XAUI_EXACT_MATCH_TOP_6</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80a8<TD><a href="#MPIPE_XAUI_EXACT_MATCH_BOTTOM_7">MPIPE_XAUI_EXACT_MATCH_BOTTOM_7</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80b0<TD><a href="#MPIPE_XAUI_EXACT_MATCH_TOP_7">MPIPE_XAUI_EXACT_MATCH_TOP_7</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80b8<TD><a href="#MPIPE_XAUI_TYPE_MATCH0">MPIPE_XAUI_TYPE_MATCH0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80c0<TD><a href="#MPIPE_XAUI_TYPE_MATCH1">MPIPE_XAUI_TYPE_MATCH1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80c8<TD><a href="#MPIPE_XAUI_TYPE_MATCH2">MPIPE_XAUI_TYPE_MATCH2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80d0<TD><a href="#MPIPE_XAUI_TYPE_MATCH3">MPIPE_XAUI_TYPE_MATCH3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80d8<TD><a href="#MPIPE_XAUI_DIAG_INTERRUPT_STATUS">MPIPE_XAUI_DIAG_INTERRUPT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80e0<TD><a href="#MPIPE_XAUI_DIAG_INTERRUPT_MASK">MPIPE_XAUI_DIAG_INTERRUPT_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80e8<TD><a href="#MPIPE_XAUI_DIAG_INTERRUPT_ENABLE">MPIPE_XAUI_DIAG_INTERRUPT_ENABLE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>80f0<TD><a href="#MPIPE_XAUI_DIAG_INTERRUPT_DISABLE">MPIPE_XAUI_DIAG_INTERRUPT_DISABLE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>80f8<TD><a href="#MPIPE_XAUI_PAUSE_COUNT">MPIPE_XAUI_PAUSE_COUNT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8100<TD><a href="#MPIPE_XAUI_STATISTICS_CONTROL">MPIPE_XAUI_STATISTICS_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8108<TD><a href="#MPIPE_XAUI_MDIO_CONTROL">MPIPE_XAUI_MDIO_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>81f8<TD><a href="#MPIPE_XAUI_MODULE_ID">MPIPE_XAUI_MODULE_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8200<TD><a href="#MPIPE_XAUI_TRANSMITTED_OCTETS_LO">MPIPE_XAUI_TRANSMITTED_OCTETS_LO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8208<TD><a href="#MPIPE_XAUI_TRANSMITTED_OCTETS_HI">MPIPE_XAUI_TRANSMITTED_OCTETS_HI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8210<TD><a href="#MPIPE_XAUI_TRANSMITTED_FRAMES_LO">MPIPE_XAUI_TRANSMITTED_FRAMES_LO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8218<TD><a href="#MPIPE_XAUI_TRANSMITTED_FRAMES_HI">MPIPE_XAUI_TRANSMITTED_FRAMES_HI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8220<TD><a href="#MPIPE_XAUI_TRANSMITTED_BROADCAST_FRAMES">MPIPE_XAUI_TRANSMITTED_BROADCAST_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8228<TD><a href="#MPIPE_XAUI_TRANSMITTED_MULTICAST_FRAMES">MPIPE_XAUI_TRANSMITTED_MULTICAST_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8230<TD><a href="#MPIPE_XAUI_TRANSMITTED_PAUSE_FRAMES">MPIPE_XAUI_TRANSMITTED_PAUSE_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8238<TD><a href="#MPIPE_XAUI_64_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_64_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8240<TD><a href="#MPIPE_XAUI_65_127_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_65_127_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8248<TD><a href="#MPIPE_XAUI_128_255_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_128_255_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8250<TD><a href="#MPIPE_XAUI_256_511_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_256_511_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8258<TD><a href="#MPIPE_XAUI_512_1023_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_512_1023_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8260<TD><a href="#MPIPE_XAUI_1024_1518_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_1024_1518_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8268<TD><a href="#MPIPE_XAUI_1519_MAX_BYTE_FRAMES_TRANSMITTED">MPIPE_XAUI_1519_MAX_BYTE_FRAMES_TRANSMITTED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8270<TD><a href="#MPIPE_XAUI_TRANSMITTED_ERROR_FRAMES">MPIPE_XAUI_TRANSMITTED_ERROR_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8278<TD><a href="#MPIPE_XAUI_RECEIVED_OCTETS_LO">MPIPE_XAUI_RECEIVED_OCTETS_LO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8280<TD><a href="#MPIPE_XAUI_RECEIVED_OCTETS_HI">MPIPE_XAUI_RECEIVED_OCTETS_HI</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8288<TD><a href="#MPIPE_XAUI_RECEIVED_FRAMES_LO">MPIPE_XAUI_RECEIVED_FRAMES_LO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8290<TD><a href="#MPIPE_XAUI_RECEIVED_FRAMES_HI">MPIPE_XAUI_RECEIVED_FRAMES_HI</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8298<TD><a href="#MPIPE_XAUI_RECEIVED_BROADCAST_FRAMES">MPIPE_XAUI_RECEIVED_BROADCAST_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82a0<TD><a href="#MPIPE_XAUI_RECEIVED_MULTICAST_FRAMES">MPIPE_XAUI_RECEIVED_MULTICAST_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82a8<TD><a href="#MPIPE_XAUI_RECEIVED_PAUSE_FRAMES">MPIPE_XAUI_RECEIVED_PAUSE_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82b0<TD><a href="#MPIPE_XAUI_64_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_64_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82b8<TD><a href="#MPIPE_XAUI_65_127_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_65_127_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82c0<TD><a href="#MPIPE_XAUI_128_255_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_128_255_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82c8<TD><a href="#MPIPE_XAUI_256_511_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_256_511_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82d0<TD><a href="#MPIPE_XAUI_512_1023_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_512_1023_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82d8<TD><a href="#MPIPE_XAUI_1024_1518_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_1024_1518_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82e0<TD><a href="#MPIPE_XAUI_1519_MAX_BYTE_FRAMES_RECEIVED">MPIPE_XAUI_1519_MAX_BYTE_FRAMES_RECEIVED</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82e8<TD><a href="#MPIPE_XAUI_RECEIVED_SHORT_FRAMES">MPIPE_XAUI_RECEIVED_SHORT_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82f0<TD><a href="#MPIPE_XAUI_RECEIVED_OVERSIZE_FRAMES">MPIPE_XAUI_RECEIVED_OVERSIZE_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82f8<TD><a href="#MPIPE_XAUI_RECEIVED_JABBER_FRAMES">MPIPE_XAUI_RECEIVED_JABBER_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8300<TD><a href="#MPIPE_XAUI_RECEIVED_CRC_ERROR_FRAMES">MPIPE_XAUI_RECEIVED_CRC_ERROR_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8308<TD><a href="#MPIPE_XAUI_RECEIVED_LENGTH_FIELD_ERROR_FRAMES">MPIPE_XAUI_RECEIVED_LENGTH_FIELD_ERROR_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8310<TD><a href="#MPIPE_XAUI_RECEIVED_SYMBOL_CODE_ERROR_FRAMES">MPIPE_XAUI_RECEIVED_SYMBOL_CODE_ERROR_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8318<TD><a href="#MPIPE_XAUI_RECEIVED_LPI">MPIPE_XAUI_RECEIVED_LPI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8320<TD><a href="#MPIPE_XAUI_RECEIVED_LPI_TIME">MPIPE_XAUI_RECEIVED_LPI_TIME</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8328<TD><a href="#MPIPE_XAUI_TRANSMIT_LPI">MPIPE_XAUI_TRANSMIT_LPI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8330<TD><a href="#MPIPE_XAUI_TRANSMIT_LPI_TIME">MPIPE_XAUI_TRANSMIT_LPI_TIME</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="MPIPE_XAUI_MAC_INFO"></a>
+<br><br><h4>MAC Info (MPIPE_XAUI_MAC_INFO: 0x0000)</h4>
+Describes connection of this MAC to mPIPE.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MAC_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC has been enabled by mPIPE's MAC_ENABLE register</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>AVAIL</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC is available and may be enabled  This register will be clear if the system configuration does not allow this port to be used.(for example if this port's IO PADs are in use by another MAC).  The MPIPE_MAC_ENABLE.AVAIL field indicates any MACs that are not enabled for the device.  Both this AVAIL and MPIPE_MAC_ENABLE.AVAIL must be asserted for the MAC to be used.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:8</TD> <TD>CHANNEL</TD> <TD>RO</TD> <TD>0</TD> <TD>mPIPE channel number associated with this MAC</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MAC_TYPE</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the type of MAC (XAUI)<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>XAUI</TD><TD>XAUI Ethernet MAC Type</TD></TR>
+   <TR><TD>1</TD><TD>SGMII</TD><TD>SGMII Gigabit Ethernet MAC Type</TD></TR>
+   <TR><TD>2</TD><TD>RGMII</TD><TD>RGMII Gigabit Ethernet MAC Type</TD></TR>
+   <TR><TD>3</TD><TD>INTERLAKEN</TD><TD>Interlaken MAC Type</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_MAC_INTFC_CTL"></a>
+<br><br><h4>MAC Interface Control (MPIPE_XAUI_MAC_INTFC_CTL: 0x0008)</h4>
+Provides control over MAC interface functionality.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MAC_INTFC_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>TX_PRQ_ENA</TD> <TD>RW</TD> <TD>ffffh</TD> <TD>Indicates which priority queues will be monitored for dispatching 802.3 pause frames when PAUSE_MODE is AUTO.  When PAUSE_MODE is AUTO_PFC, this determines which queues will be monitored for dispatching PFC frames and sets the priority_enable_vector in the PFC frames.  In AUTO_PFC mode, the upper 8 bits are not used.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>PRQ_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>When set, the PRQ_OVD_VAL will be used as the priority queue for all incoming packets.  When clear, the priority queue will be extracted from the incoming packet's VLAN.PRIORITY field.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:10</TD> <TD>PRQ_OVD_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When PRQ_OVD is set, the PRQ_OVD_VAL will be used as the priority queue for all incoming packets.  When clear, the priority queue will be extracted from the incoming packet's VLAN.PRIORITY field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>PFC_NEGOT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that PFC has been negotiated (PFC pause frame was received).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:3</TD> <TD>PAUSE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Mode for sending pause frames based on iPkt buffer fullness.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>MANUAL</TD><TD>Pause frames will not be automatically sent.</TD></TR>
+   <TR><TD>2</TD><TD>AUTO</TD><TD>Pause frames will be automatically sent when any priority queues matching set bits in TX_PRQ_ENA become full.</TD></TR>
+   <TR><TD>3</TD><TD>AUTO_PFC</TD><TD>PFC pause frames will be automatically sent when a priority queue becomes full.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>INS_RX_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Append 4-byte status word to Rx (ingress) packet data.  The packet will be padded out to the next 8-byte boundary before the 4-byte status is applied.  The 32-bit field that arrives at the end of the packet data is defined below:<br>
+status[0]     = symbol error<br>
+status[1]     = oversize frame<br>
+status[2]     = short frame<br>
+status[3]     = crc error<br>
+status[4]     = jumbo<br>
+status[5]     = type_match1<br>
+status[6]     = type_match2<br>
+status[7]     = type_match3<br>
+status[8]     = type_match4<br>
+status[9]     = local_match1<br>
+status[10]    = local_match2<br>
+status[11]    = local_match3<br>
+status[12]    = local_match4<br>
+status[13]    = local_match5<br>
+status[14]    = local_match6<br>
+status[15]    = local_match7<br>
+status[16]    = local_match8<br>
+status[20:17] = external_match[3:0]<br>
+status[21]    = vlan_match<br>
+status[25:22] = vlan_tci<br>
+status[26]    = vlan_ptag<br>
+status[27]    = uni_hash_match<br>
+status[28]    = multi_hash_match and not broadcast_frame<br>
+status[29]    = broadcast_frame<br>
+status[30]    = len/type error<br>
+status[31]    = RESERVED<br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>NO_TX_PRE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, no preamble will be prepended to the packet by the MAC.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>NO_TX_CRC</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, no CRC will be appended to the packet by the MAC.  Frames will not be padded out to the minimum 60-byte frame size thus software is responsible for sending frames of at least 60 bytes.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_MAC_INTFC_TX_CTL"></a>
+<br><br><h4>MAC Interface Transmit Control (MPIPE_XAUI_MAC_INTFC_TX_CTL: 0x0010)</h4>
+Provides control over MAC interface's transmit functionality.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MAC_INTFC_TX_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>TX_PFC_PAUSE_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates which queues should be paused when TX_PAUSE_OVD is set.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>TX_PAUSE_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, PFC egress queues will be paused based on TX_PFC_PAUSE_VAL.  When 0, queues will be paused based on received PFC frames.  TX_PAUSE_OVD is used to emulate the reception of PFC pause reception in software.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TX_DROP</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, all TX packets will be dropped.  This bit is for diagnostics use only and is not used for normal operation.  Packets targeting a link that is in the down state are typically dropped using the TRANSMIT_CONFIGURATION.UNI_MODE bit rather than the TX_DROP bit.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>TX_PAUSE_HYST</TD> <TD>RW</TD> <TD>1</TD> <TD>Time to wait between sending pause/unpause frames specified in increments of 512 bit times (Gx9/16/36/72). On Other devices, the increment is 2048 bit times. This should be set based on the maximum transmitted frame size. So, for example, if the largest TX frame is 1500 bytes, this should be set to at least 1500*8/increment_size.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_SERDES_CONFIG"></a>
+<br><br><h4>SERDES Config (MPIPE_XAUI_SERDES_CONFIG: 0x0018)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Access to SERDES register interface.  See SERDES documentation for detailed descriptions of registers.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_SERDES_CONFIG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>REG_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>SERDES register data.  On writes, this contains data to be written.  On reads, this contains the read result.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>REG_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>SERDES register address to access.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>LANE_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects lane(s) for read/write.  On writes, more than one lane may be written.  On reads, only one bit in LANE_SEL may be set.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>READ</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, operation is a read.  When 0, operation is a write.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SEND</TD> <TD>RW</TD> <TD>0</TD> <TD>When written with a 1, the read/write operation will be performed.  Hardware clears this bit when the operation is complete.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_PCS_CTL"></a>
+<br><br><h4>PCS Control (MPIPE_XAUI_PCS_CTL: 0x0020)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Access to PCS controls.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_PCS_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:28</TD> <TD>CDR_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Mode for acquiring CDR coarse lock.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>CDR will re-acquire coarse lock automatically based on PCS decoder errors and unaligned symbols.</TD></TR>
+   <TR><TD>1</TD><TD>IDLE_ONLY</TD><TD>CDR will re-acquire coarse lock only when idle (ignore PCS decoder errors and unaligned symbols).</TD></TR>
+   <TR><TD>2</TD><TD>ALWAYS</TD><TD>CDR will be forced to continually lock (create constant stream of pseudo-PCS decoder errors to CDR).</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>27:26</TD> <TD>LED_OVD_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>State of the LEDs when MODE=SW.  Setting to 1 pulls down the IO pin (typically "on"), 0 tristates the pin (typically "off").</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25:24</TD> <TD>LED_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls behavior of LEDs.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>LINK_ACT</TD><TD>Pin[1] indicates link up (PCS_UNALIGNED=0).  Pin[0] indicates activity on either TX or RX.</TD></TR>
+   <TR><TD>1</TD><TD>TX_RX</TD><TD>Pin[1] indicates TX activity.  Pin[0] indicates RX activity.  When the link is up (PCS_UNALIGNED=0), the LEDs will be turned on and will blink off only when there is activity in the associated direction.  When the link is down (PCS_UNALIGNED=1), the LEDs will be turned off.</TD></TR>
+   <TR><TD>2</TD><TD>SW</TD><TD>Pins are controlled by LED_OVD_VAL field.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>TEST_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>PCS test enable.  When set to 1, the pattern selected by TEST_SEL will be sent to the SERDES.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21:20</TD> <TD>TEST_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>PCS test select when TEST_ENA is 1.  <br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>HIGH_FREQ</TD><TD>High frequency pattern (01010101010101010110...)</TD></TR>
+   <TR><TD>1</TD><TD>LOW_FREQ</TD><TD>LOW frequency pattern (00000111110000011111...)</TD></TR>
+   <TR><TD>2</TD><TD>MIXED_FREQ</TD><TD>Mixed frequency pattern (111110101100000...)</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>19:18</TD> <TD>SIG_DET_MODE3</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls how signal-detect to the MAC will be driven for lane 3.  See SIG_DET_MODE0 for encodings</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>SIG_DET_MODE2</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls how signal-detect to the MAC will be driven for lane 2.  See SIG_DET_MODE0 for encodings</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:14</TD> <TD>SIG_DET_MODE1</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls how signal-detect to the MAC will be driven for lane 1.  See SIG_DET_MODE0 for encodings</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13:12</TD> <TD>SIG_DET_MODE0</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls how signal-detect to the MAC will be driven for lane 0.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>CDR_LOCK</TD><TD>Force signal-detect low if the CDR is not locked or the SERDES detects electrical idle</TD></TR>
+   <TR><TD>1</TD><TD>ELEC_IDLE</TD><TD>Force signal-detect low if the SERDES detects electrical idle</TD></TR>
+   <TR><TD>2</TD><TD>FORCE_LO</TD><TD>Force signal-detect low</TD></TR>
+   <TR><TD>3</TD><TD>FORCE_HI</TD><TD>Force signal-detect high</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>INV_TX_POL</TD> <TD>RW</TD> <TD>0</TD> <TD>Invert the polarity on the data being sent to the SERDES for the associated lane</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>INV_RX_POL</TD> <TD>RW</TD> <TD>0</TD> <TD>Invert the polarity on data received from the associated lane of the SERDES</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:2</TD> <TD>RESET_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls PCS reset.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>PCS will be held in reset until port is enabled.</TD></TR>
+   <TR><TD>1</TD><TD>RESET_ASSERT</TD><TD>PCS is forced into reset.</TD></TR>
+   <TR><TD>3</TD><TD>RESET_DEASSERT</TD><TD>PCS is forced out of reset.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>DOUBLE_RATE</TD> <TD>RW</TD> <TD>0</TD> <TD>Double-rate XAUI.  When 1, the XAUI port operates at 6.25 Gbps per lane rather than 3.125 Gbps per lane.  This setting is generally made at the time PORT_ENABLE is set.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_PCS_CTL1"></a>
+<br><br><h4>PCS Control-1 (MPIPE_XAUI_PCS_CTL1: 0x0028)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Access to PCS controls.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_PCS_CTL1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13:12</TD> <TD>PMA_ENA_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides port-enable control<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>PMA will be enabled when mac is enabled.</TD></TR>
+   <TR><TD>2</TD><TD>FORCE_DISABLE</TD><TD>Force PMA to be disabled</TD></TR>
+   <TR><TD>3</TD><TD>FORCE_ENABLE</TD><TD>Force PMA to be enabled.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>TXVLD_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Override the associated lane's TX-VLD state when TXVLD_OVD is one</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TXVLD_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>Override the lanes' TX-VALID state using TXVLD_VAL.  When 0, each lane's TX-valid state will be controlled automatically based on whether the port is enabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>XAUI_RX_RST_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Provides XAUI PCS RX Reset control<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>RX reset will be controlled based on PMA initialization state.</TD></TR>
+   <TR><TD>2</TD><TD>FORCE_ASSERT</TD><TD>Force RX reset to assert.</TD></TR>
+   <TR><TD>3</TD><TD>FORCE_DEASSERT</TD><TD>Force RX reset to deassert.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>PWRDN_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>Override the lanes' powerdown state using PWRDN_VAL.  When 0, each lane's powerdown state will be controlled automatically based on whether the port is enabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>PWRDN_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Override the associated lane's powerdown state when PWRDN_OVD is one</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_PCS_STS"></a>
+<br><br><h4>PCS Status (MPIPE_XAUI_PCS_STS: 0x0030)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Access to PCS controls.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_PCS_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:28</TD> <TD>CDR_LOCKED</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS is ready and CDR locked for the associated lane.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>PCS_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS has completed PHY initialization on the associated lane.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>PCS_DEC_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PCS decode error (Write-1-to-clear).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>PCS_UNALIGNED</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates lane alignment of PCS.  When zero, traffic may be received on the link.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>PCS_FIFO_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PCS CTC FIFO error (Write-1-to-clear)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:10</TD> <TD>PCS_CTC_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PCS CTC error (Write-1-to-clear).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9:6</TD> <TD>PCS_SYNC_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS synchronization indicator per lane</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5:2</TD> <TD>SERDES_SIG_DET</TD> <TD>RO</TD> <TD>0</TD> <TD>SERDES RX signal detect indicators for each lane.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CLOCK_READY</TD> <TD>RO</TD> <TD>0</TD> <TD>SERDES PLL has been spun up and is providing clock to MAC(s).</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_INTERRUPT_MASK"></a>
+<br><br><h4>Interrupt Mask (MPIPE_XAUI_INTERRUPT_MASK: 0x0038)</h4>
+Mask individual PCS/MAC Interrupts.  If an interrupt's INTERRUPT_MASK bit is set, the condition will not cause an interrupt to be dispatched to mPIPE.  However, the INTERRUPT_STATUS register will still log the condition.  The meanings of individual bits are defined in the INTERRUPT_STATUS register.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_INTERRUPT_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VEC</TD> <TD>RW</TD> <TD>ffffffffh</TD> <TD>Mask vector.  Individual bit definitions are found in the INTERRUPT_STATUS register.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_INTERRUPT_STATUS"></a>
+<br><br><h4>Interrupt Status (MPIPE_XAUI_INTERRUPT_STATUS: 0x0040)</h4>
+Status of individual PCS/MAC Interrupts.  Bits are set when the condition occurs (even if the MASK bit is 1).  Bits are W1TC.  Unmasked interrupts are ORd together to form the MAC interrupt delivered to mPIPE.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_INTERRUPT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>PCS_ALIGNMENT_CHANGED</TD> <TD>W1TC</TD> <TD>0</TD> <TD>For Gx9/16/36/72, this indicates the lane alignment of the PCS has changed.  For other devices, this indicates the PCS_INTERRUPT_STATUS contains the associated interrupt.  For these devices, this interrupt bit is not sticky and does not need to be cleared by software.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>PHY_INT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>External PHY interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29</TD> <TD>TX_PTP_SYNC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP sync frame was transmitted.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>TX_PTP_DELAY</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP delay frame was transmitted.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27</TD> <TD>TX_PTP_PDELAY_REQ</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_req frame was transmitted.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26</TD> <TD>TX_PTP_PDELAY_RESP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_resp frame was transmitted.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25</TD> <TD>RX_PTP_SYNC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP sync frame was received.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>RX_PTP_DELAY</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP delay frame was received.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>RX_PTP_PDELAY_REQ</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_req frame was received.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>RX_PTP_PDELAY_RESP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_resp frame was received.  TS_COUNT value captured in TX_1588.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>LPI</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Receive LPI indication status bit changed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>LINK_STS_CHANGE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Link fault status change detected</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>MDIO_COMPLETE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PHY frame complete (MDIO)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>PAUSE_TX</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PAUSE frame transmitted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>PAUSE_TO</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PAUSE counter time out - interrupt triggered by either counter decrementing to zero, or being loaded with zero from an RX zero PAUSE frame.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>PAUSE_RX</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Non-zero PAUSE frame received</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>STAT_OVFL</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Statistics counter overflow</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>TX_ERR</TD> <TD>W1TC</TD> <TD>0</TD> <TD>TX error signal from TX FIFO interface</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>TX_UNDERFLOW</TD> <TD>W1TC</TD> <TD>0</TD> <TD>TX underflow</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>FRAME_TX</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Frame transmitted</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>FRAME_RX</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Frame Received</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_CLOCK_COUNT"></a>
+<br><br><h4>MAC Clock Count (MPIPE_XAUI_CLOCK_COUNT: 0x0048)</h4>
+Provides relative clock frequency between core (pclk) domain and device (xaui clk) clock domains.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_CALIB_CTL"></a>
+<br><br><h4>Calibration Control (MPIPE_XAUI_CALIB_CTL: 0x0050)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Controls SERDES calibration.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_CALIB_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>CALIB_VLD</TD> <TD>RW</TD> <TD>0</TD> <TD>Calibration value for the SERDES is valid.  When this is 1, the CALIB_VAL will be used.  When this is zero, the PMA's FSM will generate the calibration value.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:0</TD> <TD>CALIB_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Calibration value to provide to PMA when CALIB_MODE is SW</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_CALIB_STS"></a>
+<br><br><h4>Calibration Status (MPIPE_XAUI_CALIB_STS: 0x0058)</h4>
+<I>NOTE: This register only exists in the following devices: Gx9 Gx16 Gx36 Gx72.</I><br><br>
+Provides SERDES calibration status.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_CALIB_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>CALIB_VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Calibration value from SERDES.  This is only valid for the SERDES connected to the external calibration resistor.  And it is only valid if SERDES calibration was performed ((efuse/MMIO register value was not used).</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TX_1588"></a>
+<br><br><h4>Transmit 1588 (MPIPE_XAUI_TX_1588: 0x0060)</h4>
+Provides captured local time of most recent tx 1588 frame.  Software can correlate the local TS_COUNT to the mPIPE's timestamp in order to determine a low jitter frame transmit time.  One algorithm for determining the time at which a 1588 frame was transmitted is:<br>
+<br>
+1) Prior to 1588 activity, repeatedly read TS_COUNT and MPIPE_TIMESTAMP_VAL in alternating order and take the median of the differences.  This will provide an accurate correlation between the TS_COUNT and the low 13 bits of MPIPE_TIMESTAMP_VAL.  <br>
+<br>
+2) Write eDMA descriptor for 1588 PTP packet<br>
+<br>
+2) Poll on the TX_PTP INTERRUPT_STATUS bit.  Alternate between reading the status bit and reading the MPIPE_TIMESTAMP_VAL<br>
+<br>
+3) Once the INTERRUPT_STATUS bit is set, read the CAPT_TS value <br>
+<br>
+4) Reread the MPIPE_TIMESTAMP_VAL to be sure not more than 8192 nanoseconds have passed.  <br>
+<br>
+5) The frame TX time can now be determined by using the correlation (difference) value from step-1.  The low 13-bits of the MPIPE_TIMESTAMP_VAL would be replaced by CAPT_TS+CORRELATION_VALUE.<br>
+
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TX_1588.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12:0</TD> <TD>CAPT_TS</TD> <TD>RO</TD> <TD>0</TD> <TD>Captured local TS_COUNT at the time a PTP sync/delay/pdelay_req/pdelay_resp was transmitted.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RX_1588"></a>
+<br><br><h4>Receive 1588 (MPIPE_XAUI_RX_1588: 0x0068)</h4>
+Provides captured local time of most recent rx 1588 frame.  Software can correlate the local TS_COUNT to the mPIPE's timestamp in order to determine a low jitter frame transmit time.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RX_1588.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12:0</TD> <TD>CAPT_TS</TD> <TD>RO</TD> <TD>0</TD> <TD>Captured local TS_COUNT at the time a PTP sync/delay/pdelay_req/pdelay_resp was received.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TS_COUNT"></a>
+<br><br><h4>Timestamp count (MPIPE_XAUI_TS_COUNT: 0x0070)</h4>
+Provides a timestamp that can be used to correlate TX/RX 1588 frames with the mPIPE timestamper.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TS_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>This represents the value of mPIPE's nanosecond counter (from the timestamp unit).  By subtracting the R/TX_1588.CAPT_TS value from this value, SW can determine how many nanoseconds have passed since the associated frame was transmitted/received.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_MAC_INTFC_FIFO_CTL"></a>
+<br><br><h4>MAC Interface FIFO Control (MPIPE_XAUI_MAC_INTFC_FIFO_CTL: 0x0078)</h4>
+Provides control over MAC interface's FIFOs for diagnostics.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MAC_INTFC_FIFO_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:16</TD> <TD>RX_RFIFO_AF_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls full threshold for RX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>TX_RFIFO_AF_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls full threshold for TX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.  This register must be written twice (or another MAC register accessed) for the value to take effect.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TX_RFIFO_AE_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls empty threshold for TX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMIT_CONTROL"></a>
+<br><br><h4>Transmit Control (MPIPE_XAUI_TRANSMIT_CONTROL: 0x8000)</h4>
+Transmit Control
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMIT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>ENA_LPI</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable LPI transmission.  When set LPI (low power idle) is immediately transmitted on txd and txc.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:12</TD> <TD>PFC_ZERO</TD> <TD>RW</TD> <TD>0</TD> <TD>If bit 3 of the transmit control register is written with a one then for each entry equal to zero in [19:12] the PFC frame's pause quantum field associated with that entry will be taken from the transmit pause quanta register. For each entry equal to one in [19:12], the pause quantum associated with that entry will be zero.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:4</TD> <TD>PFC_PEV</TD> <TD>RW</TD> <TD>0</TD> <TD>If bit 3 of the transmit control register is written with a one then the priority enable vector of the PFC priority based pause frame will be set equal to the value stored in these bits.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>SEND_PFC</TD> <TD>WO</TD> <TD>0</TD> <TD>Send PFC Priority Based PAUSE frame.  Takes the values stored in bits 19:4 of this register.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>SEND_PAUSE</TD> <TD>WO</TD> <TD>0</TD> <TD>Send PAUSE frame - writing a one to this register causes one pause frame with pause time equal to the current setting of the transmit PAUSE timer register to be transmitted. Writing a 0 has no effect. This register is self clearing.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SEND_ZERO_PAUSE</TD> <TD>WO</TD> <TD>0</TD> <TD>Send zero PAUSE frame - writing a one to this register causes one pause frame with pause time equal to zero to be transmitted. Writing a 0 has no effect. This register is self clearing.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ENABLE_TX</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable transmission - when set enables transmission. When reset transmission ceases immediately. The contents of the statistics and configuration registers are not affected by reset of this bit.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMIT_CONFIGURATION"></a>
+<br><br><h4>Transmit Configuration (MPIPE_XAUI_TRANSMIT_CONFIGURATION: 0x8008)</h4>
+Transmit Configuration
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMIT_CONFIGURATION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:8</TD> <TD>PREAMBLE_CRC</TD> <TD>RW</TD> <TD>0</TD> <TD>Add the preamble to the CRC calculation.  Configure as follows:  2'b0x - CRC calculation starts from byte 8 (default for 802.3 compliance).  2'b10 - CRC calculation starts from byte 0.  2'b11 - CRC calculation starts from byte 4.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>DISABLE_DIC</TD> <TD>RW</TD> <TD>0</TD> <TD>Disable deficit idle count.  Setting this bit will disable DIC and force the IPG transmission between 9 and 12 bytes.  For compliance with the 802.3 specification, this bit must be kept low.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>DECREASE_IPG</TD> <TD>RW</TD> <TD>0</TD> <TD>Decrease average transmitted IPG.  When set, the transmitted IPG can be a value between 3 and 11 bytes, averaging 8 bytes.  When clear, the transmitted IPG can be a value between 9 and 15 bytes, averaging 12 bytes.  For compliance with the 802.3 specification, this bit must be kept clear.  This bit is ignored if deficit idle count is disabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>UNI_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Unidirectional operation enable. When set the MAC is able to transmit frames when the link fault state machine is indicating local or remote fault. See 802.3 Clause 66.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:2</TD> <TD>CFG_SPEED</TD> <TD>RW</TD> <TD>2</TD> <TD>Set according to cfg_clk speed. This determines the divisor that will be applied to cfg_clk to generate MDC. To conform with 802.3, MDC must not exceed 2.5 MHz. Note that MDC is only active during MDIO read and write operations. 000: divide by 8 (cfg_clk up to 20 MHz) 001: divide by 16 (cfg_clk up to 40 MHz) 010: divide by 32 (cfg_clk up to 80 MHz) 011: divide by 48 (cfg_clk up to 120 MHz) 100: divide by 64 (cfg_clk up to 160 MHz) 101: divide by 96 (cfg_clk up to 240 MHz) 110: divide by 128 (cfg_clk up to 320 MHz) 111: divide by 224 (cfg_clk up to 540 MHz)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>STRETCH</TD> <TD>RW</TD> <TD>0</TD> <TD>Stretch mode feature is enabled for WAN PHYs. When set, the transmit logic increases the IPG following large packets to reduce the transmit bandwidth for compatibility with SONET OC192 networks.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>PAUSE_DET</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable pausing of transmission when PAUSE frame received.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMIT_PAUSE_QUANTA"></a>
+<br><br><h4>Transmit Pause Quanta Register Receive Control (MPIPE_XAUI_TRANSMIT_PAUSE_QUANTA: 0x8010)</h4>
+Transmit Pause Quanta Register Receive Control
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMIT_PAUSE_QUANTA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>TIMER</TD> <TD>RW</TD> <TD>ffffh</TD> <TD>Timer value for transmitted PAUSE packets manual and automatic</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVE_CONTROL"></a>
+<br><br><h4>Receive Control (MPIPE_XAUI_RECEIVE_CONTROL: 0x8018)</h4>
+Receive Control
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ENABLE_RX</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable Receive</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVE_CONFIGURATION"></a>
+<br><br><h4>Receive Configuration (MPIPE_XAUI_RECEIVE_CONFIGURATION: 0x8020)</h4>
+Receive Configuration
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVE_CONFIGURATION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>LPI</TD> <TD>RW</TD> <TD>0</TD> <TD>LPI Indication - Low power idle has been detected on receive. This bit is set when LPI is detected and reset when normal idle is detected. An interrupt is generated when the state of this bit changes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>PFC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable PFC Priority Based Pause Reception capabilities. Setting this bit will allow PFC priority based pause frames to be received.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>PREAMBLE_CRC</TD> <TD>RW</TD> <TD>0</TD> <TD>Add the preamble to the<br>
+CRC calculation.<br>
+Configure as follows:<br>
+2'b0x : CRC calculation starts from byte 8 (default)<br>
+2'b10 : CRC calculation starts from byte 0<br>
+2'b11 : CRC calculation starts from byte 4</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>LOC_FAULT</TD> <TD>RW</TD> <TD>0</TD> <TD>Local Fault</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>REM_FAULT</TD> <TD>RW</TD> <TD>0</TD> <TD>Remote fault  bits 14 and 15 indicate the state of the<br>
+receive link fault state machine.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>LEN_DISC</TD> <TD>RW</TD> <TD>0</TD> <TD>Length field error frame discard - setting this bit causes<br>
+frames with a measured length not equal to the extracted<br>
+length field (as indicated by bytes 13 and 14 in a<br>
+non-VLAN tagged frame) to be discarded by asserting<br>
+rx_w_err. Only frames 1518 bytes or less in length and<br>
+with a length field value between 46 and 1535 are tested.<br>
+VLAN tagged frames are also checked.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>PREAMBLE_CONVERT</TD> <TD>RW</TD> <TD>0</TD> <TD>When set, all accepted preamble bytes are converted to IEEE 802.3 preamble. When cleared, preamble is not converted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>ACCEPT_NSP</TD> <TD>RW</TD> <TD>0</TD> <TD>If set, both standard IEEE 802.3 preamble bytes and nonstandard preamble bytes are accepted. When cleared, only IEEE 802.3 preamble is accepted.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>PASS_PREAMBLE</TD> <TD>RW</TD> <TD>0</TD> <TD>When set, any accepted preamble is passed through to the RX FIFO interface with the frame data. When cleared, any accepted preamble bytes are stripped from the frame data before it is passed to the RX FIFO interface.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>DISCARD_PAUSE</TD> <TD>RW</TD> <TD>0</TD> <TD>Discard pause frames - when set, received valid PAUSE frames are not copied into the receive FIFO, even in promiscuous mode.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>ACCEPT_1536</TD> <TD>RW</TD> <TD>0</TD> <TD>Accept 1536 byte (VLAN tagged) frames - when set, frames 18 bytes longer then the standard 1518 frame will be accepted without generating a length error. If both bits 7 and 8 are low then frames up to 1518 bytes are accepted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>ACCEPT_JUMBO</TD> <TD>RW</TD> <TD>0</TD> <TD>Accept long (jumbo) frames - when set, frames of up to 10240 bytes will be accepted without generating a length error. There are various configuration options to change the default lengths for tagged and jumbo frames. These are explained under parameterization later on.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>FCS_REMOVE</TD> <TD>RW</TD> <TD>0</TD> <TD>FCS remove - when set, the FCS will not be copied into the FIFO. The EOP will be asserted on (or the status appended after) the last data byte.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>DISCARD_NON_VLAN</TD> <TD>RW</TD> <TD>0</TD> <TD>Discard non-VLAN frames - when set, only VLAN tagged frames will be passed to the address matching logic.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ENA_MATCH</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable external match - when set, frames will be copied into the FIFO if one of the three external address match pins are asserted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>ENA_HASH_UNI</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable hash unicast - when set, hash matches unicast frames are accepted.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>ENA_HASH_MULTI</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable hash multicast - when set, multicast frames are accepted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>DIS_BCST</TD> <TD>RW</TD> <TD>0</TD> <TD>Disable broadcast - when set, broadcast frames are ignored unless bit 0 is set.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>COPY_ALL</TD> <TD>RW</TD> <TD>0</TD> <TD>Copy all frames - when set, all valid frames are copied to the FIFO. Frames with errors will be discarded.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RX_HASH_BOTTOM"></a>
+<br><br><h4>RX Hash Register Bottom (MPIPE_XAUI_RX_HASH_BOTTOM: 0x8028)</h4>
+RX Hash Register Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RX_HASH_BOTTOM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HASH_LO</TD> <TD>RW</TD> <TD>0</TD> <TD>hash[31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RX_HASH_TOP"></a>
+<br><br><h4>RX Hash Register Top (MPIPE_XAUI_RX_HASH_TOP: 0x8030)</h4>
+RX Hash Register Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RX_HASH_TOP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HASH_HI</TD> <TD>RW</TD> <TD>0</TD> <TD>hash[63:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_0"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_0: 0x8038)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_0"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_0: 0x8040)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_1"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_1: 0x8048)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_1"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_1: 0x8050)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_2"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_2: 0x8058)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_2"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_2: 0x8060)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_3"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_3: 0x8068)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_3"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_3: 0x8070)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_4"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_4: 0x8078)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_4"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_4: 0x8080)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_5"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_5: 0x8088)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_5"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_5: 0x8090)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_5.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_6"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_6: 0x8098)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_6"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_6: 0x80a0)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_6.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_BOTTOM_7"></a>
+<br><br><h4>Exact Match - Bottom (MPIPE_XAUI_EXACT_MATCH_BOTTOM_7: 0x80a8)</h4>
+Exact Match - Bottom
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_BOTTOM_7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [31:0]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_EXACT_MATCH_TOP_7"></a>
+<br><br><h4>Exact Match - Top (MPIPE_XAUI_EXACT_MATCH_TOP_7: 0x80b0)</h4>
+Exact Match - Top
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_EXACT_MATCH_TOP_7.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Exact address [47:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TYPE_MATCH0"></a>
+<br><br><h4>Type Match (MPIPE_XAUI_TYPE_MATCH0: 0x80b8)</h4>
+Type Match
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TYPE_MATCH0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type matched frames</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type to match</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TYPE_MATCH1"></a>
+<br><br><h4>Type Match (MPIPE_XAUI_TYPE_MATCH1: 0x80c0)</h4>
+Type Match
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TYPE_MATCH1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type matched frames</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type to match</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TYPE_MATCH2"></a>
+<br><br><h4>Type Match (MPIPE_XAUI_TYPE_MATCH2: 0x80c8)</h4>
+Type Match
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TYPE_MATCH2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type matched frames</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type to match</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TYPE_MATCH3"></a>
+<br><br><h4>Type Match (MPIPE_XAUI_TYPE_MATCH3: 0x80d0)</h4>
+Type Match
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TYPE_MATCH3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type matched frames</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type to match</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_DIAG_INTERRUPT_STATUS"></a>
+<br><br><h4>Diagnostics Interrupt Status (MPIPE_XAUI_DIAG_INTERRUPT_STATUS: 0x80d8)</h4>
+Interrupt Status Register for MAC interrupt conditions.  This register has no effect on the MAC interrupts defined in XAUI_CFG_INT_STS
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_DIAG_INTERRUPT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>LPI</TD> <TD>RO</TD> <TD>0</TD> <TD>Receive LPI indication status bit changed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>EXT</TD> <TD>RO</TD> <TD>0</TD> <TD>External interrupt detected (conditions controlled by PCS_INT_MASK)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>LINK_STS_CHANGE</TD> <TD>RO</TD> <TD>0</TD> <TD>Link fault status change detected</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>MDIO_COMPLETE</TD> <TD>RO</TD> <TD>0</TD> <TD>PHY frame complete (MDIO)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>PAUSE_TX</TD> <TD>RO</TD> <TD>0</TD> <TD>PAUSE frame transmitted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>PAUSE_TO</TD> <TD>RO</TD> <TD>0</TD> <TD>PAUSE counter time out - interrupt triggered by either counter decrementing to zero, or being loaded with zero from an RX zero PAUSE frame.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>PAUSE_RX</TD> <TD>RO</TD> <TD>0</TD> <TD>Non-zero PAUSE frame received</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>STAT_OVFL</TD> <TD>RO</TD> <TD>0</TD> <TD>Statistics counter overflow</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>TX_ERR</TD> <TD>RO</TD> <TD>0</TD> <TD>TX error signal from TX FIFO interface</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>TX_UNDERFLOW</TD> <TD>RO</TD> <TD>0</TD> <TD>TX underflow</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>FRAME_TX</TD> <TD>RO</TD> <TD>0</TD> <TD>Frame transmitted</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>FRAME_RX</TD> <TD>RO</TD> <TD>0</TD> <TD>Frame Received</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_DIAG_INTERRUPT_MASK"></a>
+<br><br><h4>Interrupt Mask (MPIPE_XAUI_DIAG_INTERRUPT_MASK: 0x80e0)</h4>
+Interrupt Mask Register.  This register has no effect on the MAC interrupts defined in XAUI_CFG_INT_STS
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_DIAG_INTERRUPT_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>MASK</TD> <TD>RO</TD> <TD>fffh</TD> <TD>Interrupt mask</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_DIAG_INTERRUPT_ENABLE"></a>
+<br><br><h4>Interrupt Enable (MPIPE_XAUI_DIAG_INTERRUPT_ENABLE: 0x80e8)</h4>
+Interrupt Enable Register.  This register has no effect on the MAC interrupts defined in XAUI_CFG_INT_STS
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_DIAG_INTERRUPT_ENABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>ENA</TD> <TD>WO</TD> <TD>0</TD> <TD>Enable associated interrupt when written with a 1</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_DIAG_INTERRUPT_DISABLE"></a>
+<br><br><h4>Interrupt Disable (MPIPE_XAUI_DIAG_INTERRUPT_DISABLE: 0x80f0)</h4>
+Interrupt Disable Register.  This register has no effect on the MAC interrupts defined in XAUI_CFG_INT_STS
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_DIAG_INTERRUPT_DISABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>DIS</TD> <TD>WO</TD> <TD>0</TD> <TD>Disable associated interrupt when written with a 1</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_PAUSE_COUNT"></a>
+<br><br><h4>PAUSE Count (MPIPE_XAUI_PAUSE_COUNT: 0x80f8)</h4>
+PAUSE Count
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_PAUSE_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>TIMER</TD> <TD>RO</TD> <TD>0</TD> <TD>Current state of PAUSE timer for transmit channel</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_STATISTICS_CONTROL"></a>
+<br><br><h4>Statistics Control (MPIPE_XAUI_STATISTICS_CONTROL: 0x8100)</h4>
+Statistics Control
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_STATISTICS_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>READ</TD> <TD>WO</TD> <TD>0</TD> <TD>Read snapshot - writing a one means that the snapshot value of the statistics registers will be read back. Default is to read back the current value. Snapshot registers are not cleared on read.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>CAPTURE</TD> <TD>WO</TD> <TD>0</TD> <TD>Take snapshot - writing a one records the current value of all statistics registers in the snapshot registers and clears the statistics registers. This register is self clearing.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>CLEAR</TD> <TD>WO</TD> <TD>0</TD> <TD>Clear statistics registers - writing a one clears all the statistics registers. This register is self clearing.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>INC</TD> <TD>WO</TD> <TD>0</TD> <TD>Increment statistics registers - writing a one will increment the statistics registers by one for test purposes. This register is self clearing</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>TEST</TD> <TD>RW</TD> <TD>0</TD> <TD>Test mode write enable - writing a one to this bit means that the network statistics can be written to for test purposes, and enables writes to the interrupt status register.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_MDIO_CONTROL"></a>
+<br><br><h4>MDIO Control (MPIPE_XAUI_MDIO_CONTROL: 0x8108)</h4>
+MDIO Control
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MDIO_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:30</TD> <TD>CLS22</TD> <TD>RW</TD> <TD>0</TD> <TD>Must be written with 00 for a valid Clause 45 frame (01 for a Clause 22 frame).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:28</TD> <TD>OP</TD> <TD>RW</TD> <TD>0</TD> <TD>Operation. 10 is post read address increment. 01 is write. 00 is an address frame. 11 is read (for a Clause 22 frame 10 is read and 01 is write).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27:23</TD> <TD>PORT_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Port address</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22:18</TD> <TD>DEV_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Device address</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>M10</TD> <TD>RW</TD> <TD>0</TD> <TD>Must be written to 10.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>For a write operation, this is written with the data to be written to the PHY. After a read operation, this contains the data read from the PHY.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_MODULE_ID"></a>
+<br><br><h4>Module ID (MPIPE_XAUI_MODULE_ID: 0x81f8)</h4>
+Module ID
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_MODULE_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>ID</TD> <TD>RO</TD> <TD>3</TD> <TD>MAC ID number. Fixed to 0x0003.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>REV</TD> <TD>RO</TD> <TD>HW <TD>MAC revision number.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_OCTETS_LO"></a>
+<br><br><h4>Transmitted Octets (MPIPE_XAUI_TRANSMITTED_OCTETS_LO: 0x8200)</h4>
+Transmitted Octets in Frames Without Errors [31:0].  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_OCTETS_LO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_BYTES</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit octets in frames without errors [31:0]. The number of octets transmitted in valid frames of any type. This register is 45 bits and takes up two 32 bit locations. All valid frame octets are counted except those of PAUSE frames.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_OCTETS_HI"></a>
+<br><br><h4>Transmitted Octets (MPIPE_XAUI_TRANSMITTED_OCTETS_HI: 0x8208)</h4>
+Transmitted Octets in Frames Without Errors.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_OCTETS_HI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_BYTES</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit octets in frames without errors. All valid frame octets are counted except those of PAUSE frames.  Note that the octet counter is 44 bits in TileGx 9, 16, 36, and 72.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_FRAMES_LO"></a>
+<br><br><h4>Transmitted Frames (MPIPE_XAUI_TRANSMITTED_FRAMES_LO: 0x8210)</h4>
+Transmitted Frames Without Errors Excluding Pause Frames [31:0].  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_FRAMES_LO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete frames transmitted without error [31:0]. All valid frames are counted except PAUSE frames.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_FRAMES_HI"></a>
+<br><br><h4>Transmitted Frames (MPIPE_XAUI_TRANSMITTED_FRAMES_HI: 0x8218)</h4>
+Transmitted Frames Without Errors Excluding Pause Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_FRAMES_HI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted without error.  Note that the octet counter is 36 bits in TileGx 9, 16, 36, and 72.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_BROADCAST_FRAMES"></a>
+<br><br><h4>Transmitted Broadcast Frames (MPIPE_XAUI_TRANSMITTED_BROADCAST_FRAMES: 0x8220)</h4>
+Transmitted Broadcast Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_BROADCAST_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_BCST</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete broadcast frames transmitted without error [31:0]. All valid frames are counted except PAUSE frames. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_MULTICAST_FRAMES"></a>
+<br><br><h4>Transmitted Multicast Frames (MPIPE_XAUI_TRANSMITTED_MULTICAST_FRAMES: 0x8228)</h4>
+Transmitted Multicast Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_MULTICAST_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TX_MULTI</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete multicast frames transmitted without error [31:0]. All valid frames are counted except PAUSE frames 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_PAUSE_FRAMES"></a>
+<br><br><h4>Transmitted PAUSE Frames (MPIPE_XAUI_TRANSMITTED_PAUSE_FRAMES: 0x8230)</h4>
+Transmitted PAUSE Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_PAUSE_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>TX_PAUSE</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid PAUSE frames transmitted without error [15:0]. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_64_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>64 Byte Frames Transmitted (MPIPE_XAUI_64_BYTE_FRAMES_TRANSMITTED: 0x8238)</h4>
+64 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_64_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length exactly 64 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_65_127_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>65-127 Byte Frames Transmitted (MPIPE_XAUI_65_127_BYTE_FRAMES_TRANSMITTED: 0x8240)</h4>
+65-127 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_65_127_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length between 65 and 127 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_128_255_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>128-255 Byte Frames Transmitted (MPIPE_XAUI_128_255_BYTE_FRAMES_TRANSMITTED: 0x8248)</h4>
+128-255 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_128_255_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length between 128 and 255 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_256_511_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>256-511 Byte Frames Transmitted (MPIPE_XAUI_256_511_BYTE_FRAMES_TRANSMITTED: 0x8250)</h4>
+256-511 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_256_511_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length between 256 and 511 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_512_1023_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>512-1023 Byte Frames Transmitted (MPIPE_XAUI_512_1023_BYTE_FRAMES_TRANSMITTED: 0x8258)</h4>
+512-1023 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_512_1023_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length between 512 and 1023 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_1024_1518_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>1024-1518 Byte Frames Transmitted (MPIPE_XAUI_1024_1518_BYTE_FRAMES_TRANSMITTED: 0x8260)</h4>
+1024-1518 Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_1024_1518_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted with actual length between 1024 and 1518 bytes. PAUSE frames are not counted. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_1519_MAX_BYTE_FRAMES_TRANSMITTED"></a>
+<br><br><h4>1519-Max Byte Frames Transmitted (MPIPE_XAUI_1519_MAX_BYTE_FRAMES_TRANSMITTED: 0x8268)</h4>
+1519-Max Byte Frames Transmitted.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_1519_MAX_BYTE_FRAMES_TRANSMITTED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete valid frames transmitted without error with length greater than between 1519 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMITTED_ERROR_FRAMES"></a>
+<br><br><h4>Transmitted Error Frames (MPIPE_XAUI_TRANSMITTED_ERROR_FRAMES: 0x8270)</h4>
+Transmitted Error Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMITTED_ERROR_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete or incomplete frames transmitted. Error frames are complete frames with bad CRC and incomplete frames transmitted due to underflow or error detected from the upper layer after transmission has started. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_OCTETS_LO"></a>
+<br><br><h4>Received Octets Register Low (MPIPE_XAUI_RECEIVED_OCTETS_LO: 0x8278)</h4>
+Received Octets Register Low [31:0].  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_OCTETS_LO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>RX_BYTES</TD> <TD>RO</TD> <TD>0</TD> <TD>Octets received in frames without errors [31:0]. The number of octets received in valid frames of any type. This register is 45 bits and takes up two 32 bit locations.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_OCTETS_HI"></a>
+<br><br><h4>Received Octets Register High (MPIPE_XAUI_RECEIVED_OCTETS_HI: 0x8280)</h4>
+Received Octets Register High.  This register is cleared on read.  Note that the octet counter is 44 bits in TileGx 9, 16, 36, and 72.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_OCTETS_HI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>RX_BYTES</TD> <TD>RO</TD> <TD>0</TD> <TD>Octets received in frames without errors [44:32]</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_FRAMES_LO"></a>
+<br><br><h4>Received Frames Register Low [31:0 (MPIPE_XAUI_RECEIVED_FRAMES_LO: 0x8288)</h4>
+Received Frames Register Low [31:0].  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_FRAMES_LO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>RX_FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete frames received without error [31:0]. All frames are counted unless an error is detected.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_FRAMES_HI"></a>
+<br><br><h4>Received Frames Register High (MPIPE_XAUI_RECEIVED_FRAMES_HI: 0x8290)</h4>
+Received Frames Register High.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_FRAMES_HI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>RX_FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete frames received without error.  Note that the frame counter is 44 bits in TileGx 9, 16, 36, and 72.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_BROADCAST_FRAMES"></a>
+<br><br><h4>Received Broadcast Frames (MPIPE_XAUI_RECEIVED_BROADCAST_FRAMES: 0x8298)</h4>
+Received Broadcast Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_BROADCAST_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>BCST</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, valid, broadcast frames received without error. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_MULTICAST_FRAMES"></a>
+<br><br><h4>Received Multicast Frames (MPIPE_XAUI_RECEIVED_MULTICAST_FRAMES: 0x82a0)</h4>
+Received Multicast Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_MULTICAST_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MCST</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, valid, multicast frames received without error. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_PAUSE_FRAMES"></a>
+<br><br><h4>Received PAUSE Frames (MPIPE_XAUI_RECEIVED_PAUSE_FRAMES: 0x82a8)</h4>
+Received PAUSE Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_PAUSE_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>PAUSE</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete PAUSE frames received without error. All pause frames are counted even if ignored by the pause transmission logic. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_64_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>64 Byte Frames Received (MPIPE_XAUI_64_BYTE_FRAMES_RECEIVED: 0x82b0)</h4>
+64 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_64_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length exactly 64 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_65_127_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>65-127 Byte Frames Received (MPIPE_XAUI_65_127_BYTE_FRAMES_RECEIVED: 0x82b8)</h4>
+65-127 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_65_127_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 65 and 127 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_128_255_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>128-255 Byte Frames Received (MPIPE_XAUI_128_255_BYTE_FRAMES_RECEIVED: 0x82c0)</h4>
+128-255 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_128_255_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 128 and 255 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_256_511_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>256-511 Byte Frames Received (MPIPE_XAUI_256_511_BYTE_FRAMES_RECEIVED: 0x82c8)</h4>
+256-511 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_256_511_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 256 and 511 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_512_1023_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>512-1023 Byte Frames Received (MPIPE_XAUI_512_1023_BYTE_FRAMES_RECEIVED: 0x82d0)</h4>
+512-1023 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_512_1023_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 512 and 1023 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_1024_1518_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>1024-1518 Byte Frames Received (MPIPE_XAUI_1024_1518_BYTE_FRAMES_RECEIVED: 0x82d8)</h4>
+1024-1518 Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_1024_1518_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 1024 and 1518 bytes. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_1519_MAX_BYTE_FRAMES_RECEIVED"></a>
+<br><br><h4>1519-Max Byte Frames Received (MPIPE_XAUI_1519_MAX_BYTE_FRAMES_RECEIVED: 0x82e0)</h4>
+1519-Max Byte Frames Received.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_1519_MAX_BYTE_FRAMES_RECEIVED.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of complete, error free frames received with actual length between 1519 and max bytes. Max is the maximum frame size specified by bits 7 and 8 in the receive configuration register. 32 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_SHORT_FRAMES"></a>
+<br><br><h4>Received Short Frames (MPIPE_XAUI_RECEIVED_SHORT_FRAMES: 0x82e8)</h4>
+Received Short Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_SHORT_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of frames received which are less than 64 bytes in length and have good CRC. rx_w_err is asserted for short frames. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_OVERSIZE_FRAMES"></a>
+<br><br><h4>Received Oversize Frames (MPIPE_XAUI_RECEIVED_OVERSIZE_FRAMES: 0x82f0)</h4>
+Received Oversize Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_OVERSIZE_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of frames received with valid CRC which were greater than the maximum permitted frame size specified by bits 7 and 8 of the receive configuration register. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_JABBER_FRAMES"></a>
+<br><br><h4>Received Jabber Frames (MPIPE_XAUI_RECEIVED_JABBER_FRAMES: 0x82f8)</h4>
+Received Jabber Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_JABBER_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of frames received with bad CRC which were longer than the maximum size permitted by bits 7 and 8 of the receive configuration register. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_CRC_ERROR_FRAMES"></a>
+<br><br><h4>Received CRC Error Frames (MPIPE_XAUI_RECEIVED_CRC_ERROR_FRAMES: 0x8300)</h4>
+Received CRC Error Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_CRC_ERROR_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of legal length frames which had bad CRC. Short frames with bad CRC will not be counted. Long frames with bad CRC will be counted as jabbers. Note for the 104 release onwards this includes frames with symbol errors, for earlier releases this excludes frames with symbol errors. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_LENGTH_FIELD_ERROR_FRAMES"></a>
+<br><br><h4>Received Length Field Error Frames (MPIPE_XAUI_RECEIVED_LENGTH_FIELD_ERROR_FRAMES: 0x8308)</h4>
+Received Length Field Error Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_LENGTH_FIELD_ERROR_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of frames whose actual length does not match the length specified in the frame's length field. Only frames 1518 bytes or less in length and with a length field value between 46 and 1535 will be tested for length field errors. 16 bits.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_SYMBOL_CODE_ERROR_FRAMES"></a>
+<br><br><h4>Received Symbol/Code Error Frames (MPIPE_XAUI_RECEIVED_SYMBOL_CODE_ERROR_FRAMES: 0x8310)</h4>
+Received Symbol/Code Error Frames.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_SYMBOL_CODE_ERROR_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of frames in which a symbol error is signaled by the PHY via XGMII during reception of data. Only the first symbol error in any one frame is counted. 16 bits</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_LPI"></a>
+<br><br><h4>Received LPI (MPIPE_XAUI_RECEIVED_LPI: 0x8318)</h4>
+Received LPI transitions..  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_LPI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>A count of the number of times there is a transition from receiving normal idle to receiving low power idle. Cleared on read.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_RECEIVED_LPI_TIME"></a>
+<br><br><h4>Received LPI time (MPIPE_XAUI_RECEIVED_LPI_TIME: 0x8320)</h4>
+Received LPI timer.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_RECEIVED_LPI_TIME.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>This register increments once every 102.4 ns when the LPI indication bit 20 is set in the receive configuration register. Cleared on read.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMIT_LPI"></a>
+<br><br><h4>Transmit LPI (MPIPE_XAUI_TRANSMIT_LPI: 0x8328)</h4>
+Transmit LPI transitions.  This register is cleared on read.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMIT_LPI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>A count of the number of times the enable LPI transmission bit 20 goes from low to high in the transmit control register.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_XAUI_TRANSMIT_LPI_TIME"></a>
+<br><br><h4>Transmit LPI time (MPIPE_XAUI_TRANSMIT_LPI_TIME: 0x8330)</h4>
+Transmit LPI timer.
+<br><img src="mpipe_xaui_pics/MPIPE_XAUI_TRANSMIT_LPI_TIME.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>This register increments once every 102.4 ns when the enable LPI transmission bit 20 is set in the transmit control register. Cleared on read.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

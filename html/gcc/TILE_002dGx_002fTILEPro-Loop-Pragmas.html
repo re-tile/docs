@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>TILE-Gx/TILEPro Loop Pragmas - Using the GNU Compiler Collection (GCC)</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="Using the GNU Compiler Collection (GCC)">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Target-Builtins.html#Target-Builtins" title="Target Builtins">
+<link rel="prev" href="TILEPro-Built_002din-Functions.html#TILEPro-Built_002din-Functions" title="TILEPro Built-in Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+2008 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Funding Free Software'', the Front-Cover
+Texts being (a) (see below), and with the Back-Cover Texts being (b)
+(see below).  A copy of the license is included in the section entitled
+``GNU Free Documentation License''.
+
+(a) The FSF's Front-Cover Text is:
+
+     A GNU Manual
+
+(b) The FSF's Back-Cover Text is:
+
+     You have freedom to copy and modify this GNU Manual, like GNU
+     software.  Copies published by the Free Software Foundation raise
+     funds for GNU development.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="TILE-Gx%2fTILEPro-Loop-Pragmas"></a>
+<a name="TILE_002dGx_002fTILEPro-Loop-Pragmas"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="TILEPro-Built_002din-Functions.html#TILEPro-Built_002din-Functions">TILEPro Built-in Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Target-Builtins.html#Target-Builtins">Target Builtins</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.51.17 TILE-Gx/TILEPro Loop Pragmas</h4>
+
+<p>Both TILE-Gx/TILEPro support the following pragmas that facilitate the
+compilation of loops:
+
+     <dl>
+<dt><code>#pragma unroll </code><var>n</var><dd>
+The user can provide unrolling hints by placing a <code>#pragma unroll
+n</code> immediately before the loop, where <var>n</var> is a constant specifying
+the unroll factor.  The pragma applies to inner loops.  If <var>n</var> is
+0 or 1, this tells the compiler not to unroll the loop.  Note that the
+unroll pragma will only be processed if the optimization level is at
+<samp><span class="option">-O2</span></samp> or above (it applies at <samp><span class="option">-Os</span></samp> also). The compiler
+will usually respect the unrolling request, but may make minor
+adjustment to the unroll factor in certain cases (e.g. make it a power
+of two to simplify code for cleanup iterations).
+
+     <p>If the compiler fails to find a matching loop for a pragma, it emits a
+warning. This warning can be disabled with the flag
+<samp><span class="option">-Wno-unmatched-loop-pragmas</span></samp>. Note that loop optimizations
+(full unrolling, interchange, fusion) may change the code sufficiently
+to cause a pragma to have no matching loop.
+
+     <br><dt><code>#pragma must_iterate [</code><var>min</var><code>] [, [</code><var>max</var><code>] [, [</code><var>multiple</var><code>]]]</code><dd>
+The must_iterate pragma is placed before an inner loop, and it tells
+the compiler information about the number of times the loop will
+execute. The compiler may then optimize the loop using these
+assumptions.
+
+     <p>In the pragma, <var>min</var> is the minimum number of iterations,
+<var>max</var> is the maximum number of iterations, and the number of
+iterations must be evenly divisible by <var>multiple</var>. All the fields
+in the pragma are optional; an empty field implies no information on
+that variable.
+
+     <p>If the compiler fails to find a matching loop for a pragma, it emits a
+warning. This warning can be disabled with the flag
+<samp><span class="option">-Wno-unmatched-loop-pragmas</span></samp>. Note that loop optimizations
+(full unrolling, interchange, fusion) may change the code sufficiently
+to cause a pragma to have no matching loop. 
+</dl>
+
+ </body></html>
+

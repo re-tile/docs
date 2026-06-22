@@ -1,0 +1,1593 @@
+<html>
+<title>trio_pcie_rc Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>PCIe MAC RC (0x0000-0x016c) : </b> 
+These registers are the PCIe configuration space for the MAC when in root complex mode.<br><br>
+<li><b>PCIe MAC Device Specific (0x0700-0x091c) : </b> 
+These registers are part of PCIe extended configuration space and provide access to the MAC's device-specific features.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#TRIO_PCIE_RC_DEVICE_ID_VEN_ID">TRIO_PCIE_RC_DEVICE_ID_VEN_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0004<TD><a href="#TRIO_PCIE_RC_COMMAND">TRIO_PCIE_RC_COMMAND</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0006<TD><a href="#TRIO_PCIE_RC_STATUS">TRIO_PCIE_RC_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#TRIO_PCIE_RC_REVISION_ID">TRIO_PCIE_RC_REVISION_ID</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0009<TD><a href="#TRIO_PCIE_RC_CLASS_CODE">TRIO_PCIE_RC_CLASS_CODE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>000c<TD><a href="#TRIO_PCIE_RC_CACHE_LINE_SIZE">TRIO_PCIE_RC_CACHE_LINE_SIZE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>000d<TD><a href="#TRIO_PCIE_RC_MASTER_LATENCY_TIMER">TRIO_PCIE_RC_MASTER_LATENCY_TIMER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>000e<TD><a href="#TRIO_PCIE_RC_HDR_TYPE">TRIO_PCIE_RC_HDR_TYPE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>000f<TD><a href="#TRIO_PCIE_RC_BIST">TRIO_PCIE_RC_BIST</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0010<TD><a href="#TRIO_PCIE_RC_BASE_ADDR0">TRIO_PCIE_RC_BASE_ADDR0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0014<TD><a href="#TRIO_PCIE_RC_BASE_ADDR1">TRIO_PCIE_RC_BASE_ADDR1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#TRIO_PCIE_RC_BUS_NUMBERS">TRIO_PCIE_RC_BUS_NUMBERS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>001c<TD><a href="#TRIO_PCIE_RC_IO_BASE_IO_LIMIT">TRIO_PCIE_RC_IO_BASE_IO_LIMIT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>001e<TD><a href="#TRIO_PCIE_RC_SECONDARY_STATUS">TRIO_PCIE_RC_SECONDARY_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0020<TD><a href="#TRIO_PCIE_RC_MEMORY_BASE_MEMORY_LIMIT">TRIO_PCIE_RC_MEMORY_BASE_MEMORY_LIMIT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0024<TD><a href="#TRIO_PCIE_RC_PREF_MEM_BASE_LIMIT">TRIO_PCIE_RC_PREF_MEM_BASE_LIMIT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0028<TD><a href="#TRIO_PCIE_RC_PREF_BASE_UPPER">TRIO_PCIE_RC_PREF_BASE_UPPER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>002c<TD><a href="#TRIO_PCIE_RC_PREF_LIM_UPPER">TRIO_PCIE_RC_PREF_LIM_UPPER</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0030<TD><a href="#TRIO_PCIE_RC_IO_BASE_LIM_UPPER">TRIO_PCIE_RC_IO_BASE_LIM_UPPER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0034<TD><a href="#TRIO_PCIE_RC_CAP_PTR">TRIO_PCIE_RC_CAP_PTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0038<TD><a href="#TRIO_PCIE_RC_EXPANSION_ROM_BASE_ADDRESS">TRIO_PCIE_RC_EXPANSION_ROM_BASE_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>003c<TD><a href="#TRIO_PCIE_RC_INTERRUPT_LINE">TRIO_PCIE_RC_INTERRUPT_LINE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>003d<TD><a href="#TRIO_PCIE_RC_INTERRUPT_PIN">TRIO_PCIE_RC_INTERRUPT_PIN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>003e<TD><a href="#TRIO_PCIE_RC_BRIDGE_CONTROL">TRIO_PCIE_RC_BRIDGE_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0040<TD><a href="#TRIO_PCIE_RC_PM_CAP_ID">TRIO_PCIE_RC_PM_CAP_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0041<TD><a href="#TRIO_PCIE_RC_PM_NEXT_ITEM_PTR">TRIO_PCIE_RC_PM_NEXT_ITEM_PTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0042<TD><a href="#TRIO_PCIE_RC_PM_CAP">TRIO_PCIE_RC_PM_CAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0044<TD><a href="#TRIO_PCIE_RC_POWER_MANAGEMENT_CTLSTATUS">TRIO_PCIE_RC_POWER_MANAGEMENT_CTLSTATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0050<TD><a href="#TRIO_PCIE_RC_MSI_CAP_ID">TRIO_PCIE_RC_MSI_CAP_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0050<TD><a href="#TRIO_PCIE_RC_MSI_NEXT_ITEM_PTR">TRIO_PCIE_RC_MSI_NEXT_ITEM_PTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0052<TD><a href="#TRIO_PCIE_RC_MSI_CONTROL">TRIO_PCIE_RC_MSI_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0054<TD><a href="#TRIO_PCIE_RC_MSI_LOWER_32_BITS_ADDRESS">TRIO_PCIE_RC_MSI_LOWER_32_BITS_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0058<TD><a href="#TRIO_PCIE_RC_MSI_UPPER_32_BITS_ADDRESS">TRIO_PCIE_RC_MSI_UPPER_32_BITS_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>005c<TD><a href="#TRIO_PCIE_RC_MSI_DATA">TRIO_PCIE_RC_MSI_DATA</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0070<TD><a href="#TRIO_PCIE_RC_PCIE_CAP_ID">TRIO_PCIE_RC_PCIE_CAP_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0071<TD><a href="#TRIO_PCIE_RC_PCIE_NEXT_ITEM_PTR">TRIO_PCIE_RC_PCIE_NEXT_ITEM_PTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0072<TD><a href="#TRIO_PCIE_RC_PCI_EXPRESS_CAP">TRIO_PCIE_RC_PCI_EXPRESS_CAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0074<TD><a href="#TRIO_PCIE_RC_DEVICE_CAP">TRIO_PCIE_RC_DEVICE_CAP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0078<TD><a href="#TRIO_PCIE_RC_DEVICE_CONTROL">TRIO_PCIE_RC_DEVICE_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>007a<TD><a href="#TRIO_PCIE_RC_DEVICE_STATUS">TRIO_PCIE_RC_DEVICE_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>007c<TD><a href="#TRIO_PCIE_RC_LINK_CAP">TRIO_PCIE_RC_LINK_CAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0080<TD><a href="#TRIO_PCIE_RC_LINK_CONTROL">TRIO_PCIE_RC_LINK_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0082<TD><a href="#TRIO_PCIE_RC_LINK_STATUS">TRIO_PCIE_RC_LINK_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0084<TD><a href="#TRIO_PCIE_RC_SLOT_CAP">TRIO_PCIE_RC_SLOT_CAP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0088<TD><a href="#TRIO_PCIE_RC_SLOT_CONTROL">TRIO_PCIE_RC_SLOT_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>008a<TD><a href="#TRIO_PCIE_RC_SLOT_STATUS">TRIO_PCIE_RC_SLOT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>008c<TD><a href="#TRIO_PCIE_RC_ROOT_CONTROL">TRIO_PCIE_RC_ROOT_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>008e<TD><a href="#TRIO_PCIE_RC_ROOT_CAP">TRIO_PCIE_RC_ROOT_CAP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0090<TD><a href="#TRIO_PCIE_RC_ROOT_STATUS">TRIO_PCIE_RC_ROOT_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0094<TD><a href="#TRIO_PCIE_RC_DEVICE_CAP_2">TRIO_PCIE_RC_DEVICE_CAP_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0098<TD><a href="#TRIO_PCIE_RC_DEVICE_CTL2">TRIO_PCIE_RC_DEVICE_CTL2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>009c<TD><a href="#TRIO_PCIE_RC_LINK_CAP_2">TRIO_PCIE_RC_LINK_CAP_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00a0<TD><a href="#TRIO_PCIE_RC_LINK_CTL2">TRIO_PCIE_RC_LINK_CTL2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00a2<TD><a href="#TRIO_PCIE_RC_LINK_STATUS_2">TRIO_PCIE_RC_LINK_STATUS_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00b0<TD><a href="#TRIO_PCIE_RC_MSI_X_CAP_ID">TRIO_PCIE_RC_MSI_X_CAP_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00b1<TD><a href="#TRIO_PCIE_RC_MSI_X_NEXT_ITEM_PTR">TRIO_PCIE_RC_MSI_X_NEXT_ITEM_PTR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00b2<TD><a href="#TRIO_PCIE_RC_MSI_X_CONTROL">TRIO_PCIE_RC_MSI_X_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00b4<TD><a href="#TRIO_PCIE_RC_MSI_X_TABLE_OFFSET_BIR">TRIO_PCIE_RC_MSI_X_TABLE_OFFSET_BIR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00b8<TD><a href="#TRIO_PCIE_RC_MSI_X_PBA_OFFSET_BIR">TRIO_PCIE_RC_MSI_X_PBA_OFFSET_BIR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>00c0<TD><a href="#TRIO_PCIE_RC_SLOT_NUMBERING_CAP">TRIO_PCIE_RC_SLOT_NUMBERING_CAP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>00d0<TD><a href="#TRIO_PCIE_RC_VPD_CTLCAP">TRIO_PCIE_RC_VPD_CTLCAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0100<TD><a href="#TRIO_PCIE_RC_AER_EXT_CAP_HDR">TRIO_PCIE_RC_AER_EXT_CAP_HDR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0104<TD><a href="#TRIO_PCIE_RC_UNCORRECTABLE_ERROR_STATUS">TRIO_PCIE_RC_UNCORRECTABLE_ERROR_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0108<TD><a href="#TRIO_PCIE_RC_UNCORRECTABLE_ERROR_MASK">TRIO_PCIE_RC_UNCORRECTABLE_ERROR_MASK</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0108<TD><a href="#TRIO_PCIE_RC_UNCORRECTABLE_ERROR_SEVERITY">TRIO_PCIE_RC_UNCORRECTABLE_ERROR_SEVERITY</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0110<TD><a href="#TRIO_PCIE_RC_CORRECTABLE_ERROR_STATUS">TRIO_PCIE_RC_CORRECTABLE_ERROR_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0114<TD><a href="#TRIO_PCIE_RC_CORRECTABLE_ERROR_MASK">TRIO_PCIE_RC_CORRECTABLE_ERROR_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0118<TD><a href="#TRIO_PCIE_RC_ADVANCED_CAP_CONTROL">TRIO_PCIE_RC_ADVANCED_CAP_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>011c<TD><a href="#TRIO_PCIE_RC_HDR_LOG">TRIO_PCIE_RC_HDR_LOG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>012c<TD><a href="#TRIO_PCIE_RC_ROOT_ERROR_COMMAND">TRIO_PCIE_RC_ROOT_ERROR_COMMAND</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0130<TD><a href="#TRIO_PCIE_RC_ROOT_ERROR_STATUS">TRIO_PCIE_RC_ROOT_ERROR_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0134<TD><a href="#TRIO_PCIE_RC_ERROR_SOURCE_IDENTIFICATION">TRIO_PCIE_RC_ERROR_SOURCE_IDENTIFICATION</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0140<TD><a href="#TRIO_PCIE_RC_VC_EXT_CAP_HDR">TRIO_PCIE_RC_VC_EXT_CAP_HDR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0144<TD><a href="#TRIO_PCIE_RC_PORT_VC_CAP_1">TRIO_PCIE_RC_PORT_VC_CAP_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0148<TD><a href="#TRIO_PCIE_RC_PORT_VC_CAP_2">TRIO_PCIE_RC_PORT_VC_CAP_2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>014c<TD><a href="#TRIO_PCIE_RC_PORT_VC_CONTROL">TRIO_PCIE_RC_PORT_VC_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>014e<TD><a href="#TRIO_PCIE_RC_PORT_VC_STATUS">TRIO_PCIE_RC_PORT_VC_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0150<TD><a href="#TRIO_PCIE_RC_VC_RESOURCE_CAP_0">TRIO_PCIE_RC_VC_RESOURCE_CAP_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0154<TD><a href="#TRIO_PCIE_RC_VC_RESOURCE_CTL0">TRIO_PCIE_RC_VC_RESOURCE_CTL0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>015a<TD><a href="#TRIO_PCIE_RC_VC_RESOURCE_STATUS_0">TRIO_PCIE_RC_VC_RESOURCE_STATUS_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0164<TD><a href="#TRIO_PCIE_RC_POWER_BUDGETING_EXT_CAP_HDR">TRIO_PCIE_RC_POWER_BUDGETING_EXT_CAP_HDR</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0164<TD><a href="#TRIO_PCIE_RC_DATA_SELECT">TRIO_PCIE_RC_DATA_SELECT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0168<TD><a href="#TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_CAP">TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_CAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0168<TD><a href="#TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_EXT_CAP_HDR">TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_EXT_CAP_HDR</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0168<TD><a href="#TRIO_PCIE_RC_SERIAL_NUMBERS">TRIO_PCIE_RC_SERIAL_NUMBERS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>016c<TD><a href="#TRIO_PCIE_RC_POWER_BUDGET_CAP">TRIO_PCIE_RC_POWER_BUDGET_CAP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0700<TD><a href="#TRIO_PCIE_RC_ACK_LATENCY_TIMER_REPLAY_TIMER">TRIO_PCIE_RC_ACK_LATENCY_TIMER_REPLAY_TIMER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0704<TD><a href="#TRIO_PCIE_RC_OTHER_MESSAGE">TRIO_PCIE_RC_OTHER_MESSAGE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0708<TD><a href="#TRIO_PCIE_RC_PORT_FORCE_LINK">TRIO_PCIE_RC_PORT_FORCE_LINK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>070c<TD><a href="#TRIO_PCIE_RC_ACK_FREQUENCY_L0_L1_ASPM_CONTROL">TRIO_PCIE_RC_ACK_FREQUENCY_L0_L1_ASPM_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0710<TD><a href="#TRIO_PCIE_RC_PORT_LINK_CONTROL">TRIO_PCIE_RC_PORT_LINK_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0714<TD><a href="#TRIO_PCIE_RC_LANE_SKEW">TRIO_PCIE_RC_LANE_SKEW</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0718<TD><a href="#TRIO_PCIE_RC_SYMBOL_NUMBER">TRIO_PCIE_RC_SYMBOL_NUMBER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>071c<TD><a href="#TRIO_PCIE_RC_SYMBOL_TIMER_FILTER_MASK_1">TRIO_PCIE_RC_SYMBOL_TIMER_FILTER_MASK_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>071c<TD><a href="#TRIO_PCIE_RC_FILTER_MASK_1">TRIO_PCIE_RC_FILTER_MASK_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0720<TD><a href="#TRIO_PCIE_RC_FILTER_MASK_2">TRIO_PCIE_RC_FILTER_MASK_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0728<TD><a href="#TRIO_PCIE_RC_DEBUG_0">TRIO_PCIE_RC_DEBUG_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>072c<TD><a href="#TRIO_PCIE_RC_DEBUG_1">TRIO_PCIE_RC_DEBUG_1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0734<TD><a href="#TRIO_PCIE_RC_TRANSMIT_POSTED_FC_CREDIT_STATUS">TRIO_PCIE_RC_TRANSMIT_POSTED_FC_CREDIT_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0734<TD><a href="#TRIO_PCIE_RC_TRANSMIT_NON_POSTED_FC_CREDIT_STATUS">TRIO_PCIE_RC_TRANSMIT_NON_POSTED_FC_CREDIT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>073c<TD><a href="#TRIO_PCIE_RC_TRANSMIT_COMPLETION_FC_CREDIT_STATUS">TRIO_PCIE_RC_TRANSMIT_COMPLETION_FC_CREDIT_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>073c<TD><a href="#TRIO_PCIE_RC_QUEUE_STATUS">TRIO_PCIE_RC_QUEUE_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0748<TD><a href="#TRIO_PCIE_RC_VC0_POSTED_RECEIVE_QUEUE_CONTROL">TRIO_PCIE_RC_VC0_POSTED_RECEIVE_QUEUE_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>074c<TD><a href="#TRIO_PCIE_RC_VC0_NON_POSTED_RECEIVE_QUEUE_CONTROL">TRIO_PCIE_RC_VC0_NON_POSTED_RECEIVE_QUEUE_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0750<TD><a href="#TRIO_PCIE_RC_VC0_COMPLETION_RECEIVE_QUEUE_CONTROL">TRIO_PCIE_RC_VC0_COMPLETION_RECEIVE_QUEUE_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>07a8<TD><a href="#TRIO_PCIE_RC_VC0_POSTED_BUF_DEPTH_CONTROL">TRIO_PCIE_RC_VC0_POSTED_BUF_DEPTH_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>07ac<TD><a href="#TRIO_PCIE_RC_VC0_NON_POSTED_BUF_DEPTH_CONTROL">TRIO_PCIE_RC_VC0_NON_POSTED_BUF_DEPTH_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>07b0<TD><a href="#TRIO_PCIE_RC_VC0_COMPLETION_BUF_DEPTH_CONTROL">TRIO_PCIE_RC_VC0_COMPLETION_BUF_DEPTH_CONTROL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>080c<TD><a href="#TRIO_PCIE_RC_GEN2_CONTROL">TRIO_PCIE_RC_GEN2_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0820<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_ADDRESS">TRIO_PCIE_RC_MSI_CONTROLLER_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0824<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_UPPER_ADDRESS">TRIO_PCIE_RC_MSI_CONTROLLER_UPPER_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0828-087f<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_ENABLE">TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_ENABLE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>082c-0883<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_MASK">TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0830-0887<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_STATUS">TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0888<TD><a href="#TRIO_PCIE_RC_MSI_CONTROLLER_GENERAL_PURPOSE_IO">TRIO_PCIE_RC_MSI_CONTROLLER_GENERAL_PURPOSE_IO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0900<TD><a href="#TRIO_PCIE_RC_IATU_VIEWPORT">TRIO_PCIE_RC_IATU_VIEWPORT</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0900<TD><a href="#TRIO_PCIE_RC_IATU_MAP">TRIO_PCIE_RC_IATU_MAP</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0904<TD><a href="#TRIO_PCIE_RC_IATU_REGION_CTL1">TRIO_PCIE_RC_IATU_REGION_CTL1</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0908<TD><a href="#TRIO_PCIE_RC_IATU_REGION_CTL2">TRIO_PCIE_RC_IATU_REGION_CTL2</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0914<TD><a href="#TRIO_PCIE_RC_IATU_LOWER_BASE_ADDRESS">TRIO_PCIE_RC_IATU_LOWER_BASE_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0914<TD><a href="#TRIO_PCIE_RC_IATU_UPPER_BASE_ADDRESS">TRIO_PCIE_RC_IATU_UPPER_BASE_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0914<TD><a href="#TRIO_PCIE_RC_IATU_LIMIT_ADDRESS">TRIO_PCIE_RC_IATU_LIMIT_ADDRESS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>091c<TD><a href="#TRIO_PCIE_RC_IATU_OUTBOUND_REGION_LO_ADDRESS">TRIO_PCIE_RC_IATU_OUTBOUND_REGION_LO_ADDRESS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>091c<TD><a href="#TRIO_PCIE_RC_IATU_UPPER_TARGET_ADDRESS">TRIO_PCIE_RC_IATU_UPPER_TARGET_ADDRESS</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="TRIO_PCIE_RC_DEVICE_ID_VEN_ID"></a>
+<br><br><h4>Device ID and Vendor ID Register (TRIO_PCIE_RC_DEVICE_ID_VEN_ID: 0x0000)</h4>
+Device ID and Vendor ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_ID_VEN_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>DEV_ID</TD> <TD>RO</TD> <TD>0</TD> <TD>Device ID, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>VEN_ID</TD> <TD>RO</TD> <TD>0</TD> <TD>Vendor ID, writable through the MAC_STANDARD interface </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_COMMAND"></a>
+<br><br><h4>Command Register (TRIO_PCIE_RC_COMMAND: 0x0004)</h4>
+Command Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_COMMAND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>INTX_ASSERTION_DISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>FAST_BACK_TO_BACK_ENABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Must be hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>SERR_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>IDSEL</TD> <TD>RO</TD> <TD>0</TD> <TD>IDSEL Stepping/ Wait Cycle Control Not applicable for PCI Express. Must be hardwired to 0  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>PARITY_ERROR_RESPONSE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>VGA_PALETTE_SNOOP</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Must be hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>MEMORY_WRITE_INVALIDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Must be hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>SPECIAL_CYCLE_ENABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Must be hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>BUS_MASTER_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>MEMORY_SPACE_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>I_O_SPACE_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_STATUS"></a>
+<br><br><h4>Status Register (TRIO_PCIE_RC_STATUS: 0x0006)</h4>
+Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>DETECTED_PARITY_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>SIGNALED_SYSTEM_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>RECEIVED_MASTER_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>RECEIVED_TARGET_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>SIGNALED_TARGET_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:9</TD> <TD>DEVSEL_TIMING</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>MASTER_DATA_PARITY_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>FAST_BACK_TO_BACK_CAPABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>IS_66_MHZ_CAPABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express. Hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>CAP_LIST</TD> <TD>RO</TD> <TD>1</TD> <TD>Indicates presence of an extended capability item. Hardwired to 1.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>INTX_STATUS</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_REVISION_ID"></a>
+<br><br><h4>Revision ID Register (TRIO_PCIE_RC_REVISION_ID: 0x0008)</h4>
+Revision ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_REVISION_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Revision ID, writable through the MAC_STANDARD interface Bytes: 13  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_CLASS_CODE"></a>
+<br><br><h4>Class Code Register (TRIO_PCIE_RC_CLASS_CODE: 0x0009)</h4>
+Class Code Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_CLASS_CODE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>BASE_CLASS</TD> <TD>RO</TD> <TD>0</TD> <TD>Base Class Code, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>SUBCLASS</TD> <TD>RO</TD> <TD>0</TD> <TD>Subclass Code, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PGM_INTFC</TD> <TD>RO</TD> <TD>0</TD> <TD>Programming Interface, writable through the MAC_STANDARD interface </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_CACHE_LINE_SIZE"></a>
+<br><br><h4>Cache Line Size Register (TRIO_PCIE_RC_CACHE_LINE_SIZE: 0x000c)</h4>
+Cache Line Size Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_CACHE_LINE_SIZE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>CACHE_LINE_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>The Cache Line Size register is RW for legacy compatibility  purposes and is not applicable to PCI Express device  functionality. Writing to the Cache Line Size register does not  impact functionality of the MAC.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MASTER_LATENCY_TIMER"></a>
+<br><br><h4>Master Latency Timer Register (TRIO_PCIE_RC_MASTER_LATENCY_TIMER: 0x000d)</h4>
+Master Latency Timer Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MASTER_LATENCY_TIMER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>MASTER_LATENCY_TIMER</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable for PCI Express, hardwired to 0.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_HDR_TYPE"></a>
+<br><br><h4>Header Type Register (TRIO_PCIE_RC_HDR_TYPE: 0x000e)</h4>
+Header Type Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_HDR_TYPE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>MULTI_FUNCTION_DEVICE</TD> <TD>RO</TD> <TD>0</TD> <TD>The default value is 0 for a single function device. The Multi Function Device bit is  writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>CONFIGURATION_HDR_FORMAT</TD> <TD>RO</TD> <TD>1</TD> <TD>Hardwired to 0x01.  Byte: 3  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_BIST"></a>
+<br><br><h4>BIST Register (TRIO_PCIE_RC_BIST: 0x000f)</h4>
+BIST Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_BIST.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>BIST</TD> <TD>RO</TD> <TD>0</TD> <TD>The BIST register functions are not supported by the MAC. All 8 bits of the BIST register are hardwired to 0.</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_BASE_ADDR0"></a>
+<br><br><h4>Base Address Register 0 (TRIO_PCIE_RC_BASE_ADDR0: 0x0010)</h4>
+Base Address Register 0
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_BASE_ADDR0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:4</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>BAR 0 base address bits (for a 64-bit BAR, the remaining upper address bits are in BAR 1). The BAR 0 Mask value determines which address bits are masked (e.g. this field is writable from MAC_PROTECTED space to control BAR size or from the MAC_STANDARD interface to set bar value). </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PREF</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates if the memory region is prefetchable:   0 = Non-prefetchable   1 = Prefetchable.  If BAR 0 is an I/O BAR, bit 3 is the second least significant bit of the base address. Bits [3:0] are writable through the MAC_STANDARD interface.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:1</TD> <TD>IS_64_BIT</TD> <TD>RW</TD> <TD>0</TD> <TD>Bits [2:1] determine the BAR type:   00 = 32-bit BAR   10 = 64-bit BAR.  If BAR 0 is an I/O BAR, bit 2 the least significant bit  of the base address and bit 1 is 0.  Bits [3:0] are writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>MEM</TD> <TD>RW</TD> <TD>0</TD> <TD>1 = BAR 0 is an I/O BAR  Bits [3:0] are writable through the MAC_STANDARD interface. </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_BASE_ADDR1"></a>
+<br><br><h4>Base Address Register 1 (TRIO_PCIE_RC_BASE_ADDR1: 0x0014)</h4>
+Base Address Register 1
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_BASE_ADDR1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPPER_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>BAR 1 contains the upper 32 bits of the BAR 0 base address (bits [63:32]).  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_BUS_NUMBERS"></a>
+<br><br><h4>Bus Number Registers (TRIO_PCIE_RC_BUS_NUMBERS: 0x0018)</h4>
+Bus Number Registers
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_BUS_NUMBERS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>SECONDARY_LATENCY_TIMER</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0x00.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>SUBORDINATE_BUS_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>SECONDARY_BUS_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>PRIMARY_BUS_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IO_BASE_IO_LIMIT"></a>
+<br><br><h4>IO Base and I/O Limit Register (TRIO_PCIE_RC_IO_BASE_IO_LIMIT: 0x001c)</h4>
+IO Base and I/O Limit Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IO_BASE_IO_LIMIT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:12</TD> <TD>I_O_SPACE_LIMIT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>USE_32_BIT_IO_SPACE_CPY</TD> <TD>RO</TD> <TD>0</TD> <TD> 0 = 16-bit I/O addressing   1 = 32-bit I/O addressing  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>I_O_SPACE_BASE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>USE_32_BIT_IO_SPACE</TD> <TD>RO</TD> <TD>0</TD> <TD> 0 = 16-bit I/O addressing   1 = 32-bit I/O addressing  This bit is writable through the MAC_STANDARD interface. When the  application writes to this bit through the MAC_STANDARD interface, the same  value is written to bit 8 of this register.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SECONDARY_STATUS"></a>
+<br><br><h4>Secondary Status Register (TRIO_PCIE_RC_SECONDARY_STATUS: 0x001e)</h4>
+Secondary Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SECONDARY_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>DETECTED_PARITY_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>RECEIVED_SYSTEM_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>RECEIVED_MASTER_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>RECEIVED_TARGET_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>SIGNALED_TARGET_ABORT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:9</TD> <TD>DEVSEL_TIMING</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>MASTER_DATA_PARITY_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>FAST_BACK_TO_BACK_CAPABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>IS_66_MHZ_CAPABLE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MEMORY_BASE_MEMORY_LIMIT"></a>
+<br><br><h4>Memory Base and Memory Limit Register (TRIO_PCIE_RC_MEMORY_BASE_MEMORY_LIMIT: 0x0020)</h4>
+Memory Base and Memory Limit Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MEMORY_BASE_MEMORY_LIMIT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:20</TD> <TD>MEMORY_LIMIT_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:4</TD> <TD>MEMORY_BASE_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PREF_MEM_BASE_LIMIT"></a>
+<br><br><h4>Prefetchable Memory Base and Limit Register (TRIO_PCIE_RC_PREF_MEM_BASE_LIMIT: 0x0024)</h4>
+Prefetchable Memory Base and Limit Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PREF_MEM_BASE_LIMIT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32:20</TD> <TD>LIM_ADDR_MSB</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 12 bits of 32-bit Prefetchable Memory End Address  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>USE_64_CPY</TD> <TD>RO</TD> <TD>0</TD> <TD> 0 = 32-bit memory addressing   1 = 64-bit memory addressing  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:4</TD> <TD>BASE_ADDR_MSB</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 12 bits of 32-bit Prefetchable Memory Start Address  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>USE_64</TD> <TD>RO</TD> <TD>0</TD> <TD> 0 = 32-bit memory addressing   1 = 64-bit memory addressing  This bit is writable through the MAC_STANDARD interface. When the  application writes to this bit through the MAC_STANDARD interface, the same  value is written to bit 16 of this register.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PREF_BASE_UPPER"></a>
+<br><br><h4>Prefetchable Base Upper 32 Bits Register (TRIO_PCIE_RC_PREF_BASE_UPPER: 0x0028)</h4>
+Prefetchable Base Upper 32 Bits Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PREF_BASE_UPPER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 32 Bits of Base Address of Prefetchable Memory Space  Used only when 64-bit prefetchable memory  addressing is enabled.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PREF_LIM_UPPER"></a>
+<br><br><h4>Prefetchable Limit Upper 32 Bits Register (TRIO_PCIE_RC_PREF_LIM_UPPER: 0x002c)</h4>
+Prefetchable Limit Upper 32 Bits Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PREF_LIM_UPPER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 32 Bits of Limit Address of Prefetchable Memory Space  Used only when 64-bit prefetchable memory  addressing is enabled.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IO_BASE_LIM_UPPER"></a>
+<br><br><h4>IO Base and Limit Upper 16 Bits Register (TRIO_PCIE_RC_IO_BASE_LIM_UPPER: 0x0030)</h4>
+IO Base and Limit Upper 16 Bits Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IO_BASE_LIM_UPPER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>LIM</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 16 Bits of I/O Limit (if 32-bit I/O decoding is supported for devices on the secondary side)  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>BASE</TD> <TD>RW</TD> <TD>0</TD> <TD>Upper 16 Bits of I/O Base (if 32-bit I/O decoding is supported for devices on the secondary side)  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_CAP_PTR"></a>
+<br><br><h4>Capability Pointer Register (TRIO_PCIE_RC_CAP_PTR: 0x0034)</h4>
+Capability Pointer Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_CAP_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FIRST_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_EXPANSION_ROM_BASE_ADDRESS"></a>
+<br><br><h4>Expansion ROM Base Address Register (TRIO_PCIE_RC_EXPANSION_ROM_BASE_ADDRESS: 0x0038)</h4>
+Expansion ROM Base Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_EXPANSION_ROM_BASE_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:11</TD> <TD>M_ADDR</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>M_ENABLE</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_INTERRUPT_LINE"></a>
+<br><br><h4>Interrupt Line Register (TRIO_PCIE_RC_INTERRUPT_LINE: 0x003c)</h4>
+Interrupt Line Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_INTERRUPT_LINE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>INTERRUPT_LINE</TD> <TD>RW</TD> <TD>ffh</TD> <TD>Value in this register is system architecture specific. POST  software will write the routing information into this register as  it initializes and configures the system.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_INTERRUPT_PIN"></a>
+<br><br><h4>Interrupt Pin Register (TRIO_PCIE_RC_INTERRUPT_PIN: 0x003d)</h4>
+Interrupt Pin Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_INTERRUPT_PIN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>INTERRUPT_PIN</TD> <TD>RO</TD> <TD>0</TD> <TD>Identifies the legacy interrupt Message that the device  (or device function) uses. Valid values are:   00h: The device (or function) does not use legacy  interrupt   01h: The device (or function) uses INTA   02h: The device (or function) uses INTB   03h: The device (or function) uses INTC   04h: The device (or function) uses INTD  The Interrupt Pin register is writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_BRIDGE_CONTROL"></a>
+<br><br><h4>Bridge Control Register (TRIO_PCIE_RC_BRIDGE_CONTROL: 0x003e)</h4>
+Bridge Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_BRIDGE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>DISC_TMR</TD> <TD>RO</TD> <TD>0</TD> <TD>Discard Timer SERR Enable Status Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>DISCARD_TIMER_STATUS</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>SECONDARY_DISCARD_TIMER</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>PRIMARY_DISCARD_TIMER</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>FAST_BB</TD> <TD>RO</TD> <TD>0</TD> <TD>Fast Back-to-Back Transactions Enable Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>SECONDARY_BUS_RESET</TD> <TD>RW</TD> <TD>0</TD> <TD>Setting this bit triggers a hot reset.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>MASTER_ABORT_MODE</TD> <TD>RO</TD> <TD>0</TD> <TD>Not applicable to PCI Express, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>VGA_16_BIT_DECODE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>VGA_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>ISA_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>SERR_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>PARITY_ERROR_RESPONSE_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PM_CAP_ID"></a>
+<br><br><h4>PM Capability ID Register (TRIO_PCIE_RC_PM_CAP_ID: 0x0040)</h4>
+PM Capability ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PM_CAP_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>1</TD> <TD>Power Management Capability ID </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PM_NEXT_ITEM_PTR"></a>
+<br><br><h4>PM Next Item Pointer (TRIO_PCIE_RC_PM_NEXT_ITEM_PTR: 0x0041)</h4>
+PM Next Item Pointer
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PM_NEXT_ITEM_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>NEXT_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PM_CAP"></a>
+<br><br><h4>PM Capabilities Register (TRIO_PCIE_RC_PM_CAP: 0x0042)</h4>
+PM Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PM_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:11</TD> <TD>PME_SUPPORT</TD> <TD>RO</TD> <TD>0</TD> <TD>Identifies the power states from which the MAC can  generate PME Messages. A value of 0 for any bit  indicates that the device (or function) is not capable of  generating PME Messages while in that power state:   Bit 11: If set, PME Messages can be generated  from D0   Bit 12: If set, PME Messages can be generated  from D1   Bit 13: If set, PME Messages can be generated  from D2   Bit 14: If set, PME Messages can be generated  from D3hot   Bit 15: If set, PME Messages can be generated  from D3cold  The PME_Support field is writable through the MAC_STANDARD interface.  Bits 15, 14, and 11 must be Set for PCI-PCI Bridge  structures representing Ports on Root  Complexes/Switches to indicate that the Bridge will  forward PME Messages.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>D2_SUP</TD> <TD>RO</TD> <TD>0</TD> <TD>D2 Support, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>D1_SUP</TD> <TD>RO</TD> <TD>0</TD> <TD>D1 Support, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8:6</TD> <TD>AUX_CRNT</TD> <TD>RO</TD> <TD>0</TD> <TD>AUX Current, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>DSI</TD> <TD>RO</TD> <TD>0</TD> <TD>Device Specific Initialization (DSI), writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PME_CLOCK_HARDWIRED_TO_0</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>VERS</TD> <TD>RO</TD> <TD>3</TD> <TD>Power Management Specification Version, writable through the MAC_STANDARD interface  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_POWER_MANAGEMENT_CTLSTATUS"></a>
+<br><br><h4>Power Management Control and Status Register (TRIO_PCIE_RC_POWER_MANAGEMENT_CTLSTATUS: 0x0044)</h4>
+Power Management Control and Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_POWER_MANAGEMENT_CTLSTATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>R1</TD> <TD>RO</TD> <TD>0</TD> <TD>Data register for additional information (not supported)  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23</TD> <TD>BUS_PWR_CLK_ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>Bus Power/Clock Control Enable, hardwired to 0  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22</TD> <TD>B2_B3_SUPPORT</TD> <TD>RO</TD> <TD>0</TD> <TD>Hardwired to zero</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>PME_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates if a previously enabled PME  event occurred or not.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14:13</TD> <TD>DATA_SCALE_NOT_SUPPORTED</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:9</TD> <TD>DATA_SELECT_NOT_SUPPORTED</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>PME_ENABLE_STICKY_BIT</TD> <TD>RW</TD> <TD>0</TD> <TD>A value of 1 indicates that the device is  enabled to generate PME.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>NO_SOFT_RESET</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>POWER_STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls the device power state:   00b: D0   01b: D1   10b: D2   11b: D3  The written value is ignored if the  specific state is not supported.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CAP_ID"></a>
+<br><br><h4>MSI Capability ID Register (TRIO_PCIE_RC_MSI_CAP_ID: 0x0050)</h4>
+MSI Capability ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CAP_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>MSI_CAP_ID</TD> <TD>RO</TD> <TD>5</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_NEXT_ITEM_PTR"></a>
+<br><br><h4>MSI Next Item Pointer (TRIO_PCIE_RC_MSI_NEXT_ITEM_PTR: 0x0050)</h4>
+MSI Next Item Pointer
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_NEXT_ITEM_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>NEXT_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROL"></a>
+<br><br><h4>MSI Control Register (TRIO_PCIE_RC_MSI_CONTROL: 0x0052)</h4>
+MSI Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>ADDR_64_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>64-bit Address Capable, writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:4</TD> <TD>MULTIPLE_MESSAGE_ENABLED</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that multiple Message mode is  enabled by system software. The number of  Messages enabled must be less than or  equal to the Multiple Message Capable  value.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>MM_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>Multiple Message Capable, writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>MSI_ENABLED</TD> <TD>RW</TD> <TD>0</TD> <TD>When set, INTx must be disabled.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_LOWER_32_BITS_ADDRESS"></a>
+<br><br><h4>MSI Lower 32 Bits Address Register (TRIO_PCIE_RC_MSI_LOWER_32_BITS_ADDRESS: 0x0054)</h4>
+MSI Lower 32 Bits Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_LOWER_32_BITS_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:2</TD> <TD>LOWER_32_BIT_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_UPPER_32_BITS_ADDRESS"></a>
+<br><br><h4>MSI Upper 32 bits Address Register (TRIO_PCIE_RC_MSI_UPPER_32_BITS_ADDRESS: 0x0058)</h4>
+MSI Upper 32 bits Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_UPPER_32_BITS_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPPER_32_BIT_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_DATA"></a>
+<br><br><h4>MSI Data Register (TRIO_PCIE_RC_MSI_DATA: 0x005c)</h4>
+MSI Data Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_DATA.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>MSI_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>Pattern assigned by system software, bits [4:0] are OR-ed with  MSI_VECTOR to generate 32 MSI Messages per function.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PCIE_CAP_ID"></a>
+<br><br><h4>PCIE Capability ID Register (TRIO_PCIE_RC_PCIE_CAP_ID: 0x0070)</h4>
+PCIE Capability ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PCIE_CAP_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PCI_EXPRESS_CAP_ID</TD> <TD>RO</TD> <TD>10h</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PCIE_NEXT_ITEM_PTR"></a>
+<br><br><h4>PCIE Next Item Pointer (TRIO_PCIE_RC_PCIE_NEXT_ITEM_PTR: 0x0071)</h4>
+PCIE Next Item Pointer
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PCIE_NEXT_ITEM_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>NEXT_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PCI_EXPRESS_CAP"></a>
+<br><br><h4>PCI Express Capabilities Register (TRIO_PCIE_RC_PCI_EXPRESS_CAP: 0x0072)</h4>
+PCI Express Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PCI_EXPRESS_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13:9</TD> <TD>INTERRUPT_MESSAGE_NUMBER</TD> <TD>RO</TD> <TD>0</TD> <TD>Updated by hardware, writable through the  MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>SLOT_IMP</TD> <TD>RW</TD> <TD>0</TD> <TD>Slot Implemented, writable through the MAC_STANDARD interface </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:4</TD> <TD>DEVICE_PORT_TYPE</TD> <TD>RO</TD> <TD>4</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>VERS</TD> <TD>RO</TD> <TD>2</TD> <TD>PCI Express Capability Version </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_CAP"></a>
+<br><br><h4>Device Capabilities Register (TRIO_PCIE_RC_DEVICE_CAP: 0x0074)</h4>
+Device Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>32</TD> <TD>L0S_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Endpoint L0s Acceptable LatencyMust be 0x0 for non-Endpoint devices.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:26</TD> <TD>SLOT_PWR_SCALE</TD> <TD>RO</TD> <TD>0</TD> <TD>Captured Slot Power Limit Scale Upstream port only.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25:18</TD> <TD>SLOT_PWR_LIM</TD> <TD>RO</TD> <TD>0</TD> <TD>Captured Slot Power Limit Value Upstream port only.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>RER</TD> <TD>RO</TD> <TD>1</TD> <TD>Role-Based Error Reporting, writable through the MAC_STANDARD interface.  Required to be set for device compliant to 1.1  spec and later.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>R3</TD> <TD>RO</TD> <TD>0</TD> <TD>Undefined since PCI Express 1.1 (Was Power Indicator Present for PCI  Express 1.0a)  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>R2</TD> <TD>RO</TD> <TD>0</TD> <TD>Undefined since PCI Express 1.1 (Was Attention Indicator Present for PCI  Express 1.0a)  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>R1</TD> <TD>RO</TD> <TD>0</TD> <TD>Undefined since PCI Express 1.1 (Was Attention Button Present for PCI  Express 1.0a)  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:9</TD> <TD>L1_LAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Endpoint L1 Acceptable Latency Must be 0x0 for non-Endpoint devices.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>EXT_TAG_FIELD_SUPPORTED</TD> <TD>RO</TD> <TD>0</TD> <TD>This bit is writable through the MAC_STANDARD interface.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4:3</TD> <TD>PHANTOM_FUNCTION_SUPPORTED</TD> <TD>RO</TD> <TD>0</TD> <TD>This field is writable through the MAC_STANDARD interface.  However, Phantom Function is not  supported. Therefore, the application must  not write any value other than 0x0 to this  field.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2:0</TD> <TD>MPS_SUP</TD> <TD>RO</TD> <TD>0</TD> <TD>Max_Payload_Size Supported, writable through the MAC_STANDARD interface  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_CONTROL"></a>
+<br><br><h4>Device Control Register (TRIO_PCIE_RC_DEVICE_CONTROL: 0x0078)</h4>
+Device Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>14:12</TD> <TD>MAX_READ_REQ_SZ</TD> <TD>RW</TD> <TD>0</TD> <TD>Max read request size</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>NO_SNOOP</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable NoSnoop</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>AUX_PM_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>AUX Power PM Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>PH_FN_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Phantom Function Enable</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>EXT_TAG</TD> <TD>RW</TD> <TD>0</TD> <TD>Extended Tag Field Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:5</TD> <TD>MAX_PAYLOAD_SIZE</TD> <TD>RW</TD> <TD>0</TD> <TD>Max Payload Size</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>RO_ENA</TD> <TD>RW</TD> <TD>1</TD> <TD>Relaxed ordering enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>UR_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Unsupported Request Reporting Enable </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>FATAL_ERR_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Fatal Error Reporting Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>NF_ERR_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Non-Fatal Error Reporting Enable </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>COR_ERR_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Correctable Error Reporting Enable </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_STATUS"></a>
+<br><br><h4>Device Status Register (TRIO_PCIE_RC_DEVICE_STATUS: 0x007a)</h4>
+Device Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>TRANSACTION_PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD>Hard-wired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>AUX_POWER_DETECTED</TD> <TD>RO</TD> <TD>0</TD> <TD>From sys_aux_pwr_det input port.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>UNSUPPORTED_REQUEST_DETECTED</TD> <TD>RW</TD> <TD>0</TD> <TD>Errors are logged in this register regardless of whether error  reporting is enabled in the Device Control register.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>FATAL_ERROR_DETECTED</TD> <TD>RW</TD> <TD>0</TD> <TD>Errors are logged in this register regardless of whether error  reporting is enabled in the Device Control register.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>NON_FATAL_ERROR_DETECTED</TD> <TD>RW</TD> <TD>0</TD> <TD>Errors are logged in this register regardless of whether error  reporting is enabled in the Device Control register.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>CORRECTABLE_ERROR_DETECTED</TD> <TD>RW</TD> <TD>0</TD> <TD>Errors are logged in this register regardless of whether error  reporting is enabled in the Device Control register.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_CAP"></a>
+<br><br><h4>Link Capabilities Register (TRIO_PCIE_RC_LINK_CAP: 0x007c)</h4>
+Link Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>PORT_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21</TD> <TD>LNK_BW_REP_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>Link Bandwidth Notification Capability Hardwired to 1 for Downstream Ports and 0  for Upstream Ports.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>DL_ACT_REP_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>Data Link Layer Active Reporting Capable Hardwired to 1 for Downstream Ports and 0  for Upstream Ports.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>SP_DN_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>Surprise Down Error Reporting Capable Not supported, hardwired to 0x0.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>CLOCK_POWER_MANAGEMENT</TD> <TD>RO</TD> <TD>0</TD> <TD>Component can tolerate the removal of refclk  via CLKREQ# (if supported).  Hardwired to 0 for downstream ports.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17:15</TD> <TD>L1_EXIT_LATENCY</TD> <TD>RO</TD> <TD>0</TD> <TD>Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14:12</TD> <TD>L0S_EXIT_LATENCY</TD> <TD>RW</TD> <TD>0</TD> <TD>Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:10</TD> <TD>ACTIVE_STATE_LINK_PM_SUPPORT</TD> <TD>RW</TD> <TD>0</TD> <TD>Writable through  the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9:4</TD> <TD>MAXIMUM_LINK_WIDTH</TD> <TD>RW</TD> <TD>0</TD> <TD>Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>MAX_LINK_SPEEDS</TD> <TD>RW</TD> <TD>2</TD> <TD>Indicates the supported maximum Link  speeds of the associated Port.  The encoding is the binary value of the bit  location in the Supported Link Speeds Vector  (in the Link Capabilities 2 register) that  corresponds to the maximum Link speed.  This field is writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_CONTROL"></a>
+<br><br><h4>Link Control Register (TRIO_PCIE_RC_LINK_CONTROL: 0x0080)</h4>
+Link Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>LINK_AUT_BW_INT</TD> <TD>RO</TD> <TD>0</TD> <TD>Link Autonomous Bandwidth Interrupt Enable When set, this bit enables the generation of an  interrupt to indicate that the Link Autonomous  Bandwidth Status bit has been set.  Note: This bit is not applicable and is reserved for  Endpoints, PCI Express-to-PCI/PCI-X bridges, and  Upstream Ports of Switches.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>LINK_BW_INT</TD> <TD>RO</TD> <TD>0</TD> <TD>Link Bandwidth Management Interrupt Enable When set, this bit enables the generation of an  interrupt to indicate that the Link Bandwidth  Management Status bit has been set.  Note: This bit is not applicable and is reserved for  Endpoints, PCI Express-to-PCI/PCI-X bridges, and  Upstream Ports of Switches.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>HW_WIDTH_DIS</TD> <TD>RO</TD> <TD>0</TD> <TD>Hardware Autonomous Width Disable Not supported, hardwired to 0.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>ENABLE_CLOCK_POWER_MANAGEMENT</TD> <TD>RW</TD> <TD>0</TD> <TD>Hardwired to 0 if Clock Power Management is  disabled in the Link Capabilities register.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>EXT_SYNCH</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>COMMON_CLOCK_CONFIGURATION</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>RETRAIN_LINK</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit is reserved for PCI Express-to-PCI/PCI-X  bridges and upstream ports of Switches  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>LINK_DISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit is reserved for PCI Express-to-PCI/PCI-X  bridges and upstream ports of Switches  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>READ_COMPLETION_BOUNDARY_RCB</TD> <TD>RO</TD> <TD>0</TD> <TD>RC: Writable through MAC_STANDARD interface  SW: Hardwired to 0. Not writable through MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1:0</TD> <TD>ACTIVE_STATE_LINK_PM_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_STATUS"></a>
+<br><br><h4>Link Status Register (TRIO_PCIE_RC_LINK_STATUS: 0x0082)</h4>
+Link Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>DATA_LINK_LAYER_ACTIVE</TD> <TD>RO</TD> <TD>0</TD> <TD>This bit must be implemented if the corresponding  Data Link Layer Link Active Reporting capability bit is  implemented. Otherwise, this bit must be hardwired to  0b.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>SLOT_CLOCK_CONFIGURATION</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates that the component uses the same physical  reference clock that the platform provides on the  connector. The default value is the value you select  during hardware configuration, writable through the  MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>LINK_TRAINING</TD> <TD>RO</TD> <TD>0</TD> <TD>This bit is not applicable and is reserved for  Endpoints, PCI Express to PCI/PCI-X bridges, and  Upstream Ports of Switches.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>UNDEFINED_FOR_PCI_EXPRESS_1_1</TD> <TD>RO</TD> <TD>0</TD> <TD>(Was Training Error for PCI Express 1.0a)  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9:4</TD> <TD>NEGOTIATED_LINK_WIDTH</TD> <TD>RO</TD> <TD>1</TD> <TD>Set automatically by hardware after Link initialization.  The value is undefined when link is not up.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>LINK_SPEED</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the negotiated Link speed.  The encoding is the binary value of the bit location in  the Supported Link Speeds Vector (in the Link  Capabilities 2 register) that corresponds to the  current Link speed.  Possible values are:   0001b (Gen1 2.5 GT/s)   0010b (Gen2 5.0 GT/s)   0100b (Gen3 8.0 GT/s)  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SLOT_CAP"></a>
+<br><br><h4>Slot Capabilities Register (TRIO_PCIE_RC_SLOT_CAP: 0x0084)</h4>
+Slot Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SLOT_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>MRL_PRES</TD> <TD>RW</TD> <TD>0</TD> <TD>MRL Sensor Present, writable through the MAC_STANDARD interface</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>PC_PRES</TD> <TD>RW</TD> <TD>0</TD> <TD>Power Controller Present, writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ATTN</TD> <TD>RW</TD> <TD>0</TD> <TD>Attention Indicator Present, writable through the MAC_STANDARD interface  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SLOT_CONTROL"></a>
+<br><br><h4>Slot Control Register (TRIO_PCIE_RC_SLOT_CONTROL: 0x0088)</h4>
+Slot Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SLOT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>POWER_CONTROLLER_CTL</TD> <TD>RW</TD> <TD>0</TD> <TD>  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:8</TD> <TD>POWER_INDICATOR_CTL</TD> <TD>RW</TD> <TD>3</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:6</TD> <TD>ATTENTION_INDICATOR_CTL</TD> <TD>RW</TD> <TD>3</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>HOT_PLUG_INTERRUPT_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>CMD_COMP_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Command Completed Interrupt Enable </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PRES_DET_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Presence Detect Changed Enable </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>MRL_SENSOR_CHANGED_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>POWER_FAULT_DETECTED_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ATTN_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Attention Button Pressed Enable </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SLOT_STATUS"></a>
+<br><br><h4>Slot Status Register (TRIO_PCIE_RC_SLOT_STATUS: 0x008a)</h4>
+Slot Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SLOT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>DATA_LINK_LAYER_STATE_CHANGED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>EM_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Electromechanical Interlock Status </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>PRESENCE_DETECT_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>MRL_SENSOR_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>COMMAND_COMPLETED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PRESENCE_DETECT_CHANGED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>MRL_SENSOR_CHANGED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>POWER_FAULT_DETECTED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ATTENTION_BUTTON_PRESSED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ROOT_CONTROL"></a>
+<br><br><h4>Root Control Register (TRIO_PCIE_RC_ROOT_CONTROL: 0x008c)</h4>
+Root Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ROOT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>CRC_SUP</TD> <TD>RO</TD> <TD>0</TD> <TD>CRS Software Visibility Enable Not supported, hardwired to 0x0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>PME_INTERRUPT_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>SERR_FE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>System Error on Fatal Error Enable </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SERR_NFE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>System Error on Non-fatal Error Enable </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SERR_CE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>System Error on Correctable Error Enable </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ROOT_CAP"></a>
+<br><br><h4>Root Capabilities Register (TRIO_PCIE_RC_ROOT_CAP: 0x008e)</h4>
+Root Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ROOT_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CRS_SOFTWARE_VISIBILITY</TD> <TD>RO</TD> <TD>0</TD> <TD>Not supported, hardwired to 0x0.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ROOT_STATUS"></a>
+<br><br><h4>Root Status Register (TRIO_PCIE_RC_ROOT_STATUS: 0x0090)</h4>
+Root Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ROOT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>PME_PENDING</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>PME_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>PME_REQUESTER_ID</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_CAP_2"></a>
+<br><br><h4>Device Capabilities 2 Register (TRIO_PCIE_RC_DEVICE_CAP_2: 0x0094)</h4>
+Device Capabilities 2 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_CAP_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>CPL_TO_DIS_SUP</TD> <TD>RO</TD> <TD>0</TD> <TD>Completion Timeout Disable Supported</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_CTL2"></a>
+<br><br><h4>Device Control 2 Register (TRIO_PCIE_RC_DEVICE_CTL2: 0x0098)</h4>
+Device Control 2 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_CTL2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>COMPLETION_TIMEOUT_DISABLE</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_CAP_2"></a>
+<br><br><h4>Link Capabilities Register 2 (TRIO_PCIE_RC_LINK_CAP_2: 0x009c)</h4>
+Link Capabilities Register 2
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_CAP_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:1</TD> <TD>SUPPORTED_LINK_SPEEDS_VECTOR</TD> <TD>RO</TD> <TD>3</TD> <TD>Indicates the supported Link speeds of the  associated Port. For each bit, a value of 1b  indicates that the corresponding Link speed  is supported; otherwise, the Link speed is not  supported.  Bit definitions are:  Bit 1 2.5 GT/s  Bit 2 5.0 GT/s  Bit 3 8.0 GT/s  Bits 7:4 reserved  This field is writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_CTL2"></a>
+<br><br><h4>Link Control 2 Register (TRIO_PCIE_RC_LINK_CTL2: 0x00a0)</h4>
+Link Control 2 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_CTL2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:12</TD> <TD>CPL_DEEMP</TD> <TD>RW</TD> <TD>0</TD> <TD>Compliance Pre-set/ De-emphasis</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>COMPLIANCE_SOS</TD> <TD>RW</TD> <TD>0</TD> <TD>When set to 1b, the LTSSM is required to send SKP  Ordered Sets periodically in between the (modified)  compliance patterns.  Note: When the Link is operating at 2.5 GT/s, the setting  of this bit has no effect. Components that support only 2.5  GT/s speed are permitted to hardwire this bit to 0b.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>ENTER_MODIFIED_COMPLIANCE</TD> <TD>RW</TD> <TD>0</TD> <TD>When this bit is set to 1b, the device transmits modified  compliance pattern if the LTSSM enters Polling.  Compliance state. Components that support only the 2.5  GT/s speed are permitted to hard-wire this bit to 0b.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:7</TD> <TD>TRANSMIT_MARGIN</TD> <TD>RW</TD> <TD>0</TD> <TD>This field controls the value of the non-de-emphasized  voltage level at the Transmitter pins:   000: 800-1200 mV for full swing 400-600 mV for halfswing   001-010: values must be monotonic with a non-zero  slope   011: 200-400 mV for full-swing and 100-200 mV for  halfswing   100-111: reserved  This field is reset to 000b on entry to the LTSSM Polling.  Compliance substate.  Components that support only the 2.5 GT/s speed are  permitted to hard-wire this bit to 0b. When operating in 5.0  GT/s mode with full swing, the de-emphasis ratio must be  maintained within +/- 1 dB from the specification-defined  operational value (either -3.5 or -6 dB).  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>SELECTABLE_DE_EMPHASIS</TD> <TD>RW</TD> <TD>0</TD> <TD>When the Link is operating at 5.0 GT/s speed, selects the  level of de-emphasis:   1: -3.5 dB   0: -6 dB  When the Link is operating at 2.5 GT/s speed, the setting  of this bit has no effect. Components that support only the  2.5 GT/s speed are permitted to hardwire this bit to 0b.  Default value is implementation-specific, unless a specific  value is required for a selected form factor or platform.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>HW_AUT_SPD_DIS</TD> <TD>RW</TD> <TD>0</TD> <TD>Hardware Autonomous Speed Disable When cfg_hw_auto_sp_dis signal is asserted, the  application must disable hardware from changing the Link  speed for device-specific reasons other than attempting to  correct unreliable Link operation by reducing Link speed.  Initial transition to the highest supported common link  speed is not blocked by this signal.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>ENTER_COMPLIANCE</TD> <TD>RW</TD> <TD>0</TD> <TD>Software is permitted to force a link to enter Compliance  mode at the speed indicated in the Target Link Speed field  by setting this bit to 1b in both components on a link and  then initiating a hot reset on the link.  The default value of this field following Fundamental  Reset is 0b.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>TARGET_LINK_SPEED</TD> <TD>RW</TD> <TD>0</TD> <TD>For Downstream ports, this field sets an upper limit on link  operational speed by restricting the values advertised by  the upstream component in its training sequences:  The encoding is the binary value of the bit in the  Supported Link Speeds Vector (in the Link Capabilities 2  register) that corresponds to the desired target Link  speed.   0000001b (Gen1 2.5 GT/s)   0000010b (Gen2 5.0 GT/s)   0000100b (Gen3 8.0 GT/s)  All other encodings are reserved.  If a value is written to this field that does not correspond to  a speed included in the Supported Link Speeds field, the  result is undefined.  *The default value of this field is the highest link speed  supported by the component (as reported in the Max Link  Speed field of the Link Capabilities Register) unless the  corresponding platform / form factor requires a different  default value.  Components that support only the 2.5 GT/s speed are  permitted to hardwire this field to 0000b.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LINK_STATUS_2"></a>
+<br><br><h4>Link Status 2 Register (TRIO_PCIE_RC_LINK_STATUS_2: 0x00a2)</h4>
+Link Status 2 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LINK_STATUS_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>LINK_EQUALIZATION_REQUEST</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>EQ_P3</TD> <TD>RW</TD> <TD>0</TD> <TD>Equalization Phase 3 Successful </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>EQ_P2</TD> <TD>RW</TD> <TD>0</TD> <TD>Equalization Phase 2 Successful </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>EQ_P1</TD> <TD>RW</TD> <TD>0</TD> <TD>Equalization Phase 1 Successful </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>EQUALIZATION_COMPLETE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>CURRENT_DE_EMPHASIS_LEVEL</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_X_CAP_ID"></a>
+<br><br><h4>MSI-X Capability ID Register (TRIO_PCIE_RC_MSI_X_CAP_ID: 0x00b0)</h4>
+MSI-X Capability ID Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_X_CAP_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>MSI_X_CAP_ID</TD> <TD>RO</TD> <TD>11h</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_X_NEXT_ITEM_PTR"></a>
+<br><br><h4>MSI-X Next Item Pointer (TRIO_PCIE_RC_MSI_X_NEXT_ITEM_PTR: 0x00b1)</h4>
+MSI-X Next Item Pointer
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_X_NEXT_ITEM_PTR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>NEXT_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_X_CONTROL"></a>
+<br><br><h4>MSI-X Control Register (TRIO_PCIE_RC_MSI_X_CONTROL: 0x00b2)</h4>
+MSI-X Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_X_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>MSI_X_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>If MSI-X is enabled, MSI and INTx must be disabled.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>FUNCTION_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD> 1: All vectors associated with the function are  masked, regardless of their respective per-vector  Mask bits.   0: Each vector   s Mask bit determines whether the  vector is masked or not.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:0</TD> <TD>MSI_X_TABLE_SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Encoded as (Table Size - 1). For example, a value of  0x003 indicates the MSI-X Table Size is 4.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_X_TABLE_OFFSET_BIR"></a>
+<br><br><h4>MSI-X Table Offset and BIR Register (TRIO_PCIE_RC_MSI_X_TABLE_OFFSET_BIR: 0x00b4)</h4>
+MSI-X Table Offset and BIR Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_X_TABLE_OFFSET_BIR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:3</TD> <TD>TABLE_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD>Base address of the MSI-X Table, as an offset  from the base address of the BAR indicated by  the Table BIR bits.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>BIR</TD> <TD>RO</TD> <TD>0</TD> <TD>Table BAR Indicator Register (BIR) Indicates which BAR is used to map the MSI-X  Table into memory space:   000: BAR0   001: BAR1   010: BAR2   011: BAR3   100: BAR4   101: BAR5   110: Reserved   111: Reserved  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_X_PBA_OFFSET_BIR"></a>
+<br><br><h4>MSI-X PBA Offset and BIR Register (TRIO_PCIE_RC_MSI_X_PBA_OFFSET_BIR: 0x00b8)</h4>
+MSI-X PBA Offset and BIR Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_X_PBA_OFFSET_BIR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:3</TD> <TD>PBA_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD>Base address of the MSI-X PBA, as an offset from  the base address of the BAR indicated by the PBA  BIR bits.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>PENDING_BIT_ARRAY_PBA_BIR</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates which BAR is used to map the MSI-X PBA  into memory space:   000: BAR0   001: BAR1   010: BAR2   011: BAR3   100: BAR4   101: BAR5   110: Reserved   111: Reserved  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SLOT_NUMBERING_CAP"></a>
+<br><br><h4>Slot Numbering Capabilities Register (TRIO_PCIE_RC_SLOT_NUMBERING_CAP: 0x00c0)</h4>
+Slot Numbering Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SLOT_NUMBERING_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>CHASSIS_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21</TD> <TD>FIRST_IN_CHASSIS</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>20:16</TD> <TD>ADD_IN_CARD_SLOTS_PROVIDED</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:8</TD> <TD>NEXT_CAP_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD>Points to the VPD capability by default, writable  through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>SLOT_NUM_CAP</TD> <TD>RO</TD> <TD>4</TD> <TD>Slot Numbering Capabilities ID Hardwired to 0x04.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VPD_CTLCAP"></a>
+<br><br><h4>VPD Control and Capabilities Register (TRIO_PCIE_RC_VPD_CTLCAP: 0x00d0)</h4>
+VPD Control and Capabilities Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VPD_CTLCAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>VPD_FLAG</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30:16</TD> <TD>VPD_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>NEXT_CAP_PTR</TD> <TD>RW</TD> <TD>0</TD> <TD>  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>VPD_DATA</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_AER_EXT_CAP_HDR"></a>
+<br><br><h4>AER Extended Capability Header (TRIO_PCIE_RC_AER_EXT_CAP_HDR: 0x0100)</h4>
+AER Extended Capability Header
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_AER_EXT_CAP_HDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:20</TD> <TD>NEXT_CAP_OFFSET</TD> <TD>RO</TD> <TD>140h</TD> <TD>  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>CAP_VERSION</TD> <TD>RO</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ID</TD> <TD>RO</TD> <TD>1</TD> <TD>PCI Express Extended Capability ID Value is 0x1 for Advanced Error Reporting.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_UNCORRECTABLE_ERROR_STATUS"></a>
+<br><br><h4>Uncorrectable Error Status Register (TRIO_PCIE_RC_UNCORRECTABLE_ERROR_STATUS: 0x0104)</h4>
+Uncorrectable Error Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_UNCORRECTABLE_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>UR_ERR_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Unsupported Request Error Status </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>ECRC_ERROR_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>MALFORMED_TLP_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>RECEIVER_OVERFLOW_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>UNEXP_CPL_ERR_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Unexpected Completion Status </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>COMPLETER_ABORT_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>COMPLETION_TIMEOUT_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>FC_ERR_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Flow Control Protocol Error Status </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>POISONED_TLP_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>SP_DN_ERR_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Surprise Down Error Status (not supported) </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>DL_ERR_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Data Link Protocol Error Status </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RESERVED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_UNCORRECTABLE_ERROR_MASK"></a>
+<br><br><h4>Uncorrectable Error Mask Register (TRIO_PCIE_RC_UNCORRECTABLE_ERROR_MASK: 0x0108)</h4>
+Uncorrectable Error Mask Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_UNCORRECTABLE_ERROR_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>POISONED_TLP_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>SP_DN_ERR_MSK</TD> <TD>RO</TD> <TD>0</TD> <TD>Surprise Down Error Mask (not supported) </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>DATA_LINK_PROTOCOL_ERROR_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RESERVED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_UNCORRECTABLE_ERROR_SEVERITY"></a>
+<br><br><h4>Uncorrectable Error Severity Register (TRIO_PCIE_RC_UNCORRECTABLE_ERROR_SEVERITY: 0x0108)</h4>
+Uncorrectable Error Severity Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_UNCORRECTABLE_ERROR_SEVERITY.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>UR_ERR_SEV</TD> <TD>RW</TD> <TD>0</TD> <TD>Unsupported Request Error Severity</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>ECRC_ERROR_SEVERITY</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>MALFORMED_TLP_SEVERITY</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>RECEIVER_OVERFLOW_SEVERITY</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>UNEXP_CPL_SEV</TD> <TD>RW</TD> <TD>0</TD> <TD>Unexpected Completion Severity </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>COMPLETER_ABORT_SEVERITY</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>COMPLETION_TIMEOUT_SEVERITY</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>FC_ERR_SEV</TD> <TD>RW</TD> <TD>1</TD> <TD>Flow Control Protocol Error Severity </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>POISONED_TLP_SEVERITY</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>SP_DN_ERR_SEV</TD> <TD>RO</TD> <TD>1</TD> <TD>Surprise Down Error Severity (not supported) </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>DL_ERR_SEV</TD> <TD>RW</TD> <TD>1</TD> <TD>Data Link Protocol Error Severity </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RESERVED</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_CORRECTABLE_ERROR_STATUS"></a>
+<br><br><h4>Correctable Error Status Register (TRIO_PCIE_RC_CORRECTABLE_ERROR_STATUS: 0x0110)</h4>
+Correctable Error Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_CORRECTABLE_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>ADV_NFE_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Advisory Non-Fatal Error Status </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>REPLY_TIMER_TIMEOUT_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>REPLAY_NUM_ROLLOVER_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>BAD_DLLP_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>BAD_TLP_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RECEIVER_ERROR_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_CORRECTABLE_ERROR_MASK"></a>
+<br><br><h4>Correctable Error Mask Register (TRIO_PCIE_RC_CORRECTABLE_ERROR_MASK: 0x0114)</h4>
+Correctable Error Mask Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_CORRECTABLE_ERROR_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>ADVISORY_NON_FATAL_ERROR_MASK</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>REPLY_TIMER_TIMEOUT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>REPLAY_NUM_ROLLOVER_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>BAD_DLLP_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>BAD_TLP_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RECEIVER_ERROR_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ADVANCED_CAP_CONTROL"></a>
+<br><br><h4>Advanced Capabilities and Control Register (TRIO_PCIE_RC_ADVANCED_CAP_CONTROL: 0x0118)</h4>
+Advanced Capabilities and Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ADVANCED_CAP_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>ECRC_CHECK_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>ECRC_CHECK_CAPABLE</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>ECRC_GENERATION_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>ECRC_GENERATION_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>FIRST_ERROR_PTR</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_HDR_LOG"></a>
+<br><br><h4>Header Log Register (TRIO_PCIE_RC_HDR_LOG: 0x011c)</h4>
+Header Log Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_HDR_LOG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>HDR_LOG</TD> <TD>RW</TD> <TD>0</TD> <TD>Header Log Register</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ROOT_ERROR_COMMAND"></a>
+<br><br><h4>Root Error Command Register (TRIO_PCIE_RC_ROOT_ERROR_COMMAND: 0x012c)</h4>
+Root Error Command Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ROOT_ERROR_COMMAND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>FE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Fatal Error Reporting Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>NFE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Non-Fatal Error Reporting Enable </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>CERR_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Correctable Error Reporting Enable </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ROOT_ERROR_STATUS"></a>
+<br><br><h4>Root Error Status Register (TRIO_PCIE_RC_ROOT_ERROR_STATUS: 0x0130)</h4>
+Root Error Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ROOT_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:27</TD> <TD>AE_INT_NUM</TD> <TD>RO</TD> <TD>0</TD> <TD>Advanced Error Interrupt Message Number, writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>FE_RCVD</TD> <TD>RW</TD> <TD>0</TD> <TD>Fatal Error Messages Received </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>NFE_RCVD</TD> <TD>RW</TD> <TD>0</TD> <TD>Non-Fatal Error Messages Received </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>FIRST_UNCORRECTABLE_FATAL</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>MULTI_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>Multiple ERR_FATAL/NONFATAL Received </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>ERR_FATAL_NONFATAL_RECEIVED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MULTIPLE_ERR_COR_RECEIVED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ERR_COR_RECEIVED</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ERROR_SOURCE_IDENTIFICATION"></a>
+<br><br><h4>Error Source Identification Register (TRIO_PCIE_RC_ERROR_SOURCE_IDENTIFICATION: 0x0134)</h4>
+Error Source Identification Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ERROR_SOURCE_IDENTIFICATION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>ERR_SRC_ID</TD> <TD>RO</TD> <TD>0</TD> <TD>ERR_FATAL/NONFATAL Source Identification </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>ERR_COR_SRC</TD> <TD>RO</TD> <TD>0</TD> <TD>ERR_COR Source Identification </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC_EXT_CAP_HDR"></a>
+<br><br><h4>VC Extended Capability Header (TRIO_PCIE_RC_VC_EXT_CAP_HDR: 0x0140)</h4>
+VC Extended Capability Header
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC_EXT_CAP_HDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:20</TD> <TD>NEXT_CAP_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD>  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>CAP_VERSION</TD> <TD>RO</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ID</TD> <TD>RO</TD> <TD>2</TD> <TD>PCI Express Extended Capability The default value is 0x2 for VC Capability.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_VC_CAP_1"></a>
+<br><br><h4>Port VC Capability Register 1 (TRIO_PCIE_RC_PORT_VC_CAP_1: 0x0144)</h4>
+Port VC Capability Register 1
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_VC_CAP_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>11:10</TD> <TD>PORT_ARB_SZ</TD> <TD>RO</TD> <TD>0</TD> <TD>Port Arbitration Table Entry Size </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:8</TD> <TD>REFERENCE_CLOCK</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:4</TD> <TD>LP_VC_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Low Priority Extended VC Count, writable through the MAC_STANDARD interface  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2:0</TD> <TD>EXT_VC_COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD> </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_VC_CAP_2"></a>
+<br><br><h4>Port VC Capability Register 2 (TRIO_PCIE_RC_PORT_VC_CAP_2: 0x0148)</h4>
+Port VC Capability Register 2
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_VC_CAP_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>VC_ARB_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD>VC Arbitration Table Offset (not supported) The default value is 0x00 (no arbitration table  present).  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>VC_ARBITRATION_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD> </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_VC_CONTROL"></a>
+<br><br><h4>Port VC Control Register (TRIO_PCIE_RC_PORT_VC_CONTROL: 0x014c)</h4>
+Port VC Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_VC_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:1</TD> <TD>VC_ARBITRATION_SELECT</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>LOAD_VC_ARBITRATION_TABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_VC_STATUS"></a>
+<br><br><h4>Port VC Status Register (TRIO_PCIE_RC_PORT_VC_STATUS: 0x014e)</h4>
+Port VC Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_VC_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>ARBITRATION_TABLE_STATUS</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC_RESOURCE_CAP_0"></a>
+<br><br><h4>VC Resource Capability Register (0) (TRIO_PCIE_RC_VC_RESOURCE_CAP_0: 0x0150)</h4>
+VC Resource Capability Register (0)
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC_RESOURCE_CAP_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>PORT_ARBITRATION_TABLE_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22:16</TD> <TD>MAXIMUM_TIME_SLOTS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>REJECT_SNOOP_TRANSACTIONS</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>UNDEFINED_FOR_PCI_EXPRESS_1_1</TD> <TD>RO</TD> <TD>0</TD> <TD>(Was Advanced Packet Switching for PCI Express 1.0a)  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>PORT_ARBITRATION_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC_RESOURCE_CTL0"></a>
+<br><br><h4>VC Resource Control Register (0) (TRIO_PCIE_RC_VC_RESOURCE_CTL0: 0x0154)</h4>
+VC Resource Control Register (0)
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC_RESOURCE_CTL0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>TC_VC_MAP</TD> <TD>RW</TD> <TD>ffh</TD> <TD>Bit 0 is hardwired to 1; bits 7:1 are RW.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC_RESOURCE_STATUS_0"></a>
+<br><br><h4>VC Resource Status Register (0) (TRIO_PCIE_RC_VC_RESOURCE_STATUS_0: 0x015a)</h4>
+VC Resource Status Register (0)
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC_RESOURCE_STATUS_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>VC_NEGOTIATION_PENDING</TD> <TD>RO</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>PORT_ARBITRATION_TABLE_STATUS</TD> <TD>RO</TD> <TD>0</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_POWER_BUDGETING_EXT_CAP_HDR"></a>
+<br><br><h4>Power Budgeting Extended Capability Header (TRIO_PCIE_RC_POWER_BUDGETING_EXT_CAP_HDR: 0x0164)</h4>
+Power Budgeting Extended Capability Header
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_POWER_BUDGETING_EXT_CAP_HDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:20</TD> <TD>NEXT_CAP_OFFSET</TD> <TD>RO</TD> <TD>0</TD> <TD>Points to the next capability structure. This read/write register indexes the Power Budgeting data reported through the Data register and selects  the DWORD of Power Budgeting Data that should appear in the Data register. Index values for this register  start at 0 to select the first DWORD of Power budgeting Data; subsequent DWORDs of power budgeting  data are selected by increasing index values.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>CAP_VERSION</TD> <TD>RO</TD> <TD>1</TD> <TD>This field is a PCI-SIG defined version number that indicates the  version of the capability structure present. Must be 0x1 as per  the PCI Express 3.0 Specification.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EXT_CAP_ID</TD> <TD>RO</TD> <TD>4</TD> <TD>This field is a PCI-SIG defined ID number that indicates the  nature and format of the extended capability. Extended  Capability ID for Power Budgeting capability is 0x0004.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DATA_SELECT"></a>
+<br><br><h4>Data Select Register (TRIO_PCIE_RC_DATA_SELECT: 0x0164)</h4>
+Data Select Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DATA_SELECT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>14:13</TD> <TD>PM_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Specifies the power management state of the operating  condition being described:   00: D0   01: D1   10: D2   11: D3  A device returns 11b in this field and Aux or PME Aux in the  Type register to specify the D3-Cold PM state. An encoding of  11b along with any other Type register value specifies the D3-  Hot state.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:10</TD> <TD>PM_SUB_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Specifies the power management sub state of the operating  condition being described:   000: Default sub state   001 - 111: Device-specific sub state  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9:8</TD> <TD>DATA_SCALE</TD> <TD>RO</TD> <TD>0</TD> <TD>Specifies the scale to apply to the Base Power value. The  device power consumption is determined by multiplying the  contents of the Base Power register field with the value  corresponding to the encoding returned by this field:   00: 1.0x   01: 0.1x   10: 0.01x   11: 0.001x  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>BASE_POWER</TD> <TD>RO</TD> <TD>0</TD> <TD>Specifies (in watts) the base power value in the given  operating condition. This value must be multiplied by the data  scale to produce the actual power consumption value.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_CAP"></a>
+<br><br><h4>Device Serial Number Capability Register (TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_CAP: 0x0168)</h4>
+Device Serial Number Capability Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>DEVICE_SERIAL_NUMBER_CAP</TD> <TD>RW</TD> <TD>0</TD> <TD>Device Serial Number Capability Register</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_EXT_CAP_HDR"></a>
+<br><br><h4>Device Serial Number Extended Capability Header (TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_EXT_CAP_HDR: 0x0168)</h4>
+Device Serial Number Extended Capability Header
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEVICE_SERIAL_NUMBER_EXT_CAP_HDR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:20</TD> <TD>NEXT</TD> <TD>RW</TD> <TD>0</TD> <TD>  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:16</TD> <TD>CAP_VERSION</TD> <TD>RW</TD> <TD>1</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>EXT_CAP_ID</TD> <TD>RW</TD> <TD>3</TD> <TD></TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SERIAL_NUMBERS"></a>
+<br><br><h4>Serial Number Registers (TRIO_PCIE_RC_SERIAL_NUMBERS: 0x0168)</h4>
+Serial Number Registers
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SERIAL_NUMBERS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SERIAL_NUMBERS</TD> <TD>RW</TD> <TD>0</TD> <TD>Serial Number Registers</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_POWER_BUDGET_CAP"></a>
+<br><br><h4>Power Budget Capability Register (TRIO_PCIE_RC_POWER_BUDGET_CAP: 0x016c)</h4>
+Power Budget Capability Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_POWER_BUDGET_CAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SYSTEM_ALLOCATED</TD> <TD>RW</TD> <TD>0</TD> <TD>This bit when set, indicates that the power budget for the device  is included within the system power budget. Reported power  budgeting data for this device should be ignored by software for  power budgeting decisions if this bit is set.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ACK_LATENCY_TIMER_REPLAY_TIMER"></a>
+<br><br><h4>Ack Latency Timer and Replay Timer Register (TRIO_PCIE_RC_ACK_LATENCY_TIMER_REPLAY_TIMER: 0x0700)</h4>
+Ack Latency Timer and Replay Timer Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ACK_LATENCY_TIMER_REPLAY_TIMER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>REPLAY_TIME_LIMIT</TD> <TD>RW</TD> <TD>308dh</TD> <TD>The replay timer expires when it reaches this limit. The MAC initiates a  replay upon reception of a Nak or when the replay timer expires.   The default is updated based on the Negotiated Link Width and  Max_Payload_Size.  Note: If operating at 5 Gb/s, then an additional  153 is added. This is for additional internal processing for  received TLPs and transmitted DLLPs.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>ROUND_TRIP_LATENCY_TIME_LIMIT</TD> <TD>RW</TD> <TD>102fh</TD> <TD>The Ack/Nak latency timer expires when it reaches this limit.  The default is updated based on the Negotiated Link Width and  Max_Payload_Size.  Note: If operating at 5 Gb/s, then an additional  51 is added. This is for additional internal processing for  received TLPs and transmitted DLLPs.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_OTHER_MESSAGE"></a>
+<br><br><h4>Other Message Register (TRIO_PCIE_RC_OTHER_MESSAGE: 0x0704)</h4>
+Other Message Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_OTHER_MESSAGE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OTHER_MESSAGE</TD> <TD>RW</TD> <TD>ffffffffh</TD> <TD>Used to send a specific PCI Express Message, the application writes the  payload of the Message into this register, then sets bit 0 of the Port Link  Control Register to send the Message.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_FORCE_LINK"></a>
+<br><br><h4>Port Force Link Register (TRIO_PCIE_RC_PORT_FORCE_LINK: 0x0708)</h4>
+Port Force Link Register.  This register is for diagnostics only.  Writing may result in unpredictable link behavior.
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_FORCE_LINK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>LOW_POWER_ENTRANCE_COUNT</TD> <TD>RW</TD> <TD>7</TD> <TD>The Power Management state will wait for this many clock cycles  for the associated completion of a CfgWr to D-state register to go  low-power. Note: Only used in EP mode</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:16</TD> <TD>LINK_STATE</TD> <TD>RW</TD> <TD>0</TD> <TD>The Link state that the MAC will be forced to when bit 15 (Force  Link) is set.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x0</TD><TD>DETECT_QUIET</TD><TD> </TD></TR>
+   <TR><TD>0x1</TD><TD>DETECT_ACT</TD><TD> </TD></TR>
+   <TR><TD>0x2</TD><TD>POLL_ACTIVE</TD><TD> </TD></TR>
+   <TR><TD>0x3</TD><TD>POLL_COMPLIANCE</TD><TD> </TD></TR>
+   <TR><TD>0x4</TD><TD>POLL_CONFIG</TD><TD> </TD></TR>
+   <TR><TD>0x5</TD><TD>PRE_DETECT_QUIET</TD><TD> </TD></TR>
+   <TR><TD>0x6</TD><TD>DETECT_WAIT</TD><TD> </TD></TR>
+   <TR><TD>0x7</TD><TD>CFG_LINKWD_START</TD><TD> </TD></TR>
+   <TR><TD>0x8</TD><TD>CFG_LINKWD_ACEPT</TD><TD> </TD></TR>
+   <TR><TD>0x9</TD><TD>CFG_LANENUM_WAIT</TD><TD> </TD></TR>
+   <TR><TD>0xa</TD><TD>CFG_LANENUM_ACEPT</TD><TD> </TD></TR>
+   <TR><TD>0xb</TD><TD>CFG_COMPLETE</TD><TD> </TD></TR>
+   <TR><TD>0xc</TD><TD>CFG_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0xd</TD><TD>RCVRY_LOCK</TD><TD> </TD></TR>
+   <TR><TD>0xe</TD><TD>RCVRY_SPEED</TD><TD> </TD></TR>
+   <TR><TD>0xf</TD><TD>RCVRY_RCVRCFG</TD><TD> </TD></TR>
+   <TR><TD>0x10</TD><TD>RCVRY_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x20</TD><TD>RCVRY_EQ0</TD><TD> </TD></TR>
+   <TR><TD>0x21</TD><TD>RCVRY_EQ1</TD><TD> </TD></TR>
+   <TR><TD>0x22</TD><TD>RCVRY_EQ2</TD><TD> </TD></TR>
+   <TR><TD>0x23</TD><TD>RCVRY_EQ3</TD><TD> </TD></TR>
+   <TR><TD>0x11</TD><TD>L0</TD><TD> </TD></TR>
+   <TR><TD>0x12</TD><TD>L0S</TD><TD> </TD></TR>
+   <TR><TD>0x13</TD><TD>L123_SEND_EIDLE</TD><TD> </TD></TR>
+   <TR><TD>0x14</TD><TD>L1_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x15</TD><TD>L2_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x16</TD><TD>L2_WAKE</TD><TD> </TD></TR>
+   <TR><TD>0x17</TD><TD>DISABLED_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x18</TD><TD>DISABLED_IDLE</TD><TD> </TD></TR>
+   <TR><TD>0x19</TD><TD>DISABLED</TD><TD> </TD></TR>
+   <TR><TD>0x1a</TD><TD>LPBK_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x1b</TD><TD>LPBK_ACTIVE</TD><TD> </TD></TR>
+   <TR><TD>0x1c</TD><TD>LPBK_EXIT</TD><TD> </TD></TR>
+   <TR><TD>0x1d</TD><TD>LPBK_EXIT_TIMEOUT</TD><TD> </TD></TR>
+   <TR><TD>0x1e</TD><TD>HOT_RESET_ENTRY</TD><TD> </TD></TR>
+   <TR><TD>0x1f</TD><TD>HOT_RESET</TD><TD> </TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>FORCE_LINK</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, forces the Link and link command based on the LINK_STATE and LTSSM_CMD fields.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:8</TD> <TD>LTSSM_CMD</TD> <TD>RW</TD> <TD>0</TD> <TD>Force link control command.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>SEND_IDLE</TD><TD> </TD></TR>
+   <TR><TD>2</TD><TD>SEND_EIDLE</TD><TD> </TD></TR>
+   <TR><TD>3</TD><TD>XMT_IN_EIDLE</TD><TD> </TD></TR>
+   <TR><TD>5</TD><TD>SEND_RCVR_DETECT_SEQ</TD><TD> </TD></TR>
+   <TR><TD>6</TD><TD>SEND_TS1</TD><TD> </TD></TR>
+   <TR><TD>7</TD><TD>SEND_TS2</TD><TD> </TD></TR>
+   <TR><TD>8</TD><TD>COMPLIANCE_PATTERN</TD><TD> </TD></TR>
+   <TR><TD>9</TD><TD>SEND_SDS</TD><TD> </TD></TR>
+   <TR><TD>10</TD><TD>SEND_BEACON</TD><TD> </TD></TR>
+   <TR><TD>11</TD><TD>SEND_N_FTS</TD><TD> </TD></TR>
+   <TR><TD>12</TD><TD>NORM</TD><TD> </TD></TR>
+   <TR><TD>13</TD><TD>SEND_SKP</TD><TD> </TD></TR>
+   <TR><TD>4</TD><TD>MOD_COMPL_PATTERN</TD><TD> </TD></TR>
+   <TR><TD>14</TD><TD>SEND_EIES</TD><TD> </TD></TR>
+   <TR><TD>15</TD><TD>SEND_EIES_SYM</TD><TD> </TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>LINK_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>Not used for Endpoint  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_ACK_FREQUENCY_L0_L1_ASPM_CONTROL"></a>
+<br><br><h4>Ack Frequency and L0-L1 ASPM Control Register (TRIO_PCIE_RC_ACK_FREQUENCY_L0_L1_ASPM_CONTROL: 0x070c)</h4>
+Ack Frequency and L0-L1 ASPM Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_ACK_FREQUENCY_L0_L1_ASPM_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>30</TD> <TD>ASPM_L1_DIR</TD> <TD>RW</TD> <TD>0</TD> <TD>Enter ASPM L1 without receive in L0s. Allow MAC to enter ASPM L1 even when link partner  did not go to L0s (receive is not in L0s).  When not set, MAC goes to ASPM L1 only after idle  period during which both receive and transmit are in  L0s.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:27</TD> <TD>L1_ENTRANCE_LATENCY</TD> <TD>RW</TD> <TD>0</TD> <TD>Values correspond to:   000: 1   s   001: 2   s   010: 4   s   011: 8   s   100: 16   s   101: 32   s   110 or 111: 64   s  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>26:24</TD> <TD>L0S_ENTRANCE_LATENCY</TD> <TD>RW</TD> <TD>0</TD> <TD>Values correspond to:   000: 1   s   001: 2   s   010: 3   s   011: 4   s   100: 5   s   101: 6   s   110 or 111: 7   s  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:16</TD> <TD>COMMON_CLOCK_N_FTS</TD> <TD>RW</TD> <TD>0</TD> <TD>This is the N_FTS when common clock is used.  The number of Fast Training Sequence ordered sets to  be transmitted when transitioning from L0s to L0. The  maximum number of FTS ordered-sets that a  component can request is 255.  Note: The MAC does not support a value of zero; a  value of zero can cause the LTSSM to go into the  recovery state when exiting from L0s.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>N_FTS</TD> <TD>RW</TD> <TD>0</TD> <TD>The number of Fast Training Sequence ordered sets to  be transmitted when transitioning from L0s to L0. The  maximum number of FTS ordered-sets that a  component can request is 255.  Note: The MAC does not support a value of zero; a  value of zero can cause the LTSSM to go into the  recovery state when exiting from L0s.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>ACK_FREQUENCY</TD> <TD>RW</TD> <TD>0</TD> <TD>The MAC accumulates the number of pending Ack   s  specified here (up to 255) before sending an Ack  DLLP </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_PORT_LINK_CONTROL"></a>
+<br><br><h4>Port Link Control Register (TRIO_PCIE_RC_PORT_LINK_CONTROL: 0x0710)</h4>
+Port Link Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_PORT_LINK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>CL_ACT</TD> <TD>RO</TD> <TD>0</TD> <TD>Crosslink Active. Indicates a change from upstream to downstream or downstream to  upstream. Same as output xmlh_crosslink_active.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>CROSSLINK_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21:16</TD> <TD>LINK_MODE_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD> 000001: x1   000011: x2   000111: x4   001111: x8   011111: x16   111111: x32 </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>FAST_LINK_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Sets all internal timers to fast mode for internal testing purposes.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>DLL_LINK_ENABLE</TD> <TD>RW</TD> <TD>1</TD> <TD>Enables Link initialization. If DLL Link Enable = 0,  the MAC does not transmit InitFC DLLPs and does  not establish a Link.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>RESET_ASSERT</TD> <TD>RW</TD> <TD>0</TD> <TD>Triggers a recovery and forces the LTSSM to the  Hot Reset state (downstream port only).  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>LOOPBACK_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Turns on loopback.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SCRAMBLE_DISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Turns off data scrambling.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>OTHER_MESSAGE_REQUEST</TD> <TD>RW</TD> <TD>0</TD> <TD>When software writes a    1    to this bit, the MAC  transmits the Message contained in the Other  Message register.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_LANE_SKEW"></a>
+<br><br><h4>Lane Skew Register (TRIO_PCIE_RC_LANE_SKEW: 0x0714)</h4>
+Lane Skew Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_LANE_SKEW.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>DISABLE_LANE_TO_LANE_DESKEW</TD> <TD>RW</TD> <TD>0</TD> <TD>Causes the MAC to disable the internal Lane-to-Lane deskew logic.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25</TD> <TD>ACK_NAK_DISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Prevents the MAC from sending Ack and Nak DLLPs.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>FLOW_CTLDISABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Prevents the MAC from sending FC DLLPs.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23:0</TD> <TD>INS_SKEW</TD> <TD>RW</TD> <TD>0</TD> <TD>Insert Lane Skew for Transmit causes the MAC to insert skew between Lanes for test  purposes. There are three bits per Lane. The value is in units of one symbol  time. For example, the value 010b for a Lane forces a skew of two symbol times  for that Lane. The maximum skew value for any Lane is 5 symbol times.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SYMBOL_NUMBER"></a>
+<br><br><h4>Symbol Number Register (TRIO_PCIE_RC_SYMBOL_NUMBER: 0x0718)</h4>
+Symbol Number Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SYMBOL_NUMBER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:29</TD> <TD>MAX_FN</TD> <TD>RW</TD> <TD>0</TD> <TD>Configuration Requests targeted at function numbers above this value will be returned with UR (unsupported request).  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28:24</TD> <TD>TMR_MOD_FC</TD> <TD>RW</TD> <TD>0</TD> <TD>Timer Modifier for Flow Control Watchdog TimerIncreases the timer value for the Flow Control watchdog timer, in  increments of 16 clock cycles.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:19</TD> <TD>TMR_MOD_ACK</TD> <TD>RW</TD> <TD>0</TD> <TD>Timer Modifier for Ack/Nak Latency Timer Increases the timer value for the Ack/Nak latency timer, in increments of  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18:14</TD> <TD>TMR_MOD_RPL</TD> <TD>RW</TD> <TD>0</TD> <TD>Timer Modifier for Replay TimerIncreases the timer value for the replay timer, in increments of 64 clock  cycles.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:8</TD> <TD>NUMBER_OF_SKP_SYMBOLS</TD> <TD>RW</TD> <TD>3</TD> <TD></TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>NUMBER_OF_TS_SYMBOLS</TD> <TD>RW</TD> <TD>10</TD> <TD>Sets the number of TS identifier symbols that are sent in TS1 and TS2  ordered sets.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_SYMBOL_TIMER_FILTER_MASK_1"></a>
+<br><br><h4>Symbol Timer Register and Filter Mask 1 (TRIO_PCIE_RC_SYMBOL_TIMER_FILTER_MASK_1: 0x071c)</h4>
+Symbol Timer Register and Filter Mask 1
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_SYMBOL_TIMER_FILTER_MASK_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>RX_FILT_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Mask RADM Filtering and Error Handling Rules: Mask 1 There are several mask bits to turn off the filtering and error handling rules  .  In each case, 0 applies the associated filtering rule and 1 masks the  associated filtering rule. A more detailed description for these bits is  provided in Table 4-348.   [31]: Mask filtering of received Configuration Requests (RC mode only)   [30]: Mask filtering of received I/O Requests (RC mode only)   [29]: Send Message TLPs to the application on RTRGT1 and send  decoded Message on the SII (1) or send decoded Message on the SII,  then drop the Message TLPs (0). . Note that this bit only  controls message TLPs other than Vendor MSGs. Vendor MSGs are  controlled by Filter Mask Register 2, bits [1:0].   [28]: Mask ECRC error filtering for Completions   [27]: Mask ECRC error filtering   [26]: Mask Length mismatch error for received Completions   [25]: Mask Attributes mismatch error for received Completions   [24]: Mask Traffic Class mismatch error for received Completions   [23]: Mask function mismatch error for received Completions   [23]: Mask Requester ID mismatch error for received Completions   [21]: Mask Tag error rules for received Completions   [20]: Mask Locked Request filtering   [19]: Mask Type 1 Configuration Request filtering   [18]: Mask BAR match filtering   [17]: Mask poisoned TLP filtering   [16]: Mask function mismatch filtering for incoming Requests  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>DISABLE_FC_WATCHDOG_TIMER</TD> <TD>RW</TD> <TD>0</TD> <TD></TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10:0</TD> <TD>SKP_INTERVAL_VALUE</TD> <TD>RW</TD> <TD>500h</TD> <TD>The number of symbol times to wait between transmitting SKP ordered sets.  Note that the MAC actually waits the number of symbol times in this register  plus 1 between transmitting SKP ordered sets. The application must  program this register accordingly. For example, if 1536 we're programmed  into this register, then the MAC will actually transmit Skp  ordered sets once every 1537 symbol times.  Also, the value programmed to this register is actually clock ticks and not  symbol times.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_FILTER_MASK_1"></a>
+<br><br><h4>Filter Mask 1 (TRIO_PCIE_RC_FILTER_MASK_1: 0x071c)</h4>
+Filter Mask 1
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_FILTER_MASK_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>CFG</TD> <TD>RW</TD> <TD>0</TD> <TD>0: For RADM RC filter to not allow CFG transaction being received   1: For RADM RC filter to allow CFG transaction being  received  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>IO</TD> <TD>RW</TD> <TD>0</TD> <TD>0: For RADM RC filter to not allow IO transaction being received   1: For RADM RC filter to allow IO transaction being received  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29</TD> <TD>MSG</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Drop MSG TLP (except for Vendor MSG)  1 - Do not Drop MSG (except for Vendor MSG)  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>CPL_ECRC</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Discard TLPs with ECRC errors for CPL type  1: Allow TLPs with ECRC errors to be passed up for CPL  type  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27</TD> <TD>ECRC</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Discard TLPs with ECRC errors  1: Allow TLPs with ECRC errors to be passed up  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26</TD> <TD>LEN</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce length match for received CPL TLPs; a violation results in cpl_abort, and possibly AER of unexp_cpl_err   1: MASK length match for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25</TD> <TD>CPL_ATTR</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce attribute match for received CPL TLPs; a violation results in a malformed TLP error, and possibly AER  of unexp_cpl_err, cpl_rcvd_ur, cpl_rcvd_ca   1: Mask attribute match for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>CPL_TC</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce Traffic Class match for received CPL TLPs; a violation results in a malformed TLP error, and possibly AER  of unexp_cpl_err, cpl_rcvd_ur, cpl_rcvd_ca   1: Mask Traffic Class match for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>CPL_FN</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce function match for received CPL TLPs; a violation results in cpl_abort, and possibly AER of unexp_cpl_err,  cpl_rcvd_ur, cpl_rcvd_ca   1: Mask function match for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22</TD> <TD>CPL_REQID</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce Req. Id match for received CPL TLPs; a violation result in cpl_abort, and possibly AER of unexp_cpl_err,  cpl_rcvd_ur, cpl_rcvd_ca   1: Mask Req. Id match for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>CPL_TAGERR</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Enforce Tag Error Rules for received CPL TLPs; a violation result in cpl_abort, and possibly AER of  unexp_cpl_err, cpl_rcvd_ur, cpl_rcvd_ca   1: Mask Tag Error Rules for received CPL TLPs  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>LOCK_UR</TD> <TD>RW</TD> <TD>0</TD> <TD>0: Treat locked Read TLPs as UR for EP; Supported for RC  1: Treat locked Read TLPs as Supported for EP; UR for RC  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_FILTER_MASK_2"></a>
+<br><br><h4>Filter Mask 2 (TRIO_PCIE_RC_FILTER_MASK_2: 0x0720)</h4>
+Filter Mask 2
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_FILTER_MASK_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Mask RADM Filtering and Error Handling Rules: Mask 2There are several mask bits used to turn off the filtering and error handling  rules.   [31:4]: Reserved   [3]: Disable MAC Filter to handle flush request  - 1: Enable MAC Filter to handle flush request   [2]: 0: Enable DLLP abort for unexpected CPL  - 1: Do not enable DLLP abort for unexpected CPL   [1]: 0: Vendor MSG Type 1 dropped silently  - 1: Vendor MSG Type 1 not dropped   [0]: 0: Vendor MSG Type 0 dropped with UR error reporting  - 1: Vendor MSG Type 0 not dropped  1: Mask RADM Filtering and Error Handling Rules</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEBUG_0"></a>
+<br><br><h4>Debug Register 0 (TRIO_PCIE_RC_DEBUG_0: 0x0728)</h4>
+Debug Register 0
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEBUG_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Diagnostics debug info[31:0].</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_DEBUG_1"></a>
+<br><br><h4>Debug Register 1 (TRIO_PCIE_RC_DEBUG_1: 0x072c)</h4>
+Debug Register 1
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_DEBUG_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Diagnostics debug info[63:32].</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_TRANSMIT_POSTED_FC_CREDIT_STATUS"></a>
+<br><br><h4>Transmit Posted FC Credit Status (TRIO_PCIE_RC_TRANSMIT_POSTED_FC_CREDIT_STATUS: 0x0734)</h4>
+Transmit Posted FC Credit Status
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_TRANSMIT_POSTED_FC_CREDIT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Posted Header FC Credits The Posted Header credits advertised by the receiver at the other end of the  Link, updated with each UpdateFC DLLP.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Posted Data FC Credits The Posted Data credits advertised by the receiver at the other end of the Link,  updated with each UpdateFC DLLP.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_TRANSMIT_NON_POSTED_FC_CREDIT_STATUS"></a>
+<br><br><h4>Transmit Non-Posted FC Credit Status (TRIO_PCIE_RC_TRANSMIT_NON_POSTED_FC_CREDIT_STATUS: 0x0734)</h4>
+Transmit Non-Posted FC Credit Status
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_TRANSMIT_NON_POSTED_FC_CREDIT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Non-Posted Header FC Credits The Non-Posted Header credits advertised by the receiver at the other end of  the Link, updated with each UpdateFC DLLP.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Non-Posted Data FC Credits The Non-Posted Data credits advertised by the receiver at the other end of the  Link, updated with each UpdateFC DLLP.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_TRANSMIT_COMPLETION_FC_CREDIT_STATUS"></a>
+<br><br><h4>Transmit Completion FC Credit Status (TRIO_PCIE_RC_TRANSMIT_COMPLETION_FC_CREDIT_STATUS: 0x073c)</h4>
+Transmit Completion FC Credit Status
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_TRANSMIT_COMPLETION_FC_CREDIT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Completion Header FC Credits The Completion Header credits advertised by the receiver at the other end of  the Link, updated with each UpdateFC DLLP.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Completion Data FC Credits The Completion Data credits advertised by the receiver at the other end of  the Link, updated with each UpdateFC DLLP.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_QUEUE_STATUS"></a>
+<br><br><h4>Queue Status (TRIO_PCIE_RC_QUEUE_STATUS: 0x073c)</h4>
+Queue Status
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_QUEUE_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>RECEIVED_QUEUE_NOT_EMPTY</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates there is data in one or more of the receive buffers.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RETRY_NOT_EMPTY</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit Retry Buffer Not Empty Indicates that there is data in the transmit retry buffer.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RCV_PND</TD> <TD>RO</TD> <TD>0</TD> <TD>Received TLP FC Credits Not Returned Indicates that the MAC has sent a TLP but has not yet received an  UpdateFC DLLP indicating that the credits for that TLP have been restored  by the receiver at the other end of the Link.  Note: This bit is for internal testing only and will always read as 0.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_POSTED_RECEIVE_QUEUE_CONTROL"></a>
+<br><br><h4>VC0 Posted Receive Queue Control (TRIO_PCIE_RC_VC0_POSTED_RECEIVE_QUEUE_CONTROL: 0x0748)</h4>
+VC0 Posted Receive Queue Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_POSTED_RECEIVE_QUEUE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>VC_ORDERING</TD> <TD>RW</TD> <TD>0</TD> <TD>Determines the VC ordering rule for the receive queues,  used only in the segmented-buffer configuration, writable  through the MAC_STANDARD interface:   1: Strict ordering, higher numbered VCs have higher  priority   0: Round robin  Table 4-359 VC0 Posted Receive Queue Control (Continued)  Bits Default Attr Description  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>TLP_ORDERING</TD> <TD>RW</TD> <TD>0</TD> <TD>Determines the TLP type ordering rule for VC0 receive  queues, used only in the segmented-buffer configuration,  writable through the MAC_STANDARD interface:   1: Ordering of received TLPs follows the rules in PCI  Express 3.0 Specification.   0: Strict ordering for received TLPs: Posted, then  Completion, then Non-Posted  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:21</TD> <TD>QUEUE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>The operating mode of the Posted receive queue for VC0,  used only in the segmented-buffer configuration, writable  through the MAC_STANDARD interface. Only one bit can be set at a time:   Bit 23: Bypass   Bit 22: Cut-through   Bit 21: Store-and-forward  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>The number of initial Posted header credits for VC0, used for  all receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>The number of initial Posted data credits for VC0, used for all  receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_NON_POSTED_RECEIVE_QUEUE_CONTROL"></a>
+<br><br><h4>VC0 Non-Posted Receive Queue Control (TRIO_PCIE_RC_VC0_NON_POSTED_RECEIVE_QUEUE_CONTROL: 0x074c)</h4>
+VC0 Non-Posted Receive Queue Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_NON_POSTED_RECEIVE_QUEUE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:21</TD> <TD>QUEUE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>The operating mode of the Non-Posted receive queue for  VC0, used only in the segmented-buffer configuration,  writable through the MAC_STANDARD interface. Only one bit can be set at a time:   Bit 23: Bypass   Bit 22: Cut-through   Bit 21: Store-and-forward  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Non-Posted Header Credits The number of initial Non-Posted header credits for VC0,  used for all receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>The number of initial Non-Posted data credits for VC0, used  for all receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface if</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_COMPLETION_RECEIVE_QUEUE_CONTROL"></a>
+<br><br><h4>VC0 Completion Receive Queue Control (TRIO_PCIE_RC_VC0_COMPLETION_RECEIVE_QUEUE_CONTROL: 0x0750)</h4>
+VC0 Completion Receive Queue Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_COMPLETION_RECEIVE_QUEUE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:21</TD> <TD>QUEUE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>The operating mode of the Completion receive queue for  VC0, used only in the segmented-buffer configuration,  writable through the MAC_STANDARD interface. Only one bit can be set at a time:   Bit 23: Bypass   Bit 22: Cut-through   Bit 21: Store-and-forward  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:12</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Completion Header Credits The number of initial Completion header credits for VC0,  used for all receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:0</TD> <TD>DAT</TD> <TD>RO</TD> <TD>0</TD> <TD>The number of initial Completion data credits for VC0, used  for all receive queue buffer configurations.  This field is writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_POSTED_BUF_DEPTH_CONTROL"></a>
+<br><br><h4>VC0 Posted Buffer Depth Control (TRIO_PCIE_RC_VC0_POSTED_BUF_DEPTH_CONTROL: 0x07a8)</h4>
+VC0 Posted Buffer Depth Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_POSTED_BUF_DEPTH_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:16</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Posted Header Queue Depth Sets the number of entries in the Posted header queue for  VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:0</TD> <TD>DATA</TD> <TD>RO</TD> <TD>0</TD> <TD>Sets the number of entries in the Posted data queue for  VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_NON_POSTED_BUF_DEPTH_CONTROL"></a>
+<br><br><h4>VC0 Non-Posted Buffer Depth Control (TRIO_PCIE_RC_VC0_NON_POSTED_BUF_DEPTH_CONTROL: 0x07ac)</h4>
+VC0 Non-Posted Buffer Depth Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_NON_POSTED_BUF_DEPTH_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:16</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Non-Posted Header Queue Depth Sets the number of entries in the Non-Posted header queue  for VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:0</TD> <TD>DATA</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Non-Posted Data Queue Depth Sets the number of entries in the Non-Posted data queue for  VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_VC0_COMPLETION_BUF_DEPTH_CONTROL"></a>
+<br><br><h4>VC0 Completion Buffer Depth Control (TRIO_PCIE_RC_VC0_COMPLETION_BUF_DEPTH_CONTROL: 0x07b0)</h4>
+VC0 Completion Buffer Depth Control
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_VC0_COMPLETION_BUF_DEPTH_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>25:16</TD> <TD>HDR</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Posted Header Queue Depth Sets the number of entries in the Completion header queue  for VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13:0</TD> <TD>DATA</TD> <TD>RO</TD> <TD>0</TD> <TD>VC0 Completion Data Queue Depth Sets the number of entries in the Completion data queue for  VC0 when using the segmented-buffer configuration.  Writable through the MAC_STANDARD interface.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_GEN2_CONTROL"></a>
+<br><br><h4>Gen2 Control Register (TRIO_PCIE_RC_GEN2_CONTROL: 0x080c)</h4>
+Gen2 Control Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_GEN2_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>DEEMP</TD> <TD>RW</TD> <TD>0</TD> <TD>Used to set the de-emphasis level for upstream ports. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>TX_COMP</TD> <TD>RW</TD> <TD>0</TD> <TD>Config Tx Compliance Receive Bit When set to 1, signals LTSSM to transmit TS ordered sets  with the compliance receive bit assert (equal to 1).  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>CONFIG_PHY_TX_SWING</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates the voltage level the PHY should drive. When set to  1, indicates Full Swing. When set to 0, indicates Low Swing  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>DIRECTED_SPEED_CHANGE</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates to the LTSSM whether or not to initiate a speed  change to Gen2 or Gen3 after the link is initialized at Gen1  speed.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16:8</TD> <TD>LANE_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates the number of lanes to check for exit from electrical  idle in Polling.Active and Polling.Compliance. 1 = x1, 2 = x2,  etc. Used to limit the maximum link width to ignore  -Y  broken     lanes that detect a receiver, but will not exit electrical idle and  would otherwise prevent a valid link from being configured.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>N_FTS</TD> <TD>RW</TD> <TD>0</TD> <TD>Sets the Number of Fast Training Sequences (N_FTS) that the MAC advertises as its N_FTS during Gen2 or Gen3 Link  training. This value is used to inform the Link partner about  the PHYs ability to recover synchronization after a low power  state. Note: Do not set N_FTS to zero; doing so can cause the  LTSSM to go into the recovery state when exiting from L0s.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_ADDRESS"></a>
+<br><br><h4>MSI Controller Address Register (TRIO_PCIE_RC_MSI_CONTROLLER_ADDRESS: 0x0820)</h4>
+MSI Controller Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_CONTROLLER_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>System specified address for MSI memory write  transaction termination.  Within the AHB/AXI Bridge, every received Memory Write  Request is examined to see if it targets the MSI Address  that has been specified in the MSI Controller Address  Register and also to see if it satisfies the definition of an  MSI Interrupt Request. If these conditions are satisfied  the Memory Write Request is marked as an MSI Request.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_UPPER_ADDRESS"></a>
+<br><br><h4>MSI Controller Upper Address Register (TRIO_PCIE_RC_MSI_CONTROLLER_UPPER_ADDRESS: 0x0824)</h4>
+MSI Controller Upper Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_UPPER_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_CONTROLLER_UPPER_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>System specified upper address for MSI memory write  transaction termination. Allows functions to support a 64-  bit MSI address.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_ENABLE"></a>
+<br><br><h4>MSI Controller Interrupt#n Enable Register (TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_ENABLE: 0x0828-0x087f stride: 12)</h4>
+MSI Controller Interrupt#n Enable Register.  There are 8 sets of ENABLE/MASK/STATUS registers.
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_ENABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_INTERRUPT_N_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Specifies which interrupts are enabled. If an MSI is  received from a disabled interrupt, no status bit gets set in  MSI Controller Interrupt Status Register. Each bit  corresponds to a single MSI Interrupt Vector.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_MASK"></a>
+<br><br><h4>MSI Controller Interrupt#n Mask Register (TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_MASK: 0x082c-0x0883 stride: 12)</h4>
+MSI Controller Interrupt#n Mask Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_INTERRUPT_N_MASK</TD> <TD>RW</TD> <TD>0</TD> <TD>Allows enabled interrupts to be masked. If an MSI is  received for a masked interrupt, the corresponding status  bit gets set in the Interrupt Status Register but the  msi_ctrl_int output is not set HIGH. Each bit corresponds  to a single MSI Interrupt Vector.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_STATUS"></a>
+<br><br><h4>MSI Controller Interrupt#n Status Register (TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_STATUS: 0x0830-0x0887 stride: 12)</h4>
+MSI Controller Interrupt#0 Status Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_INTERRUPT_N_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_INTERRUPT_N_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>If an MSI is detected for EP#0, one bit in this register is  set. The decoding of the data payload of the MSI Memory  Write Request determines which bit gets set. A status is  bit is cleared by writing a 1 to the bit. Each bit  corresponds to a single MSI Interrupt Vector.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_MSI_CONTROLLER_GENERAL_PURPOSE_IO"></a>
+<br><br><h4>MSI Controller General Purpose IO Register (TRIO_PCIE_RC_MSI_CONTROLLER_GENERAL_PURPOSE_IO: 0x0888)</h4>
+MSI Controller General Purpose IO Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_MSI_CONTROLLER_GENERAL_PURPOSE_IO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>MSI_GPIO</TD> <TD>RW</TD> <TD>0</TD> <TD>The contents of this register drives the top-level output  msi_ctrl_io[31:0]  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_VIEWPORT"></a>
+<br><br><h4>iATU Viewport Register (TRIO_PCIE_RC_IATU_VIEWPORT: 0x0900)</h4>
+iATU Viewport Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_VIEWPORT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>REGION_DIRECTION</TD> <TD>RW</TD> <TD>0</TD> <TD>Defines the region being accessed as either  0: Outbound  1: Inbound  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>REGION_INDEX</TD> <TD>RW</TD> <TD>0</TD> <TD>Defines which region is being accessed when writing to the control, base, limit and  target registers.  Must not be set to a number greater than CX_ATU_NUM_OUTBOUND_REGIONS - 1  when an outbound region is being accessed. Must not be set to a value greater than  CX_ATU_NUM_INBOUND_REGIONS - 1 when an inbound region is being accessed  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_MAP"></a>
+<br><br><h4>iATU Register Map (TRIO_PCIE_RC_IATU_MAP: 0x0900)</h4>
+iATU Register Map
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_MAP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>IATU_MAP</TD> <TD>RW</TD> <TD>0</TD> <TD>iATU Register Map</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_REGION_CTL1"></a>
+<br><br><h4>iATU Region Control 1 Register (TRIO_PCIE_RC_IATU_REGION_CTL1: 0x0904)</h4>
+iATU Region Control 1 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_REGION_CTL1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>RSVDZ</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Function Active</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>22:20</TD> <TD>FUNCTION_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  function number used in generating the    Function    part of the Requester ID (RID) field  of the TLP is taken from this 3-bit register. Inbound: When the Address and BAR matching logic in the MAC indicate that a  MEM/IO transaction matches a BAR in the function corresponding to this value then  address translation will proceed. This check is only performed if the Function  Number Match Enable    bit of the   iATU Control 2 Register    is set.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:16</TD> <TD>AT</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  AT field of the TLP is changed to the value in this register. Only valid when the  ATS_TX_ENABLE configuration parameter is 1.  Inbound: When the TYPE field of an inbound TLP is matched to this value, then  address translation will proceed. This check is only performed if the   AT Match  Enable   bit of the   iATU Control 2 Register   is set.  Only valid when the ATS_RX_ENABLE configuration parameter is 1.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:9</TD> <TD>ATTR</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  ATTR field of the TLP is changed to the value in this register.  Inbound: When the ATTR field of an inbound TLP is matched to this value, then  address translation will proceed. This check is only performed if the   ATTR Match  Enable   bit of the   iATU Control 2 Register   is set.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>TD</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  TD field of the TLP is changed to the value in this register.  Inbound: When the TD field of an inbound TLP is matched to this value, then address  translation will proceed. This check is only performed if the   TD Match Enable   bit of  the   iATU Control 2 Register   is set.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:5</TD> <TD>TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  TC field of the TLP is changed to the value in this register.  Inbound: When the TC field of an inbound TLP is matched to this value, then address  translation will proceed. This check is only performed if the  -Y  TC Match Enable   bit of  the   iATU Control 2 Register   is set.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, then the  TYPE field of the TLP is changed to the value in this register.  Inbound: When the TYPE field of an inbound TLP is matched to this value, then  address translation will proceed.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_REGION_CTL2"></a>
+<br><br><h4>iATU Region Control 2 Register (TRIO_PCIE_RC_IATU_REGION_CTL2: 0x0908)</h4>
+iATU Region Control 2 Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_REGION_CTL2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>REGION_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound / Inbound: This bit must be set to    1    for address translation to take place.  1. If all other enabled field-matches are successful.  Table 4-441 iATU Region Control 2 Register (Continued)  Bits Default Attr Description  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>MATCH_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Determines the Inbound matching mode for MEM/IO TLPs.   0: Address Mode. The iATU operates using addresses as in the Outbound  direction. The Region Base and Limit Registers must be setup.   1: BAR Mode. BAR matching is used. The    BAR Number    field is relevant. Must  only be configured for regions configured for MEM or IO transactions.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29</TD> <TD>INVERT_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound / Inbound: When set the address matching region is inverted. Therefore,  an address match occurs when the untranslated address is in the region outside the  defined range (Base Address to Limit Address).  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>CFG_SHIFT_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>This is useful for CFG transactions where the PCIe configuration mechanism maps  bits [27:12] of the address to the bus/device and function number. This allows a CFG  configuration space to be located in any 256 MB window of the application memory  space using a 28-bit effective address.  Outbound: Shifts bits [27:12] of the untranslated address to form bits [31:16] of the  translated address.  Inbound: Shifts bits [31:16] of the untranslated address to form bits [27:12] of the  translated address.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27</TD> <TD>FUZZY_TYPE_MATCH_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: When enabled, the iATU relaxes the matching of the TLP TYPE field against  the expected TYPE field so that   CfgRd0 and CfgRd1 TLPs are seen as identical. Similarly with CfgWr0 and  CfgWr1.   MRd and MRdLk TLPs are seen as identical   The Routing field of Msg/MsgD TLPs is ignored  For example, CFG0 in the TYPE field in the    iATU Control 1 Register   will  match against an inbound CfgRd0, CfgRd1, CfgWr0 or CfgWr1 TLP.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25:24</TD> <TD>RESPONSE_CODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Defines the type of response to give for accesses matching this region. This  overrides the normal RADM filter response.   00 - Normal RADM filter response is used.   01 - Unsupported Request (UR)   10 - Completer Abort (CA)   11 - Not used / undefined / reserved.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>21</TD> <TD>MESSAGE_CODE_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful Message Code TLP field comparison match (see  Message Code field of the  -Y  iATU Control 1 Register    ) occurs (in MSG transactions) for  address translation to proceed.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20</TD> <TD>VFN_MATCH</TD> <TD>RW</TD> <TD>0</TD> <TD>Virtual Function Number Match Enable Outbound: Not used.  Inbound: Ensures that a successful Virtual Function Number TLP field comparison  match (see Virtual Function Number field of the  -Y  iATU Control 1 Register    ) occurs (in  MEM/IO transactions) for address translation to proceed.  Note: This bit must not be set at the same time as    Function Number Match Enable   .  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>FUNCTION_NUMBER_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful Function Number TLP field comparison match  (see Function Number field of the   iATU Control 1 Register    ) occurs (in MEM/IO  transactions) for address translation to proceed.  Note: This bit must not be set at the same time as    Virtual Function Number Match  Enable   .  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>AT_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful AT TLP field comparison match (see AT field of  the   iATU Control 1 Register    ) occurs for address translation to proceed.  Only valid when the ATS_RX_ENABLE configuration parameter is 1.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>ATTR_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful ATTR TLP field comparison match (see ATTR  field of the   iATU Control 1 Register    ) occurs for address translation to proceed.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>TD_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful TD TLP field comparison match (see TD field of  the   iATU Control 1 Register    ) occurs for address translation to proceed.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>14</TD> <TD>TC_MATCH_ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: Ensures that a successful TC TLP field comparison match (see TC field of  the   iATU Control 1 Register    ) occurs for address translation to proceed.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:8</TD> <TD>BAR_NUMBER</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: Not used.  Inbound: When the BAR number of an inbound MEM or IO TLP  that is matched by  the normal internal BAR address matching mechanism  is the same as this field,  address translation will proceed. This check is only performed if the   Match Mode    bit  of the   iATU Control 2 Register    is set.  000b - BAR#0  001b - BAR#1  010b - BAR#2  011b - BAR#3  100b - BAR#4  101b - BAR#5  110b - ROM  111b - reserved  IO translation would require either 00100b or 00101b in the inbound TLP TYPE; the  BAR Number set in the range 000b - 101b and that BAR configured as an IO BAR.  </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>MESSAGE_CODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound: When the address of an outbound TLP is matched to this region, and the  translated TLP TYPE field is MSG; then the Message field of the TLP is changed to the  value in this register.  Inbound: When the TYPE field of an inbound MSG TLP is matched to this value, then  address translation will proceed. This check is only performed if the   Function  Message Code Match Enable    bit of the   iATU Control 2 Register    is set.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_LOWER_BASE_ADDRESS"></a>
+<br><br><h4>iATU Lower Base Address Register (TRIO_PCIE_RC_IATU_LOWER_BASE_ADDRESS: 0x0914)</h4>
+iATU Lower Base Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_LOWER_BASE_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>IATU_LOWER_BASE_ADDRESS</TD> <TD>RW</TD> <TD>0</TD> <TD>iATU Lower Base Address Register</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_UPPER_BASE_ADDRESS"></a>
+<br><br><h4>iATU Upper Base Address Register (TRIO_PCIE_RC_IATU_UPPER_BASE_ADDRESS: 0x0914)</h4>
+iATU Upper Base Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_UPPER_BASE_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound / Inbound: Forms bits [63:32] of the start (and end) address of the address region to be translated.  Outbound: In systems with a 32-bit address space, this register is not used and  therefore writing to this register has no effect.  </TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_LIMIT_ADDRESS"></a>
+<br><br><h4>iATU Limit Address Register (TRIO_PCIE_RC_IATU_LIMIT_ADDRESS: 0x0914)</h4>
+iATU Limit Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_LIMIT_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>IATU_LIMIT_ADDRESS</TD> <TD>RW</TD> <TD>0</TD> <TD>iATU Limit Address Register</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_OUTBOUND_REGION_LO_ADDRESS"></a>
+<br><br><h4>iATU Outbound Region Lo Address Register (TRIO_PCIE_RC_IATU_OUTBOUND_REGION_LO_ADDRESS: 0x091c)</h4>
+iATU Outbound Region Lo Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_OUTBOUND_REGION_LO_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>IATU_OUTBOUND_REGION_LO_ADDRESS</TD> <TD>RW</TD> <TD>0</TD> <TD>iATU Outbound Region Lo Address Register</TD> </TR>
+</TABLE><br><br>
+<a name="TRIO_PCIE_RC_IATU_UPPER_TARGET_ADDRESS"></a>
+<br><br><h4>iATU Upper Target Address Register (TRIO_PCIE_RC_IATU_UPPER_TARGET_ADDRESS: 0x091c)</h4>
+iATU Upper Target Address Register
+<br><img src="trio_pcie_rc_pics/TRIO_PCIE_RC_IATU_UPPER_TARGET_ADDRESS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Outbound / Inbound: Forms bits [63:32] of the start address of the new address of the translated region.  Inbound: In systems with a 32-bit address space, this register is not used and  therefore writing to this register has no effect.  </TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

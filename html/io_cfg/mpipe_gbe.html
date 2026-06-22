@@ -1,0 +1,1560 @@
+<html>
+<title>mpipe_gbe Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:01 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>GBE Interface (0x0000-0x0018) : </b> 
+These registers control the associated SGMII Interface (PCS etc.)<br><br>
+<li><b>MAC (0x8000-0x84f8) : </b> 
+These registers control the associated gigabit Ethernet MAC<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TR bgcolor="#DBDDB5"><TD>0000<TD><a href="#MPIPE_GBE_MAC_INFO">MPIPE_GBE_MAC_INFO</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0008<TD><a href="#MPIPE_GBE_MAC_INTFC_CTL">MPIPE_GBE_MAC_INTFC_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>0010<TD><a href="#MPIPE_GBE_MAC_INTFC_TX_CTL">MPIPE_GBE_MAC_INTFC_TX_CTL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>0018<TD><a href="#MPIPE_GBE_MAC_INTFC_FIFO_CTL">MPIPE_GBE_MAC_INTFC_FIFO_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8000<TD><a href="#MPIPE_GBE_NETWORK_CONTROL">MPIPE_GBE_NETWORK_CONTROL</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8008<TD><a href="#MPIPE_GBE_NETWORK_CONFIGURATION">MPIPE_GBE_NETWORK_CONFIGURATION</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8010<TD><a href="#MPIPE_GBE_NETWORK_STATUS">MPIPE_GBE_NETWORK_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8028<TD><a href="#MPIPE_GBE_TRANSMIT_STATUS">MPIPE_GBE_TRANSMIT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8040<TD><a href="#MPIPE_GBE_RECEIVE_STATUS">MPIPE_GBE_RECEIVE_STATUS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8048<TD><a href="#MPIPE_GBE_INTERRUPT_STATUS">MPIPE_GBE_INTERRUPT_STATUS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8050<TD><a href="#MPIPE_GBE_INTERRUPT_ENABLE">MPIPE_GBE_INTERRUPT_ENABLE</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8058<TD><a href="#MPIPE_GBE_INTERRUPT_DISABLE">MPIPE_GBE_INTERRUPT_DISABLE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8060<TD><a href="#MPIPE_GBE_INTERRUPT_MASK">MPIPE_GBE_INTERRUPT_MASK</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8068<TD><a href="#MPIPE_GBE_PHY_MAINTENANCE">MPIPE_GBE_PHY_MAINTENANCE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8070<TD><a href="#MPIPE_GBE_RECEIVED_PAUSE_QUANTUM">MPIPE_GBE_RECEIVED_PAUSE_QUANTUM</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8078<TD><a href="#MPIPE_GBE_TRANSMIT_PAUSE_QUANTUM">MPIPE_GBE_TRANSMIT_PAUSE_QUANTUM</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8100<TD><a href="#MPIPE_GBE_HASH_BOTTOM_31_0">MPIPE_GBE_HASH_BOTTOM_31_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8108<TD><a href="#MPIPE_GBE_HASH_TOP_63_32">MPIPE_GBE_HASH_TOP_63_32</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8110<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_1_BOTTOM_31_0">MPIPE_GBE_SPECIFIC_ADDRESS_1_BOTTOM_31_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8118<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_1_TOP_47_32">MPIPE_GBE_SPECIFIC_ADDRESS_1_TOP_47_32</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8120<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_2_BOTTOM_31_0">MPIPE_GBE_SPECIFIC_ADDRESS_2_BOTTOM_31_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8128<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_2_TOP_47_32">MPIPE_GBE_SPECIFIC_ADDRESS_2_TOP_47_32</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8130<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_3_BOTTOM_31_0">MPIPE_GBE_SPECIFIC_ADDRESS_3_BOTTOM_31_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8138<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_3_TOP_47_32">MPIPE_GBE_SPECIFIC_ADDRESS_3_TOP_47_32</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8140<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_4_BOTTOM_31_0">MPIPE_GBE_SPECIFIC_ADDRESS_4_BOTTOM_31_0</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8148<TD><a href="#MPIPE_GBE_SPECIFIC_ADDRESS_4_TOP_47_32">MPIPE_GBE_SPECIFIC_ADDRESS_4_TOP_47_32</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8150<TD><a href="#MPIPE_GBE_TYPE_ID_MATCH_1">MPIPE_GBE_TYPE_ID_MATCH_1</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8158<TD><a href="#MPIPE_GBE_TYPE_ID_MATCH_2">MPIPE_GBE_TYPE_ID_MATCH_2</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8160<TD><a href="#MPIPE_GBE_TYPE_ID_MATCH_3">MPIPE_GBE_TYPE_ID_MATCH_3</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8168<TD><a href="#MPIPE_GBE_TYPE_ID_MATCH_4">MPIPE_GBE_TYPE_ID_MATCH_4</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8170<TD><a href="#MPIPE_GBE_WAKE_ON_LAN">MPIPE_GBE_WAKE_ON_LAN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8178<TD><a href="#MPIPE_GBE_IPG_STRETCH">MPIPE_GBE_IPG_STRETCH</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8180<TD><a href="#MPIPE_GBE_STACKED_VLAN">MPIPE_GBE_STACKED_VLAN</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8188<TD><a href="#MPIPE_GBE_TX_PFC_PAUSE">MPIPE_GBE_TX_PFC_PAUSE</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>81f8<TD><a href="#MPIPE_GBE_MODULE_ID">MPIPE_GBE_MODULE_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8200<TD><a href="#MPIPE_GBE_OCTETS_TX_LO">MPIPE_GBE_OCTETS_TX_LO</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8208<TD><a href="#MPIPE_GBE_OCTETS_TX_HI">MPIPE_GBE_OCTETS_TX_HI</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8210<TD><a href="#MPIPE_GBE_FRAMES_TX">MPIPE_GBE_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8218<TD><a href="#MPIPE_GBE_BCST_FRAMES_TX">MPIPE_GBE_BCST_FRAMES_TX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8220<TD><a href="#MPIPE_GBE_MCST_FRAMES_TX">MPIPE_GBE_MCST_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8228<TD><a href="#MPIPE_GBE_PAUSE_FRAMES_TX">MPIPE_GBE_PAUSE_FRAMES_TX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8230<TD><a href="#MPIPE_GBE_64_BYTE_FRAMES_TX">MPIPE_GBE_64_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8238<TD><a href="#MPIPE_GBE_65_TO_127_BYTE_FRAMES_TX">MPIPE_GBE_65_TO_127_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8240<TD><a href="#MPIPE_GBE_128_TO_255_BYTE_FRAMES_TX">MPIPE_GBE_128_TO_255_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8248<TD><a href="#MPIPE_GBE_256_TO_511_BYTE_FRAMES_TX">MPIPE_GBE_256_TO_511_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8250<TD><a href="#MPIPE_GBE_512_TO_1023_BYTE_FRAMES_TX">MPIPE_GBE_512_TO_1023_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8258<TD><a href="#MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_TX">MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8260<TD><a href="#MPIPE_GBE_GREATER_THAN_1518_BYTE_FRAMES_TX">MPIPE_GBE_GREATER_THAN_1518_BYTE_FRAMES_TX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8268<TD><a href="#MPIPE_GBE_TX_UNDER_RUNS">MPIPE_GBE_TX_UNDER_RUNS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8270<TD><a href="#MPIPE_GBE_SINGLE_COLLISION_FRAMES">MPIPE_GBE_SINGLE_COLLISION_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8278<TD><a href="#MPIPE_GBE_MULTIPLE_COLLISION_FRAMES">MPIPE_GBE_MULTIPLE_COLLISION_FRAMES</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8280<TD><a href="#MPIPE_GBE_EXCESSIVE_COLLISIONS">MPIPE_GBE_EXCESSIVE_COLLISIONS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8288<TD><a href="#MPIPE_GBE_LATE_COLLISIONS">MPIPE_GBE_LATE_COLLISIONS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8290<TD><a href="#MPIPE_GBE_DEFERRED_TRANSMISSION_FRAMES">MPIPE_GBE_DEFERRED_TRANSMISSION_FRAMES</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8298<TD><a href="#MPIPE_GBE_CARRIER_SENSE_ERRORS">MPIPE_GBE_CARRIER_SENSE_ERRORS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82a0<TD><a href="#MPIPE_GBE_OCTETS_RX_31_0">MPIPE_GBE_OCTETS_RX_31_0</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82a8<TD><a href="#MPIPE_GBE_OCTETS_RX_47_32">MPIPE_GBE_OCTETS_RX_47_32</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82b0<TD><a href="#MPIPE_GBE_FRAMES_RX">MPIPE_GBE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82b8<TD><a href="#MPIPE_GBE_BROADCAST_FRAMES_RX">MPIPE_GBE_BROADCAST_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82c0<TD><a href="#MPIPE_GBE_MULTICAST_FRAMES_RX">MPIPE_GBE_MULTICAST_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82c8<TD><a href="#MPIPE_GBE_PAUSE_FRAMES_RX">MPIPE_GBE_PAUSE_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82d0<TD><a href="#MPIPE_GBE_64_BYTE_FRAMES_RX">MPIPE_GBE_64_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82d8<TD><a href="#MPIPE_GBE_65_TO_127_BYTE_FRAMES_RX">MPIPE_GBE_65_TO_127_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82e0<TD><a href="#MPIPE_GBE_128_TO_255_BYTE_FRAMES_RX">MPIPE_GBE_128_TO_255_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82e8<TD><a href="#MPIPE_GBE_256_TO_511_BYTE_FRAMES_RX">MPIPE_GBE_256_TO_511_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>82f0<TD><a href="#MPIPE_GBE_512_TO_1023_BYTE_FRAMES_RX">MPIPE_GBE_512_TO_1023_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>82f8<TD><a href="#MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_RX">MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8300<TD><a href="#MPIPE_GBE_1519_TO_MAXIMUM_BYTE_FRAMES_RX">MPIPE_GBE_1519_TO_MAXIMUM_BYTE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8308<TD><a href="#MPIPE_GBE_UNDERSIZED_FRAMES_RX">MPIPE_GBE_UNDERSIZED_FRAMES_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8310<TD><a href="#MPIPE_GBE_OVERSIZE_FRAMES_RX">MPIPE_GBE_OVERSIZE_FRAMES_RX</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8318<TD><a href="#MPIPE_GBE_JABBERS_RX">MPIPE_GBE_JABBERS_RX</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8320<TD><a href="#MPIPE_GBE_FRAME_CHECK_SEQUENCE_ERRORS">MPIPE_GBE_FRAME_CHECK_SEQUENCE_ERRORS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8328<TD><a href="#MPIPE_GBE_LENGTH_FIELD_FRAME_ERRORS">MPIPE_GBE_LENGTH_FIELD_FRAME_ERRORS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8330<TD><a href="#MPIPE_GBE_RECEIVE_SYMBOL_ERRORS">MPIPE_GBE_RECEIVE_SYMBOL_ERRORS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8338<TD><a href="#MPIPE_GBE_ALIGNMENT_ERRORS">MPIPE_GBE_ALIGNMENT_ERRORS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8348<TD><a href="#MPIPE_GBE_RECEIVE_OVERRUNS">MPIPE_GBE_RECEIVE_OVERRUNS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8350<TD><a href="#MPIPE_GBE_IP_HEADER_CHECKSUM_ERRORS">MPIPE_GBE_IP_HEADER_CHECKSUM_ERRORS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8358<TD><a href="#MPIPE_GBE_TCP_CHECKSUM_ERRORS">MPIPE_GBE_TCP_CHECKSUM_ERRORS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8360<TD><a href="#MPIPE_GBE_UDP_CHECKSUM_ERRORS">MPIPE_GBE_UDP_CHECKSUM_ERRORS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83a0<TD><a href="#MPIPE_GBE_1588_TIMER_SECONDS">MPIPE_GBE_1588_TIMER_SECONDS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83a8<TD><a href="#MPIPE_GBE_1588_TIMER_NANOSECONDS">MPIPE_GBE_1588_TIMER_NANOSECONDS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83b0<TD><a href="#MPIPE_GBE_1588_TIMER_ADJUST">MPIPE_GBE_1588_TIMER_ADJUST</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83b8<TD><a href="#MPIPE_GBE_1588_TIMER_INCREMENT">MPIPE_GBE_1588_TIMER_INCREMENT</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83c0<TD><a href="#MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_SECONDS">MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_SECONDS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83c8<TD><a href="#MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_NANOSECONDS">MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_NANOSECONDS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83d0<TD><a href="#MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_SECONDS">MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_SECONDS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83d8<TD><a href="#MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_NANOSECONDS">MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_NANOSECONDS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83e0<TD><a href="#MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_SECS">MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_SECS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83e8<TD><a href="#MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_NANOSECS">MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_NANOSECS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>83f0<TD><a href="#MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_SECS">MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_SECS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>83f8<TD><a href="#MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_NANOSECS">MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_NANOSECS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8400<TD><a href="#MPIPE_GBE_PCS_CTL">MPIPE_GBE_PCS_CTL</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8408<TD><a href="#MPIPE_GBE_PCS_STS">MPIPE_GBE_PCS_STS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8410<TD><a href="#MPIPE_GBE_PCS_PHY_UPPER_ID">MPIPE_GBE_PCS_PHY_UPPER_ID</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8418<TD><a href="#MPIPE_GBE_PCS_PHY_LOWER_ID">MPIPE_GBE_PCS_PHY_LOWER_ID</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8420<TD><a href="#MPIPE_GBE_PCS_AUTO_NEG">MPIPE_GBE_PCS_AUTO_NEG</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8428<TD><a href="#MPIPE_GBE_PCS_AUTO_NEG_PARTNER">MPIPE_GBE_PCS_AUTO_NEG_PARTNER</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8430<TD><a href="#MPIPE_GBE_PCS_AUTO_NEG_EXP">MPIPE_GBE_PCS_AUTO_NEG_EXP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8438<TD><a href="#MPIPE_GBE_PCS_AUTO_NEG_NXT_PG">MPIPE_GBE_PCS_AUTO_NEG_NXT_PG</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>8440<TD><a href="#MPIPE_GBE_PCS_AUTO_NEG_LP_NP">MPIPE_GBE_PCS_AUTO_NEG_LP_NP</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>8478<TD><a href="#MPIPE_GBE_PCS_AUTO_NEX_EXT_STS">MPIPE_GBE_PCS_AUTO_NEX_EXT_STS</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>84e0<TD><a href="#MPIPE_GBE_RCVD_LPI_TRANS">MPIPE_GBE_RCVD_LPI_TRANS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>84e8<TD><a href="#MPIPE_GBE_RCVD_LPI_TIME">MPIPE_GBE_RCVD_LPI_TIME</a> </TR>
+<TR bgcolor="#C8CB8F"><TD>84f0<TD><a href="#MPIPE_GBE_XMT_LPI_TRANS">MPIPE_GBE_XMT_LPI_TRANS</a> </TR>
+<TR bgcolor="#DBDDB5"><TD>84f8<TD><a href="#MPIPE_GBE_XMT_LPI_TIME">MPIPE_GBE_XMT_LPI_TIME</a> </TR>
+</TABLE>
+<br><br><h3>Register Definitions</h3>
+<a name="MPIPE_GBE_MAC_INFO"></a>
+<br><br><h4>MAC Info (MPIPE_GBE_MAC_INFO: 0x0000)</h4>
+Describes connection of this MAC to mPIPE.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MAC_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:24</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>ENA</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC has been enabled by mPIPE's MAC_ENABLE register</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>AVAIL</TD> <TD>RO</TD> <TD>0</TD> <TD>MAC is available and may be enabled.  This register will be clear if the system configuration does not allow this port to be used (for example if this port's IO PADs are in use by another MAC).  The MPIPE_MAC_ENABLE.AVAIL field indicates any MACs that are not enabled for the device.  Both this AVAIL and MPIPE_MAC_ENABLE.AVAIL must be asserted for the MAC to be used.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:8</TD> <TD>CHANNEL</TD> <TD>RO</TD> <TD>HW <TD>mPIPE channel number associated with this MAC</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>MAC_TYPE</TD> <TD>RO</TD> <TD>1</TD> <TD>Indicates the type of MAC (SGMII or RGMII)<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>XAUI</TD><TD>XAUI Ethernet MAC Type</TD></TR>
+   <TR><TD>1</TD><TD>SGMII</TD><TD>SGMII Gigabit Ethernet MAC Type</TD></TR>
+   <TR><TD>2</TD><TD>RGMII</TD><TD>RGMII Gigabit Ethernet MAC Type</TD></TR>
+   <TR><TD>3</TD><TD>INTERLAKEN</TD><TD>Interlaken MAC Type</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MAC_INTFC_CTL"></a>
+<br><br><h4>MAC Interface Control (MPIPE_GBE_MAC_INTFC_CTL: 0x0008)</h4>
+Provides control over MAC interface functionality.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MAC_INTFC_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>TX_PRQ_ENA</TD> <TD>RW</TD> <TD>ffffh</TD> <TD>Indicates which priority queues will be monitored for dispatching 802.3 pause frames when PAUSE_MODE is AUTO.  When PAUSE_MODE is AUTO_PFC, this determines which queues will be monitored for dispatching PFC frames and sets the priority_enable_vector in the PFC frames.  In AUTO_PFC mode, the upper 8 bits are not used.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:14</TD> <TD>RX_RST_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls assertion of RX domain reset.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO_A</TD><TD>RX will be reset whenever port is not enabled, or PMA not spun up, or CDR not locked.</TD></TR>
+   <TR><TD>1</TD><TD>AUTO_B</TD><TD>RX will be reset whenever port is not enabled, or PMA not spun up</TD></TR>
+   <TR><TD>2</TD><TD>MANUAL_ASSERT</TD><TD>RX domain reset asserted</TD></TR>
+   <TR><TD>3</TD><TD>MANUAL_DEASSERT</TD><TD>RX domain reset deasserted</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>PRQ_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>When set, the PRQ_OVD_VAL will be used as the priority queue for all incoming packets.  When clear, the priority queue will be extracted from the incoming packet's VLAN.PRIORITY field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12:9</TD> <TD>PRQ_OVD_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When PRQ_OVD is set, the PRQ_OVD_VAL will be used as the priority queue for all incoming packets.  When clear, the priority queue will be extracted from the incoming packet's VLAN.PRIORITY field.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8:7</TD> <TD>SPEED_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Interface speed to use when SPEED_SEL = 2.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>10M</TD><TD>10 Mbps</TD></TR>
+   <TR><TD>1</TD><TD>100M</TD><TD>100 Mbps</TD></TR>
+   <TR><TD>2</TD><TD>1000M</TD><TD>1000 Mbps</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>6:5</TD> <TD>SPEED_SEL</TD> <TD>RW</TD> <TD>1</TD> <TD>Source for speed-control MUX select.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>1</TD><TD>MAC</TD><TD>Use setting from MAC</TD></TR>
+   <TR><TD>2</TD><TD>VAL</TD><TD>Use setting from SPEED_VAL</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>PFC_NEGOT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates that PFC has been negotiated (PFC pause frame was received).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:2</TD> <TD>PAUSE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Mode for sending pause frames based on iPkt buffer fullness.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>MANUAL</TD><TD>Pause frames will not be automatically sent.</TD></TR>
+   <TR><TD>2</TD><TD>AUTO</TD><TD>Pause frames will be automatically sent when any priority queues matching set bits in TX_PRQ_ENA become full.</TD></TR>
+   <TR><TD>3</TD><TD>AUTO_PFC</TD><TD>PFC pause frames will be automatically sent when a priority queues becomes full.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>INS_RX_STS</TD> <TD>RW</TD> <TD>0</TD> <TD>Append 8-byte status word to Rx (ingress) packet data.  Unused bits in MSBs are zeroed.  The packet will be padded out to the next 4-byte boundary before the 8-byte stauts is applied.  The 45-bit field that arrives at the end of the packet data is defined below:<br>
+status[13:0]  = frame_length<br>
+status[14]    = bad_frame<br>
+status[15]    = vlan_tagged<br>
+status[19:16] = tci[3:0]<br>
+status[20]    = prty_tagged<br>
+status[21]    = broadcast_frame<br>
+status[22]    = mult_hash_match<br>
+status[23]    = uni_hash_match<br>
+status[24]    = ext_match1<br>
+status[25]    = ext_match2<br>
+status[26]    = ext_match3<br>
+status[27]    = ext_match4<br>
+status[28]    = add_match1<br>
+status[29]    = add_match2<br>
+status[30]    = add_match3<br>
+status[31]    = add_match4<br>
+status[32]    = type_match1<br>
+status[33]    = type_match2<br>
+status[34]    = type_match3<br>
+status[35]    = type_match4<br>
+status[36]    = checksumi_ok<br>
+status[37]    = checksumt_ok<br>
+status[38]    = checksumu_ok<br>
+status[39]    = snap_frame<br>
+status[40]    = length_error<br>
+status[41]    = crc_error<br>
+status[42]    = too_short<br>
+status[43]    = too_long<br>
+status[44]    = code_error<br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>NO_TX_CRC</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, no CRC will be appended to the packet by the MAC.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MAC_INTFC_TX_CTL"></a>
+<br><br><h4>MAC Interface Transmit Control (MPIPE_GBE_MAC_INTFC_TX_CTL: 0x0010)</h4>
+Provides control over MAC interface's transmit functionality.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MAC_INTFC_TX_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>TX_PFC_PAUSE_VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Indicates which queues should be paused when TX_PAUSE_OVD is set.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>TX_PAUSE_OVD</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, PFC egress queues will be paused based on TX_PFC_PAUSE_VAL.  When 0, queues will be paused based on received PFC frames.  TX_PAUSE_OVD is used to emulate the reception of PFC pause reception in software.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>TX_DROP</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, all TX packets will be dropped.  This bit is for diagnostics use only and is not used for normal operation.  Packets targeting a link that is in the down state are typically dropped using the NETWORK_CONFIGURATION.UNI_DIR bit rather than the TX_DROP bit.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6:0</TD> <TD>TX_PAUSE_HYST</TD> <TD>RW</TD> <TD>1</TD> <TD>Time to wait between sending pause/unpause frames specified in increments of 512 bit times.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MAC_INTFC_FIFO_CTL"></a>
+<br><br><h4>MAC Interface FIFO Control (MPIPE_GBE_MAC_INTFC_FIFO_CTL: 0x0018)</h4>
+Provides control over MAC interface's FIFOs for diagnostics.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MAC_INTFC_FIFO_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>21:16</TD> <TD>RX_RFIFO_AF_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls full threshold for RX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14:8</TD> <TD>TX_RFIFO_AF_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls full threshold for TX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.  This register must be written twice (or another MAC register accessed) for the value to take effect.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:0</TD> <TD>TX_RFIFO_AE_LVL_ADJ</TD> <TD>RW</TD> <TD>0</TD> <TD>Controls empty threshold for TX FIFO.  This register field is for diagnostics only.  Changing this value from the default can cause packet corruption.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_NETWORK_CONTROL"></a>
+<br><br><h4>Network Control (MPIPE_GBE_NETWORK_CONTROL: 0x8000)</h4>
+Network Control
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_NETWORK_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>ENA_LPI</TD> <TD>WO</TD> <TD>0</TD> <TD>Enable LPI transmission - when set, LPI (low power idle) is immediately transmitted on txd and tx_er.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>TX_PFC_PAUSE</TD> <TD>WO</TD> <TD>0</TD> <TD>Transmit PFC Priority Based Pause Frame. Takes the values stored in the Transmit PFC Pause Register</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>PFC_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable PFC Priority Based Pause Reception capabilities. Setting this bit will allow PFC priority based pause frames to be received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15</TD> <TD>STORE_TS</TD> <TD>RW</TD> <TD>0</TD> <TD>Store receive time stamp to memory. Setting this bit to one will cause the CRC of every received frame to be replaced with the value of the nanoseconds field of the 1588 timer that was captured as the receive frame passed the message time stamp point. Set to zero for normal operation.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>TX_PAUSE_ZERO</TD> <TD>WO</TD> <TD>0</TD> <TD>Transmit zero quantum pause frame -writing one to this bit causes a pause frame with zero quantum to be transmitted. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>TX_PAUSE</TD> <TD>WO</TD> <TD>0</TD> <TD>Transmit pause frame -writing one to this bit causes a pause frame to be transmitted. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>TX_HALT</TD> <TD>WO</TD> <TD>0</TD> <TD>Transmit halt -writing one to this bit halts transmission as <br>
+soon as any ongoing frame transmission ends. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>TX_START</TD> <TD>WO</TD> <TD>0</TD> <TD>Start transmission -writing one to this bit starts transmission. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>STAT_WREN</TD> <TD>RW</TD> <TD>0</TD> <TD>Write enable for statistics registers -setting this bit to one means the statistics registers can be written for functional test purposes. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>STAT_INC</TD> <TD>WO</TD> <TD>0</TD> <TD>Incremental statistics registers -this bit is write only. Writing a one increments all the statistics registers by one for test purposes. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>STAT_CLR</TD> <TD>WO</TD> <TD>0</TD> <TD>Clear statistics registers -this bit is write only. Writing a one clears the statistics registers. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>MDIO_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Management port enable -set to one to enable the management port. When zero forces mdio to high impedance state and mdc low. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>TX_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit enable -when set, it enables the MAC transmitter to send data. When reset transmission will stop immediately, the transmit pipeline and control registers <br>
+will be cleared and the transmit queue pointer register <br>
+will reset to point to the start of the transmit descriptor <br>
+list. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RX_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive enable -when set, it enables the MAC to receive data. When reset frame reception will stop immediately <br>
+and the receive pipeline will be cleared. The receive <br>
+queue pointer register is unaffected. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>LOOP_LOCAL</TD> <TD>RW</TD> <TD>0</TD> <TD>Loop back local -asserts the loopback_local signal to the system clock generator. Also connects txd to <br>
+rxd, tx_en to rx_dv and forces full duplex mode. <br>
+Bit 11 of the network configuration register must be set <br>
+low to disable TBI mode when in internal loopback. <br>
+rx_clk and tx_clk may malfunction as the MAC is <br>
+switched into and out of internal loop back. It is important <br>
+that receive and transmit circuits have already been disabled when making the switch into and out of internal <br>
+loop back. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>LOOP</TD> <TD>RW</TD> <TD>0</TD> <TD>Loop back - controls the loopback output pin. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_NETWORK_CONFIGURATION"></a>
+<br><br><h4>Network Configuration (MPIPE_GBE_NETWORK_CONFIGURATION: 0x8008)</h4>
+Network Configuration
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_NETWORK_CONFIGURATION.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>UNI_DIR</TD> <TD>RW</TD> <TD>0</TD> <TD>Uni-direction-enable. When low the PCS will transmit idle symbols if the link goes down. When high the PCS can transmit frame data when the link is down.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>IGN_IPG_RX_ERR</TD> <TD>RW</TD> <TD>0</TD> <TD>Ignore IPG rx_er. When set rx_er has no effect on the MAC's operation when rx_dv is low. This is not typically used.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29</TD> <TD>ACCEPT_NSP</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive bad preamble. When set frames with non-standard preamble are not rejected. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>28</TD> <TD>IPG_STRETCH</TD> <TD>RW</TD> <TD>0</TD> <TD>IPG stretch enable -when set the transmit IPG can be increased above 96 bit times depending on the previous <br>
+frame length using the IPG stretch register. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>27</TD> <TD>SGMII_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>SGMII mode enable.  Changes behavior of the auto-negotiation advertisement and link partner ability registers to meet the requirements of SGMII and reduces the duration of the link timer from 10 ms to 1.6 ms. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>26</TD> <TD>IGNORE_FCS</TD> <TD>RW</TD> <TD>0</TD> <TD>Ignore RX FCS -when set frames with FCS/CRC errors will not be rejected. FCS error statistics will still be collected for frames with bad FCS and FCS status will be <br>
+recorded in frames DMA descriptor. For normal operation <br>
+this bit must be set to zero. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>25</TD> <TD>ENA_HALF_DUPLEX</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable frames to be received in half-duplex mode while transmitting..</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>24</TD> <TD>RCV_CSUM_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive checksum offload enable -when set, the receive checksum engine is enabled. Frames with bad IP, TCP or <br>
+UDP checksums are discarded. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23</TD> <TD>DIS_PAUSE_CPY</TD> <TD>RW</TD> <TD>0</TD> <TD>Disable copy of pause frames -set to one to prevent valid pause frames being copied to memory. When set, pause  frames are not copied to memory regardless of the state  of the copy all frames bit; whether a hash match is found  or whether a type ID match is identified. If a destination  address match is found the pause frame will be copied to  memory. Note that valid pause frames received will still  increment pause statistics and pause the transmission of  frames as required.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>20:18</TD> <TD>DIV</TD> <TD>RW</TD> <TD>2</TD> <TD>MDC clock division -set according to pclk speed. These three bits determine the number pclk (125 MHz) will be divided by to <br>
+generate MDC. For conformance with the 802.3 specification, MDC must not exceed 2.5 MHz (MDC is only <br>
+active during MDIO read and write operations). 000: divide by 8, 001: divide by 16, 010: divide by 32, 011: divide by 48, 100: divide by 64, 101: divide by 96, 110: divide by 128, 111: divide by 224</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>FCS_REMOVE</TD> <TD>RW</TD> <TD>0</TD> <TD>FCS remove -setting this bit will cause received frames to be written to memory without their frame check sequence <br>
+(last 4 bytes). The frame length indicated will be reduced <br>
+by four bytes in this mode. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>LEN_ERR_DISCARD</TD> <TD>RW</TD> <TD>0</TD> <TD>Length field error frame discard -setting this bit causes frames with a measured length shorter than the extracted <br>
+length field (as indicated by bytes 13 and 14 in a non-<br>
+VLAN tagged frame) to be discarded. This only applies to <br>
+frames with a length field less than 0x0600. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:14</TD> <TD>RCV_OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive buffer offset -indicates the number of bytes by which the received data is offset from the start of the <br>
+receive buffer. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>RX_PAUSE_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Pause enable -when set, transmission will pause if a non zero pause quantum frame is received. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>RETRY_TEST</TD> <TD>RW</TD> <TD>0</TD> <TD>Retry test -must be set to zero for normal operation. If set to one the backoff between collisions will always been <br>
+one slot time. Setting this bit to one helps test the too <br>
+many retries condition. Also used in the pause frame <br>
+tests to reduce the pause counters decrement time from 512 bit times, to every rx_clk cycle.<br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>PCS_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>PCS select - must be zero</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>GIGE_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Gigabit mode enable -setting this bit configures the MAC for 1000 Mbps operation. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>EXT_MATCH_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>External address match enable -when set the external address match interface can be used to copy frames to <br>
+memory. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>RCV_1536</TD> <TD>RW</TD> <TD>0</TD> <TD>Receive 1536 byte frames -setting this bit means the MAC will accept frames up to 1536 bytes in length. Normally the MAC would reject any frame above 1518 bytes. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>UNI_HASH_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Unicast hash enable -when set, unicast frames will be accepted when the 6 bit hash function of the destination <br>
+address points to a bit that is set in the hash register. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>MULTI_HASH_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Multicast hash enable -when set, multicast frames will be accepted when the 6 bit hash function of the destination <br>
+address points to a bit that is set in the hash register. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>NO_BCST</TD> <TD>RW</TD> <TD>0</TD> <TD>No broadcast -when set to logic one, frames addressed to the broadcast address of all ones will not be accepted. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>COPY_ALL</TD> <TD>RW</TD> <TD>0</TD> <TD>Copy all frames.  When set to logic one, all valid frames will be accepted. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>JUMBO_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Jumbo frames.  Set to one to enable jumbo frames up to 10240 bytes to be accepted. The <br>
+default length is 10,240 bytes. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>DISC_NON_VLAN</TD> <TD>RW</TD> <TD>0</TD> <TD>Discard non-VLAN frames -when set only VLAN tagged frames will be passed to the address matching logic. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>FULL_DUPLEX</TD> <TD>RW</TD> <TD>0</TD> <TD>Full duplex.  If set to logic one, the transmit block ignores the state of collision and carrier sense and allows receive <br>
+while transmitting.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SPEED</TD> <TD>RW</TD> <TD>0</TD> <TD>Speed. Set to logic one to indicate 100 Mbps operation, logic zero for 10 Mbps.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_NETWORK_STATUS"></a>
+<br><br><h4>Network Status (MPIPE_GBE_NETWORK_STATUS: 0x8010)</h4>
+Network Status
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_NETWORK_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>LPI</TD> <TD>RO</TD> <TD>0</TD> <TD>Set when low power idle has been detected on receive.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>PFC_NEGOT</TD> <TD>RO</TD> <TD>0</TD> <TD>Set when PFC priority based pause has been negotiated.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>PAUSE_TX_RESOL</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS auto-negotiation pause transmit resolution. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>PAUSE_RX_RESOL</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS auto-negotiation pause receive resolution. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>FULL_DUPLEX</TD> <TD>RO</TD> <TD>0</TD> <TD>PCS auto-negotiation duplex resolution. Set to one if the resolution function determines that both devices are capable of full duplex operation. If zero half-duplex operation is <br>
+possible as long as bit 0 (PCS link state) is also one. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>PHY_MANAGEMENT_IDLE</TD> <TD>RO</TD> <TD>0</TD> <TD>The PHY management logic is idle (that is has completed). </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MDIO_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Returns status of the mdio_in pin. -</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>PCS_STATE</TD> <TD>RO</TD> <TD>0</TD> <TD>Returns status of PCS link state. If auto-negotiation is disabled this returns the synchronization status. If auto-negotiation is enabled it is set in the LINK_OK state as long as a compatible duplex mode is resolved, it is always set in the <br>
+LINK_OK state in SGMII mode. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TRANSMIT_STATUS"></a>
+<br><br><h4>Transmit Status (MPIPE_GBE_TRANSMIT_STATUS: 0x8028)</h4>
+Transmit Status
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TRANSMIT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>TX_UNDERRUN</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit under run -this bit is set if the transmitter was forced to terminate a frame that it had already began <br>
+transmitting due to further data being unavailable. This bit <br>
+is set if a transmitter status write back has not completed <br>
+when another status write back is attempted. When using <br>
+the DMA interface configured for internal FIFO mode, this <br>
+bit is also set when the transmit DMA has written the SOP <br>
+data into the FIFO and either the AHB bus was not <br>
+granted in time for further data, or because an AHB not <br>
+OK response was returned, or because a used bit was <br>
+read. When using the DMA interface configured for packet <br>
+buffer mode, this bit will never be set. When using the <br>
+external FIFO interface, this bit is also set when the <br>
+tx_r_underflow input is asserted during a frame <br>
+transfer. Cleared by writing a 1. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>TX_COMPLETE</TD> <TD>RW</TD> <TD>0</TD> <TD>Transmit complete -set when a frame has been transmitted. Cleared by writing a one to this bit. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>TX_GO</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit go -if high transmit is active. This bit represents bit 3 of the <br>
+network control register. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RETRY_EXCEEDED</TD> <TD>RW</TD> <TD>0</TD> <TD>Retry limit exceeded -cleared by writing a one to this bit. 0 </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>COLLISION</TD> <TD>RW</TD> <TD>0</TD> <TD>Collision occurred -set by the assertion of collision. Cleared by writing a one to this bit. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RECEIVE_STATUS"></a>
+<br><br><h4>Receive Status (MPIPE_GBE_RECEIVE_STATUS: 0x8040)</h4>
+Receive Status
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RECEIVE_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>FRAME_RX</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame received -one or more frames have been received and placed in memory. Cleared by writing a one to this bit. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_INTERRUPT_STATUS"></a>
+<br><br><h4>Interrupt Status (MPIPE_GBE_INTERRUPT_STATUS: 0x8048)</h4>
+Interrupt Status Register.  Each bit is write-1-to-clear
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_INTERRUPT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28</TD> <TD>WOL</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Indicates a WOL event has been received.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27</TD> <TD>LPI</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Receive LPI indication status bit change.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>26</TD> <TD>TSU_INC</TD> <TD>W1TC</TD> <TD>0</TD> <TD>TSU seconds register increment  indicates the register has incremented. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>25</TD> <TD>PTP_PDEL_RSP_XMT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_resp frame transmitted  indicates a PTP pdelay_resp frame has been transmitted. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>24</TD> <TD>PTP_PDEL_XMT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_req frame transmitted  indicates a PTP pdelay_req frame has been transmitted. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>23</TD> <TD>PTP_PDEL_RSP_RCVD</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_resp frame received  indicates a PTP pdelay_resp frame has been received. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22</TD> <TD>PTP_PDEL_RCVD</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP pdelay_req frame received  indicates a PTP pdelay_req frame has been received. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21</TD> <TD>PTP_SYNC_XMT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP sync frame transmitted  indicates a PTP sync frame has been transmitted. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>20</TD> <TD>PTP_DEL_REQ_XMT</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP delay_req frame transmitted  indicates a PTP delay_req frame has been transmitted. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19</TD> <TD>PTP_SYNC_RCVD</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP sync frame received  indicates a PTP sync frame has been received. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18</TD> <TD>PTP_DEL_RCVD</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PTP delay_req frame received  indicates a PTP delay_req frame has been received. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17</TD> <TD>PCS_PART_PAGE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PCS link partner page received - set when a new base page or next page is received from the link partner. The first time this interrupt is received, it will indicate base page received and subsequent reads will indicate next pages. The next page and base page registers should only be read when this interrupt is signaled. For next pages, the link partner next page register should be read first to avoid the register being over written if the link partner base page register is read first. This interrupt also indicates when the host should write a new next page into the base page register. If further next page exchange is not required, this register should be written with a null message page. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>16</TD> <TD>PCS_AN_COMP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>PCS auto-negotiation complete - set once the internal PCS layer has completed auto-negotiation. Clears when written with a 1.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>PAUSE_TX</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Pause frame transmitted -indicates a pause frame has been successfully transmitted after being initiated from <br>
+the network control register or from the tx_pause control pin. Clears when written with a 1. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>PAUSE_ZERO</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Pause time zero -set when either the pause time register at address 0x38 decrements to zero, or when a valid <br>
+pause frame is received with a zero pause quantum field. <br>
+Clears when written with a 1. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>PAUSE_RX</TD> <TD>RO</TD> <TD>0</TD> <TD>Pause frame with non-zero pause quantum received indicates a valid pause has been received that has a nonzero pause quantum field. Clears when written with a 1. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>LINK_CHANGE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Link change -set when the state of the link detected by the internal PCS changes state. Clears when written with a 1. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>TX_COMP</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Transmit complete -set when a frame has been transmitted. Clears when written with a 1. </TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>TX_UNDERRUN</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit under run -this interrupt is set if the transmitter was forced to terminate a frame that it has already began <br>
+transmitting due to further data being unavailable. If an <br>
+under run occurs, the transmitter will force bad crc and <br>
+tx_er high. This interrupt is set if a transmitter status <br>
+write back has not completed when another status write <br>
+back is attempted.  Clears when written with a 1. </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>RX_COMPLETE</TD> <TD>W1TC</TD> <TD>0</TD> <TD>Receive complete -a frame has been stored in memory. Clears when written with a 1. <br>
+</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>TX_COMPLETE</TD> <TD>RO</TD> <TD>0</TD> <TD>frame sent -the PHY maintenance register has completed its operation. Clears when written with a 1.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_INTERRUPT_ENABLE"></a>
+<br><br><h4>Interrupt Enable (MPIPE_GBE_INTERRUPT_ENABLE: 0x8050)</h4>
+Interrupt Enable
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_INTERRUPT_ENABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28:0</TD> <TD>INT_ENA</TD> <TD>WO</TD> <TD>0</TD> <TD>Enable the associated interrupt</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_INTERRUPT_DISABLE"></a>
+<br><br><h4>Interrupt Disable (MPIPE_GBE_INTERRUPT_DISABLE: 0x8058)</h4>
+Interrupt Disable
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_INTERRUPT_DISABLE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28:0</TD> <TD>INT_DIS</TD> <TD>WO</TD> <TD>0</TD> <TD>Disable the associated interrupt</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_INTERRUPT_MASK"></a>
+<br><br><h4>Interrupt Mask (MPIPE_GBE_INTERRUPT_MASK: 0x8060)</h4>
+Interrupt Mask
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_INTERRUPT_MASK.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>28:0</TD> <TD>INT_MASK</TD> <TD>RW</TD> <TD>1fffffffh</TD> <TD>A read of this register returns the value of the associated interrupt mask. 0: Interrupt is enabled 1: Interrupt is <br>
+disabled A write to this register directly affects the state of <br>
+the corresponding bit in the interrupt status register, <br>
+causing an interrupt to be generated if a 1 is written. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PHY_MAINTENANCE"></a>
+<br><br><h4>PHY Maintenance (MPIPE_GBE_PHY_MAINTENANCE: 0x8068)</h4>
+PHY Maintenance
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PHY_MAINTENANCE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>MBZ</TD> <TD>RW</TD> <TD>0</TD> <TD>Must be written with 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>30</TD> <TD>CLS_22</TD> <TD>RW</TD> <TD>0</TD> <TD>Must be written to 1 for Clause 22 operation.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>29:28</TD> <TD>OP</TD> <TD>RW</TD> <TD>0</TD> <TD>Operation. 10 is read. 01 is write.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:23</TD> <TD>PHY_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>PHY address.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>22:18</TD> <TD>REG_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Register address -specifies the register in the PHY to access. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>17:16</TD> <TD>MB2</TD> <TD>RW</TD> <TD>0</TD> <TD>Must be written to 10(b)</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>DATA</TD> <TD>RW</TD> <TD>0</TD> <TD>For a write operation this is written with the data to be written to the PHY. After a read operation this contains <br>
+the data read from the PHY. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RECEIVED_PAUSE_QUANTUM"></a>
+<br><br><h4>Received Pause Quantum (MPIPE_GBE_RECEIVED_PAUSE_QUANTUM: 0x8070)</h4>
+Received Pause Quantum
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RECEIVED_PAUSE_QUANTUM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>RX_PAUSE_QUANT</TD> <TD>RO</TD> <TD>0</TD> <TD>Received pause quantum -stores the current value of the received pause quantum register which is decremented <br>
+every 512 bit times. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TRANSMIT_PAUSE_QUANTUM"></a>
+<br><br><h4>Transmit Pause Quantum (MPIPE_GBE_TRANSMIT_PAUSE_QUANTUM: 0x8078)</h4>
+Transmit Pause Quantum
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TRANSMIT_PAUSE_QUANTUM.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>TX_PAUSE_QUANT</TD> <TD>RW</TD> <TD>ffffh</TD> <TD>Transmit pause quantum -written with the pause quantum value for pause frame transmission. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_HASH_BOTTOM_31_0"></a>
+<br><br><h4>Hash Register Bottom (MPIPE_GBE_HASH_BOTTOM_31_0: 0x8100)</h4>
+Hash Register Bottom [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_HASH_BOTTOM_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HASH_BOTTOM</TD> <TD>RW</TD> <TD>0</TD> <TD>The first 32 bits of the hash address register. See Hash Addressing <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_HASH_TOP_63_32"></a>
+<br><br><h4>Hash Register Top (MPIPE_GBE_HASH_TOP_63_32: 0x8108)</h4>
+Hash Register Top [63:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_HASH_TOP_63_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HASH_TOP</TD> <TD>RW</TD> <TD>0</TD> <TD>The remaining 32 bits of the hash address register. See Hash Addressing <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_1_BOTTOM_31_0"></a>
+<br><br><h4>Specific Address 1 Bottom (MPIPE_GBE_SPECIFIC_ADDRESS_1_BOTTOM_31_0: 0x8110)</h4>
+Specific Address 1 Bottom [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_1_BOTTOM_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Least significant 32 bits of the destination address, that is bits 31:0. Bit zero indicates whether the address is multicast or unicast and corresponds to the least significant bit <br>
+of the first byte received. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_1_TOP_47_32"></a>
+<br><br><h4>Specific Address 1 Top (MPIPE_GBE_SPECIFIC_ADDRESS_1_TOP_47_32: 0x8118)</h4>
+Specific Address 1 Top [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_1_TOP_47_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specific address 1. The most significant bits of the destination address, that is bits 47:32. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_2_BOTTOM_31_0"></a>
+<br><br><h4>Specific Address 2 Bottom (MPIPE_GBE_SPECIFIC_ADDRESS_2_BOTTOM_31_0: 0x8120)</h4>
+Specific Address 2 Bottom [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_2_BOTTOM_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Least significant 32 bits of the destination address, that is bits 31:0. Bit zero indicates whether the address is multicast or unicast and corresponds to the least significant bit <br>
+of the first byte received. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_2_TOP_47_32"></a>
+<br><br><h4>Specific Address 2 Top (MPIPE_GBE_SPECIFIC_ADDRESS_2_TOP_47_32: 0x8128)</h4>
+Specific Address 2 Top [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_2_TOP_47_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specific address 2. The most significant bits of the destination address, that is bits 47:32. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_3_BOTTOM_31_0"></a>
+<br><br><h4>Specific Address 3 Bottom (MPIPE_GBE_SPECIFIC_ADDRESS_3_BOTTOM_31_0: 0x8130)</h4>
+Specific Address 3 Bottom [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_3_BOTTOM_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Least significant 32 bits of the destination address, that is bits 31:0. Bit zero indicates whether the address is multicast or unicast and corresponds to the least significant bit <br>
+of the first byte received. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_3_TOP_47_32"></a>
+<br><br><h4>Specific Address 3 Top (MPIPE_GBE_SPECIFIC_ADDRESS_3_TOP_47_32: 0x8138)</h4>
+Specific Address 3 Top [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_3_TOP_47_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specific address 3. The most significant bits of the destination address, that is bits 47:32. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_4_BOTTOM_31_0"></a>
+<br><br><h4>Specific Address 4 Bottom (MPIPE_GBE_SPECIFIC_ADDRESS_4_BOTTOM_31_0: 0x8140)</h4>
+Specific Address 4 Bottom [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_4_BOTTOM_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Least significant 32 bits of the destination address, that is bits 31:0. Bit zero indicates whether the address is multicast or unicast and corresponds to the least significant bit <br>
+of the first byte received. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SPECIFIC_ADDRESS_4_TOP_47_32"></a>
+<br><br><h4>Specific Address 4 Top (MPIPE_GBE_SPECIFIC_ADDRESS_4_TOP_47_32: 0x8148)</h4>
+Specific Address 4 Top [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SPECIFIC_ADDRESS_4_TOP_47_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specific address 4. The most significant bits of the destination address, that is bits 47:32. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TYPE_ID_MATCH_1"></a>
+<br><br><h4>Type ID Match 1 (MPIPE_GBE_TYPE_ID_MATCH_1: 0x8150)</h4>
+Type ID Match 1
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TYPE_ID_MATCH_1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>TYP_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type ID match 1 matched frames. 0 </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type ID match 1. For use in comparisons with received frames type ID/length field. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TYPE_ID_MATCH_2"></a>
+<br><br><h4>Type ID Match 2 (MPIPE_GBE_TYPE_ID_MATCH_2: 0x8158)</h4>
+Type ID Match 2
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TYPE_ID_MATCH_2.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>TYP_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type ID match 2 matched frames. 0 </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type ID match 2. For use in comparisons with received frames type ID/length field. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TYPE_ID_MATCH_3"></a>
+<br><br><h4>Type ID Match 3 (MPIPE_GBE_TYPE_ID_MATCH_3: 0x8160)</h4>
+Type ID Match 3
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TYPE_ID_MATCH_3.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>TYP_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type ID match 3 matched frames. 0 </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type ID match 3. For use in comparisons with received frames type ID/length field. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TYPE_ID_MATCH_4"></a>
+<br><br><h4>Type ID Match 4 (MPIPE_GBE_TYPE_ID_MATCH_4: 0x8168)</h4>
+Type ID Match 4
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TYPE_ID_MATCH_4.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>TYP_ENA</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable copying of type ID match 4 matched frames. 0 </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>Type ID match 4. For use in comparisons with received frames type ID/length field. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_WAKE_ON_LAN"></a>
+<br><br><h4>Wake on LAN (MPIPE_GBE_WAKE_ON_LAN: 0x8170)</h4>
+Provides control over wake on lan event.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_WAKE_ON_LAN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>19</TD> <TD>MCST_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Wake on LAN multicast hash event enable.  When set, multicast hash events will cause the WOL event to be detected.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>18</TD> <TD>SPECIFIC_ADDR</TD> <TD>RW</TD> <TD>0</TD> <TD>Specific address 1 register event enable.  When set, specific address 1 events will cause WOL to be detected.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17</TD> <TD>ARP</TD> <TD>RW</TD> <TD>0</TD> <TD>Wake on LAN ARP request event enable.  When set, ARP request events will cause WOL to be detected.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>16</TD> <TD>MAGIC</TD> <TD>RW</TD> <TD>0</TD> <TD>Wake on LAN magic packet event enable.  When set, magic packet events will cause the WOL event to be detected.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>ARP_IP</TD> <TD>RW</TD> <TD>0</TD> <TD>Wake on LAN ARP request UP address.  Written to define the least significant 16 bits of the target IP address that is matched to generate a WOL event.  A value of zero will not generate an event even if this is matched by the received frame.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_IPG_STRETCH"></a>
+<br><br><h4>IPG stretch (MPIPE_GBE_IPG_STRETCH: 0x8178)</h4>
+IPG stretch
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_IPG_STRETCH.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>STRETCH</TD> <TD>RW</TD> <TD>0</TD> <TD>Bits 7:0 are multiplied with the previously transmitted frame length (including preamble) bits 15:8 +1 divide the <br>
+frame length. If the resulting number is greater than 96 <br>
+and bit 28 is set in the network configuration register <br>
+then the resulting number is used for the transmit inter-<br>
+packet-gap. 1 is added to bits 15:8 to prevent a divide by <br>
+zero. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_STACKED_VLAN"></a>
+<br><br><h4>Stacked VLan (MPIPE_GBE_STACKED_VLAN: 0x8180)</h4>
+Stacked Vlan
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_STACKED_VLAN.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable Stacked VLAN processing mode</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>VLAN_TYPE</TD> <TD>RW</TD> <TD>0</TD> <TD>User defined VLAN_TYPE field. When Stacked VLAN is enabled, the first VLAN tag in a received frame will only be accepted if the VLAN type field is equal to this user defined VLAN_TYPE OR equal to the standard VLAN type (0x8100). Note that the second VLAN tag of a Stacked VLAN packet will only be matched correctly if its VLAN_TYPE field equals 0x8100.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TX_PFC_PAUSE"></a>
+<br><br><h4>Transmit PFC Pause (MPIPE_GBE_TX_PFC_PAUSE: 0x8188)</h4>
+Controls dispatch of PFC pause frames.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TX_PFC_PAUSE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:8</TD> <TD>PFC_QUANTA</TD> <TD>RW</TD> <TD>0</TD> <TD>If bit 17 of the network control register is written with a one then for each entry equal to zero in the Transmit PFC Pause Register[15:8], the PFC pause frame's pause quantum field associated with that entry will be taken from the transmit pause quantum register. For each entry equal to one in the Transmit PFC Pause Register [15:8], the pause quantum associated with that entry will be zero.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>PFC_PEV</TD> <TD>RW</TD> <TD>0</TD> <TD>If bit 17 of the network control register is written with a one then the priority enable vector of the PFC priority based pause frame will be set equal to the value stored in this register [7:0].</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MODULE_ID"></a>
+<br><br><h4>Module ID (MPIPE_GBE_MODULE_ID: 0x81f8)</h4>
+Module ID
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MODULE_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:16</TD> <TD>ID</TD> <TD>RO</TD> <TD>2</TD> <TD>Module identification number, this value is fixed at 0x0002. <br>
+</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>15:0</TD> <TD>REV</TD> <TD>RO</TD> <TD>HW <TD>Module revision -fixed byte value specific to the revision of the design which is incremented after each release of <br>
+the IP.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_OCTETS_TX_LO"></a>
+<br><br><h4>Octets Transmitted (MPIPE_GBE_OCTETS_TX_LO: 0x8200)</h4>
+Octets Transmitted [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_OCTETS_TX_LO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OCTETS</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmitted octets in frame without errors [31:0]. The number of octets transmitted in valid frames of any type. <br>
+This counter is 48-bits, and is read through two registers. <br>
+This count does not include octets from automatically <br>
+generated pause frames. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_OCTETS_TX_HI"></a>
+<br><br><h4>Octets Transmitted (MPIPE_GBE_OCTETS_TX_HI: 0x8208)</h4>
+Octets Transmitted [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_OCTETS_TX_HI.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>OCTETS</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmitted octets in frame without errors [47:32]. The number of octets transmitted in valid frames of any type. <br>
+This counter is 48-bits, and is read through two registers. <br>
+This count does not include octets from automatically <br>
+generated pause frames. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_FRAMES_TX"></a>
+<br><br><h4>Frames Transmitted (MPIPE_GBE_FRAMES_TX: 0x8210)</h4>
+Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Frames transmitted without error. A 32 bit register counting the number of frames successfully transmitted, that is no under run and not too many retries. Excludes pause <br>
+frames. </TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_BCST_FRAMES_TX"></a>
+<br><br><h4>Broadcast Frames Transmitted (MPIPE_GBE_BCST_FRAMES_TX: 0x8218)</h4>
+Broadcast Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_BCST_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Broadcast frames transmitted without error. A 32 bit register counting the number of broadcast frames successfully transmitted without error, that is no under run and not too many retries. Excludes pause frames.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MCST_FRAMES_TX"></a>
+<br><br><h4>Multicast Frames Transmitted (MPIPE_GBE_MCST_FRAMES_TX: 0x8220)</h4>
+Multicast Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MCST_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>0 Multicast frames transmitted without error. A 32 bit register counting the number of multicast frames successfully transmitted without error, that is no under run and not too many retries. Excludes pause frames.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PAUSE_FRAMES_TX"></a>
+<br><br><h4>Pause Frames Transmitted (MPIPE_GBE_PAUSE_FRAMES_TX: 0x8228)</h4>
+Pause Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PAUSE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmitted pause frames -a 16 bit register counting the number of pause frames transmitted. Only pause frames <br>
+triggered by the register interface or through the external <br>
+pause pins are counted as pause frames. Pause frames <br>
+received through the external FIFO interface are counted <br>
+in the frames transmitted counter. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_64_BYTE_FRAMES_TX"></a>
+<br><br><h4>64 Byte Frames Transmitted (MPIPE_GBE_64_BYTE_FRAMES_TX: 0x8230)</h4>
+64 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_64_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>64 byte frames transmitted without error. A 32 bit register counting the number of 64 byte frames successfully <br>
+transmitted without error, that is no under run and not too <br>
+many retries. Excludes pause frames. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_65_TO_127_BYTE_FRAMES_TX"></a>
+<br><br><h4>65 to 127 Byte Frames Transmitted (MPIPE_GBE_65_TO_127_BYTE_FRAMES_TX: 0x8238)</h4>
+65 to 127 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_65_TO_127_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>65 to127 byte frames transmitted without error. A 32 bit register counting the number of 65 to127 byte frames <br>
+successfully transmitted without error, that is no under <br>
+run and not too many retries. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_128_TO_255_BYTE_FRAMES_TX"></a>
+<br><br><h4>128 to 255 Byte Frames Transmitted (MPIPE_GBE_128_TO_255_BYTE_FRAMES_TX: 0x8240)</h4>
+128 to 255 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_128_TO_255_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>128 to 255 byte frames transmitted without error. A 32 bit register counting the number of 128 to 255 byte frames <br>
+successfully transmitted without error, that is no under <br>
+run and not too many retries. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_256_TO_511_BYTE_FRAMES_TX"></a>
+<br><br><h4>256 to 511 Byte Frames Transmitted (MPIPE_GBE_256_TO_511_BYTE_FRAMES_TX: 0x8248)</h4>
+256 to 511 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_256_TO_511_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RW</TD> <TD>0</TD> <TD>256 to 511 byte frames transmitted without error. A 32 bit register counting the number of 256 to 511 byte frames <br>
+successfully transmitted without error, that is no under <br>
+run and not too many retries. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_512_TO_1023_BYTE_FRAMES_TX"></a>
+<br><br><h4>512 to 1023 Byte Frames Transmitted (MPIPE_GBE_512_TO_1023_BYTE_FRAMES_TX: 0x8250)</h4>
+512 to 1023 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_512_TO_1023_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>512 to 1023 byte frames transmitted without error. A 32 bit register counting the number of 512 to 1023 byte <br>
+frames successfully transmitted without error, that is no <br>
+under run and not too many retries. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_TX"></a>
+<br><br><h4>1024 to 1518 Byte Frames Transmitted (MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_TX: 0x8258)</h4>
+1024 to 1518 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>1024 to 1518 byte frames transmitted without error. A 32 bit register counting the number of 1024 to 1518 byte <br>
+frames successfully transmitted without error, that is no <br>
+under run and not too many retries. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_GREATER_THAN_1518_BYTE_FRAMES_TX"></a>
+<br><br><h4>Greater Than 1518 Byte Frames Transmitted (MPIPE_GBE_GREATER_THAN_1518_BYTE_FRAMES_TX: 0x8260)</h4>
+Greater Than 1518 Byte Frames Transmitted
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_GREATER_THAN_1518_BYTE_FRAMES_TX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Greater than 1518 byte frames transmitted without error. A 32 bit register counting the number of 1518 or above <br>
+byte frames successfully transmitted without error, that is <br>
+no under run and not too many retries. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TX_UNDER_RUNS"></a>
+<br><br><h4>Transmit Under Runs (MPIPE_GBE_TX_UNDER_RUNS: 0x8268)</h4>
+Transmit Under Runs
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TX_UNDER_RUNS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>UNDERRUNS</TD> <TD>RO</TD> <TD>0</TD> <TD>Transmit under runs -a 10 bit register counting the number of frames not transmitted due to a transmit under run. If this register is incremented then no other statistics <br>
+register is incremented. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_SINGLE_COLLISION_FRAMES"></a>
+<br><br><h4>Single Collision Frames (MPIPE_GBE_SINGLE_COLLISION_FRAMES: 0x8270)</h4>
+Single Collision Frames
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_SINGLE_COLLISION_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Single collision frames -an 18 bit register counting the number of frames experiencing a single collision before <br>
+being successfully transmitted, that is no under run. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MULTIPLE_COLLISION_FRAMES"></a>
+<br><br><h4>Multiple Collision Frames (MPIPE_GBE_MULTIPLE_COLLISION_FRAMES: 0x8278)</h4>
+Multiple Collision Frames
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MULTIPLE_COLLISION_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Multiple collision frames -an 18 bit register counting the number of frames experiencing between two and fifteen <br>
+collisions prior to being successfully transmitted, that is <br>
+no under run and not too many retries. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_EXCESSIVE_COLLISIONS"></a>
+<br><br><h4>Excessive Collisions (MPIPE_GBE_EXCESSIVE_COLLISIONS: 0x8280)</h4>
+Excessive Collisions
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_EXCESSIVE_COLLISIONS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Excessive collisions -a 10 bit register counting the number of frames that failed to be transmitted because they experienced 16 collisions. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_LATE_COLLISIONS"></a>
+<br><br><h4>Late Collisions (MPIPE_GBE_LATE_COLLISIONS: 0x8288)</h4>
+Late Collisions
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_LATE_COLLISIONS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>COLLISIONS</TD> <TD>RO</TD> <TD>0</TD> <TD>Late collisions -a 10 bit register counting the number of late collision occurring after the slot time (512 bits) has <br>
+expired. In 10/100 mode, late collisions are counted <br>
+twice that is both as a collision and a late collision. In <br>
+gigabit mode, a late collision causes the transmission to <br>
+be aborted, thus the single and multi collision registers <br>
+are not updated. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_DEFERRED_TRANSMISSION_FRAMES"></a>
+<br><br><h4>Deferred Transmission Frames (MPIPE_GBE_DEFERRED_TRANSMISSION_FRAMES: 0x8290)</h4>
+Deferred Transmission Frames
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_DEFERRED_TRANSMISSION_FRAMES.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>17:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Deferred transmission frames -an 18 bit register counting the number of frames experiencing deferral due to carrier sense being active on their first attempt at transmission. Frames involved in any collision are not <br>
+counted nor are frames that experienced a transmit <br>
+under run. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_CARRIER_SENSE_ERRORS"></a>
+<br><br><h4>Carrier Sense Errors (MPIPE_GBE_CARRIER_SENSE_ERRORS: 0x8298)</h4>
+Carrier Sense Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_CARRIER_SENSE_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>CS_ERRS</TD> <TD>RO</TD> <TD>0</TD> <TD>Carrier sense errors -a 10 bit register counting the number of frames transmitted where carrier sense was not seen during transmission or where carrier sense was <br>
+deasserted after being asserted in a transmit frame without collision (no under run). Only incremented in half <br>
+duplex mode. The only effect of a carrier sense error is <br>
+to increment this register. The behavior of the other statistics registers is unaffected by the detection of a carrier <br>
+sense error. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_OCTETS_RX_31_0"></a>
+<br><br><h4>Octets Received (MPIPE_GBE_OCTETS_RX_31_0: 0x82a0)</h4>
+Octets Received [31:0]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_OCTETS_RX_31_0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OCTETS</TD> <TD>RO</TD> <TD>0</TD> <TD>Received octets in frame without errors [31:0]. The number of octets received in valid frames of any type. This counter is 48-bits and is read through two registers. This <br>
+count does not include octets from pause frames, and is <br>
+only incremented if the frame is successfully filtered and <br>
+copied to memory. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_OCTETS_RX_47_32"></a>
+<br><br><h4>Octets Received (MPIPE_GBE_OCTETS_RX_47_32: 0x82a8)</h4>
+Octets Received [47:32]
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_OCTETS_RX_47_32.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>OCTETS</TD> <TD>RO</TD> <TD>0</TD> <TD>Received octets in frame without errors [47:32]. The number of octets received in valid frames of any type. <br>
+This counter is 48-bits and is read through two registers. <br>
+This count does not include octets from pause frames, <br>
+and is only incremented if the frame is successfully filtered and copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_FRAMES_RX"></a>
+<br><br><h4>Frames Received (MPIPE_GBE_FRAMES_RX: 0x82b0)</h4>
+Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Frames received without error. A 32 bit register counting the number of frames successfully received. Excludes <br>
+pause frames, and is only incremented if the frame is <br>
+successfully filtered and copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_BROADCAST_FRAMES_RX"></a>
+<br><br><h4>Broadcast Frames Received (MPIPE_GBE_BROADCAST_FRAMES_RX: 0x82b8)</h4>
+Broadcast Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_BROADCAST_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Broadcast frames received without error. A 32 bit register counting the number of broadcast frames successfully <br>
+received without error. Excludes pause frames, and is <br>
+only incremented if the frame is successfully filtered and <br>
+copied to memory. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_MULTICAST_FRAMES_RX"></a>
+<br><br><h4>Multicast Frames Received (MPIPE_GBE_MULTICAST_FRAMES_RX: 0x82c0)</h4>
+Multicast Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_MULTICAST_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Multicast frames received without error. A 32 bit register counting the number of multicast frames successfully <br>
+received without error. Excludes pause frames, and is <br>
+only incremented if the frame is successfully filtered and <br>
+copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PAUSE_FRAMES_RX"></a>
+<br><br><h4>Pause Frames Received (MPIPE_GBE_PAUSE_FRAMES_RX: 0x82c8)</h4>
+Pause Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PAUSE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Received pause frames -a 16 bit register counting the number of pause frames received without error. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_64_BYTE_FRAMES_RX"></a>
+<br><br><h4>64 Byte Frames Received (MPIPE_GBE_64_BYTE_FRAMES_RX: 0x82d0)</h4>
+64 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_64_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>64 byte frames received without error. A 32 bit register counting the number of 64 byte frames successfully <br>
+received without error. Excludes pause frames, and is <br>
+only incremented if the frame is successfully filtered and <br>
+copied to memory. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_65_TO_127_BYTE_FRAMES_RX"></a>
+<br><br><h4>65 to 127 Byte Frames Received (MPIPE_GBE_65_TO_127_BYTE_FRAMES_RX: 0x82d8)</h4>
+65 to 127 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_65_TO_127_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>65 to 127 byte frames received without error. A 32 bit register counting the number of 65 to 127 byte frames <br>
+successfully received without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_128_TO_255_BYTE_FRAMES_RX"></a>
+<br><br><h4>128 to 255 Byte Frames Received (MPIPE_GBE_128_TO_255_BYTE_FRAMES_RX: 0x82e0)</h4>
+128 to 255 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_128_TO_255_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>128 to 255 byte frames received without error. A 32 bit register counting the number of 128 to 255 byte frames <br>
+successfully received without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_256_TO_511_BYTE_FRAMES_RX"></a>
+<br><br><h4>256 to 511 Byte Frames Received (MPIPE_GBE_256_TO_511_BYTE_FRAMES_RX: 0x82e8)</h4>
+256 to 511 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_256_TO_511_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>256 to 511 byte frames received without error. A 32 bit register counting the number of 256 to 511 byte frames <br>
+successfully transmitted without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_512_TO_1023_BYTE_FRAMES_RX"></a>
+<br><br><h4>512 to 1023 Byte Frames Received (MPIPE_GBE_512_TO_1023_BYTE_FRAMES_RX: 0x82f0)</h4>
+512 to 1023 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_512_TO_1023_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>512 to 1023 byte frames received without error. A 32 bit register counting the number of 512 to 1023 byte frames <br>
+successfully received without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_RX"></a>
+<br><br><h4>1024 to 1518 Byte Frames Received (MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_RX: 0x82f8)</h4>
+1024 to 1518 Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1024_TO_1518_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>1024 to 1518 byte frames received without error. A 32 bit register counting the number of 1024 to 1518 byte frames <br>
+successfully received without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1519_TO_MAXIMUM_BYTE_FRAMES_RX"></a>
+<br><br><h4>1519 to Maximum Byte Frames Received (MPIPE_GBE_1519_TO_MAXIMUM_BYTE_FRAMES_RX: 0x8300)</h4>
+1519 to Maximum Byte Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1519_TO_MAXIMUM_BYTE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>1519 to maximum byte frames received without error. A 32 bit register counting the number of 1519 to max byte frames <br>
+successfully received without error. Excludes pause <br>
+frames, and is only incremented if the frame is successfully filtered and copied to memory.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_UNDERSIZED_FRAMES_RX"></a>
+<br><br><h4>Undersized Frames Received (MPIPE_GBE_UNDERSIZED_FRAMES_RX: 0x8308)</h4>
+Undersized Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_UNDERSIZED_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Undersize frames received -a 10 bit register counting the number of frames received less than 64 bytes in length <br>
+(10/100 mode or gigabit mode, full duplex) that do not <br>
+have either a CRC error or an alignment error. In gigabit <br>
+mode, half duplex, this register counts either frames not <br>
+conforming to the minimum slot time of 512 bytes or <br>
+frames not conforming to the minimum frame size once <br>
+bursting is active. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_OVERSIZE_FRAMES_RX"></a>
+<br><br><h4>Oversize Frames Received (MPIPE_GBE_OVERSIZE_FRAMES_RX: 0x8310)</h4>
+Oversize Frames Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_OVERSIZE_FRAMES_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Oversize frames received -a 10 bit register counting the number of frames received exceeding 1518 bytes (1536 <br>
+bytes if bit 8 is set in network configuration register, 10,240 bytes if bit 3 is set in the network configuration register) in length but do not have either a CRC error, an <br>
+alignment error nor a receive symbol error.<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_JABBERS_RX"></a>
+<br><br><h4>Jabbers Received (MPIPE_GBE_JABBERS_RX: 0x8318)</h4>
+Jabbers Received
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_JABBERS_RX.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Jabbers received -a 10 bit register counting the number of frames received exceeding 1518 bytes (1536 if bit 8 <br>
+set in network configuration register, 10,240 bytes if bit 3 <br>
+is set in the network configuration register) in length and <br>
+have either a CRC error, an alignment error or a receive <br>
+symbol error. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_FRAME_CHECK_SEQUENCE_ERRORS"></a>
+<br><br><h4>Frame Check Sequence Errors (MPIPE_GBE_FRAME_CHECK_SEQUENCE_ERRORS: 0x8320)</h4>
+Frame Check Sequence Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_FRAME_CHECK_SEQUENCE_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Frame check sequence errors -a 10 bit register counting frames that are an integral number of bytes, have bad <br>
+CRC and are between 64 and 1518 bytes in length (1536 <br>
+if bit 8 set in network configuration register, 10,240 bytes <br>
+if bit 3 is set in the network configuration register). This <br>
+register is also incremented if a symbol error is detected <br>
+and the frame is of valid length and has an integral number of bytes. This register is incremented for a frame with <br>
+bad FCS, regardless of whether it is copied to memory <br>
+due to ignore FCS mode being enabled in bit 26 of the <br>
+network configuration register. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_LENGTH_FIELD_FRAME_ERRORS"></a>
+<br><br><h4>Length Field Frame Errors (MPIPE_GBE_LENGTH_FIELD_FRAME_ERRORS: 0x8328)</h4>
+Length Field Frame Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_LENGTH_FIELD_FRAME_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Length field frame errors -this 10-bit register counts the number of frames received that have a measured length <br>
+shorter than that extracted from the length field (bytes 13 <br>
+and 14). This condition is only counted if the value of the <br>
+length field is less than 0x0600, the frame is not of excessive length and checking is enabled through bit 16 of the <br>
+network configuration register. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RECEIVE_SYMBOL_ERRORS"></a>
+<br><br><h4>Receive Symbol Errors (MPIPE_GBE_RECEIVE_SYMBOL_ERRORS: 0x8330)</h4>
+Receive Symbol Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RECEIVE_SYMBOL_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Receive symbol errors -a 10-bit register counting the number of frames that had rx_er asserted during <br>
+reception. For 10/100 mode symbol errors are counted <br>
+regardless of frame length checks. For gigabit mode the <br>
+frame must satisfy slot time requirements in order to <br>
+count a symbol error. Additionally, in gigabit half duplex <br>
+mode, carrier extension errors are also recorded. <br>
+Receive symbol errors will also be counted as an FCS or <br>
+alignment error if the frame is between 64 and 1518 bytes <br>
+(1536 bytes if bit 8 is set in the network configuration register, 10240 bytes if bit 3 is set in the network configuration register). If the frame is larger it will be recorded as a <br>
+jabber error. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_ALIGNMENT_ERRORS"></a>
+<br><br><h4>Alignment Errors (MPIPE_GBE_ALIGNMENT_ERRORS: 0x8338)</h4>
+Alignment Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_ALIGNMENT_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Alignment errors -a 10 bit register counting frames that are not an integral number of bytes long and have bad <br>
+CRC when their length is truncated to an integral number <br>
+of bytes and are between 64 and 1518 bytes in length <br>
+(1536 if bit 8 set in network configuration register, 10,240 <br>
+bytes if bit 3 is set in the network configuration register). <br>
+This register is also incremented if a symbol error is <br>
+detected and the frame is of valid length and does not <br>
+have an integral number of bytes. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RECEIVE_OVERRUNS"></a>
+<br><br><h4>Receive Overruns (MPIPE_GBE_RECEIVE_OVERRUNS: 0x8348)</h4>
+Receive Overruns
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RECEIVE_OVERRUNS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>9:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>Receive overruns -a 10 bit register counting the number of frames that are address recognized but were not copied to memory due to a receive overrun. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_IP_HEADER_CHECKSUM_ERRORS"></a>
+<br><br><h4>IP Header Checksum Errors (MPIPE_GBE_IP_HEADER_CHECKSUM_ERRORS: 0x8350)</h4>
+IP Header Checksum Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_IP_HEADER_CHECKSUM_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>IP header checksum errors -an 8-bit register counting the number of frames discarded due to an incorrect IP <br>
+header checksum, but are between 64 and 1518 bytes <br>
+(1536 bytes if bit 8 is set in the network configuration register or 10240 bytes if bit 3 is in the network configuration <br>
+register) and do not have a CRC error, an alignment <br>
+error, nor a symbol error. <br>
+<br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_TCP_CHECKSUM_ERRORS"></a>
+<br><br><h4>TCP Checksum Errors (MPIPE_GBE_TCP_CHECKSUM_ERRORS: 0x8358)</h4>
+TCP Checksum Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_TCP_CHECKSUM_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FRAMES</TD> <TD>RW</TD> <TD>0</TD> <TD>TCP checksum errors -an 8-bit register counting the number of frames discarded due to an incorrect TCP <br>
+checksum, but are between 64 and 1518 bytes (1536 <br>
+bytes if bit 8 is set in the network configuration register or 10240 bytes if bit 3 is in the network configuration register) and do not have a CRC error, an alignment error, nor a symbol error. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_UDP_CHECKSUM_ERRORS"></a>
+<br><br><h4>UDP Checksum Errors (MPIPE_GBE_UDP_CHECKSUM_ERRORS: 0x8360)</h4>
+UDP Checksum Errors
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_UDP_CHECKSUM_ERRORS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>FRAMES</TD> <TD>RO</TD> <TD>0</TD> <TD>UDP checksum errors -an 8-bit register counting the number of frames discarded due to an incorrect UDP <br>
+checksum, but are between 64 and 1518 bytes (1536 <br>
+bytes if bit 8 is set in the network configuration register or 10240 bytes if bit 3 is in the network configuration register) and do not have a CRC error, an alignment error, nor a symbol error. <br>
+</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1588_TIMER_SECONDS"></a>
+<br><br><h4>1588 Timer Seconds (MPIPE_GBE_1588_TIMER_SECONDS: 0x83a0)</h4>
+1588 Timer Seconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1588_TIMER_SECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>TIMER_COUNT_SECONDS</TD> <TD>RW</TD> <TD>0</TD> <TD>Timer count in seconds. This register is writeable. It increments by one when the 1588 nanoseconds counter counts to one second. It may also be incremented when the timer adjust register is written.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1588_TIMER_NANOSECONDS"></a>
+<br><br><h4>1588 Timer Nanoseconds (MPIPE_GBE_1588_TIMER_NANOSECONDS: 0x83a8)</h4>
+1588 Timer Nanoseconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1588_TIMER_NANOSECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>TIMER_COUNT_NANOSECONDS</TD> <TD>RW</TD> <TD>0</TD> <TD>Timer count in nanoseconds. This register is writeable. It can also be adjusted by writes to the 1588 timer adjust register. It increments by the value of the 1588 timer increment register each clock cycle.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1588_TIMER_ADJUST"></a>
+<br><br><h4>1588 Timer Adjust (MPIPE_GBE_1588_TIMER_ADJUST: 0x83b0)</h4>
+1588 Timer Adjust
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1588_TIMER_ADJUST.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31</TD> <TD>WRITE</TD> <TD>WO</TD> <TD>0</TD> <TD>Write as one to subtract from the 1588 timer. Write as zero to add to it.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>29:0</TD> <TD>INCREMENT_DECREMENT</TD> <TD>WO</TD> <TD>0</TD> <TD>The number of nanoseconds to increment or decrement the 1588 timer nanoseconds register. If necessary the 1588 seconds register will be incremented or decremented</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_1588_TIMER_INCREMENT"></a>
+<br><br><h4>1588 Timer Increment (MPIPE_GBE_1588_TIMER_INCREMENT: 0x83b8)</h4>
+1588 Timer Increment
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_1588_TIMER_INCREMENT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>7:0</TD> <TD>COUNT</TD> <TD>RW</TD> <TD>0</TD> <TD>A count of nanoseconds by which the 1588 timer nanoseconds register will be incremented each clock cycle.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_SECONDS"></a>
+<br><br><h4>PTP Event Frame Transmitted Seconds (MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_SECONDS: 0x83c0)</h4>
+PTP Event Frame Transmitted Seconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_SECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer seconds register held when the SFD of a PTP transmit primary event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP sync or delay_req frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_NANOSECONDS"></a>
+<br><br><h4>PTP Event Frame Transmitted Nanoseconds (MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_NANOSECONDS: 0x83c8)</h4>
+PTP Event Frame Transmitted Nanoseconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_EVENT_FRAME_TRANSMITTED_NANOSECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer nanoseconds register held when the SFD of a PTP transmit primary event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP sync or delay_req frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_SECONDS"></a>
+<br><br><h4>PTP Event Frame Received Seconds (MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_SECONDS: 0x83d0)</h4>
+PTP Event Frame Received Seconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_SECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer seconds register held when the SFD of a PTP receive primary event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP sync or delay_req frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_NANOSECONDS"></a>
+<br><br><h4>PTP Event Frame Received Nanoseconds (MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_NANOSECONDS: 0x83d8)</h4>
+PTP Event Frame Received Nanoseconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_EVENT_FRAME_RECEIVED_NANOSECONDS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer nanoseconds register held when the SFD of a PTP receive primary event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP sync or delay_req frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_SECS"></a>
+<br><br><h4>PTP Peer Event Frame Transmitted Seconds (MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_SECS: 0x83e0)</h4>
+PTP Peer Event Frame Transmitted Seconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_SECS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer seconds register held when the SFD of a PTP transmit peer event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP pdelay_req or pdelay_resp frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_NANOSECS"></a>
+<br><br><h4>PTP Peer Event Frame Transmitted Nanoseconds (MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_NANOSECS: 0x83e8)</h4>
+PTP Peer Event Frame Transmitted Nanoseconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_PEER_EVENT_FRAME_TRANS_NANOSECS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer nanoseconds register held when the SFD of a PTP transmit peer event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP pdelay_req or pdelay_resp frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_SECS"></a>
+<br><br><h4>PTP Peer Event Frame Received Seconds (MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_SECS: 0x83f0)</h4>
+PTP Peer Event Frame Received Seconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_SECS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer seconds register held when the SFD of a PTP receive peer event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP pdelay_req or pdelay_resp frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_NANOSECS"></a>
+<br><br><h4>PTP Peer Event Frame Received Nanoseconds (MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_NANOSECS: 0x83f8)</h4>
+PTP Peer Event Frame Received Nanoseconds
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PTP_PEER_EVENT_FRAME_RECV_NANOSECS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>29:0</TD> <TD>UPDATE</TD> <TD>RO</TD> <TD>0</TD> <TD>The register is updated with the value that the 1588 timer nanoseconds register held when the SFD of a PTP receive peer event crosses the MII interface. The actual update occurs when the MAC recognizes the frame as a PTP pdelay_req or pdelay_resp frame. An interrupt is issued when the register is updated.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_CTL"></a>
+<br><br><h4>PCS Control (MPIPE_GBE_PCS_CTL: 0x8400)</h4>
+This register provides the main control functions with respect to the PCS.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>PCS_SOFT_RESET</TD> <TD>WO</TD> <TD>0</TD> <TD>PCS software reset - written by software to force the hardware logic into a reset state. This bit is self clearing. When reading this bit, logic 1 is returned until both the soft reset has completed and the PCS is enabled through the PCS select bit of the network configuration register. Writing logic 0 has no affect.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>PHY_LOOPBACK</TD> <TD>RW</TD> <TD>0</TD> <TD>Unused:  PHY loopback can be initiated via the MPIPE_XAUI_SERDES_CONFIG registers.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>SPEED_SEL_1</TD> <TD>RW</TD> <TD>0</TD> <TD>Speed select [1] - combined with speed select [0] to indicate the speed of operation of the PCS. As the MAC PCS is only intended to operate at 1000 Mbps, this bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>AUTO_NEG</TD> <TD>RW</TD> <TD>1</TD> <TD>Enable auto-negotiation - when set active high, auto-negotiation operation is enabled.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>RESTART_NEG</TD> <TD>WO</TD> <TD>0</TD> <TD>Restart auto-negotiation - when set active high, the hardware restarts auto-negotiation. This bit is self clearing, but once set shall remain in this state until auto-negotiation has restarted. Writing logic 0 has no affect.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>DUPLEX_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>This returns the value of the MAC's duplex state as indicated in bit 1 of the MAC's network configuration register.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>7</TD> <TD>COL_TEST</TD> <TD>RW</TD> <TD>0</TD> <TD>Collision test - when set active high, the PCS generates collisions on transmit. This bit should only be set for test purposes.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>6</TD> <TD>SPEED_SEL_0</TD> <TD>RW</TD> <TD>1</TD> <TD>Speed select [0] - combined with speed select [1] to indicate the speed of operation of the PCS. As the MAC PCS is only intended to operate at 1000 Mbps, this bit is hardwired to logic 1.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_STS"></a>
+<br><br><h4>PCS Status (MPIPE_GBE_PCS_STS: 0x8408)</h4>
+This register indicates general status information concerning the PCS.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>IS_100BT4</TD> <TD>RO</TD> <TD>0</TD> <TD>100 BASE-T4. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>IS_100BXFD</TD> <TD>RO</TD> <TD>0</TD> <TD>100 BASE-X full duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>IS_100BXHD</TD> <TD>RO</TD> <TD>0</TD> <TD>100 BASE-X half duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>IS_10MFD</TD> <TD>RO</TD> <TD>0</TD> <TD>10 Mbps full duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>IS_10MHD</TD> <TD>RO</TD> <TD>0</TD> <TD>10 Mbps half duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10</TD> <TD>IS_100MFD</TD> <TD>RO</TD> <TD>0</TD> <TD>100 BASE-T2 full duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>9</TD> <TD>IS_100BT2HD</TD> <TD>RO</TD> <TD>0</TD> <TD>100 BASE-T2 half duplex. This bit is hardwired to logic 0.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>8</TD> <TD>EXT_STS</TD> <TD>RO</TD> <TD>1</TD> <TD>Extended status - when set active high, indicates extended status information is present in the PCS auto-negotiation extended status register. This bit is hardwired to logic 1.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>5</TD> <TD>AUTO_NEG_COMP</TD> <TD>RO</TD> <TD>0</TD> <TD>Auto-negotiation complete - set active high by the PCS hardware to indicate auto-negotiation has completed.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>4</TD> <TD>REM_FAULT</TD> <TD>RO</TD> <TD>0</TD> <TD>Remote fault - set active high if the link partner remote fault bits in the PCS auto-negotiation link partner ability register, indicates an error. Resets low when read.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>AUTO_NEG_CAP</TD> <TD>RO</TD> <TD>0</TD> <TD>Auto-negotiation ability - this bit indicates whether the PCS has auto-negotiation ability and reflects the value of the auto-negotiation enable bit in the PCS control register.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>LINK_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Link status - indicates the status of the physical connection to the link partner. When set to logic 1 the link is up, and when set to logic 0, the link is down. If auto-negotiation is disabled this returns the synchronization status. Held at logic 0 if the link goes down until this bit is read.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>EXT_REG_CAP</TD> <TD>RO</TD> <TD>1</TD> <TD>Extended register capabilities - when set active high, indicates the PCS supports extended register capabilities. This bit is hardwired to logic 1.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_PHY_UPPER_ID"></a>
+<br><br><h4>PCS PHY Upper Identifier (MPIPE_GBE_PCS_PHY_UPPER_ID: 0x8410)</h4>
+The value of this register indicates the upper 16-bits of the PHY's identification code.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_PHY_UPPER_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Upper 16-bits of the PHY identification code, corresponding to the fixed identification for the MAC.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_PHY_LOWER_ID"></a>
+<br><br><h4>PCS PHY Lower Identifier (MPIPE_GBE_PCS_PHY_LOWER_ID: 0x8418)</h4>
+The value of this register indicates the lower 16-bits of the PHY's identification code.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_PHY_LOWER_ID.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Lower 16-bits of the PHY identification code, corresponding to the fixed identification for the MAC.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEG"></a>
+<br><br><h4>PCS Auto-negotiation Advertisement (MPIPE_GBE_PCS_AUTO_NEG: 0x8420)</h4>
+The value of this register is used to transmit the base page of the MAC's PCS capabilities.  Since the MAC is used for SGMII operation, the values are fixed.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SGMII</TD> <TD>RO</TD> <TD>1</TD> <TD>1 to indicate an SGMII port.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEG_PARTNER"></a>
+<br><br><h4>PCS Auto-negotiation Link Partner Ability (MPIPE_GBE_PCS_AUTO_NEG_PARTNER: 0x8428)</h4>
+The SGMII standard specifies the format for this register. The value of this register contains the link partner's base page received information. In this case the link partner is the PHY connected by the SGMII.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEG_PARTNER.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>LINK_STS</TD> <TD>RO</TD> <TD>0</TD> <TD>Link status (1=UP, 0=DOWN)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>LINK_PARTNER_ACK</TD> <TD>RW</TD> <TD>0</TD> <TD>Link partner acknowledge - indicates the link partner has successfully received the transmitted base page.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>DUPLEX</TD> <TD>RW</TD> <TD>0</TD> <TD>Duplex mode (0=HALF,1=FULL)</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:10</TD> <TD>SPEED</TD> <TD>RW</TD> <TD>0</TD> <TD>Speed:<br>
+11: Reserved<br>
+10: 1000 Mbps<br>
+01: 100 Mbps <br>
+00: 10 Mbps</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>RSVD1</TD> <TD>RO</TD> <TD>1</TD> <TD>Reserved. Read as one.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEG_EXP"></a>
+<br><br><h4>PCS Auto-negotiation Expansion (MPIPE_GBE_PCS_AUTO_NEG_EXP: 0x8430)</h4>
+This register contains auto-negotiation next page ability and page received information.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEG_EXP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>NEXT_PG_CAP</TD> <TD>RO</TD> <TD>1</TD> <TD>Next page capability - hard wired to logic 1 to indicate that the MAC PCS supports next page operation</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>PG_RCVD</TD> <TD>RO</TD> <TD>0</TD> <TD>Page received - this bit is set active high when a new page has been received from the link partner. It is cleared when the link partner base page register or link partner next page register has been read.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEG_NXT_PG"></a>
+<br><br><h4>PCS Auto-negotiation Next Page (MPIPE_GBE_PCS_AUTO_NEG_NXT_PG: 0x8438)</h4>
+The value of this register is used to transmit the next page information for the MAC PCS.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEG_NXT_PG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>NXT_TX_PG</TD> <TD>RW</TD> <TD>0</TD> <TD>Next page to transmit - this bit indicates whether this is the last next page to be transmitted:<br>
+0: Last page.<br>
+1: Additional page(s) to follow.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>13</TD> <TD>MSG_PG_IND</TD> <TD>RW</TD> <TD>0</TD> <TD>Message page indicator - this bit identifies the message.<br>
+0: Unformatted page.<br>
+1: Message page.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>ACK2</TD> <TD>RW</TD> <TD>0</TD> <TD>Acknowledge 2 - when set active high, indicates that the MAC PCS has the ability to comply with the last received message.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:0</TD> <TD>MSG</TD> <TD>RW</TD> <TD>0</TD> <TD>Message - contains data as defined by the message page indicator bit.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEG_LP_NP"></a>
+<br><br><h4>PCS Auto-negotiation Link Partner Next Page (MPIPE_GBE_PCS_AUTO_NEG_LP_NP: 0x8440)</h4>
+The value of this register contains the next page received information from the link partner.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEG_LP_NP.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>NXT_PG</TD> <TD>RW</TD> <TD>0</TD> <TD>Next page to receive - this bit indicates whether this is the last page to be received in the sequence by the MAC PCS:<br>
+0: Last page.<br>
+1: Additional page(s) to follow.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>ACK</TD> <TD>RW</TD> <TD>0</TD> <TD>Acknowledge - this bit indicates whether as part of the next page function, the link partner has successfully received the last message transmitted.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>MSG_PG_IND</TD> <TD>RW</TD> <TD>0</TD> <TD>Message page indicator - this bit identifies the message.<br>
+0: Unformatted page.<br>
+1: Message page.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>ACK2</TD> <TD>RW</TD> <TD>0</TD> <TD>Acknowledge 2 - set active high by the link partner to indicate when it has the ability to comply with the last message received.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11</TD> <TD>TOGGLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Toggle - this bit toggles with every received page.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>10:0</TD> <TD>MSG</TD> <TD>RW</TD> <TD>0</TD> <TD>Message - contains data as defined by the message page indicator bit.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_PCS_AUTO_NEX_EXT_STS"></a>
+<br><br><h4>PCS Auto-negotiation Extended Status (MPIPE_GBE_PCS_AUTO_NEX_EXT_STS: 0x8478)</h4>
+This register contains PCS auto-negotiation extended status information.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_PCS_AUTO_NEX_EXT_STS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15</TD> <TD>FD1000BX</TD> <TD>RO</TD> <TD>1</TD> <TD>Full duplex 1000BASE-X - hardwired to logic 1, indicates the MAC PCS can support full duplex operation of 1000BASE-X.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>14</TD> <TD>HD1000BX</TD> <TD>RO</TD> <TD>1</TD> <TD>Half duplex 1000BASE-X - hardwired to logic 1, indicates the MAC PCS can support half duplex operation of 1000BASE-X.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>FD1000BT</TD> <TD>RO</TD> <TD>0</TD> <TD>Full duplex 1000BASE-T - hardwired to logic 0, indicates the MAC PCS cannot support 1000BASE-T full duplex operation.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>HD1000BT</TD> <TD>RO</TD> <TD>0</TD> <TD>Half duplex 1000BASE-T - hardwired to logic 0, indicates the MAC PCS cannot support 1000BASE-T half duplex operation.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RCVD_LPI_TRANS"></a>
+<br><br><h4>Received LPI Transitions (MPIPE_GBE_RCVD_LPI_TRANS: 0x84e0)</h4>
+Counts received transitions.
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RCVD_LPI_TRANS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Counts number of transitions from normal idle to low power idle.  Clears on read.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_RCVD_LPI_TIME"></a>
+<br><br><h4>Received LPI Time (MPIPE_GBE_RCVD_LPI_TIME: 0x84e8)</h4>
+Counts time in LPI RX
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_RCVD_LPI_TIME.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>This register counts once every 8 ns when the LPI indication bit is set in the NETWORK_STATUS register.  Cleared on read.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_XMT_LPI_TRANS"></a>
+<br><br><h4>Transmit LPI Transitions (MPIPE_GBE_XMT_LPI_TRANS: 0x84f0)</h4>
+Counts TX LPI transitions
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_XMT_LPI_TRANS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>Counts the number of times the enable LPI transmission bit goes from low to high in the NETWORK_CONTROL register.</TD> </TR>
+</TABLE><br><br>
+<a name="MPIPE_GBE_XMT_LPI_TIME"></a>
+<br><br><h4>Transmit LPI Time (MPIPE_GBE_XMT_LPI_TIME: 0x84f8)</h4>
+Counts time in LPI TX
+<br><img src="mpipe_gbe_pics/MPIPE_GBE_XMT_LPI_TIME.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:0</TD> <TD>VAL</TD> <TD>RO</TD> <TD>0</TD> <TD>This register counts once every 8 ns when the ENA_LPI bit in the NETWORK_CONTROL register is set.  Cleared on read.</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

@@ -1,0 +1,132 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-eclipse</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-eclipse"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-eclipse &#8212; Eclipse-based Integrated Development Environment (IDE) for
+Tile Processor programming</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-eclipse</code>  [--help] [--here] [--force] [--profile <em class="replaceable"><code>xml-file</code></em>] [--jdb] [--max-memory <em class="replaceable"><code>size</code></em>] [--locking 
+    { default  |   maximum  |   minimum  |   none }
+]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-eclipse</strong></span> is a visual Integrated Development
+Environment (IDE), based on the open-source Eclipse project.
+</p><p>
+The first time you start tile-eclipse, it will automatically select
+three Eclipse "perspectives", or sets of windows, that are customized
+for developing Tilera software: the "Author", "Debug", and "Profile"
+perspectives. Initially, the "Author" perspective is selected.
+</p><p>
+By default, <span><strong class="command">tile-eclipse</strong></span> uses the path
+~/.tilera/workspace as the Eclipse workspace directory.
+If you want to use a different path, set the environment variable
+TILERA_WORKSPACE to the desired path of the workspace directory.
+</p><p>
+You can also use the <span><strong class="command">--here</strong></span> option to change
+the workspace directory to the current working directory for
+a single launch of tile-eclipse.
+</p><p>
+<span><strong class="command">tile-eclipse</strong></span> includes integrated online help
+documentation. To view the online help, select "Help-&gt;Help Contents"
+from the Eclipse menu bar. When the help window appears, click the
+topic "Tilera MDE User Guide" in the left-hand "Contents" view.  This
+will display the top level contents page of the user guide, from which
+you can navigate to the available documentation.
+</p><p>
+Please view the "Getting Started" topic before you begin using the
+GUI, since it covers such basic tasks as:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>
+Creating a Tilera software project
+</p></li><li><p>
+Running a Tilera program (simulator or hardware)
+</p></li><li><p>
+Debugging a Tilera program (simulator or hardware)
+</p></li><li><p>
+Profiling a Tilera program (simulator or hardware)
+</p></li></ul></div><p>
+
+</p><p>
+If you have not used the Eclipse development environment before, you
+may wish to review an introductory user's guide, such as "Eclipse
+Distilled", by David Carlson, or the online documentation at the
+<a href="http://www.eclipse.org/" target="_top">Eclipse web site</a> or the
+online documentation in Eclipse itself.
+</p></div><div class="refsect1" lang="en"><a name="options"></a><h2>Command-Line Options</h2><div class="variablelist"><a name="basic-options"></a><dl><dt><a name="help"></a><span class="term">
+<code class="option">--help</code>
+</span></dt><dd><p>
+Display usage information.
+</p></dd><dt><a name="here"></a><span class="term">
+<code class="option">--here</code>
+</span></dt><dd><p>
+Use current working directory as workspace, instead of the default (~/.tilera/workspace).
+Overrides value of TILERA_WORKSPACE environment variable, if set.
+</p></dd><dt><a name="force"></a><span class="term">
+<code class="option">--force</code>
+</span></dt><dd><p>
+Remove the lock, if any, on the workspace left by a previous instance
+of <span><strong class="command">tile-eclipse</strong></span> that was not shut down cleanly.
+Only use the <code class="option">--force</code> option if absolutely sure there
+are no other instances of <span><strong class="command">tile-eclipse</strong></span> running.
+Running multiple instances of <span><strong class="command">tile-eclipse</strong></span> can
+corrupt the workspace.
+</p></dd><dt><a name="profile"></a><span class="term">
+<code class="option">--profile <em class="replaceable"><code>xml-file</code></em></code>
+</span></dt><dd><p>
+Selects the Profile View and loads the specified profile XML file.
+</p></dd><dt><a name="jdb"></a><span class="term">
+<code class="option">--jdb</code>
+</span></dt><dd><p>
+Configures the JVM used by <span><strong class="command">tile-eclipse</strong></span> to support
+debugging with <span><strong class="command">jdb</strong></span>.
+</p></dd><dt><a name="max-memory"></a><span class="term">
+<code class="option">--max-memory <em class="replaceable"><code>size</code></em></code>
+</span></dt><dd><p>
+Specifies the maximum heap size used by
+<span><strong class="command">tile-eclipse</strong></span>.  The default is 512m (m=megabytes).
+</p></dd><dt><a name="locking"></a><span class="term">
+<code class="option">--locking 
+    { default  |   maximum  |   minimum  |   default }
+</code>
+</span></dt><dd><p>
+Specifies the workspace lock method, which can be
+<code class="option">default</code> (same as <code class="option">maximum</code>),
+<code class="option">minimum</code>, or <code class="option">none</code>.  (Note: disabling
+workspace locking is <span class="emphasis"><em>not</em></span> recommended; use <a href="#force"><code class="option">--force</code></a> instead.)
+</p></dd></dl></div></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

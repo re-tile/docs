@@ -1,0 +1,406 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-thd</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-thd"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-thd &#8212; Tilera HTTP Daemon</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-thd</code>  [-h|--help] [-c|--config <em class="replaceable"><code>path</code></em>] [-a|--address <em class="replaceable"><code>address</code></em>] [-p|--port <em class="replaceable"><code>port</code></em>] [-d|--docroot <em class="replaceable"><code>path</code></em>] [--debug]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon is a minimalist
+HTTP-protocol document server.  It is intentionally designed
+to be small and simple to configure, and intended as a platform
+for small, ad-hoc debugging displays and other development tools.
+You can run <span><strong class="command">tile-thd</strong></span> on a tile of the Tilera chip
+and use it to serve up information on the current state of the chip
+and of applications being run on it.
+</p><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon ships with a sample
+configuration file and a small document tree containing a number
+of such displays, which can be used out of the box.
+However, one can also use the <span><strong class="command">tile-thd</strong></span> daemon
+with a custom configuation and doc tree, to display diagnostic pages
+for your own purposes.
+</p><p>
+<span class="emphasis"><em>Important:</em></span>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon is
+<span class="emphasis"><em>not</em></span> a full standards-compliant web server and
+should <span class="emphasis"><em>not</em></span> be used for industrial-grade web
+server applications. Instead, use a standard web server such as Apache
+or Jetty for such purposes.  The <span><strong class="command">tile-thd</strong></span> HTTP
+daemon is meant for those times when a full-blown web server is
+overkill. It is intentionally designed to require a minimum of
+configuration and setup, and to take up less space and processing
+power than a full-service web server.
+</p></div><div class="refsect1" lang="en"><a name="options"></a><h2>Command-Line Options</h2><div class="variablelist"><a name="basic-options"></a><dl><dt><a name="help"></a><span class="term"><code class="option">-h | --help</code></span></dt><dd><p>
+    Optional. Displays usage information and list of command options, then exits.
+    </p></dd><dt><a name="config"></a><span class="term"><code class="option">-c|--config <em class="replaceable"><code>path</code></em></code></span></dt><dd><p>
+    Optional (but recommended).
+    Specifies the location of the <span><strong class="command">tile-thd</strong></span> configuration file.
+    Can be absolute or relative to the directory from which the HTTP daemon is invoked.
+    Defaults to <span><strong class="command">/etc/tile-thd/conf</strong></span>.
+    </p></dd><dt><a name="address"></a><span class="term"><code class="option">-a|--address <em class="replaceable"><code>address</code></em></code></span></dt><dd><p>
+    Optional. Specifies hostname/address of network interface that the daemon should use.
+    If specified, overrides the address, if any, specified in the configuration file.
+    </p></dd><dt><a name="port"></a><span class="term"><code class="option">-p|--port <em class="replaceable"><code>port</code></em></code></span></dt><dd><p>
+    Optional. Specifies port number that the daemon should use.
+    If specified, overrides the port number option specified in the configuration file.
+    </p></dd><dt><a name="docroot"></a><span class="term"><code class="option">-d|--docroot <em class="replaceable"><code>path</code></em></code></span></dt><dd><p>
+    Optional. Specifies root of HTML document directory tree.
+    Can be absolute or relative to the directory from which the HTTP daemon is invoked.
+    If specified, overrides the docroot option specified in the configuration file.
+    </p></dd><dt><a name="arg"></a><span class="term"><code class="option">--debug</code></span></dt><dd><p>
+    Optional. Runs the daemon in debug mode. In this mode, the daemon does not run as
+    a background process, does not fork when handling requests, and its debug log output
+    is automatically directed to standard out. This mode is intended for use in debugging
+    issues with configuration and page processing.
+    </p></dd></dl></div></div><div class="refsect1" lang="en"><a name="usage"></a><h2>Usage</h2><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon is similar in configuration and usage
+to most modern web servers, so if you're familiar with how to run a web server
+such as Apache, Tomcat, or Jetty, you should have no issues with setting up
+<span><strong class="command">tile-thd</strong></span>.
+</p><p>
+The <span><strong class="command">tile-thd</strong></span> daemon is provided in both an x86 version
+and a TILE-native version. In normal use you'll run the TILE version on the Tilera processor.
+However, there might be cases where you'd want a small host-side server as well,
+so both are provided.
+</p><p>
+To run the TILE version of the <span><strong class="command">tile-thd</strong></span> daemon, one can invoke it
+using tile-monitor as shown below:
+</p><div class="informalexample"><pre class="programlisting">
+    tile-monitor \
+      --root \
+      --run -+- /usr/bin/tile-thd -p 8080 \
+                -c /etc/tile-thd/conf \
+                -d /etc/tile-thd/html -+- \
+      --quit
+</pre></div><p>
+This uploads the necessary MDE directories to the Tilera processor, starts the
+<span><strong class="command">tile-thd</strong></span> daemon, pointing it to the default configuration and
+document tree, and overrides the port number to 8080. (If port 8080 is in use on
+your system, you can choose any other available port.)
+</p><p>
+Note that it's important to use <span><strong class="command">--root</strong></span>, which uploads files
+to the Tilera chip, rather than <span><strong class="command">--mount</strong></span>, which only mounts
+files temporarily. When <span><strong class="command">tile-monitor</strong></span> exits, such temporary
+directory mounts would go away, and <span><strong class="command">tile-thd</strong></span> would not be able
+to find its docroot directory.
+</p><p>
+Once the server is up and running, you can connect to it from your favorite
+web browser via its URL:
+</p><div class="informalexample"><pre class="programlisting">
+    http://tilera_hostname:8080/
+</pre></div><p>
+(Note that you can substitute the IP address of the Tilera host for the hostname,
+if hostname lookup is not available for your Tilera host.)
+</p></div><div class="refsect1" lang="en"><a name="configuration"></a><h2>Configuration</h2><p>
+The <span><strong class="command">tile-thd</strong></span> configuration file specifies the
+configuration options for the daemon. The available options are listed below.
+(See the comments in the sample configuration file itself for additional detail.)
+</p><div class="variablelist"><a name="config-options"></a><dl><dt><a name="debug_log_config"></a><span class="term"><code class="option">debug_log: <em class="replaceable"><code>pathname</code></em></code></span></dt><dd><p>
+    Optional. Specifies pathname to which debug log information is written.
+    </p><p>
+    Can be a valid absolute path. The file is created if it does not exist.
+    Can also be "stdout" and "stderr" for standard IO streams.
+    </p></dd><dt><a name="access_log_config"></a><span class="term"><code class="option">access_log: <em class="replaceable"><code>pathname</code></em></code></span></dt><dd><p>
+    Optional. Specifies pathname to which access (i.e. incoming request) log information is written.
+    </p><p>
+    Must be a valid absolute path. The file is created if it does not exist.
+    </p></dd><dt><a name="address_config"></a><span class="term"><code class="option">address: <em class="replaceable"><code>hostname/IP-address</code></em></code></span></dt><dd><p>
+    Optional. Specific interface (hostname or IP address) to which daemon should bind.
+    This is only needed if the server host has multiple network address bindings.
+    </p></dd><dt><a name="port_config"></a><span class="term"><code class="option">port: <em class="replaceable"><code>port-number</code></em></code></span></dt><dd><p>
+    Optional. Specifies the port number to which the daemon should bind.
+    Defaults to port 80.
+    </p><p>
+    Note: the daemon must be run under an administrator username to bind to port 80.
+    If you don't have this level of access, a common alternative is to use port 8080.
+    </p></dd><dt><a name="pid_file"></a><span class="term"><code class="option"></code>pid_file: <em class="replaceable"><code>pathname</code></em></span></dt><dd><p>
+    Optional. File to which the daemon writes its process ID.
+    </p></dd><dt><a name="daemonize_config"></a><span class="term"><code class="option"></code>daemonize: { true | false }</span></dt><dd><p>
+    Optional. (Debugging option.) Normally the daemon runs as a background daemon process.
+    If this option is set false, the server runs as a foreground process.
+    </p><p>
+    Note: in most cases, it's simpler to just use the <code class="option">--debug</code>
+    command-line option instead.
+    </p></dd><dt><a name="fork_config"></a><span class="term"><code class="option">fork: { true | false }</code></span></dt><dd><p>
+    Optional. (Debugging option.) Normally the daemon forks a child process for each request,
+    and hence requests can be handled in parallel. If this option is set false, the daemon
+    handles all requests sequentially in the main daemon process.
+    </p><p>
+    Note: in most cases, it's simpler to just use the <code class="option">--debug</code>
+    command-line option instead.
+    </p></dd><dt><a name="docroot_config"></a><span class="term"><code class="option">docroot: <em class="replaceable"><code>directory-pathname</code></em></code></span></dt><dd><p>
+    Required. Specifies the root of the directory tree from which HTTP requests
+    can retrieve documents. Can be absolute or relative to the directory from which
+    the HTTP daemon is invoked.
+    </p><p>
+    However, note that by using the <code class="option">path_mapping</code> option, you can map
+    URLs to paths outside of this directory tree.
+    </p></dd><dt><a name="index_file_config"></a><span class="term"><code class="option">index_file: <em class="replaceable"><code>index-filename.html</code></em></code></span></dt><dd><p>
+    Optional. Default filename to look for when a URL requests a directory.
+    If found, the index file is returned. Otherwise, a directory listing is provided.
+    Defaults to <span><strong class="command">index.html</strong></span>.
+    </p></dd><dt><a name="mime_type_config"></a><span class="term"><code class="option">mime_type: <em class="replaceable"><code>extension</code></em>, <em class="replaceable"><code>mime/type</code></em></code></span></dt><dd><p>
+    Optional. Associates a file suffix (for example, <span><strong class="command">html</strong></span>)
+    with a MIME type that tells the browser how the file is meant to be displayed.
+    </p><p>
+    Multiple <code class="code">mime_type</code> entries are allowed, but each file extension
+    should be mapped to only one MIME type.
+    </p><p>
+    The default <span><strong class="command">tile-thd</strong></span> configuration file includes a number of
+    MIME type definitions for common file types like HTML files, text files,
+    CSS files, graphic files, and video files.
+    </p></dd><dt><a name="path_mapping_config"></a><span class="term"><code class="option">path_mapping: <em class="replaceable"><code>/url/path</code></em> =&gt; <em class="replaceable"><code>/host/path</code></em></code></span></dt><dd><p>
+    Optional. Defines an association between a URL path and an absolute path in the
+    file system. Allows a given location in the HTTP daemon's docroot tree to be mapped
+    to an arbitrary location outside of the docroot tree.
+    </p><p>
+    Multiple <code class="code">path_mapping</code> entries are allowed.
+    </p><p>
+    For each path mapping, the first pathname is the path that appears in the URL.
+    For example, in the URL <code class="code">http://hostname:8080/this/is/the/path?arg1&amp;arg2</code>,
+    the URL path is <code class="code">/this/is/the/path</code>.
+    </p><p>
+    The second pathname in the path mapping is the absolute path of a file-system
+    directory to which the above URL path should be mapped.
+    </p><p>
+    <span class="emphasis"><em>WARNING:</em></span> be careful when using this option, since by design
+    the HTTP daemon provides no security beyond that provided by ordinary
+    Linux file/directory access permissions.
+    </p></dd><dt><a name="exe_path_config"></a><span class="term"><code class="option">exe_path <em class="replaceable"><code>/pathname</code></em></code></span></dt><dd><p>
+    Optional. Specifies a file (or directory of files) that are allowed to be executed,
+    in a manner similar to CGI-BIN scripts.
+    </p><p>
+    Multiple <code class="code">exe_path</code> entries are allowed.
+    </p><p>
+    When a URL requests a file that is either (a) declared in an <code class="code">exe_path</code> entry,
+    or (b) in a directory declared in an <code class="code">exe_path</code> entry,
+    and the file is an executable binary or script file, the file
+    is executed and its output is displayed in the browser.
+    </p><p>
+    <span class="emphasis"><em>WARNING:</em></span> be careful when using this option, since by design
+    the HTTP daemon provides no security beyond that provided by ordinary
+    Linux file/directory access permissions.
+    </p></dd><dt><a name="server_stylesheet_config"></a><span class="term"><code class="option">server_stylesheet <em class="replaceable"><code>/url/path</code></em></code></span></dt><dd><p>
+    Optional. Specifies an HTML fragment to be included in the &lt;head&gt; section of
+    any pages generated by the HTTP daemon (such as directory listings, 404 errors, etc.).
+    </p><p>
+    The pathname should be a URL path, that is, the path one would use in a URL
+    to access the file from a browser.
+    </p></dd><dt><a name="server_header_config"></a><span class="term"><code class="option">server_header  <em class="replaceable"><code>/url/path</code></em></code></span></dt><dd><p>
+    Optional. Specifies an HTML fragment to be included before any other content
+    in the &lt;body&gt; section of any pages generated by the HTTP daemon
+    (such as directory listings, 404 errors, etc.).
+    </p><p>
+    The pathname should be a URL path, that is, the path one would use in a URL
+    to access the file from a browser.
+    </p></dd><dt><a name="server_footer_config"></a><span class="term"><code class="option">server_footer <em class="replaceable"><code>/url/path</code></em></code></span></dt><dd><p>
+    Optional. Specifies an HTML fragment to be included after any other content
+    in the &lt;body&gt; section of any pages generated by the HTTP daemon
+    (such as directory listings, 404 errors, etc.).
+    </p><p>
+    The pathname should be a URL path, that is, the path one would use in a URL
+    to access the file from a browser.
+    </p></dd></dl></div></div><div class="refsect1" lang="en"><a name="scripting"></a><h2>Server-Side Scripting</h2><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon supports a minimal form of server-side
+scripting via the <code class="option">exe_path</code> configuration option. You can use
+this option to declare a file, or a directory of files, as enabled for execution.
+The file(s) themselves must also have the "execute" permission flag on,
+of course; the <code class="option">exe_path</code> option just declares that the server
+is allowed to invoke them.
+</p><p>
+If a URL request references a file declared executable by <code class="option">exe_path</code>,
+or a file in a directory declared executable by <code class="option">exe_path</code>,
+instead of returning the file itself the server executes the file and returns
+its output to the requesting browser.
+</p><p>
+Executable files are invoked with the current directory set to the
+<code class="code">docroot</code> directory, and run using whatever username
+the server was started with. (Hence, you should exercise caution when
+using this option, as there is no security aside from ordinary Linux
+file permissions.)
+</p><p>
+The output of the executable file must be in CGI-BIN format. This means at
+a minimum it must begin with a "Content-Type:" declaration giving the MIME type
+of the subsequent content, followed by a blank line, which indicates the end
+of the CGI-BIN headers. (The blank line is required; don't forget to add it!)
+
+</p><p>
+As an example, here's the how you'd generate an appropriate header using
+a shell script:
+</p><div class="informalexample"><pre class="programlisting">
+test.sh:
+
+#!/bin/sh
+# CGI-BIN Headers (must end with blank line)
+echo 'Content-Type: text/plain'
+echo ''
+...
+</pre></div><p>
+If you have PHP installed on your system (and in particular if the installation
+includes the <code class="code">pgp-cgi</code> command), you can use PHP as your scripting language
+as shown below:
+</p><div class="informalexample"><pre class="programlisting">
+test.pgp:
+
+#!/usr/bin/php-cgi -n
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;PHP Example&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+...
+&lt;?php phpinfo() ?&gt;
+...
+&lt;/body&gt;&lt;/html&gt;
+</pre></div><p>
+You could also use a compiled C/C++ program, so long as it outputs
+an appropriate CGI-BIN header:
+</p><div class="informalexample"><pre class="programlisting">
+test.c:
+
+#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv)
+{
+  // CGI-BIN Headers (must end with blank line)
+  printf("Content-Type: text/plain\n");
+  printf("\n");
+  ...
+}
+</pre></div><p>
+If the requesting URL includes query parameters (for example,
+</p><div class="informalexample"><pre class="programlisting">
+    http://hostname:8080/path/to/script_name?param1=a&amp;param2=b
+</pre></div><p>
+then these are passed as-is to the script as arguments, e.g.:
+</p><div class="informalexample"><pre class="programlisting">
+    script_name param1=a param2=b
+</pre></div><p>
+Note: when using forms with <code class="option">exe_path</code> scripts,
+remember to use "GET" requests, which are passed as command-line
+arguments, rather than "POST" requests, which currently are not supported.
+</p><p>
+For example:
+</p><div class="informalexample"><pre class="programlisting">
+&lt;form action="formhandlerscript.php" method="get"&gt;
+...
+&lt;/form&gt;
+</pre></div></div><div class="refsect1" lang="en"><a name="browser%20compatibility"></a><h2>Browser Compatibility</h2><p>
+The web server is very minimalistic, but should support
+any HTTP/1.1 compliant browser.
+</p><p>
+The example HTML pages are written using
+the "strict" HTML DOCTYPE, and have been tested on the
+following browsers (minimum versions):
+</p><div class="informalexample"><pre class="programlisting">
+  Firefox            2.x (Windows) 3.x (Linux)
+  Internet Explorer  6.x (Windows)
+  Chrome             16.0.912.77 (Windows)
+</pre></div><p>
+The charting pages use the HTML 5 Chart component.
+This is supported natively by Firefox 2.x or better.
+</p><p>
+In Internet Explorer, the Google "Explorer Canvas" emulator
+is used, so you may notice that charts take more time
+to update when viewing in IE.
+</p><p>
+In general, browser protocol options that are not implemented,
+such as persistent connections, are simply ignored,
+but any decent browser should tolerate this.
+</p></div><div class="refsect1" lang="en"><a name="debugging"></a><h2>Debugging</h2><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon is intended to be small
+and simple to upload and configure, but there's always some
+networking/configuration issues, etc. to be worked out, so if you can't
+connect to the server or an error page is displayed in your browser,
+be patient and recheck both your configuration and the tile-monitor
+command line used to upload and run the server.
+</p><p>
+The issue could be as simple as a misspecified port number, or you might
+be attempting to access the web server over a Tilera network interface
+that's not currently configured for networking (or perhaps not even physically
+connected to the network). Also, try using the IP address instead of the
+Tilera hostname in the URL, just in case hostname mapping is not set up.
+</p><p>
+If the server fails to start up for some reason, such as being unable to
+connect to the specified port, it should display a message to this effect.
+</p><p>
+If the server does start normally (i.e. it displays the
+"Server listening..." message), try running the server in
+<code class="code">--debug</code> mode, which displays the debug log output
+to standard output.
+</p><p>
+You can also configure the server to generate access and debug log files,
+and look at these to help diagnose the problem (for example, if it's
+something that only happens once in a while).
+</p><p>
+To enable logging, in the configuration file uncomment
+the following two options, and make sure each one points
+to a valid pathname on the TILE processor:
+</p><div class="informalexample"><pre class="programlisting">
+  access_log: /tmp/tile-thd-access.log
+
+  debug_log: /tmp/tile-thd-debug.log
+</pre></div><p>
+The access log contains typical information about incoming requests
+and the server's response to them. If you're not sure whether you're
+connecting to the server, check this file.
+</p><p>
+The debug log contains internal logging information, including any
+errors or unexpected conditions. If the server isn't displaying pages
+properly, check here to see how it's handling incoming connections,
+and to what server-side pathnames it is mapping the requests.
+</p><p>
+If all else fails and you still can't connect to the server,
+consult your local networking expert, because it's possible
+there may be a problem with how your hardware is connected
+and/or networking is configured.
+</p></div><div class="refsect1" lang="en"><a name="without_the_MDE"></a><h2>Running Without the MDE</h2><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon does not depend on any
+Tilera-specific libraries, so it is possible to run the daemon itself outside
+of a Tilera MDE installation. (Having, of course, copied the daemon's binary file,
+configuration file, and document tree from an MDE.)
+</p><p>
+The <span><strong class="command">tile-thd</strong></span> HTTP daemon does currently depend
+on a few shared libraries:
+</p><div class="informalexample"><pre class="programlisting">
+  /usr/lib/libstdc++.so
+  /usr/lib/libstdc++.so.6
+  /lib/libm.so.6
+  /lib/libm-2.12.so
+  /usr/lib/libstdc++.so.6.0.13
+</pre></div></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

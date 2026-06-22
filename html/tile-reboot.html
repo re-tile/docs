@@ -1,0 +1,133 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-reboot</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-reboot"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-reboot &#8212; Reboot a network-connected TILE board</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-reboot</code>  [<code class="option"><em class="replaceable"><code>option</code></em></code>...] { <code class="option"><em class="replaceable"><code>address</code></em></code>  |   <code class="option">--self</code> }</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+This program reboots the Tile Processor at the specified network address,
+installing a new bootrom file if specified.  If run natively on a Tile
+Processor, this program can also perform those same functions on that
+processor.  The install of the new bootrom file is skipped if it matches
+the already-installed bootrom file (as verified by the SHA1 checksum).
+</p><p>
+The program functions as a wrapper around the ssh/scp tools for
+file upload and remote command invocations.  If the remote
+board does not allow root logins without a password, you will have
+to provide your password (or private key) when running.  On the
+remote board, the 
+<a href="sbim.html" target="_top"><span><strong class="command">sbim</strong></span></a> command
+is run to display current bootroms and to install a new one if necessary.
+</p><p>
+If "--bootrom" is specified, you may also request deferring the reboot
+until later, forcing the image to be burned even if the SHA1 checksum
+matches the newest boot image on the Tile Processor, or rebooting only
+if the bootrom was changed.
+</p><p>
+Generally speaking,
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor</strong></span></a>
+is a better choice to use than this tool, unless for some reason you
+need to statically create bootroms.
+</p><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="bootrom"></a><span class="term">
+<code class="option">--bootrom <em class="replaceable"><code>bootrom-file</code></em></code>
+</span></dt><dd><p>
+
+Use the specified bootrom to reboot the Tile Processor.  See
+<a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot</strong></span></a>
+for how to create a bootrom, or
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor</strong></span></a>
+for how to reboot a Tile Processor using a dynamically generated bootrom.
+
+</p></dd><dt><a name="later"></a><span class="term">
+<code class="option">--later</code>
+</span></dt><dd><p>
+
+Update the bootrom stored on the board's SROM if necessary,
+but do not reboot.  Only meaningful with the --bootrom option.
+
+</p></dd><dt><a name="if-changed"></a><span class="term">
+<code class="option">--if-changed</code>
+</span></dt><dd><p>
+
+Only reboot the Tile Processor if an install of a new bootrom was performed.
+Only meaningful with a --bootrom option.
+
+</p></dd><dt><a name="force-install"></a><span class="term">
+<code class="option">--force-install</code>
+</span></dt><dd><p>
+
+Install the requested bootrom even if the SHA1 checksum matches.
+Only meaningful with a --bootrom option.
+
+</p></dd><dt><a name="self"></a><span class="term">
+<code class="option">--self</code>
+</span></dt><dd><p>
+
+Act on the local system, instead of acting upon another system on the
+network.  Only valid when running natively.
+
+</p></dd><dt><a name="batch-mode"></a><span class="term">
+<code class="option">--batch-mode</code>
+</span></dt><dd><p>
+
+Disallow ssh from prompting the user for keys, passwords, etc.
+
+</p></dd><dt><a name="wait"></a><span class="term">
+<code class="option">--wait</code>
+</span></dt><dd><p>
+
+Wait until rebooting is complete, by waiting for "ping" to fail, and
+then waiting for "ping" to succeed.
+
+</p></dd><dt><a name="verbose"></a><span class="term">
+<code class="option">--verbose</code>
+</span></dt><dd><p>
+
+Display verbose output.
+
+</p></dd><dt><a name="help"></a><span class="term">
+<code class="option">--help</code>
+</span></dt><dd><p>
+
+Display help text.
+
+</p></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><p>
+<a href="tile-monitor.html" target="_top"><span><strong class="command">tile-monitor(1)</strong></span></a>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>

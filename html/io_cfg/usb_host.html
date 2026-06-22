@@ -1,0 +1,1097 @@
+<html>
+<title>usb_host Registers</title>
+<body>
+<h2>Registers</h2>
+Generated from XML on Mon Oct 26 22:23:02 EDT 2015
+
+<br><br>This document describes the following groups of registers:<br><br>
+<li><b>Common (0x0000-0x0038) : </b> 
+Each IO device contains a common set of registers used for device discovery and general setup.<br><br>
+<li><b>USB Host (0x0000-0x1048) : </b> 
+These registers control the USB host interface.<br><br>
+<li><b>USB Host MAC (0x10000-0x30050) : </b> 
+These registers control the USB Host MAC interface.<br><br>
+<br><h3>Register Summary</h3>
+<br><br><table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Address<TH><font color="#FFFFCC"> Register
+<TH><font color="#FFFFCC"> Protection
+<TR bgcolor="#DBDDB5"><TD>0000-ffffffffff<TD><a href="#USB_HOST_MMIO_ADDRESS_SPACE">USB_HOST_MMIO_ADDRESS_SPACE</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0000<TD><a href="#USB_HOST_DEV_INFO">USB_HOST_DEV_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0008<TD><a href="#USB_HOST_DEV_CTL">USB_HOST_DEV_CTL</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0010<TD><a href="#USB_HOST_MMIO_INFO">USB_HOST_MMIO_INFO</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0018<TD><a href="#USB_HOST_MEM_INFO">USB_HOST_MEM_INFO</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0020<TD><a href="#USB_HOST_SCRATCHPAD">USB_HOST_SCRATCHPAD</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0028<TD><a href="#USB_HOST_SEMAPHORE0">USB_HOST_SEMAPHORE0</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0030<TD><a href="#USB_HOST_SEMAPHORE1">USB_HOST_SEMAPHORE1</a> <TD>1</TR>
+<TR bgcolor="#DBDDB5"><TD>0038<TD><a href="#USB_HOST_CLOCK_COUNT">USB_HOST_CLOCK_COUNT</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0210<TD><a href="#USB_HOST_ERROR_STATUS">USB_HOST_ERROR_STATUS</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0218<TD><a href="#USB_HOST_MMIO_ERROR_INFO">USB_HOST_MMIO_ERROR_INFO</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0220<TD><a href="#USB_HOST_MAC_ACCESS_ERROR_INFO">USB_HOST_MAC_ACCESS_ERROR_INFO</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0300<TD><a href="#USB_HOST_INT_BIND">USB_HOST_INT_BIND</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0308<TD><a href="#USB_HOST_INT_VEC0">USB_HOST_INT_VEC0</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0308<TD><a href="#USB_HOST_INT_VEC0_W1TC">USB_HOST_INT_VEC0_W1TC</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0310<TD><a href="#USB_HOST_INT_VEC0_RTC">USB_HOST_INT_VEC0_RTC</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0318<TD><a href="#USB_HOST_INT_VEC1">USB_HOST_INT_VEC1</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>0318<TD><a href="#USB_HOST_INT_VEC1_W1TC">USB_HOST_INT_VEC1_W1TC</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>0320<TD><a href="#USB_HOST_INT_VEC1_RTC">USB_HOST_INT_VEC1_RTC</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>0600<TD><a href="#USB_HOST_RESET_CONTROL">USB_HOST_RESET_CONTROL</a> <TD>2</TR>
+<TR bgcolor="#DBDDB5"><TD>0608<TD><a href="#USB_HOST_CSR">USB_HOST_CSR</a> <TD>2</TR>
+<TR bgcolor="#C8CB8F"><TD>1000<TD><a href="#USB_HOST_MAC_SYS_INTERRUPT_CONTROL">USB_HOST_MAC_SYS_INTERRUPT_CONTROL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1008<TD><a href="#USB_HOST_MAC_AHB_STRAP_CONTROL">USB_HOST_MAC_AHB_STRAP_CONTROL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1010<TD><a href="#USB_HOST_MAC_EHCI_STRAP_CONTROL">USB_HOST_MAC_EHCI_STRAP_CONTROL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1018<TD><a href="#USB_HOST_MAC_ULPI_STRAP_CONTROL">USB_HOST_MAC_ULPI_STRAP_CONTROL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1020<TD><a href="#USB_HOST_MAC_OHCI_INTERFACE_CONTROL">USB_HOST_MAC_OHCI_INTERFACE_CONTROL</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1028<TD><a href="#USB_HOST_MAC_OHCI_LEGACY_CONTROL">USB_HOST_MAC_OHCI_LEGACY_CONTROL</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1030<TD><a href="#USB_HOST_MAC_EHCI_INTERRUPT_STATUS">USB_HOST_MAC_EHCI_INTERRUPT_STATUS</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1038<TD><a href="#USB_HOST_MAC_EHCI_SIDEBAND_STATUS">USB_HOST_MAC_EHCI_SIDEBAND_STATUS</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1040<TD><a href="#USB_HOST_MAC_OHCI_STATUS">USB_HOST_MAC_OHCI_STATUS</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1048<TD><a href="#USB_HOST_MAC_OHCI_LEGACY_STATUS">USB_HOST_MAC_OHCI_LEGACY_STATUS</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10000<TD><a href="#USB_HOST_HCCAPBASE_REG">USB_HOST_HCCAPBASE_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10004<TD><a href="#USB_HOST_HCSPARAMS_REG">USB_HOST_HCSPARAMS_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10008<TD><a href="#USB_HOST_HCCPARAMS_REG">USB_HOST_HCCPARAMS_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10010<TD><a href="#USB_HOST_USBCMD_REG">USB_HOST_USBCMD_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10014<TD><a href="#USB_HOST_USBSTS_REG">USB_HOST_USBSTS_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10018<TD><a href="#USB_HOST_USBINTR_REG">USB_HOST_USBINTR_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>1001c<TD><a href="#USB_HOST_FRINDEX_REG">USB_HOST_FRINDEX_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10020<TD><a href="#USB_HOST_CTRLDSSEGMENT_REG">USB_HOST_CTRLDSSEGMENT_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10024<TD><a href="#USB_HOST_PERIODICLISTBASE_REG">USB_HOST_PERIODICLISTBASE_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10028<TD><a href="#USB_HOST_ASYNCLISTADDR_REG">USB_HOST_ASYNCLISTADDR_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10050<TD><a href="#USB_HOST_CONFIGFLAG_REG">USB_HOST_CONFIGFLAG_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10054<TD><a href="#USB_HOST_PORTSC_REG">USB_HOST_PORTSC_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10090<TD><a href="#USB_HOST_INSNREG00_REG">USB_HOST_INSNREG00_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>10094<TD><a href="#USB_HOST_INSNREG01_REG">USB_HOST_INSNREG01_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>10098<TD><a href="#USB_HOST_INSNREG02_REG">USB_HOST_INSNREG02_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>1009c<TD><a href="#USB_HOST_INSNREG03_REG">USB_HOST_INSNREG03_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>100a0<TD><a href="#USB_HOST_INSNREG04_REG">USB_HOST_INSNREG04_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>100a4<TD><a href="#USB_HOST_INSNREG05_REG">USB_HOST_INSNREG05_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30000<TD><a href="#USB_HOST_OHCD_HC_REVISION_REG">USB_HOST_OHCD_HC_REVISION_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>30004<TD><a href="#USB_HOST_OHCD_HC_CONTROL_REG">USB_HOST_OHCD_HC_CONTROL_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30008<TD><a href="#USB_HOST_OHCD_HC_COMMAND_STATUS_REG">USB_HOST_OHCD_HC_COMMAND_STATUS_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3000c<TD><a href="#USB_HOST_OHCD_HC_INTERRUPT_STATUS_REG">USB_HOST_OHCD_HC_INTERRUPT_STATUS_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30010<TD><a href="#USB_HOST_OHCD_HC_INTERRUPT_ENABLE_REG">USB_HOST_OHCD_HC_INTERRUPT_ENABLE_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>30014<TD><a href="#USB_HOST_OHCD_HC_INTERRUPT_DISABLE_REG">USB_HOST_OHCD_HC_INTERRUPT_DISABLE_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30018<TD><a href="#USB_HOST_OHCD_HC_HCCA_REG">USB_HOST_OHCD_HC_HCCA_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3001c<TD><a href="#USB_HOST_OHCD_HC_PERIOD_CURRENT_ED_REG">USB_HOST_OHCD_HC_PERIOD_CURRENT_ED_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30020<TD><a href="#USB_HOST_OHCD_HC_CONTROL_HEAD_ED_REG">USB_HOST_OHCD_HC_CONTROL_HEAD_ED_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>30024<TD><a href="#USB_HOST_OHCD_HC_CONTROL_CURRENT_ED_REG">USB_HOST_OHCD_HC_CONTROL_CURRENT_ED_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30028<TD><a href="#USB_HOST_OHCD_HC_BULK_HEAD_ED_REG">USB_HOST_OHCD_HC_BULK_HEAD_ED_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3002c<TD><a href="#USB_HOST_OHCD_HC_BULK_CURRENT_ED_REG">USB_HOST_OHCD_HC_BULK_CURRENT_ED_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30030<TD><a href="#USB_HOST_OHCD_HC_DONE_HEAD_REG">USB_HOST_OHCD_HC_DONE_HEAD_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>30034<TD><a href="#USB_HOST_OHCD_HC_FM_INTERVAL_REG">USB_HOST_OHCD_HC_FM_INTERVAL_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30038<TD><a href="#USB_HOST_OHCD_HC_FM_REMAINING_REG">USB_HOST_OHCD_HC_FM_REMAINING_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3003c<TD><a href="#USB_HOST_OHCD_HC_FM_NUMBER_REG">USB_HOST_OHCD_HC_FM_NUMBER_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30040<TD><a href="#USB_HOST_OHCD_HC_PERIODIC_START_REG">USB_HOST_OHCD_HC_PERIODIC_START_REG</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>30044<TD><a href="#USB_HOST_OHCD_HC_LS_THRESHOLD_REG">USB_HOST_OHCD_HC_LS_THRESHOLD_REG</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30048<TD><a href="#USB_HOST_OHCD_HC_RH_DESCRIPTOR_A">USB_HOST_OHCD_HC_RH_DESCRIPTOR_A</a> <TD></TR>
+<TR bgcolor="#DBDDB5"><TD>3004c<TD><a href="#USB_HOST_OHCD_HC_RH_DESCRIPTOR_B">USB_HOST_OHCD_HC_RH_DESCRIPTOR_B</a> <TD></TR>
+<TR bgcolor="#C8CB8F"><TD>30050<TD><a href="#USB_HOST_OHCD_HC_RH_STATUS">USB_HOST_OHCD_HC_RH_STATUS</a> <TD></TR>
+</TABLE>
+<br><br><h3>General Address Space Definitions</h3>
+<a name="USB_HOST_MMIO_ADDRESS_SPACE"></a>
+<br><br><h4>MMIO Address Space (USB_HOST_MMIO_ADDRESS_SPACE: 0x0000-0xffffffffff)</h4>
+The MMIO physical address space for the USB is described below.  This is a general description of the MMIO space as opposed to a register description
+<br><img src="usb_host_pics/USB_HOST_MMIO_ADDRESS_SPACE.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>39:38</TD> <TD>CHANNEL</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address selects the channel (device).  Channel-0 is the USB Device (Endpoint). Channel-1 is the USB Host colocated with the endpoint device. Channel-2 is the other USB Host.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>USBS0</TD><TD>USB Slave 0</TD></TR>
+   <TR><TD>1</TD><TD>USBH0</TD><TD>USB Host 0</TD></TR>
+   <TR><TD>2</TD><TD>USBH1</TD><TD>USB Host 1</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>19:18</TD> <TD>PROT</TD> <TD>RW</TD> <TD>0</TD> <TD>Protection level.  Setting to 0 or 1 allows access to all registers.  Setting to 2 denies access to registers at level 2.  Setting to 3 denies access to registers at levels 1 and 2.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>17:0</TD> <TD>OFFSET</TD> <TD>RW</TD> <TD>0</TD> <TD>This field of the address provides an offset into the region being accessed.</TD> </TR>
+</TABLE><br><br>
+<br><br><h3>Register Definitions</h3>
+<a name="USB_HOST_DEV_INFO"></a>
+<br><br><h4>Device Info (USB_HOST_DEV_INFO: 0x0000)</h4>
+This register provides general information about the device attached to this port and channel.
+<br><img src="usb_host_pics/USB_HOST_DEV_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>INSTANCE</TD> <TD>RO</TD> <TD>HW <TD>Instance ID for multi-instantiated devices.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>27:24</TD> <TD>REGISTER_REV</TD> <TD>RO</TD> <TD>0</TD> <TD>Register format architectural revision.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>23:16</TD> <TD>DEVICE_REV</TD> <TD>RO</TD> <TD>HW <TD>Device revision ID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11:0</TD> <TD>TYPE</TD> <TD>RO</TD> <TD>029h</TD> <TD>Encoded device Type - 41 to indicate USB Host<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0x1</TD><TD>PCIE</TD><TD>PCI Express Port</TD></TR>
+   <TR><TD>0x10</TD><TD>GBE</TD><TD>10/100/1000 Mbps Ethernet</TD></TR>
+   <TR><TD>0x11</TD><TD>XGBE</TD><TD>10 Gbps Ethernet</TD></TR>
+   <TR><TD>0x13</TD><TD>MPIPE</TD><TD>Multicore Programmable Intelligent Packet Engine</TD></TR>
+   <TR><TD>0x14</TD><TD>TRIO</TD><TD>Transaction IO Interface - used for read/write style interconnects such as PCI, PCIe, SRIO, and USB.</TD></TR>
+   <TR><TD>0x16</TD><TD>CRYPTO</TD><TD>MiCA for Crypto operations</TD></TR>
+   <TR><TD>0x18</TD><TD>COMPRESSION</TD><TD>MiCA for Compression operations</TD></TR>
+   <TR><TD>0x20</TD><TD>GPIO</TD><TD>GPIO Controller</TD></TR>
+   <TR><TD>0x21</TD><TD>RSHIM</TD><TD>General Chip Services</TD></TR>
+   <TR><TD>0x22</TD><TD>SROM</TD><TD>SROM Controller</TD></TR>
+   <TR><TD>0x25</TD><TD>I2CM</TD><TD>I2C Master</TD></TR>
+   <TR><TD>0x26</TD><TD>I2CS</TD><TD>I2C Slave</TD></TR>
+   <TR><TD>0x28</TD><TD>UART</TD><TD>UART</TD></TR>
+   <TR><TD>0x29</TD><TD>USBH</TD><TD>USB Host</TD></TR>
+   <TR><TD>0x2a</TD><TD>USBS</TD><TD>USB Slave</TD></TR>
+   <TR><TD>0x2b</TD><TD>USBHS</TD><TD>USB Host/Slave</TD></TR>
+   <TR><TD>0x2c</TD><TD>MMC</TD><TD>Multi-Media Controller</TD></TR>
+   <TR><TD>0x40</TD><TD>DDR2</TD><TD>DDR2 Controller</TD></TR>
+   <TR><TD>0x42</TD><TD>DDR3</TD><TD>DDR3 Controller</TD></TR>
+   <TR><TD>0x44</TD><TD>DDR4</TD><TD>DDR4 Controller</TD></TR>
+   <TR><TD>0x80</TD><TD>DIAG_SNP</TD><TD>Diagnostics memory snooper</TD></TR>
+   <TR><TD>0x81</TD><TD>IPIC</TD><TD>Interrupt Controller</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="USB_HOST_DEV_CTL"></a>
+<br><br><h4>Device Control (USB_HOST_DEV_CTL: 0x0008)</h4>
+This register provides general device control.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_DEV_CTL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, packets sent on the SDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>RDN_ROUTE_ORDER</TD> <TD>RW</TD> <TD>1</TD> <TD>When 1, packets sent on the RDN will be routed x-first.  When 0, packets will be routed y-first.  This setting must match the setting in the Tiles.  Devices may have additional interfaces with customized route-order settings used in addition to or instead of this field.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MMIO_INFO"></a>
+<br><br><h4>MMIO Info (USB_HOST_MMIO_INFO: 0x0010)</h4>
+This register provides information about how the physical address is interpreted by the IO device.  The PA is divided into {CHANNEL,SVC_DOM,IGNORED,REGION,OFFSET}.  The values in this register define the size of each of these fields.
+<br><img src="usb_host_pics/USB_HOST_MMIO_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>40:35</TD> <TD>REGION_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Size of the REGION field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>34:29</TD> <TD>OFFSET_WIDTH</TD> <TD>RO</TD> <TD>18</TD> <TD>Size of the OFFSET field for this channel.  The LSBs of the physical address are interpreted as {REGION,OFFSET}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>28:22</TD> <TD>NUM_SVC_DOM</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of service domains associated with this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>21:19</TD> <TD>SVC_DOM_WIDTH</TD> <TD>RO</TD> <TD>0</TD> <TD>Number of bits of service-domain specifier for this channel.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>18:4</TD> <TD>NUM_CH</TD> <TD>RO</TD> <TD>3</TD> <TD>Each configuration channel is mapped to a packet device (MAC) having its own config registers.  Mapping TBD</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3:0</TD> <TD>CH_WIDTH</TD> <TD>RO</TD> <TD>2</TD> <TD>Number of bits of channel specifier for all channels.   The MSBs of the physical addrress are interpreted as {channel, service-domain}</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MEM_INFO"></a>
+<br><br><h4>Memory Info (USB_HOST_MEM_INFO: 0x0018)</h4>
+This register provides information about memory setup required for this device.
+<br><img src="usb_host_pics/USB_HOST_MEM_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>55:48</TD> <TD>NUM_TLB_ENT</TD> <TD>RO</TD> <TD>16</TD> <TD>Number of IO TLB entries per ASID.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>47:40</TD> <TD>NUM_ASIDS</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of ASIDS supported if this device has an IO TLB (otherwise this field is zero).</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>35:32</TD> <TD>NUM_HFH_TBL</TD> <TD>RO</TD> <TD>1</TD> <TD>Number of hash-for-home tables that must be configured for this channel.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>REQ_PORTS</TD> <TD>RO</TD> <TD>32768</TD> <TD>Each bit represents a request (QDN) port on the tile fabric.  Bit[15] represents the QDN port used for device configuration and is always set for devices implemented on channel-0.  Bit[14] is the first port clockwise from the port used to access configuration space.  Bit[13] is the second port in the clockwise direction.  Bit[16] is the first port counter-clockwise from the port used to access configuration space.  When a bit is set, the device has a QDN port at the associated location.  For devices using a nonzero channel, this register may return all zeros.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_SCRATCHPAD"></a>
+<br><br><h4>Scratchpad (USB_HOST_SCRATCHPAD: 0x0020)</h4>
+Scratchpad
+<br><img src="usb_host_pics/USB_HOST_SCRATCHPAD.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>63:0</TD> <TD>SCRATCHPAD</TD> <TD>RW</TD> <TD>0</TD> <TD>Scratchpad</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_SEMAPHORE0"></a>
+<br><br><h4>Semaphore0 (USB_HOST_SEMAPHORE0: 0x0028)</h4>
+Semaphore
+<br><img src="usb_host_pics/USB_HOST_SEMAPHORE0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_SEMAPHORE1"></a>
+<br><br><h4>Semaphore1 (USB_HOST_SEMAPHORE1: 0x0030)</h4>
+Semaphore
+<br><br><I>This register is protected at level 1</I>
+<br><img src="usb_host_pics/USB_HOST_SEMAPHORE1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>VAL</TD> <TD>RW</TD> <TD>0</TD> <TD>When read, the current semaphore value is returned and the semaphore is set to 1.  Bit can also be written to 1 or 0.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_CLOCK_COUNT"></a>
+<br><br><h4>Clock Count (USB_HOST_CLOCK_COUNT: 0x0038)</h4>
+Clock Count
+<br><img src="usb_host_pics/USB_HOST_CLOCK_COUNT.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>15:1</TD> <TD>COUNT</TD> <TD>RO</TD> <TD>0</TD> <TD>Indicates the number of core clocks that were counted during 1000 device clock periods.  Result is accurate to within +/-1 core clock periods.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>RUN</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, the counter is running.  Cleared by HW once count is complete.  When written with a 1, the count sequence is restarted.  Counter runs automatically after reset.  Software must poll until this bit is zero, then read the CLOCK_COUNT register again to get the final COUNT value.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_ERROR_STATUS"></a>
+<br><br><h4>Error Status (USB_HOST_ERROR_STATUS: 0x0210)</h4>
+Indicators for various fatal and non-fatal USB error conditions
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_ERROR_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>MMIO_ILL_OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Illegal opcode received on MMIO interface</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MMIO_ERROR_INFO"></a>
+<br><br><h4>MMIO Error Information (USB_HOST_MMIO_ERROR_INFO: 0x0218)</h4>
+Provides diagnostics information when an MMIO error occurs.  Captured whenever the MMIO_ERROR interrupt condition occurs which includes size errors, read/write errors, and protection errors.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_MMIO_ERROR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>58:54</TD> <TD>OPC</TD> <TD>RO</TD> <TD>0</TD> <TD>Opcode of request.  MMIO supports only MMIO_READ (0x0e) and MMIO_WRITE (0x0f).  All others are reserved and will only occur on a misconfigured TLB.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>53:12</TD> <TD>PA</TD> <TD>RO</TD> <TD>0</TD> <TD>Full PA from request.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:8</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Request size.  0=1B, 1=2B, 2=4B, 3=8B, 4=16B, 5=32B, 6=48B, 7=64B.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7:0</TD> <TD>SRC</TD> <TD>RO</TD> <TD>0</TD> <TD>Source Tile in {x[3:0],y[3:0]} format.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_ACCESS_ERROR_INFO"></a>
+<br><br><h4>MAC Access Error Information (USB_HOST_MAC_ACCESS_ERROR_INFO: 0x0220)</h4>
+Provides diagnostics information when a MAC response error occurs.  Captured whenever the MAC_ACCESS_ERROR interrupt condition occurs which includes size errors, read/write errors, and protection errors.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_MAC_ACCESS_ERROR_INFO.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>34:32</TD> <TD>SIZE</TD> <TD>RO</TD> <TD>0</TD> <TD>Request size.  0=1B, 1=2B, 2=4B, 3=8B, 4=16B, 5=32B, 6=48B, 7=64B.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>31:0</TD> <TD>ADDR</TD> <TD>RO</TD> <TD>0</TD> <TD>Full address from request.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_BIND"></a>
+<br><br><h4>Bindings for interrupt vectors (USB_HOST_INT_BIND: 0x0300)</h4>
+This register provides read/write access to all of the interrupt bindings for the rshim.  The VEC_SEL field is used to select the vector being configured and the BIND_SEL selects the interrupt within the vector.  To read a binding, first write the VEC_SEL and BIND_SEL fields along with a 1 in the NW field.  Then read back the register.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_INT_BIND.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>48</TD> <TD>NW</TD> <TD>WO</TD> <TD>0</TD> <TD>When written with a 1, the interrupt binding data will not be modified.  Set this when writing the VEC_SEL and BIND_SEL fields in preparation for a read.  </TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>41:40</TD> <TD>BIND_SEL</TD> <TD>RW</TD> <TD>HW <TD>Selects binding within the vector selected by VEC_SEL.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>33</TD> <TD>VEC_SEL</TD> <TD>RW</TD> <TD>0</TD> <TD>Selects vector whose bindings are to be accessed.<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>GENERAL_INTS</TD><TD>Interrupt bindings associated with the following BIND_SEL values: <br>
+0: TLB_MISS              - TLB miss occurred on a TLB transaction.  Exception information contained in USB_DEVICE_TLB_USB_EXC_ADDR<br>
+<br>
+1: MMIO_ERROR            - An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.<br>
+<br>
+2: AHB_BUS_ERROR         - An AHB bus request encountered an error. Exception information contained in TBD<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED</TD></TR>
+   <TR><TD>1</TD><TD>MAC_INTS</TD><TD>Interrupt bindings associated with the following BIND_SEL values: <br>
+0: EHCI_INT              - EHCI interrupt<br>
+<br>
+1: OHCI_IRQ_INT          - OHCI HCI bus general interrupt<br>
+<br>
+2: OHCI_SMI_INT          - OHCI HCI bus management interrupt<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED Note that interrupt status and read-to-clear registers are located in each MAC's configuration space.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>17:12</TD> <TD>EVT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Event number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:10</TD> <TD>INT_NUM</TD> <TD>RW</TD> <TD>HW <TD>Interrupt number to be delivered to Tile</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9:2</TD> <TD>TILEID</TD> <TD>RW</TD> <TD>HW <TD>Tile targeted for this interrupt in {x[3:0],y[3:0]} format.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>When 1, interrupt will be dispatched each time it occurs.  When 0, the interrupt is only sent if the status bit is clear.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>ENABLE</TD> <TD>RW</TD> <TD>0</TD> <TD>Enable the interrupt.  When 0, the interrupt won't be dispatched, however the STATUS bit will continue to be updated.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC0"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (USB_HOST_INT_VEC0: 0x0308)</h4>
+This describes the interrupt status vector that is accessible through INT_VEC0_W1TC and INT_VEC0_RTC.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_INT_VEC0.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>AHB_BUS_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD>An AHB bus request encountered an error.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>MMIO_ERROR</TD> <TD>RW</TD> <TD>0</TD> <TD>An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>TLB_MISS</TD> <TD>RW</TD> <TD>0</TD> <TD>TLB miss occurred on a TLB transaction.  Exception information contained in USB_HOST_TLB_USB_EXC_ADDR</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC0_W1TC"></a>
+<br><br><h4>Interrupt vector-0, write-one-to-clear (USB_HOST_INT_VEC0_W1TC: 0x0308)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  Writing a 1 clears the status bit. This vector contains the following interrupts: <br>
+0: TLB_MISS              - TLB miss occurred on a TLB transaction.  Exception information contained in USB_DEVICE_TLB_USB_EXC_ADDR<br>
+<br>
+1: MMIO_ERROR            - An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.<br>
+<br>
+2: AHB_BUS_ERROR         - An AHB bus request encountered an error. Exception information contained in TBD<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_INT_VEC0_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>INT_VEC0_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_RTC.  Writing a 1 clears the status bit. This vector contains the following interrupts: <br>
+0: TLB_MISS              - TLB miss occurred on a TLB transaction.  Exception information contained in USB_DEVICE_TLB_USB_EXC_ADDR<br>
+<br>
+1: MMIO_ERROR            - An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.<br>
+<br>
+2: AHB_BUS_ERROR         - An AHB bus request encountered an error. Exception information contained in TBD<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC0_RTC"></a>
+<br><br><h4>Interrupt vector-0, read-to-clear (USB_HOST_INT_VEC0_RTC: 0x0310)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  Reading this register clears all of the associated interrupts. This vector contains the following interrupts: <br>
+0: TLB_MISS              - TLB miss occurred on a TLB transaction.  Exception information contained in USB_DEVICE_TLB_USB_EXC_ADDR<br>
+<br>
+1: MMIO_ERROR            - An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.<br>
+<br>
+2: AHB_BUS_ERROR         - An AHB bus request encountered an error. Exception information contained in TBD<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_INT_VEC0_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>INT_VEC0_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC0_W1TC.  Reading this register clears all of the associated interrupts. This vector contains the following interrupts: <br>
+0: TLB_MISS              - TLB miss occurred on a TLB transaction.  Exception information contained in USB_DEVICE_TLB_USB_EXC_ADDR<br>
+<br>
+1: MMIO_ERROR            - An MMIO request encountered an error.  Error info captured in USB_HOST_CFG_MMIO_ERROR_INFO.<br>
+<br>
+2: AHB_BUS_ERROR         - An AHB bus request encountered an error. Exception information contained in TBD<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC1"></a>
+<br><br><h4>Interrupt vector-1, write-one-to-clear (USB_HOST_INT_VEC1: 0x0318)</h4>
+This describes the interrupt status vector that is accessible through INT_VEC1_W1TC and INT_VEC1_RTC.
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_INT_VEC1.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>OHCI_SMI_INT</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI HCI bus management interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>OHCI_IRQ_INT</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI HCI bus general interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>EHCI_INT</TD> <TD>RW</TD> <TD>0</TD> <TD>EHCI interrupt.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC1_W1TC"></a>
+<br><br><h4>Interrupt vector-1, write-one-to-clear (USB_HOST_INT_VEC1_W1TC: 0x0318)</h4>
+Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  Writing a 1 clears the status bit. This vector contains the following interrupts: <br>
+0: EHCI_INT              - EHCI interrupt<br>
+<br>
+1: OHCI_IRQ_INT          - OHCI HCI bus general interrupt<br>
+<br>
+2: OHCI_SMI_INT          - OHCI HCI bus management interrupt<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED
+<br><img src="usb_host_pics/USB_HOST_INT_VEC1_W1TC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>INT_VEC1_W1TC</TD> <TD>RW</TD> <TD>0</TD> <TD>Interrupt status vector with write-one-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_RTC.  Writing a 1 clears the status bit. This vector contains the following interrupts: <br>
+0: EHCI_INT              - EHCI interrupt<br>
+<br>
+1: OHCI_IRQ_INT          - OHCI HCI bus general interrupt<br>
+<br>
+2: OHCI_SMI_INT          - OHCI HCI bus management interrupt<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INT_VEC1_RTC"></a>
+<br><br><h4>Interrupt vector-0, read-to-clear (USB_HOST_INT_VEC1_RTC: 0x0320)</h4>
+Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  Reading this register clears all of the associated interrupts. This vector contains the following interrupts: <br>
+0: EHCI_INT              - EHCI interrupt<br>
+<br>
+1: OHCI_IRQ_INT          - OHCI HCI bus general interrupt<br>
+<br>
+2: OHCI_SMI_INT          - OHCI HCI bus management interrupt<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED
+<br><img src="usb_host_pics/USB_HOST_INT_VEC1_RTC.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3:0</TD> <TD>INT_VEC1_RTC</TD> <TD>RO</TD> <TD>0</TD> <TD>Interrupt status vector with read-to-clear functionality.  Provides access to the same status bits that are visible in INT_VEC1_W1TC.  Reading this register clears all of the associated interrupts. This vector contains the following interrupts: <br>
+0: EHCI_INT              - EHCI interrupt<br>
+<br>
+1: OHCI_IRQ_INT          - OHCI HCI bus general interrupt<br>
+<br>
+2: OHCI_SMI_INT          - OHCI HCI bus management interrupt<br>
+<br>
+3: RSVD3                 - NOT IMPLEMENTED</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_RESET_CONTROL"></a>
+<br><br><h4>USB Host Reset Control (USB_HOST_RESET_CONTROL: 0x0600)</h4>
+Control USB Host reset
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_RESET_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>5:4</TD> <TD>MAC_AUX_WELL_RESET_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Control USB host MAC aux well reset<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>Reset state is held by hardware state.</TD></TR>
+   <TR><TD>1</TD><TD>RESET_ASSERT</TD><TD>MAC interface is forced into reset.</TD></TR>
+   <TR><TD>3</TD><TD>RESET_DEASSERT</TD><TD>MAC interface is forced out of reset.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#C8CB8F"> <TD>3:2</TD> <TD>MAC_RESET_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Control USB host MAC reset<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>Reset state is held by hardware state.</TD></TR>
+   <TR><TD>1</TD><TD>RESET_ASSERT</TD><TD>MAC interface is forced into reset.</TD></TR>
+   <TR><TD>3</TD><TD>RESET_DEASSERT</TD><TD>MAC interface is forced out of reset.</TD></TR>
+</TABLE> </TD>
+</TR>
+<TR bgcolor="#DBDDB5"> <TD>1:0</TD> <TD>PHY_RESET_MODE</TD> <TD>RW</TD> <TD>0</TD> <TD>Control USB host PHY reset<br><br>
+<TABLE border="1">
+<TR><TH>Value<TH>Name<TH>Meaning</TR>
+   <TR><TD>0</TD><TD>AUTO</TD><TD>Reset state is held by hardware state.</TD></TR>
+   <TR><TD>1</TD><TD>RESET_ASSERT</TD><TD>PHY interface is forced into reset.</TD></TR>
+   <TR><TD>3</TD><TD>RESET_DEASSERT</TD><TD>PHY interface is forced out of reset.</TD></TR>
+</TABLE> </TD>
+</TR>
+</TABLE><br><br>
+<a name="USB_HOST_CSR"></a>
+<br><br><h4>USB CSR (USB_HOST_CSR: 0x0608)</h4>
+USB Configuration
+<br><br><I>This register is protected at level 2</I>
+<br><img src="usb_host_pics/USB_HOST_CSR.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>SINGLE_ORDER_READ</TD> <TD>RW</TD> <TD>0</TD> <TD>No read data buffering allowed for the ordered page</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SINGLE_READ</TD> <TD>RW</TD> <TD>0</TD> <TD>No read data buffering allowed</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SINGLE_WRITE</TD> <TD>RW</TD> <TD>0</TD> <TD>Allow single AHB write outstanding only</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_SYS_INTERRUPT_CONTROL"></a>
+<br><br><h4>MAC_SYS_INTERRUPT_CONTROL (USB_HOST_MAC_SYS_INTERRUPT_CONTROL: 0x1000)</h4>
+MAC system interrupt signal
+<br><img src="usb_host_pics/USB_HOST_MAC_SYS_INTERRUPT_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SYS_INTERRUPT_I</TD> <TD>RW</TD> <TD>0</TD> <TD>System Interrupt, system error indication to host controller only for non-AHB<br>
+errors.<br>
+In addition to AHB error conditions, this signal is<br>
+active when any fatal error occurs during a host system access involving the<br>
+controller.<br>
+In order for the host to detect this signal, the minimum signal duration is at<br>
+least one AHB clock pulse (hclk_i).<br>
+Note that when the EHCI and OHCI Host Controllers sample this signal<br>
+asserted, the controllers are halted to prevent further execution of the<br>
+scheduled descriptors and send a host System Error interrupt. The EHCI<br>
+and OHCI Host Controllers do not process any lists until the corresponding<br>
+Host Controller Driver clears the corresponding error.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_AHB_STRAP_CONTROL"></a>
+<br><br><h4>MAC_AHB_STRAP_CONTROL (USB_HOST_MAC_AHB_STRAP_CONTROL: 0x1008)</h4>
+AHB system strap signals.
+<br><img src="usb_host_pics/USB_HOST_MAC_AHB_STRAP_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>SS_EHCI64BIT_EN_I</TD> <TD>RW</TD> <TD>1</TD> <TD>EHCI AHB Master 64-bit Addressing Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>SS_ENA_INCRX_ALIGN_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Burst Alignment Enable</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>SS_ENA_INCR4_I</TD> <TD>RW</TD> <TD>0</TD> <TD>AHB Burst Type INCR4 Enable</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>SS_ENA_INCR8_I</TD> <TD>RW</TD> <TD>0</TD> <TD>AHB Burst Type INCR8 Enable</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SS_ENA_INCR16_I</TD> <TD>RW</TD> <TD>0</TD> <TD>AHB Burst Type INCR16 Enable</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_EHCI_STRAP_CONTROL"></a>
+<br><br><h4>MAC_EHCI_STRAP_CONTROL (USB_HOST_MAC_EHCI_STRAP_CONTROL: 0x1010)</h4>
+The EHCI Strap signals configure the power state and the Frame Length Adjustment register (FLADJ), and<br>
+display USB status.
+<br><img src="usb_host_pics/USB_HOST_MAC_EHCI_STRAP_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>12</TD> <TD>SS_FLADJ_VAL_5_I</TD> <TD>RW</TD> <TD>1</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 5 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>11</TD> <TD>SS_FLADJ_VAL_4_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 4 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>SS_FLADJ_VAL_3_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 3 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>SS_FLADJ_VAL_2_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 2 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>SS_FLADJ_VAL_1_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 1 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>SS_FLADJ_VAL_0_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Frame Length Adjustment Register per Port. Must be the same as bit 0 of SS_FLADJ_VAL_HOST_I.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6:1</TD> <TD>SS_FLADJ_VAL_HOST_I</TD> <TD>RW</TD> <TD>20h</TD> <TD>Frame Length Adjustment Register.<br>
+Function: This feature adjusts any offset from the clock source that drives<br>
+the uSOF counter. The uSOF cycle time (number of uSOF counter clock<br>
+periods to generate a uSOF microframe length) is equal to 59,488 plus this<br>
+value. The default value is decimal 32 (0x20), which gives an SOF cycle<br>
+time of 60,000 (each microframe has 60,000 bit times).<br>
+Frame Length (decimal) FLADJ Value (decimal)<br>
+59488 0 (0x00)<br>
+59504 1 (0x01)<br>
+59520 2 (0x02)<br>
+... ...<br>
+59984 31 (0x1F)<br>
+60000 32 (0x20)<br>
+... ...<br>
+60496 63 (0x3F)<br>
+Note that this register must be modified only when the HCHalted bit in the<br>
+USBSTS register is set to 1; otherwise, the EHCI yields undefined results.<br>
+The register must not be reprogrammed by the USB system software unless<br>
+the default or BIOS programmed values are incorrect, or the system is<br>
+restoring the register while returning from a suspended state.<br>
+Connect this signal to value 0x20 (32 decimal) for no offset.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>SS_SIMULATION_MODE_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Simulation Mode</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_ULPI_STRAP_CONTROL"></a>
+<br><br><h4>MAC_ULPI_STRAP_CONTROL (USB_HOST_MAC_ULPI_STRAP_CONTROL: 0x1018)</h4>
+ULPI strap signal
+<br><img src="usb_host_pics/USB_HOST_MAC_ULPI_STRAP_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>SS_ULPI_PP2VBUS_I</TD> <TD>RW</TD> <TD>0</TD> <TD>This strap signal enables the function to automatically set/clear<br>
+the PHY's port power setting to reflect the Host's port power setting. When a<br>
+change to PORTSC[12] is detected, the ULPI wrapper will automatically<br>
+initiate a register write operation to the PHY's OTG Control register bit 5.<br>
+Note: If this strap signal is not high, then the software needs to disable the<br>
+port power when an over current condition occurs.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCI_INTERFACE_CONTROL"></a>
+<br><br><h4>MAC_OHCI_INTERFACE_CONTROL (USB_HOST_MAC_OHCI_INTERFACE_CONTROL: 0x1020)</h4>
+OHCI Host Controller Controls
+<br><img src="usb_host_pics/USB_HOST_MAC_OHCI_INTERFACE_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>3</TD> <TD>SS_HUBSETUP_MIN_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Hub setup time control signal<br>
+Some FS devices down the hub do not recover properly after a pre-amble<br>
+packet, directed at other LS device, if the hub setup time is four FS clocks.<br>
+Four FS clocks just meet the specification. By adding one extra clock, these<br>
+FS devices are made to work better. This strap selects four or five FS clocks<br>
+as hub setup time for interoperability with the various devices. It is<br>
+recommended to tie low, that is, for five FS clocks.<br>
+When tied HIGH, four FS clocks of hub setup time is used.<br>
+When tied LOW, five FS clocks of hub setup time is used.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>2</TD> <TD>OHCI_CNTSEL_I_N</TD> <TD>RW</TD> <TD>0</TD> <TD>Count Select<br>
+to select the counter value for simulation or real time for 1 ms.<br>
+ 0: Count full 1 ms<br>
+ 1: Simulation time</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>1</TD> <TD>APP_START_CLK_I</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI Clock control signal.<br>
+When the<br>
+OHCI clocks are suspended, the system has to assert this signal to start the<br>
+clocks (12 and 48 MHz). This should be deasserted after the clocks are<br>
+started and before the host is suspended again. (Host is suspended means<br>
+HCFS = SUSPEND or all the OHCI ports are suspended).</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>OHCI_SUSP_LGCY_I</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI Clock control signal<br>
+ When tied HIGH and the USB port is owned by OHCI, the signal<br>
+utmi_suspend_o_n reflects the status of the USB port: (suspended or<br>
+not suspended).<br>
+ When tied LOW and the USB port is owned by OHCI, then<br>
+- utmi_suspend_o_n asserts (0) if all the OHCI ports are suspended,<br>
+or if the OHCI is in global suspend state (HCFS=USBSUSOPEND).<br>
+- utmi_suspend_o_n deasserts (1) if any of the OHCI ports are not<br>
+suspended and OHCI is not in global suspend.<br>
+Note: This strap must be tied low if the OHCI 48/12 MHz clocks must be<br>
+suspended when the EHCI and OHCI controllers are not active.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCI_LEGACY_CONTROL"></a>
+<br><br><h4>MAC_OHCI_LEGACY_CONTROL (USB_HOST_MAC_OHCI_LEGACY_CONTROL: 0x1028)</h4>
+OHCI Host Controller Legacy Controls
+<br><img src="usb_host_pics/USB_HOST_MAC_OHCI_LEGACY_CONTROL.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>OHCI_0_APP_IRQ12_I</TD> <TD>RW</TD> <TD>0</TD> <TD>External Interrupt 12.<br>
+Function: This external keyboard controller interrupt 12 causes an<br>
+emulation interrupt.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>OHCI_0_APP_IRQ1_I</TD> <TD>RW</TD> <TD>0</TD> <TD>External Interrupt 1.<br>
+Function: This external keyboard controller interrupt 1 causes an emulation<br>
+interrupt.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>OHCI_0_APP_IO_HIT_I</TD> <TD>RW</TD> <TD>0</TD> <TD>Application I/O Hit.<br>
+Function: This signal indicates a PCI I/O cycle strobe. (This signal is<br>
+relevant only when using a PCI controller.)</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_EHCI_INTERRUPT_STATUS"></a>
+<br><br><h4>MAC_EHCI_INTERRUPT_STATUS (USB_HOST_MAC_EHCI_INTERRUPT_STATUS: 0x1030)</h4>
+EHCI Host Controller Interrupt Status
+<br><img src="usb_host_pics/USB_HOST_MAC_EHCI_INTERRUPT_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>EHCI_INTERRUPT_O</TD> <TD>RO</TD> <TD>0</TD> <TD>USB Interrupt.<br>
+Function: This bit interrupts the Host Controller Driver when a USB<br>
+interrupt condition occurs. Interrupt conditions are:<br>
+ Interrupt on Async Address<br>
+ host System Error<br>
+ Frame List Rollover<br>
+ Port Change<br>
+ USB Error<br>
+ USB Interrupt</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_EHCI_SIDEBAND_STATUS"></a>
+<br><br><h4>MAC_EHCI_SIDEBAND_STATUS (USB_HOST_MAC_EHCI_SIDEBAND_STATUS: 0x1038)</h4>
+EHCI Host Controller Status
+<br><img src="usb_host_pics/USB_HOST_MAC_EHCI_SIDEBAND_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>23:20</TD> <TD>EHCI_LPSMC_STATE_O</TD> <TD>RO</TD> <TD>0</TD> <TD>LPSMC State</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>19:14</TD> <TD>EHCI_USBSTS_O</TD> <TD>RO</TD> <TD>0</TD> <TD>USB Status.<br>
+Function: EHCI USBSTS register[5:0] bits. This signal indicates pending<br>
+interrupts and various host controller statuses. These 6 bits reflect the value<br>
+in the USBSTS[5:0] register.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>13</TD> <TD>EHCI_BUFACC_O</TD> <TD>RO</TD> <TD>0</TD> <TD>EHCI Buffer Access.<br>
+Function: Level signal that is asserted whenever the host controller does a<br>
+data read/write transfer. If this signal is deasserted while the AHB is active,<br>
+the host controller is performing a descriptor read/write. This signal can be<br>
+used to support Big Endian operation.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>12</TD> <TD>EHCI_XFER_PRDC_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Transfer Periodic.<br>
+Function: Indicates that the current transfer of the EHCI master on the AHB<br>
+bus belongs to periodic descriptor/data.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>11:1</TD> <TD>EHCI_XFER_CNT_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Transfer Count.<br>
+Function: Transfer byte count from the EHCI master of the current AHB<br>
+transaction. This is a constant signal and its value is valid when the EHCI<br>
+starts its AHB address phase.<br>
+The host controller aborts an AHB transfer before completing the<br>
+transactions specified in ehci_xfer_cnt when a data read transaction is in<br>
+progress and both these conditions are true:<br>
+ there is insufficient time to complete the USB transfer<br>
+ the Root Hub detects an underrun condition<br>
+In CONFIG1 mode, this signal must be used only if Break Memory Transfer<br>
+(bit 0 of INSNREG03) is set.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>0</TD> <TD>EHCI_PRT_PWR_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Port Power</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCI_STATUS"></a>
+<br><br><h4>MAC_OHCI_STATUS (USB_HOST_MAC_OHCI_STATUS: 0x1040)</h4>
+OHCI Host Controller Status
+<br><img src="usb_host_pics/USB_HOST_MAC_OHCI_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>10</TD> <TD>OHCI_0_IRQ_O_N</TD> <TD>RO</TD> <TD>0</TD> <TD>HCI Bus General Interrupt.<br>
+Function: This is one of two interrupts the host controller uses to notify the<br>
+Host Controller Driver when an interrupt condition occurs. If the application<br>
+bus is PCI, this must be tied to a standard PCI interrupt pin. The host<br>
+controller uses this pin when the HcControl.IR bit is set to zero.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>9</TD> <TD>OHCI_0_SMI_O_N</TD> <TD>RO</TD> <TD>0</TD> <TD>HCI Bus System Management Interrupt.<br>
+Function: This is one of the two interrupts the host controller uses to notify<br>
+the Host Controller Driver when an interrupt condition occurs. The host<br>
+controller uses this pin when the HcControl.IR bit is set to one.This signal is<br>
+used only when Legacy Support is provided. Refer to OpenHCI 1.0a for<br>
+legacy specifications.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>8</TD> <TD>OHCI_0_BUFACC_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Host Controller Buffer Access Indicator.<br>
+Function: When active, this signal indicates that the host controller is<br>
+currently accessing the data buffer indicated by the TD. This is simply a<br>
+status signal to let the application know whether the host controller is<br>
+reading from or writing to the data buffer indicated by TD, or reading from or<br>
+writing to the ED, TD descriptor, etc. If this is set (1) during the cycle on the<br>
+HCI master bus, it indicates buffer fetch and if reset (0), all other transfers<br>
+(such as ED, TD fetch, and Status Writeback). This is a status signal; the<br>
+application need not take any action when it is asserted.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>7</TD> <TD>OHCI_0_SOF_O_N</TD> <TD>RO</TD> <TD>0</TD> <TD>Host Controller's New Frame.<br>
+Function: The host controller asserts this signal for one clock cycle,<br>
+whenever its internal Frame Counter (HcFmRemaining) reaches 0 while it is<br>
+in the Operational state. At this time, HcFmRemaining is reloaded with<br>
+HcFmInterval. (Note that the reset value of HcFmInterval is 0.)<br>
+On the next clock cycle, the first bit of SOF (first bit of the Sync Field for the<br>
+SOF token) is sent to the USB. This signal's assertion alerts the application<br>
+to the new frame and to the SOF token being sent onto the USB. The<br>
+application need not take action. The host controller generates this signal<br>
+only when it is in the Operational state and sending SOF tokens.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>6</TD> <TD>OHCI_0_CCS_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Current Connect Status of Each Port.<br>
+Function: When set, this bit indicates that the port state machine is in a<br>
+connected state. If the bit is cleared, the port state machine is in either a<br>
+disconnected or powered-off state.<br>
+Note that this is a status signal that the application can ignore under normal<br>
+host controller operation. It is also used in external clock start/stop logic.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>5</TD> <TD>OHCI_0_DRWE_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Device Remote Wake-Up Enable.<br>
+Function: This signal reflects the HcRhStatus.DRWE bit. When active, it causes the<br>
+host controller to treat a connect or disconnect event as a remote wake-up,<br>
+which in turn causes the host controller to enter the Global Resume state<br>
+from the Global Suspend state. If this bit is cleared, a connect or disconnect<br>
+event is not treated as a remote wake-up event.<br>
+Note: This is a status signal that helps clock start/stop logic. It can be<br>
+ignored under normal host controller operation.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>4</TD> <TD>OHCI_0_RMTWKP_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Remote Wakeup Status.<br>
+Function: See the HCI_MRmtWkp signal description in the USB 1.1 OHCI<br>
+Host Controller Family Databook.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>3</TD> <TD>OHCI_0_RWE_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Remote Wake Up Enable.<br>
+Function: This bit reflects the HcControl.RWE bit. This is brought out as a status<br>
+signal and can be ignored by the application for normal host controller<br>
+operation.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>OHCI_0_GLOBALSUSPEND_O</TD> <TD>RO</TD> <TD>0</TD> <TD>Host Controller is in Global Suspend State.<br>
+Function: This signal is asserted 5 ms after the host controller enters the<br>
+USB Suspend state, and is asserted as long as the host controller remains<br>
+in this state. The host controller enters the USB Suspend state when the<br>
+Host Controller Driver forces it by writing to the HcControl.HCFS bits. The<br>
+host controller exits this state when either the Host Controller Driver moves<br>
+it to USB Reset (Global USB Reset) or USB Resume (Global Resume) or<br>
+when a remote wake-up event is seen at one of the downstream USB ports.<br>
+Note: This is a status signal that the application need not use for normal<br>
+operation. This information can be used if clock start or stop logic external to<br>
+the host controller is implemented during a global suspend.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>OHCI_0_SUSPEND_O</TD> <TD>RO</TD> <TD>0</TD> <TD>OHCI Suspend.<br>
+Function: In the current database, this signal is not required for UTMI<br>
+connection. It has been replaced with utmi_suspend.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>OHCI_0_SPEED_O</TD> <TD>RO</TD> <TD>0</TD> <TD>OHCI USB Speed.<br>
+Function: In the current database, this signal is not required for UTMI<br>
+connection. It has been replaced with utmi_term_select.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_MAC_OHCI_LEGACY_STATUS"></a>
+<br><br><h4>MAC_OHCI_LEGACY_STATUS (USB_HOST_MAC_OHCI_LEGACY_STATUS: 0x1048)</h4>
+OHCI Host Controller Legacy Status
+<br><img src="usb_host_pics/USB_HOST_MAC_OHCI_LEGACY_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>2</TD> <TD>OHCI_0_LGCY_EMU_EN_O</TD> <TD>RO</TD> <TD>0</TD> <TD>OHCI Legacy Emulation Enable.<br>
+Function: This signal indicates that Legacy emulation support is enabled<br>
+for the OHCI controller and the application can read or write I/O ports<br>
+60h/64h when I/O access for the OHCI controller is enabled.</TD> </TR>
+<TR bgcolor="#C8CB8F"> <TD>1</TD> <TD>OHCI_0_LGCY_IRQ12_O</TD> <TD>RO</TD> <TD>0</TD> <TD>OHCI Legacy IRQ12.<br>
+Function: This bit is set to 1 when an emulation interrupt condition<br>
+exists, OutputFull and IRQEn are 1, and AuxOutputFull is 0.</TD> </TR>
+<TR bgcolor="#DBDDB5"> <TD>0</TD> <TD>OHCI_0_LGCY_IRQ1_O</TD> <TD>RO</TD> <TD>0</TD> <TD>OHCI Legacy IRQ1.<br>
+Function: This bit is set to 1 when an emulation interrupt condition exists<br>
+and OutputFull, IRQEn, and AuxOutputFull are set to 1.</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_HCCAPBASE_REG"></a>
+<br><br><h4>HCCAPBASE_REG (USB_HOST_HCCAPBASE_REG: 0x10000)</h4>
+Capability Register
+<br><img src="usb_host_pics/USB_HOST_HCCAPBASE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCCAPBASE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Capability Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_HCSPARAMS_REG"></a>
+<br><br><h4>HCSPARAMS_REG (USB_HOST_HCSPARAMS_REG: 0x10004)</h4>
+Structural Register
+<br><img src="usb_host_pics/USB_HOST_HCSPARAMS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCSPARAMS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Structural Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_HCCPARAMS_REG"></a>
+<br><br><h4>HCCPARAMS_REG (USB_HOST_HCCPARAMS_REG: 0x10008)</h4>
+Structural Register
+<br><img src="usb_host_pics/USB_HOST_HCCPARAMS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>HCCPARAMS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Structural Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_USBCMD_REG"></a>
+<br><br><h4>USBCMD_REG (USB_HOST_USBCMD_REG: 0x10010)</h4>
+USB Command
+<br><img src="usb_host_pics/USB_HOST_USBCMD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBCMD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Command</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_USBSTS_REG"></a>
+<br><br><h4>USBSTS_REG (USB_HOST_USBSTS_REG: 0x10014)</h4>
+USB Status
+<br><img src="usb_host_pics/USB_HOST_USBSTS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBSTS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Status</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_USBINTR_REG"></a>
+<br><br><h4>USBINTR_REG (USB_HOST_USBINTR_REG: 0x10018)</h4>
+USB Interrupt Enable
+<br><img src="usb_host_pics/USB_HOST_USBINTR_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>USBINTR_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Interrupt Enable</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_FRINDEX_REG"></a>
+<br><br><h4>FRINDEX_REG (USB_HOST_FRINDEX_REG: 0x1001c)</h4>
+USB Frame Index
+<br><img src="usb_host_pics/USB_HOST_FRINDEX_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>FRINDEX_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>USB Frame Index</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_CTRLDSSEGMENT_REG"></a>
+<br><br><h4>CTRLDSSEGMENT_REG (USB_HOST_CTRLDSSEGMENT_REG: 0x10020)</h4>
+4G Segment Selector
+<br><img src="usb_host_pics/USB_HOST_CTRLDSSEGMENT_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>CTRLDSSEGMENT_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>4G Segment Selector</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_PERIODICLISTBASE_REG"></a>
+<br><br><h4>PERIODICLISTBASE_REG (USB_HOST_PERIODICLISTBASE_REG: 0x10024)</h4>
+Periodic Frame List Base Address Register
+<br><img src="usb_host_pics/USB_HOST_PERIODICLISTBASE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PERIODICLISTBASE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Periodic Frame List Base Address Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_ASYNCLISTADDR_REG"></a>
+<br><br><h4>ASYNCLISTADDR_REG (USB_HOST_ASYNCLISTADDR_REG: 0x10028)</h4>
+Asynchronous List Address
+<br><img src="usb_host_pics/USB_HOST_ASYNCLISTADDR_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>ASYNCLISTADDR_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Asynchronous List Address</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_CONFIGFLAG_REG"></a>
+<br><br><h4>CONFIGFLAG_REG (USB_HOST_CONFIGFLAG_REG: 0x10050)</h4>
+Configured Flag Register
+<br><img src="usb_host_pics/USB_HOST_CONFIGFLAG_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>CONFIGFLAG_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Configured Flag Register</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_PORTSC_REG"></a>
+<br><br><h4>PORTSC_REG (USB_HOST_PORTSC_REG: 0x10054)</h4>
+Port Status/Control
+<br><img src="usb_host_pics/USB_HOST_PORTSC_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>PORTSC_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Port Status/Control</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG00_REG"></a>
+<br><br><h4>INSNREG00_REG (USB_HOST_INSNREG00_REG: 0x10090)</h4>
+Allows you to change the microframe length value (default is microframe SOF = 125 ms) to reduce the simulation time
+<br><img src="usb_host_pics/USB_HOST_INSNREG00_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG00_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Allows you to change the microframe length value (default is microframe SOF = 125 ms) to reduce the simulation time</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG01_REG"></a>
+<br><br><h4>INSNREG01_REG (USB_HOST_INSNREG01_REG: 0x10094)</h4>
+Programmable Packet Buffer OUT/IN Thresholds
+<br><img src="usb_host_pics/USB_HOST_INSNREG01_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG01_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Programmable Packet Buffer OUT/IN Thresholds</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG02_REG"></a>
+<br><br><h4>INSNREG02_REG (USB_HOST_INSNREG02_REG: 0x10098)</h4>
+Used only for debug purposes
+<br><img src="usb_host_pics/USB_HOST_INSNREG02_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG02_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG03_REG"></a>
+<br><br><h4>INSNREG03_REG (USB_HOST_INSNREG03_REG: 0x1009c)</h4>
+Used only for debug purposes
+<br><img src="usb_host_pics/USB_HOST_INSNREG03_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG03_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG04_REG"></a>
+<br><br><h4>INSNREG04_REG (USB_HOST_INSNREG04_REG: 0x100a0)</h4>
+Used only for debug purposes
+<br><img src="usb_host_pics/USB_HOST_INSNREG04_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG04_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>Used only for debug purposes</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_INSNREG05_REG"></a>
+<br><br><h4>INSNREG05_REG (USB_HOST_INSNREG05_REG: 0x100a4)</h4>
+UTMI Configuration
+<br><img src="usb_host_pics/USB_HOST_INSNREG05_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>INSNREG05_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>UTMI Configuration</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_REVISION_REG"></a>
+<br><br><h4>OHCD_HC_REVISION_REG (USB_HOST_OHCD_HC_REVISION_REG: 0x30000)</h4>
+OHCI Revision
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_REVISION_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_REVISION_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>OHCI Revision</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_CONTROL_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_REG (USB_HOST_OHCD_HC_CONTROL_REG: 0x30004)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_CONTROL_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_COMMAND_STATUS_REG"></a>
+<br><br><h4>OHCD_HC_COMMAND_STATUS_REG (USB_HOST_OHCD_HC_COMMAND_STATUS_REG: 0x30008)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_COMMAND_STATUS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_COMMAND_STATUS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_INTERRUPT_STATUS_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_STATUS_REG (USB_HOST_OHCD_HC_INTERRUPT_STATUS_REG: 0x3000c)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_INTERRUPT_STATUS_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_STATUS_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_INTERRUPT_ENABLE_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_ENABLE_REG (USB_HOST_OHCD_HC_INTERRUPT_ENABLE_REG: 0x30010)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_INTERRUPT_ENABLE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_ENABLE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_INTERRUPT_DISABLE_REG"></a>
+<br><br><h4>OHCD_HC_INTERRUPT_DISABLE_REG (USB_HOST_OHCD_HC_INTERRUPT_DISABLE_REG: 0x30014)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_INTERRUPT_DISABLE_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_INTERRUPT_DISABLE_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_HCCA_REG"></a>
+<br><br><h4>OHCD_HC_HCCA_REG (USB_HOST_OHCD_HC_HCCA_REG: 0x30018)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_HCCA_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_HCCA_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_PERIOD_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_PERIOD_CURRENT_ED_REG (USB_HOST_OHCD_HC_PERIOD_CURRENT_ED_REG: 0x3001c)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_PERIOD_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_PERIOD_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_CONTROL_HEAD_ED_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_HEAD_ED_REG (USB_HOST_OHCD_HC_CONTROL_HEAD_ED_REG: 0x30020)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_CONTROL_HEAD_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_HEAD_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_CONTROL_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_CONTROL_CURRENT_ED_REG (USB_HOST_OHCD_HC_CONTROL_CURRENT_ED_REG: 0x30024)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_CONTROL_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_CONTROL_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_BULK_HEAD_ED_REG"></a>
+<br><br><h4>OHCD_HC_BULK_HEAD_ED_REG (USB_HOST_OHCD_HC_BULK_HEAD_ED_REG: 0x30028)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_BULK_HEAD_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_BULK_HEAD_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_BULK_CURRENT_ED_REG"></a>
+<br><br><h4>OHCD_HC_BULK_CURRENT_ED_REG (USB_HOST_OHCD_HC_BULK_CURRENT_ED_REG: 0x3002c)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_BULK_CURRENT_ED_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_BULK_CURRENT_ED_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_DONE_HEAD_REG"></a>
+<br><br><h4>OHCD_HC_DONE_HEAD_REG (USB_HOST_OHCD_HC_DONE_HEAD_REG: 0x30030)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_DONE_HEAD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_DONE_HEAD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_FM_INTERVAL_REG"></a>
+<br><br><h4>OHCD_HC_FM_INTERVAL_REG (USB_HOST_OHCD_HC_FM_INTERVAL_REG: 0x30034)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_FM_INTERVAL_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_INTERVAL_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_FM_REMAINING_REG"></a>
+<br><br><h4>OHCD_HC_FM_REMAINING_REG (USB_HOST_OHCD_HC_FM_REMAINING_REG: 0x30038)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_FM_REMAINING_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_REMAINING_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_FM_NUMBER_REG"></a>
+<br><br><h4>OHCD_HC_FM_NUMBER_REG (USB_HOST_OHCD_HC_FM_NUMBER_REG: 0x3003c)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_FM_NUMBER_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_FM_NUMBER_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_PERIODIC_START_REG"></a>
+<br><br><h4>OHCD_HC_PERIODIC_START_REG (USB_HOST_OHCD_HC_PERIODIC_START_REG: 0x30040)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_PERIODIC_START_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_PERIODIC_START_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_LS_THRESHOLD_REG"></a>
+<br><br><h4>OHCD_HC_LS_THRESHOLD_REG (USB_HOST_OHCD_HC_LS_THRESHOLD_REG: 0x30044)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_LS_THRESHOLD_REG.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_LS_THRESHOLD_REG</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_RH_DESCRIPTOR_A"></a>
+<br><br><h4>OHCD_HC_RH_DESCRIPTOR_A (USB_HOST_OHCD_HC_RH_DESCRIPTOR_A: 0x30048)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_RH_DESCRIPTOR_A.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_DESCRIPTOR_A</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_RH_DESCRIPTOR_B"></a>
+<br><br><h4>OHCD_HC_RH_DESCRIPTOR_B (USB_HOST_OHCD_HC_RH_DESCRIPTOR_B: 0x3004c)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_RH_DESCRIPTOR_B.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_DESCRIPTOR_B</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<a name="USB_HOST_OHCD_HC_RH_STATUS"></a>
+<br><br><h4>OHCD_HC_RH_STATUS (USB_HOST_OHCD_HC_RH_STATUS: 0x30050)</h4>
+see OHCI Specification
+<br><img src="usb_host_pics/USB_HOST_OHCD_HC_RH_STATUS.svg.jpg">
+<table border="1" cellspacing="2" cellpadding="1">
+<TR bgcolor="#000099"><TH><font color="#FFFFCC"> Bits<TH><font color="#FFFFCC"> Name<TH><font color="#FFFFCC"> Type<TH><font color="#FFFFCC"> Reset <TH><font color="#FFFFCC"> Description
+<TR bgcolor="#DBDDB5"> <TD>31:0</TD> <TD>OHCD_HC_RH_STATUS</TD> <TD>RW</TD> <TD>0</TD> <TD>see OHCI Specification</TD> </TR>
+</TABLE><br><br>
+<hr size="1">
+
+<small>
+
+<p>
+Copyright &copy; 2014 Tilera&reg; Corporation. All rights reserved.
+Printed in the United States of America.
+</p>
+
+<p>
+No part of this book may be reproduced, stored in a retrieval system,
+or transmitted in any form or by any means, electronic, mechanical,
+photocopying, recording, or otherwise, except as may be expressly permitted
+by the applicable copyright statutes or in writing by the Publisher.
+</p>
+
+<p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p>
+
+<p>
+Third-party software: The Tilera IDE makes use of the BeanShell scripting
+library. Source code for the BeanShell library can be found at the
+BeanShell website (http://www.beanshell.org/developer.html).
+</p>
+
+<p>
+The following is a trademark of Marvell Semiconductor, Inc.: Distributed
+Switching Architecture (DSA).
+</p>
+
+<p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This information
+and specifications contained herein are subject to change without notice
+at the discretion of Tilera Corporation.
+</p>
+
+<p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims any
+express or implied warranty relating to the sale and/or use of Tilera
+products, including liability or warranties relating to fitness for
+a particular purpose, merchantability or infringement of any patent,
+copyright or other intellectual property right.
+</p>
+
+<p>
+Products described in this document are NOT intended for use in medical,
+life support, or other hazardous uses where malfunction could result in
+death or bodily injury.
+</p>
+
+<p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p>
+
+</small>
+
+</body>
+</html>
+
+</body></html>

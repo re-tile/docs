@@ -1,0 +1,119 @@
+</HEAD><BODY>
+<H1>SET_DATAPLANE</H1>
+Section: Linux Programmer's Manual (2)<BR>Updated: 2011-12-28<BR><A HREF="#index">Index</A>
+<A>Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+set_dataplane - set characteristics of dataplane mode for this task
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+<B>#include &lt;<A>sys/dataplane.h</A>&gt;</B>
+
+<B>int set_dataplane(int </B><I>flags</I><B>);</B>
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+A task running alone, affinitized to a single dataplane cpu via 
+<B>sched_setaffinity(),</B>
+
+expects not to get any interrupts from the OS while it is running.
+<B>set_dataplane()</B>
+
+allows a task running on a dataplane core to request additional
+functionality from the kernel to minimize kernel interruptions
+of the userspace task, or to debug userspace or kernel interrupts
+that do occur.
+<P>
+The
+<I>flags</I>
+
+argument describes the desired dataplane semantics being requested.
+It is the bitwise OR of one or more of the following flags:
+<P>
+<DL COMPACT>
+<DT><B>DP_QUIESCE</B>
+
+<DD>
+Quiesce the timer interrupt before returning to user space after a
+system call.  Normally if a task on a dataplane core makes a
+syscall, the system will run one or more timer ticks after the
+syscall has completed, causing unexpected interrupts in userspace.
+Setting DP_QUIESCE avoids that problem by having the kernel &quot;hold&quot;
+the task in kernel mode until the timer ticks are complete.  This
+will make syscalls dramatically slower.
+This flag also makes the core release any free kernel pages it is
+holding, so that it won't later need to do housekeeping to release
+them (for example, if mlockall() is called on another core).
+If multiple dataplane tasks are scheduled on a single core, neither
+one will make progress, since for the kernel to run both would require
+setting up a scheduler timer tick to allow the two tasks to multitask.
+Accordingly, both stay in the kernel until one is killed manually.
+This technique allows short-lived kernel tasks which run in response
+to syscalls to do their work and return to their normal idle state
+synchronously, allowing the dataplane task to continue in userspace
+afterwards without further interruption.
+<DT><B>DP_STRICT</B>
+
+<DD>
+Disallow the application from entering the kernel in any way,
+unless it calls set_dataplane() again without this bit set.
+Issuing any other syscall or causing a page fault would generate a
+kernel message, and &quot;kill -9&quot; the process.
+Setting this flag automatically sets DP_QUIESCE as well, to hold
+the process in kernel space until any timer ticks due to the
+<B>set_dataplane()</B>
+
+call have completed.
+<DT><B>DP_DEBUG</B>
+
+<DD>
+Debug dataplane interrupts, so that if any interrupt source
+attempts to involve a dataplane cpu, a kernel message and stack
+backtrace will be generated on the console.  As this warning is a
+slow event, it may make sense to avoid this mode in production code
+to avoid making any possible interrupts even more heavyweight.
+Setting this flag automatically sets DP_QUIESCE as well.  Note
+that DP_DEBUG warnings are not generated for synchronous interrupts
+like syscalls and page faults; use DP_STRICT for that.
+</DL>
+<P>
+
+<P>
+Forked children do not inherit any dataplane flags.
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN VALUE</H2>
+
+On success,
+<B>set_dataplane</B>()
+
+returns zero.  It will return -1 with errno set to EINVAL if the task
+is not running bound to a single, dataplane cpu.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A>sched_setaffinity</A></B>(2)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN VALUE</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A>man2html</A>,
+using the manual pages.<BR>
+Time: 02:21:00 GMT, October 27, 2015
+</BODY>
+</HTML>

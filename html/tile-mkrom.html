@@ -1,0 +1,354 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>tile-mkrom</title><link rel="stylesheet" href="../tilera.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.71.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="refentry" lang="en"><a name="tile-mkrom"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>tile-mkrom &#8212; Bootstream Formatter</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">tile-mkrom</code>  [ <code class="option">-b</code>  |   <code class="option">--bootfile</code> ]  
+  <em class="replaceable"><code>boot-file</code></em>
+  [ <code class="option">-o</code>  |   <code class="option">--output</code> ]  
+  <em class="replaceable"><code>output-file</code></em>
+  [
+  { <code class="option">-f</code>  |   <code class="option">--filesystem</code> }
+  <em class="replaceable"><code>append-file</code></em>
+] [
+  { <code class="option">-c</code>  |   <code class="option">--config</code> }
+  <em class="replaceable"><code>width</code></em>
+  <code class="option">x</code>
+  <em class="replaceable"><code>height</code></em>
+] [
+  { <code class="option">-s</code>  |   <code class="option">--start</code> }
+  <em class="replaceable"><code>x</code></em>
+  <code class="option">,</code>
+  <em class="replaceable"><code>y</code></em>
+] [
+  { <code class="option">-u</code>  |   <code class="option">--ulhc</code> }
+  <em class="replaceable"><code>x</code></em>
+  <code class="option">,</code>
+  <em class="replaceable"><code>y</code></em>
+] [ <code class="option">-d</code>  |   <code class="option">--dynamic</code> ] [ <code class="option">-n</code>  |   <code class="option">--no-snake</code> ]<br> [ <code class="option">-H</code>  |   <code class="option">--hypervisor</code> ] [ <code class="option">-S</code>  |   <code class="option">--secondary</code> ] [ <code class="option">-C</code>  |   <code class="option">--crc</code> ]<br> [ <code class="option">-t</code>  |   <code class="option">--stripe</code> ] [
+  { <code class="option">-m</code>  |   <code class="option">--memory</code> }
+  <em class="replaceable"><code>speed-list</code></em>
+] [
+  { <code class="option">-D</code>  |   <code class="option">--dev</code> }
+  <em class="replaceable"><code>device</code></em>[<span class="optional">:<em class="replaceable"><code>speed0</code></em>[<span class="optional">,<em class="replaceable"><code>speed1</code></em></span>]</span>]
+] [
+  { <code class="option">-p</code>  |   <code class="option">--post</code> }
+   [ 
+      <code class="option">Q</code>
+     ]
+   { 
+      <code class="option">t</code>
+      |   
+      <code class="option">q</code>
+     }
+]<br> [
+  { <code class="option">-x</code>  |   <code class="option">--extra</code> }
+   { 
+      <em class="replaceable"><code>x</code></em> <code class="option">,</code>
+      <em class="replaceable"><code>y</code></em>
+      |   
+      <em class="replaceable"><code>value</code></em>
+     }
+]</p></div></div><div class="refsect1" lang="en"><a name="description"></a><h2>Description</h2><p>
+<span><strong class="command">tile-mkrom</strong></span>
+
+extracts the executable code and data from a Tile ELF format executable
+file and produces an output boot stream which can be interpreted by the
+built-in booter within a Tile Processor, or by one of the standard Tilera
+boot programs.
+
+</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+Most users should never need to use <span><strong class="command">tile-mkrom</strong></span>
+directly; it is run automatically by <span><strong class="command">tile-mkboot</strong></span>.
+<span><strong class="command">tile-mkrom</strong></span> will likely have a different interface,
+and may even disappear entirely, in a future release of the MDE.
+</p></div><div class="refsect2" lang="en"><a name="options"></a><h3>Options</h3><div class="variablelist"><dl><dt><a name="bootfile"></a><span class="term">
+<code class="option">-b</code>
+, </span><span class="term">
+<code class="option">--bootfile <em class="replaceable"><code>bootfile</code></em></code>
+</span></dt><dd><p>
+
+Specify the source executable file.  This must be a Tile ELF statically-linked
+executable (not an object module or a dynamically-linked program).
+
+</p></dd><dt><a name="outfile"></a><span class="term">
+<code class="option">-o</code>
+, </span><span class="term">
+<code class="option">--output <em class="replaceable"><code>output-file</code></em></code>
+</span></dt><dd><p>
+
+Specify the output file.
+
+</p></dd><dt><a name="filesystem"></a><span class="term">
+<code class="option">-f</code>
+, </span><span class="term">
+<code class="option">--filesystem <em class="replaceable"><code>append-file</code></em></code>
+</span></dt><dd><p>
+
+Specify a second input file, which will not be reformatted, but which will
+be emitted unchanged to the output file after the formatted boot stream.
+This option was historically used to add the hypervisor filesystem to
+the output boot image (hence the option name).  Nowadays it is generally
+used only to build a multi-segment boot image in several steps; see <a href="#example" title="Example">Example</a>.
+
+</p></dd><dt><a name="config"></a><span class="term">
+<code class="option">-c</code>
+, </span><span class="term">
+<code class="option">--config <em class="replaceable"><code>width</code></em>x<em class="replaceable"><code>height</code></em></code>
+</span></dt><dd><p>
+
+Specify the size of the chip to be booted; <em class="replaceable"><code>width</code></em>
+and <em class="replaceable"><code>height</code></em> are measured in tiles.  This option
+is almost universally omitted in favor of dynamic discovery; see
+the <a href="#dynamic"><code class="option">--dynamic</code> option</a>.
+Only relevant when the <code class="option">--no-snake</code> option is not specified.
+
+</p></dd><dt><a name="start"></a><span class="term">
+<code class="option">-s</code>
+, </span><span class="term">
+<code class="option">--start <em class="replaceable"><code>x</code></em>,<em class="replaceable"><code>y</code></em></code>
+</span></dt><dd><p>
+
+Specify the tile coordinates of the tile into which the boot stream will
+be injected.  This option is almost universally omitted in favor of dynamic
+discovery; see 
+the <a href="#dynamic"><code class="option">--dynamic</code> option</a>.
+Only relevant when the <code class="option">--no-snake</code> option is not specified.
+
+</p></dd><dt><a name="ulhc"></a><span class="term">
+<code class="option">-u</code>
+, </span><span class="term">
+<code class="option">--ulhc <em class="replaceable"><code>x</code></em>,<em class="replaceable"><code>y</code></em></code>
+</span></dt><dd><p>
+
+Specify the tile coordinates to be assigned to the tile in the upper
+left-hand corner of the tile grid.  The default for this option is 1,1;
+the Tilera hypervisor is not tested with other values, and they will
+almost certainly produce unexpected behavior.
+
+</p></dd><dt><a name="dynamic"></a><span class="term">
+<code class="option">-d</code>
+, </span><span class="term">
+<code class="option">--dynamic</code>
+</span></dt><dd><p>
+
+Use the L1 booter's dynamic discovery algorithm to determine the size
+of the tile grid.  Only relevant when the <code class="option">--no-snake</code>
+option is not specified.
+
+</p></dd><dt><a name="no-snake"></a><span class="term">
+<code class="option">-n</code>
+, </span><span class="term">
+<code class="option">--no-snake</code>
+</span></dt><dd><p>
+
+Omit the extra packet of information which describes the tile grid and
+other boot options from the output boot stream.  This option must be
+used when formatting anything other than the level-1 boot executable
+(<code class="filename">hv_l1boot</code>).
+
+</p></dd><dt><a name="hypervisor"></a><span class="term">
+<code class="option">-h</code>
+, </span><span class="term">
+<code class="option">--hypervisor</code>
+</span></dt><dd><p>
+
+Format the output stream in hypervisor boot format.  This format
+should be used when formatting anything but the level-0.5 booter
+(<code class="filename">hv_lhboot</code>).
+
+</p></dd><dt><a name="secondary"></a><span class="term">
+<code class="option">-S</code>
+, </span><span class="term">
+<code class="option">--secondary</code>
+</span></dt><dd><p>
+
+Format the output stream in hypervisor boot format, but do not include the
+normal CRC.  This format is used internally by the Tilera Board Test Kit
+(<span><strong class="command">tile-btk</strong></span>).
+
+</p></dd><dt><a name="crc"></a><span class="term">
+<code class="option">-C</code>
+, </span><span class="term">
+<code class="option">--crc</code>
+</span></dt><dd><p>
+
+Add a CRC to an output stream formatted in level-0 boot format.
+This should only be used when formatting the level-0.5 booter
+(<code class="filename">hv_lhboot</code>).
+
+</p></dd><dt><a name="stripe"></a><span class="term">
+<code class="option">-t</code>
+, </span><span class="term">
+<code class="option">--stripe</code>
+</span></dt><dd><p>
+
+Add a flag to the output boot stream which requests that the
+L1 booter enable memory striping.  This option must not be used
+when formatting anything other than the level-1 boot executable
+(<code class="filename">hv_l1boot</code>).  This option is only effective on the
+TILEPro64 processor.
+
+</p></dd><dt><a name="memory"></a><span class="term">
+<code class="option">-m</code>
+, </span><span class="term">
+	<code class="option">--memory <em class="replaceable"><code>speed-list</code></em> </code> 
+</span></dt><dd><p>
+
+Add data to the output boot stream which requests that the L1 booter set
+the speed of the memory interfaces.  By default, all memory interfaces
+run at the maximum speed supported by the system; this option allows the
+user to decrease, but not increase, that speed.
+
+</p><p>
+
+The format of <em class="replaceable"><code>speed-list</code></em> is a comma-separated
+list of decimal values, each representing the speed of a memory controller
+in millions of transactions per second.  The first value in the list sets
+the speed of memory controller (mshim) 0, the second sets the speed of
+memory controller 1, and so on.  If there are more memory controllers than
+items in the list, the last item is applied to all subsequent controllers;
+this means that specifying only one value sets the speed of all controllers.
+Specifying a value of zero for a controller leaves its speed unchanged
+from the default.
+
+</p></dd><dt><a name="dev"></a><span class="term">
+<code class="option">-D</code>
+, </span><span class="term">
+	<code class="option">--dev <em class="replaceable"><code>device</code></em>[<span class="optional">:<em class="replaceable"><code>speed0</code></em>[<span class="optional">,<em class="replaceable"><code>speed1</code></em></span>]</span>] </code> 
+</span></dt><dd><p>
+
+Add data to the output boot stream which requests that the L1 booter enable
+a particular I/O shim, and optionally set its clock speed or speeds,
+specified in MHz.  If no <code class="option">-D</code> options are present, all
+shims will be enabled, but if any are present, only the specified shims
+will be enabled.  The pseudo-device <code class="option">core</code> sets the core
+processor frequency.
+
+</p></dd><dt><a name="post"></a><span class="term">
+<code class="option">-p</code>
+, </span><span class="term">
+<code class="option">--post </code>
+   [ 
+      <code class="option">Q</code>
+     ]
+   { 
+      <code class="option">t</code>
+      |   
+      <code class="option">q</code>
+     }
+</span></dt><dd><p>
+
+Add data to the output boot stream which requests that the L1 booter change
+its power-on self-test (POST) behavior.  If <code class="option">t</code> is specified,
+thorough POST will be run; if <code class="option">q</code> is specified, quick POST
+will be run.  If <code class="option">Q</code> is added to one of those option letters,
+then the L1 booter will prompt the user, asking which sort of POST to run;
+in that case, the <code class="option">t</code> or <code class="option">q</code> specifies which
+sort of POST will be run if the user types nothing at the prompt.  By default,
+the booter behaves as if <code class="option">Qt</code> were specified.
+
+</p></dd><dt><a name="extra"></a><span class="term">
+<code class="option">-x</code>
+, </span><span class="term">
+	<code class="option">--extra </code>  { <em class="replaceable"><code>x</code></em>,<em class="replaceable"><code>y</code></em>  |   <em class="replaceable"><code>value</code></em> }
+</span></dt><dd><p>
+
+Add a tile coordinate, or a 32-bit numeric value, to the packet of
+information which describes the tile grid and other boot options in the
+output boot stream.  A numeric value with a leading 0x will be interpreted
+as hexadecimal.  This option is used internally by the Tilera Board Test
+Kit (<span><strong class="command">tile-btk</strong></span>).  This option may appear more than once.
+
+</p></dd></dl></div></div></div><div class="refsect1" lang="en"><a name="example"></a><h2>Example</h2><p>
+
+As noted above, we do not recommend running <span><strong class="command">tile-mkrom</strong></span>
+directly; <span><strong class="command">tile-mkboot</strong></span> should be used instead.  However,
+to provide some insight into how the bootrom assembly process works, 
+here is an example of how <span><strong class="command">tile-mkboot</strong></span> does it.
+
+</p><p>
+
+First, we format the hypervisor binary.  We specify -n to omit the L1 booter
+configuration data, and -H to get the hypervisor boot format.
+
+</p><pre class="screen">
+$ <strong class="userinput"><code>tile-mkrom -n -H -b my_custom_hv -o temp_1</code></strong>
+</pre><p>
+
+</p><p>
+
+Next, we format the L1 booter.  We omit -n so that we get the L1 booter
+configuration data, and specify -H to get the hypervisor boot format.
+We specify the formatted hypervisor as the filesystem so that it is
+appended to the output file.
+
+</p><pre class="screen">
+$ <strong class="userinput"><code>tile-mkrom -d -H -b hv_l1boot -o temp_2 -f temp_1</code></strong>
+</pre><p>
+
+</p><p>
+
+Then, we format the L0.5 booter.  We specify -n to omit the L1 booter
+configuration data, -C to get a CRC, and omit -H to get the hardware (L0) boot
+format.  We specify the output file from the previous step as the filesystem
+to append the formatted L1 booter and hypervisor to our output file.
+
+</p><pre class="screen">
+$ <strong class="userinput"><code>tile-mkrom -C -n -b hv_lhboot -o temp_3 -f temp_2</code></strong>
+</pre><p>
+
+</p><p>
+
+Finally, the hypervisor file system is constructed and appended to the
+previous output file.  <span><strong class="command">tile-mkboot</strong></span> does this internally,
+but it's equivalent to doing:
+
+</p><pre class="screen">
+$ <strong class="userinput"><code>cat temp_3 hvfs_file &gt;output.bootrom </code></strong>
+</pre><p>
+
+</p></div><div class="refsect1" lang="en"><a name="see=also"></a><h2>See Also</h2><a href="tile-mkboot.html" target="_top"><span><strong class="command">tile-mkboot(1)</strong></span></a>,
+<a href="../pdf/UG509-Gx-MDE-SystemProgrammersGuide.pdf" target="_top">MDE System
+Programmer's Guide (TILE-Gx)</a>.
+
+<p>
+</p></div><div class="refsection" lang="en"><a name="copyright"></a><h2>Copyright</h2><p>
+Copyright © 2014 Tilera® Corporation. All rights reserved.
+</p><p>
+No part of this document may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, electronic,
+mechanical, photocopying, recording, or otherwise, except as may be
+expressly permitted by the applicable copyright statutes or in writing
+by the Publisher.
+</p><p>
+The following are registered trademarks of Tilera Corporation: Tilera
+and the Tilera logo.  The following are trademarks of Tilera
+Corporation: Embedding Multicore, The Multicore Company, Tile
+Processor, TILE Architecture, TILE64, TILEPro, TILEPro36, TILEPro64,
+TILExpress, TILExpress-64, TILExpressPro-64, TILExpress-20G,
+TILExpressPro-20G, TILExpressPro-22G, iMesh, TileDirect, TILEmpower,
+TILEmpower-Gx, TILEncore, TILEncorePro, TILEncore-Gx, TILE-Gx,
+TILE-Gx16, TILE-Gx36, TILE-Gx64, TILE-Gx100, TILE-Gx3000, TILE-Gx5000,
+TILE-Gx8000, DDC (Dynamic Distributed Cache), Multicore Development
+Environment, Gentle Slope Programming, iLib, TMC (Tilera Multicore
+Components), hardwall, Zero Overhead Linux (ZOL), MiCA (Multicore
+iMesh Coprocessing Accelerator), and mPIPE (multicore Programmable
+Intelligent Packet Engine). All other trademarks and/or registered
+trademarks are the property of their respective owners.
+</p><p>
+This document contains advance information on Tilera products that are
+in development, sampling or initial production phases. This
+information and specifications contained herein are subject to change
+without notice at the discretion of Tilera Corporation.
+</p><p>
+No license, express or implied by estoppels or otherwise, to any
+intellectual property is granted by this document. Tilera disclaims
+any express or implied warranty relating to the sale and/or use of
+Tilera products, including liability or warranties relating to fitness
+for a particular purpose, merchantability or infringement of any
+patent, copyright or other intellectual property right.
+</p><p>
+Products described in this document are NOT intended for use in
+medical, life support, or other hazardous uses where malfunction could
+result in death or bodily injury.
+</p><p>
+THE INFORMATION CONTAINED IN THIS DOCUMENT IS PROVIDED ON AN "AS IS"
+BASIS. Tilera assumes no liability for damages arising directly or
+indirectly from any use of the information contained in this document.
+</p></div></div></body></html>
